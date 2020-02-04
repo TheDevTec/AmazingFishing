@@ -158,29 +158,19 @@ public class Quests {
 		if(q!=null) {
 			int next=Loader.me.getInt("Players."+p.getName()+".Quests.Stage")+1;
 			Actions s = Actions.valueOf(Loader.c.getString("Quests."+q+".Stage."+(next-1)+".Action").toUpperCase());
-			if(c.equals(s)) {
-			switch(s) {
-			case SELL_FISH:
-			case CATCH_FISH:
 				if(type.equals(Loader.c.getString("Quests."+q+".Stage."+(next-1)+".Type")) && fish.equals(Loader.c.getString("Quests."+q+".Stage."+(next-1)+".Fish"))) {
 					
 					if(Loader.c.getString("Quests."+q+".Stage."+next)==null)return;
 					int amount = Loader.c.getInt("Quests."+q+".Stage."+(next-1)+".Amount")+1;
 					Loader.me.set("Players."+p.getName()+".Quests.Amount", amount);
 					if(amount>=Loader.c.getInt("Quests."+q+".Stage."+next+".Amount")) {
-					Actions w = Actions.valueOf(Loader.c.getString("Quests."+q+".Stage."+next+".Action").toUpperCase());
-					switch(w) {
-					case CATCH_FISH:
-					case SELL_FISH:
 						Loader.me.set("Players."+p.getName()+".Quests.Stage", next);
 						Loader.me.set("Players."+p.getName()+".Quests.Amount", 0);
-					}
 					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6-= Quest &a"+q+"&r&6 =-");
 					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6+ Stage "+next+"/"+(Loader.c.getConfigurationSection("Quests."+q+".Stage").getKeys(false).size()-1));
 					String action = "&aCatch fish";
-					if(s==Actions.SELL_FISH) {
+					if(s==Actions.SELL_FISH)
 						action="&eSell fish";
-					}
 					String typ = Loader.c.getString("Quests."+q+".Stage."+next+".Type");
 					String fis = Loader.c.getString("Quests."+q+".Stage."+next+".Fish");
 					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6+ Action: &c"+action);
@@ -188,8 +178,7 @@ public class Quests {
 					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6+ Amount: &c"+Loader.c.getInt("Quests."+q+".Stage."+next+".Amount"));
 				}
 					Loader.saveChatMe();
-				break;
-			}}}
+			}
 		}
 	}
 	

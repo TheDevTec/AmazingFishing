@@ -30,13 +30,12 @@ public class Tournament {
 	}}
 	static Type now;
 	public static void addFish(Player p) {
-		double is = fishes.get(p.getName());
-		int i=(int)is;
+		double i = fishes.containsKey(p.getName()) ? fishes.get(p.getName()): 0.0;
 		++i;
 		if(fishes.containsKey(p.getName())) {
-			fishes.replace(p.getName(),(double)i);
+			fishes.replace(p.getName(),i);
 		}else
-		fishes.put(p.getName(), (double)i);
+		fishes.put(p.getName(), i);
 	}
 	public static void addRecord(Player p, double record) {
 		if(records.containsKey(p.getName())) {
@@ -194,7 +193,7 @@ public class Tournament {
                 }
                 for(Player p : Bukkit.getOnlinePlayers())
                 	if(inParticle(p) && Loader.c.getBoolean("Options.BossBar.Use"))
-                		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_format%", TheAPI.getTimeConventorAPI().setTimeToString(count)), 1, 1);
+                		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_formated%", TheAPI.getTimeConventorAPI().setTimeToString(count)),1,20);
                 int a = (int) (save*0.80);
                 int b = (int) (save*0.50);
                 int c = (int) (save*0.30);
@@ -278,7 +277,7 @@ public class Tournament {
             			String player = wsss.getPlayer(3-i);
             			if(Bukkit.getPlayer(player)!=null) {
                     	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
-                    		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 1);
+                    		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
             			}
             			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                 				.replace("%position%", 3-i+"")
@@ -304,7 +303,7 @@ public class Tournament {
                 			String player = wss.getPlayer(3-i);
                 			if(Bukkit.getPlayer(player)!=null) {
                             	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
-                            		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 1);
+                            		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
                     			}
                 			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                     				.replace("%position%", 3-i+"")
@@ -330,7 +329,7 @@ public class Tournament {
                 			String player = ws.getPlayer(3-i);
                 			if(Bukkit.getPlayer(player)!=null) {
                             	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
-                            		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 1);
+                            		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
                     			}
                 			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                     				.replace("%position%", 3-i+"")

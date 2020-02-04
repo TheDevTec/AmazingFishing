@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -76,7 +75,7 @@ public class ByBiome {
 	}
 	
 	private static String fishes(String a, String type){
-		List<Object> fishes = new ArrayList<Object>();
+		List<String> fishes = new ArrayList<String>();
 		if(Loader.c.getString("Types."+type)!=null)
 		for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
 		if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null &&Loader.c.getStringList("Types."+type+"."+d+".Biomes").isEmpty()==false) {
@@ -104,7 +103,42 @@ public class ByBiome {
 		if(t==Material.TROPICAL_FISH)type="TropicalFish";
 		if(t==Material.SALMON)type="Salmon";
 		String fish = fishes(hook.getBlock().getBiome().name(),type);
-		if(fish !=null) {
+		if(fish==null) {
+			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
+			double length = Generators.length(type, fish);
+			double weight = Generators.weight(length);
+			if(Loader.c.getString("Format.FishDescription")!=null) {
+				List<String> lore=new ArrayList<String>();
+				
+				List<String> biomes = new ArrayList<String>();
+				if(Loader.c.getString("Types."+type+"."+fish+".Biomes")!=null)
+					
+					for(String g:Loader.c.getStringList("Types."+type+"."+fish+".Biomes"))
+						biomes.add(getTran(ByBiome.biomes.valueOf(g)));
+				else
+					biomes.add(getTran(null));
+				String b = StringUtils.join(biomes, ", ");
+			for(String s:Loader.c.getStringList("Format.FishDescription")) {
+				lore.add(Color.c(s
+						.replace("%fish_biomes%", b)
+						.replace("%biomes%", b)
+						.replace("%fish_weight%", weight+"")
+						.replace("%weight%", weight+"")
+						.replace("%fish_length%", length+"")
+						.replace("%length%", length+"")
+						.replace("%fish_name%", "Uknown")
+						.replace("%fish%",  "Uknown")
+						.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
+						.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
+						.replace("%fisherman%", p.getName())
+						.replace("%fisher%", p.getName())));
+			}
+			i.setLore(lore);
+			}
+				bag.addFish(p,i.create());
+			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", length+"").replace("%length%", length+"").replace("%weight%", weight+"").replace("%fish%",  "Uknown"), p);
+			return;
+		}
 			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
 			double weight = Generators.weight(length);
@@ -115,9 +149,8 @@ public class ByBiome {
 			if(Loader.c.getString("Types."+type+"."+fish+".ModelData")!=null) {
 			i.setCustomModelData(Loader.c.getInt("Types."+type+"."+fish+".ModelData"));
 			}
-			List<String> lore = null;
 			if(Loader.c.getString("Format.FishDescription")!=null) {
-				lore=new ArrayList<String>();
+				List<String> lore=new ArrayList<String>();
 				
 				List<String> biomes = new ArrayList<String>();
 				if(Loader.c.getString("Types."+type+"."+fish+".Biomes")!=null)
@@ -141,8 +174,9 @@ public class ByBiome {
 						.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
 						.replace("%fisherman%", p.getName())
 						.replace("%fisher%", p.getName())));
-			}}
-				i.setLore(lore);
+			}
+			i.setLore(lore);
+			}
 				bag.addFish(p,i.create());
 				Utils.addRecord(p, fish, type, length,weight);
 				Tournament.add(p, length,weight);
@@ -150,8 +184,5 @@ public class ByBiome {
 			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", length+"").replace("%length%", length+"").replace("%weight%", weight+"").replace("%fish%", name), p);
 			Logger.info(p.getDisplayName(), type, fish, length, weight);
 			Quests.addProgress(p,type,fish,Actions.CATCH_FISH);
-		return;
-		}
-		Bukkit.getLogger().severe("Corrupt error when creating fish type "+type+", biome "+hook.getBlock().getBiome().name());
 		return;
 	}}
