@@ -48,7 +48,7 @@ public class Shop {
 				public void run() {
 					openShop(p, t);
 				}});
-		a.setItem(4,Create.createItem(Loader.c.getString("Options.Manual.Points").replace("%points%",""+Points.getBal(p.getName())), Material.LAPIS_LAZULI),w);
+		a.setItem(4,Create.createItem(Trans.has().replace("%points%",""+Points.getBal(p.getName())), Material.LAPIS_LAZULI),w);
 		if(t==ShopType.Buy) {
 		if(Loader.c.getBoolean("Options.ShopSellFish")) {
 			w.remove(Options.RUNNABLE);

@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/EclipseUtils/Spigot.jar"/>
+	<classpathentry kind="lib" path="C:/EclipseUtils/spigot-1.15.2.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/WG.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/WE.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/Residence.jar"/>

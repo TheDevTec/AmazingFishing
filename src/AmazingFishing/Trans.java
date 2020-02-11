@@ -19,6 +19,9 @@ public class Trans {
 	public static String help_top() {
 		return get("Help.Top");
 	}
+	public static String has() {
+		return get("HasPoints");
+	}
 	public static String help_rec() {
 		return get("Help.Record");
 	}

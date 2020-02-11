@@ -76,9 +76,8 @@ public class Loader extends JavaPlugin {
 			return Color.c(TranslationsFile.getString("Editor."+path+"."+i));
 		return "";
 	}
-	static ConfigAPI a;
+	static ConfigAPI a=TheAPI.getConfig("AmazingFishing", "Translations");
 	static void setupTranslations() {
-		a=TheAPI.getConfig("AmazingFishing", "Translations");
 		a.addDefault("CommandIsDisabled", "&cCommand is disabled!");
 		a.addDefault("TopPlayers", "&6Top 3 players records on fish &a%fish%");
 		a.addDefault("Prefix", "&bFishing &4• &6");
@@ -315,6 +314,7 @@ public class Loader extends JavaPlugin {
 		a.addDefault("Words.Enabled", "&aEnabled");
 		a.addDefault("Words.Disabled", "&cDisabled");
 		a.addDefault("Words.Shop", "&6Custom plugin shop");
+		a.addDefault("Words.HasPoints", "&9%points% points");
 		a.addDefault("Words.Enchants", "&6Custom fishing rod enchants");
 		a.addDefault("Words.Treasures", "&6Custom treasures");
 		a.addDefault("Words.TreasuresTitle", "&bTreaures");
@@ -326,13 +326,12 @@ public class Loader extends JavaPlugin {
 		a.create();
 		TranslationsFile=a.getConfig();
 	}
-	static ConfigAPI chat;
+	static ConfigAPI chat= TheAPI.getConfig("AmazingFishing", "Data");
 	static void setupChatMe() {
-		chat = TheAPI.getConfig("AmazingFishing", "Data");
 		chat.create();
 		me=chat.getConfig();
 	}
-	static ConfigAPI cc;
+	static ConfigAPI cc= TheAPI.getConfig("AmazingFishing", "AmazingFishing");
 	static void addDefault() {
 		cc.addDefault("Options.BossBar.Use", true);
 		cc.addDefault("Options.BossBar.Running", "&cRunning tournament type &e%type% &con &e%time_formated%");
@@ -643,7 +642,6 @@ public class Loader extends JavaPlugin {
 		a.save();
 	}
 	public static void load() {
-		cc= TheAPI.getConfig("AmazingFishing", "AmazingFishing");
 		cc.setHeader("Showcase of permission: Options -> Perms-Treasures -> Legendary -> WorldGuard-Regions/Residence: amazingfishing.treasures.legendary.<region/residence>");
 		addDefault();
 		cc.create();
