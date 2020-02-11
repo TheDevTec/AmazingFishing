@@ -56,7 +56,7 @@ public class Quests {
 			@Override
 			public void run() {
 				if(stage>=questStages) {
-				Loader.me.set("Players."+p.getName()+".Quests."+quest, null);
+				Loader.me.set("Players."+p.getName()+".Quests", null);
 				Loader.saveChatMe();
 				if(Loader.c.getString("Quests."+quest+".Rewards.Commands")!=null)
 				for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Commands")) {

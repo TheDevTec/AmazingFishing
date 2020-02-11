@@ -1,6 +1,6 @@
 # AmazingFishing
 
-Current version of AmazingFishing on this GitHub is 2.9
+Current version of AmazingFishing on this GitHub is 3.0
 Download AmazingFishing:
   * Spigot (Dev builds): https://www.spigotmc.org/resources/amazing-fishing.71148/
   * Bukkit (Release only): https://dev.bukkit.org/projects/amazing-fishing
