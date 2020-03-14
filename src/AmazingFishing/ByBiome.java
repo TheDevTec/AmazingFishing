@@ -69,20 +69,15 @@ public class ByBiome {
 		}
 	}
 	
-	
-	private static boolean isSame(String biome, String biome2) {
-		return biome.toLowerCase().contains(biome2.toLowerCase());
-	}
-	
 	private static String fishes(String a, String type){
 		List<String> fishes = new ArrayList<String>();
 		if(Loader.c.getString("Types."+type)!=null)
 		for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
-		if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null &&Loader.c.getStringList("Types."+type+"."+d+".Biomes").isEmpty()==false) {
-			for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes")) {
-			if(isSame(s,a)) {
+		if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null &&!Loader.c.getStringList("Types."+type+"."+d+".Biomes").isEmpty()) {
+			for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes"))
+			if(s.toLowerCase().contains(a.toLowerCase()))
 				fishes.add(d);
-			}}}else
+			}else
 				fishes.add(d);
 		}
 		return TheAPI.getRandomFromList(fishes).toString();
