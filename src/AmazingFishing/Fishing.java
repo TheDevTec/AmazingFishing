@@ -154,7 +154,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Length, (int)TheAPI.getTimeConventorAPI().getTimeFromString(args[3]));
+							Tournament.startType(Type.Length, (int)TheAPI.getStringUtils().getTimeFromString(args[3]));
 							return true;
 						}else
 							if(args[2].equalsIgnoreCase("MostCatch")) {
@@ -162,7 +162,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 									Loader.msgCmd("&cAlreary running tournament.", s);
 									return true;
 								}
-								Tournament.startType(Type.MostCatch, (int)TheAPI.getTimeConventorAPI().getTimeFromString(args[3]));
+								Tournament.startType(Type.MostCatch, (int)TheAPI.getStringUtils().getTimeFromString(args[3]));
 								return true;
 							}else
 								if(args[2].equalsIgnoreCase("Weight")) {
@@ -170,7 +170,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 										Loader.msgCmd("&cAlreary running tournament.", s);
 										return true;
 									}
-									Tournament.startType(Type.Weight,(int)TheAPI.getTimeConventorAPI().getTimeFromString(args[3]));
+									Tournament.startType(Type.Weight,(int)TheAPI.getStringUtils().getTimeFromString(args[3]));
 									return true;
 								}else
 						if(args[2].equalsIgnoreCase("Random")) {
@@ -178,7 +178,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Random, (int)TheAPI.getTimeConventorAPI().getTimeFromString(args[3]));
+							Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(args[3]));
 							return true;
 						}else {
 							Loader.msgCmd("&e/Fish Tournament Start <type> <length>", s);
@@ -265,7 +265,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 			}
 			if(args.length==4) {
 				String p = args[1];
-				double b = TheAPI.getNumbersAPI(args[3]).getDouble();
+				double b = TheAPI.getStringUtils().getDouble(args[3]);
 				if(args[2].equalsIgnoreCase("set")) {
 				if(Loader.hasPerm(s, "amazingfishing.points.set")) {
 					Points.take(p, Points.bal(p));

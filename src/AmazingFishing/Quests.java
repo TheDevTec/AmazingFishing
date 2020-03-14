@@ -123,7 +123,7 @@ public class Quests {
 						Loader.me.set("Players."+p.getName()+".Quests.Current", q);
 						Loader.me.set("Players."+p.getName()+".Quests.Stage", 0);
 						if(Loader.c.getString("Quests."+q+".Time")!=null)
-						TheAPI.getCooldownAPI("amazingfishing.quests."+q).createCooldown(p.getName(), TheAPI.getTimeConventorAPI().getTimeFromString(Loader.c.getString("Quests."+q+".Time")));
+						TheAPI.getCooldownAPI("amazingfishing.quests."+q).createCooldown(p.getName(), TheAPI.getStringUtils().getTimeFromString(Loader.c.getString("Quests."+q+".Time")));
 						}
 					Loader.saveChatMe();
 					openQuestMenu(p);

@@ -119,7 +119,7 @@ public class get {
 		Loader.c.set("Types."+path+"."+f+".Money", getMoney(p,path));
 		Loader.c.set("Types."+path+"."+f+".MaxCm", getCm(p,path));
 		Loader.c.set("Types."+path+"."+f+".Biomes", getBiomes(p,path));
-		Loader.c.set("Types."+path+"."+f+".ModelData", TheAPI.getNumbersAPI(f).getInt());
+		Loader.c.set("Types."+path+"."+f+".ModelData", TheAPI.getStringUtils().getInt(f));
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
 		Loader.c.set("Creating-"+path+"."+p.getName(), null);

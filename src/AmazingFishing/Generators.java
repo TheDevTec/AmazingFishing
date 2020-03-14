@@ -14,12 +14,12 @@ public class Generators {
 		String awd = "0.0";
 		if(Loader.c.getString("Types."+path+"."+fish+".MaxCm")!=null)
 			awd=Loader.c.getString("Types."+path+"."+fish+".MaxCm");
-		double limit = TheAPI.getNumbersAPI(awd).getDouble();
+		double limit = TheAPI.getStringUtils().getDouble(awd);
 		if(limit==0.0)limit=1000;
 		double random = new Random().nextInt((int)limit)+new Random().nextDouble();
 		if(random<Loader.c.getDouble("Options.Manual.MinimalFishLength"))random= Loader.c.getDouble("Options.Manual.MinimalFishLength");
 		String c =String.format("%2.02f",random);
-		return TheAPI.getNumbersAPI(c).getDouble();
+		return TheAPI.getStringUtils().getDouble(c);
 	}
 
 	public static double weight(double length) {
@@ -34,7 +34,7 @@ public class Generators {
 		int selected = new Random().nextInt(7);
 		length=(length/100)*random.get(selected);
 		String c =String.format("%2.02f",length);
-		length=TheAPI.getNumbersAPI(c).getDouble();
+		length=TheAPI.getStringUtils().getDouble(c);
 		if(length<0.1)length=0.1;
 		return length;
 	}

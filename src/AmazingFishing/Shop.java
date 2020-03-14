@@ -174,7 +174,7 @@ public class Shop {
 						if(Loader.shop.getString("Items."+kit+".OnBuy.GiveItem."+f+".Enchants")!=null)
 						for(String s:Loader.shop.getStringList("Items."+kit+".OnBuy.GiveItem."+f+".Enchants")) {
 			            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
-			            	int num = TheAPI.getNumbersAPI(s.replace(":", "").replaceAll("[A-Za-z]+", "").replace(" ", "").replace("_", "")).getInt();
+			            	int num = TheAPI.getStringUtils().getInt(s.replace(":", "").replaceAll("[A-Za-z]+", "").replace(" ", "").replace("_", ""));
 			            	if(num==0)num=1;
 			            	try {
 						enchs.put(TheAPI.getEnchantmentAPI().getByName(ench), num);
