@@ -428,7 +428,7 @@ public class help {
 				@Override
 				public void run() {
 					if(p.hasPermission("amazingfishing.reload")) {
-					Loader.LoadAll();
+					Loader.reloadAll();
 					Loader.msgCmd(Loader.s("Prefix")+Loader.s("ConfigReloaded"), p);}
 				}});
 			if(p.hasPermission("amazingfishing.reload"))

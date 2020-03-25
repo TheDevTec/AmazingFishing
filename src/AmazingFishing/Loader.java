@@ -50,21 +50,25 @@ public class Loader extends JavaPlugin {
 	}
 	@Override
 	public void onDisable() {
-		LoadAll();
+		reloadAll();
 		f.stopRunnable();
 	}
 	public static void msgCmd(String msg, CommandSender s) {
 		s.sendMessage(Color.c(msg));
 	}
+	
+	public static void reloadAll() {
+		a.reload();
+		chat.reload();
+		cc.reload();
+		shopfile.reload();
+	}
+	
 	public static void LoadAll() {
 		load();
-		save();
 		setupTranslations();
-		saveTranslations();
 		setupChatMe();
-		saveChatMe();
 		loadShop();
-		saveShop();
 	}
 	public static String getAFK(int i) {
 		if(TranslationsFile.getString("AFK-Title."+i)!=null)

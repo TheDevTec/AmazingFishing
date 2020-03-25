@@ -340,7 +340,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 			if(Loader.hasPerm(s, "amazingfishing.reload")) {
 				Loader.msgCmd(Loader.s("Prefix")+ ChatColor.YELLOW+"----------------- "+ChatColor.DARK_AQUA+"AmazingFishing Reload"+ChatColor.YELLOW+" -----------------",s);
 			    Loader.msgCmd("",s);
-				Loader.LoadAll();
+				Loader.reloadAll();
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ConfigReloaded"), s);
 				return true;
 			}
