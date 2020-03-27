@@ -1,6 +1,6 @@
 name: AmazingFishing
 main: AmazingFishing.Loader
-version: 3.2
+version: 3.3
 author: Straiker123
 depend: [TheAPI]
 softdepend: [Vault, WorldGuard, WorldEdit, Residence]
