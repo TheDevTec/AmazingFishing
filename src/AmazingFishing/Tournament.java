@@ -104,7 +104,7 @@ public class Tournament {
  		break;
      		case MostCatch:
      			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
-     			Ranking wss = new Ranking(weight);
+     			Ranking wss = new Ranking(fishes);
          		for (int i = 2; i >= 0; i--) {
          			String player = wss.getPlayer(3-i);
          			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
@@ -298,7 +298,7 @@ public class Tournament {
         		break;
             		case MostCatch:
             			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
-            			Ranking wss = new Ranking(weight);
+            			Ranking wss = new Ranking(fishes);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = wss.getPlayer(3-i);
                 			if(Bukkit.getPlayer(player)!=null) {
