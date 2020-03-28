@@ -222,7 +222,7 @@ public class Tournament {
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%", 
             						TheAPI.getStringUtils().setTimeToString(Tournament.count)));
             		switch(now) {
-            		case Weight:
+            		case Weight:{
             			for(String s:weight.keySet()) {if(Bukkit.getPlayer(s)==null)weight.remove(s);}
             			Ranking w = new Ranking(weight);
             		for (int i = 2; i >= 0; i--) {
@@ -234,8 +234,8 @@ public class Tournament {
                 				.replace("%playername%", p(player))
                 				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
             		}
-            		break;
-                		case MostCatch:
+            		}break;
+                		case MostCatch:{
                 			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
                 			Ranking ww = new Ranking(fishes);
                 		for (int i = 2; i >= 0; i--) {
@@ -247,8 +247,8 @@ public class Tournament {
                     				.replace("%playername%", p(player))
                     				.replace("%fishes%",TheAPI.getStringUtils().getInt(ww.getDouble(3-i))+""));
                 		}
-                		break;
-                		case Length:
+                		}break;
+                		case Length:{
                 			for(String s:records.keySet()) {if(Bukkit.getPlayer(s)==null)records.remove(s);}
                 			Ranking ws = new Ranking(records);
                     		for (int i = 2; i >= 0; i--) {
@@ -261,7 +261,7 @@ public class Tournament {
                         				.replace("%playername%", p(player))
                         				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i)))).replace(",", "."));
                     		}
-                		break;
+                		}break;
                 		default:
                 			break;
                      }}
@@ -270,7 +270,7 @@ public class Tournament {
                 	TheAPI.broadcastMessage(Loader.s("Winners")
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
                 switch(now) {
-        		case Weight:
+        		case Weight:{
         			for(String s:weight.keySet()) {if(Bukkit.getPlayer(s)==null)weight.remove(s);}
         			Ranking wsss = new Ranking(weight);
             		for (int i = 2; i >= 0; i--) {
@@ -295,8 +295,8 @@ public class Tournament {
     							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
             		}
 					Loader.saveChatMe();
-        		break;
-            		case MostCatch:
+        		}break;
+            		case MostCatch:{
             			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
             			Ranking wss = new Ranking(fishes);
                 		for (int i = 2; i >= 0; i--) {
@@ -321,8 +321,8 @@ public class Tournament {
         							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
                 		}
     					Loader.saveChatMe();
-            		break;
-            		case Length:
+            		}break;
+            		case Length:{
             			for(String s:records.keySet()) {if(Bukkit.getPlayer(s)==null)records.remove(s);}
             			Ranking ws = new Ranking(records);
                 		for (int i = 2; i >= 0; i--) {
@@ -347,7 +347,7 @@ public class Tournament {
         							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
                 		}
     					Loader.saveChatMe();
-            		break;
+            		}break;
             		default:
             			break;
                  }
