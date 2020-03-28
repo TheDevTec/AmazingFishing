@@ -1,8 +1,8 @@
 package AmazingFishing;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import me.Straiker123.TheAPI;
 
 public class Tournament {
+
+	static List<String> legend = Arrays.asList("Length","MostCatch","Weight");
 	public static enum Type{
 		Length,
 		MostCatch,
@@ -32,9 +34,9 @@ public class Tournament {
 	public static void addFish(Player p) {
 		double i = fishes.containsKey(p.getName()) ? fishes.get(p.getName()): 0.0;
 		++i;
-		if(fishes.containsKey(p.getName())) {
+		if(fishes.containsKey(p.getName()))
 			fishes.replace(p.getName(),i);
-		}else
+		else
 		fishes.put(p.getName(), i);
 	}
 	public static void addRecord(Player p, double record) {
@@ -158,31 +160,21 @@ public class Tournament {
         }
 	}
 	public static void startType(Type type, int length) {
-		if(type==Type.Random) {
-			ArrayList<String> legend = new ArrayList<String>();
-			legend.add("Length");
-			legend.add("MostCatch");
-			legend.add("Weight");
-			int target = 0;
-			for (int counter =1; counter<=1;counter++) {
-			    Random object = new Random();
-			    target = 0;
-			if(legend.size() > target) {
-				target = object.nextInt(legend.size());
-			}
-		}
-			type=Type.valueOf(legend.get(target));
-		}
+		if(type==Type.Random)type=Type.valueOf(TheAPI.getRandomFromList(legend).toString());
 		now=type;
 		count=length;
-		if(count == 0) {
-			count = 600;
-		}
+		if(count == 0)count = 600;
 		save=count;
+		 int as = (int) (save*0.80),bs = (int) (save*0.50), cs = (int) (save*0.30),ds = (int) (save*0.10);
+         if(as<3)as=-20;
+         if(bs<3)bs=-20;
+         if(cs<3)cs=-20;
+         if(ds<3)ds=-20;
+         int a=as,b=bs,c=bs,d=ds;
 		TheAPI.broadcastMessage(Loader.s("Started")
-				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
-		run=Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Loader.plugin, new Runnable(){
-			@Override
+				.replace("%type%", Loader.c.getString("Tournaments."+type.toString()+".Name")).replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
+		run=Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Loader.plugin, 
+				new Runnable(){
            public void run(){
 				if(now==null) {
 					Bukkit.getScheduler().cancelTask(run);
@@ -191,32 +183,11 @@ public class Tournament {
                 if(count > 0) {
                 --count;
                 }
+                if(Loader.c.getBoolean("Options.BossBar.Use"))
                 for(Player p : Bukkit.getOnlinePlayers())
-                	if(inParticle(p) && Loader.c.getBoolean("Options.BossBar.Use"))
+                	if(inParticle(p))
                 		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_formated%", TheAPI.getStringUtils().setTimeToString(count)),1,20);
-                int a = (int) (save*0.80);
-                int b = (int) (save*0.50);
-                int c = (int) (save*0.30);
-                int d = (int) (save*0.10);
-                if(a==0)a=-20;
-                if(b==0)b=-20;
-                if(c==0)c=-20;
-                if(d==0)d=-20;
-                
-                if(a==1)a=-20;
-                if(b==1)b=-20;
-                if(c==1)c=-20;
-                if(d==1)d=-20;
-
-                if(a==2)a=-20;
-                if(b==2)b=-20;
-                if(c==2)c=-20;
-                if(d==2)d=-20;
-                
-                if(a==3)a=-20;
-                if(b==3)b=-20;
-                if(c==3)c=-20;
-                if(d==3)d=-20;
+               
                 if(count == a || count == b || count == c || count == d) {
                 	TheAPI.broadcastMessage(Loader.s("Running")
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%", 
@@ -237,29 +208,29 @@ public class Tournament {
             		}break;
                 		case MostCatch:{
                 			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
-                			Ranking ww = new Ranking(fishes);
+                			Ranking w = new Ranking(fishes);
                 		for (int i = 2; i >= 0; i--) {
-                			String player = ww.getPlayer(3-i);
+                			String player = w.getPlayer(3-i);
                 			if(player==null)continue;
                 			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                     				.replace("%position%", 3-i+"")
                     				.replace("%player%", player)
                     				.replace("%playername%", p(player))
-                    				.replace("%fishes%",TheAPI.getStringUtils().getInt(ww.getDouble(3-i))+""));
+                    				.replace("%fishes%",TheAPI.getStringUtils().getInt(w.getDouble(3-i))+""));
                 		}
                 		}break;
                 		case Length:{
                 			for(String s:records.keySet()) {if(Bukkit.getPlayer(s)==null)records.remove(s);}
-                			Ranking ws = new Ranking(records);
+                			Ranking w = new Ranking(records);
                     		for (int i = 2; i >= 0; i--) {
 
-                    			String player = ws.getPlayer(3-i);
+                    			String player = w.getPlayer(3-i);
                     			if(player==null)continue;
                     			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                         				.replace("%position%", 3-i+"")
                         				.replace("%player%", player)
                         				.replace("%playername%", p(player))
-                        				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i)))).replace(",", "."));
+                        				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
                     		}
                 		}break;
                 		default:
@@ -272,9 +243,9 @@ public class Tournament {
                 switch(now) {
         		case Weight:{
         			for(String s:weight.keySet()) {if(Bukkit.getPlayer(s)==null)weight.remove(s);}
-        			Ranking wsss = new Ranking(weight);
+        			Ranking w = new Ranking(weight);
             		for (int i = 2; i >= 0; i--) {
-            			String player = wsss.getPlayer(3-i);
+            			String player = w.getPlayer(3-i);
             			if(Bukkit.getPlayer(player)!=null) {
                     	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
                     		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
@@ -283,13 +254,13 @@ public class Tournament {
                 				.replace("%position%", 3-i+"")
                 				.replace("%player%", player)
                 				.replace("%playername%", p(player))
-                				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(wsss.getDouble(3-i)))).replace(",", "."));
+                				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
             			if(!player.equalsIgnoreCase("-"))
                 			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
                 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
                     				.replace("%player%", player)
                     				.replace("%playername%", p(player))
-                    				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(wsss.getDouble(3-i))).replace(",", "."))));
+                    				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i))).replace(",", "."))));
             			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
     					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
     							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
@@ -298,9 +269,9 @@ public class Tournament {
         		}break;
             		case MostCatch:{
             			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
-            			Ranking wss = new Ranking(fishes);
+            			Ranking w = new Ranking(fishes);
                 		for (int i = 2; i >= 0; i--) {
-                			String player = wss.getPlayer(3-i);
+                			String player = w.getPlayer(3-i);
                 			if(Bukkit.getPlayer(player)!=null) {
                             	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
                             		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
@@ -309,13 +280,13 @@ public class Tournament {
                     				.replace("%position%", 3-i+"")
                     				.replace("%player%", player)
                     				.replace("%playername%", p(player))
-                    				.replace("%fishes%", TheAPI.getStringUtils().getInt(wss.getDouble(3-i))+""));
+                    				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+""));
                 			if(!player.equalsIgnoreCase("-"))
                     			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
                     			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
                         				.replace("%player%", player)
                         				.replace("%playername%", p(player))
-                        				.replace("%fishes%", TheAPI.getStringUtils().getInt(wss.getDouble(3-i))+"")));
+                        				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+"")));
                 			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
         					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
         							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
@@ -324,9 +295,9 @@ public class Tournament {
             		}break;
             		case Length:{
             			for(String s:records.keySet()) {if(Bukkit.getPlayer(s)==null)records.remove(s);}
-            			Ranking ws = new Ranking(records);
+            			Ranking w = new Ranking(records);
                 		for (int i = 2; i >= 0; i--) {
-                			String player = ws.getPlayer(3-i);
+                			String player = w.getPlayer(3-i);
                 			if(Bukkit.getPlayer(player)!=null) {
                             	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
                             		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
@@ -335,13 +306,13 @@ public class Tournament {
                     				.replace("%position%", 3-i+"")
                     				.replace("%player%", player)
                     				.replace("%playername%", p(player))
-                    				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i)))).replace(",", "."));
+                    				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
                     		if(!player.equalsIgnoreCase("-"))
                 			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
                     			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
                         				.replace("%player%", player)
                         				.replace("%playername%", p(player))
-                        				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i))).replace(",", "."))));
+                        				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i))).replace(",", "."))));
                 			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
         					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
         							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
@@ -353,6 +324,7 @@ public class Tournament {
                  }
                 records.clear();
                 fishes.clear();
+                weight.clear();
             	now=null;
                 count=0;
                 save=0;
