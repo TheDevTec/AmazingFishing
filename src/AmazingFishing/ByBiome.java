@@ -159,7 +159,7 @@ public class ByBiome {
 					biomes.add(getTran(null));
 				String b = StringUtils.join(biomes, ", ");
 			for(String s:Loader.c.getStringList("Format.FishDescription")) {
-				lore.add(Color.c(s
+				lore.add(Color.c(s.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
 						.replace("%fish_biomes%", b)
 						.replace("%biomes%", b)
 						.replace("%fish_weight%", weight+"")
