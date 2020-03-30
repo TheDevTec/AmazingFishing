@@ -653,7 +653,7 @@ public class help {
 				.replace("%tournament_top3%", Loader.me.getInt("Players."+w+".Stats.Top.3.Tournaments")+"");
 	}
 	static String getName(String s) {
-		if(Bukkit.getPlayer(s)!=null)return Bukkit.getPlayer(s).getDisplayName();
+		if(TheAPI.getPlayer(s)!=null)return TheAPI.getPlayer(s).getDisplayName();
 		return s;
 	}
 	public static void stats(Player p,String name, boolean admin) {

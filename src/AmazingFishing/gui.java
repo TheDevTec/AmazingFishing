@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
@@ -122,7 +121,7 @@ public class gui {
 		a.open();
 	}
 	private static String name(String s) {
-		if(Bukkit.getPlayer(s)!=null)return Bukkit.getPlayer(s).getDisplayName();
+		if(TheAPI.getPlayer(s)!=null)return TheAPI.getPlayer(s).getDisplayName();
 		return s;
 	}
 	

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -483,7 +482,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 	}
 
 	private CharSequence getName(String string) {
-		if(Bukkit.getPlayer(string)!=null)string=Bukkit.getPlayer(string).getDisplayName();
+		if(TheAPI.getPlayer(string)!=null)string=TheAPI.getPlayer(string).getDisplayName();
 		return string;
 	}
 

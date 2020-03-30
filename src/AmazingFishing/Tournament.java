@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.Straiker123.TheAPI;
+import me.Straiker123.TheAPI.SudoType;
 
 public class Tournament {
 
@@ -83,7 +84,7 @@ public class Tournament {
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
 		 switch(now) {
  		case Weight:
- 			for(String s:weight.keySet()) {if(Bukkit.getPlayer(s)==null)weight.remove(s);}
+ 			for(String s:weight.keySet()) {if(TheAPI.getPlayer(s)==null)weight.remove(s);}
  			Ranking wsss = new Ranking(weight);
      		for (int i = 2; i >= 0; i--) {
      			String player = wsss.getPlayer(3-i);
@@ -94,7 +95,7 @@ public class Tournament {
          				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(wsss.getDouble(3-i)))).replace(",", "."));
      			if(!player.equalsIgnoreCase("-"))
         			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
-         			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
+        				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
              				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(wsss.getDouble(3-i))).replace(",", "."))));
@@ -105,7 +106,7 @@ public class Tournament {
 				Loader.saveChatMe();
  		break;
      		case MostCatch:
-     			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
+     			for(String s:fishes.keySet()) {if(TheAPI.getPlayer(s)==null)fishes.remove(s);}
      			Ranking wss = new Ranking(fishes);
          		for (int i = 2; i >= 0; i--) {
          			String player = wss.getPlayer(3-i);
@@ -116,7 +117,7 @@ public class Tournament {
              				.replace("%fishes%", TheAPI.getStringUtils().getInt(wss.getDouble(3-i))+""));
          			if(!player.equalsIgnoreCase("-"))
             			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
-             			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
+            				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                  				.replace("%player%", player)
                  				.replace("%playername%", p(player))
                  				.replace("%fishes%", TheAPI.getStringUtils().getInt(wss.getDouble(3-i))+"")));
@@ -127,7 +128,7 @@ public class Tournament {
 					Loader.saveChatMe();
      		break;
      		case Length:
-     			for(String s:records.keySet()) {if(Bukkit.getPlayer(s)==null)records.remove(s);}
+     			for(String s:records.keySet()) {if(TheAPI.getPlayer(s)==null)records.remove(s);}
      			Ranking ws = new Ranking(records);
          		for (int i = 2; i >= 0; i--) {
          			String player = ws.getPlayer(3-i);
@@ -138,7 +139,7 @@ public class Tournament {
              				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i)))).replace(",", "."));
          			if(!player.equalsIgnoreCase("-"))
             			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
-             			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
+            				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                  				.replace("%player%", player)
                  				.replace("%playername%", p(player))
                  				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i))).replace(",", "."))));
@@ -153,6 +154,7 @@ public class Tournament {
           }
         records.clear();
         fishes.clear();
+        weight.clear();
     	now=null;
         count=0;
         save=0;
@@ -194,7 +196,7 @@ public class Tournament {
             						TheAPI.getStringUtils().setTimeToString(Tournament.count)));
             		switch(now) {
             		case Weight:{
-            			for(String s:weight.keySet()) {if(Bukkit.getPlayer(s)==null)weight.remove(s);}
+            			for(String s:weight.keySet()) {if(TheAPI.getPlayer(s)==null)weight.remove(s);}
             			Ranking w = new Ranking(weight);
             		for (int i = 2; i >= 0; i--) {
             			String player = w.getPlayer(3-i);
@@ -207,7 +209,7 @@ public class Tournament {
             		}
             		}break;
                 		case MostCatch:{
-                			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
+                			for(String s:fishes.keySet()) {if(TheAPI.getPlayer(s)==null)fishes.remove(s);}
                 			Ranking w = new Ranking(fishes);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
@@ -220,7 +222,7 @@ public class Tournament {
                 		}
                 		}break;
                 		case Length:{
-                			for(String s:records.keySet()) {if(Bukkit.getPlayer(s)==null)records.remove(s);}
+                			for(String s:records.keySet()) {if(TheAPI.getPlayer(s)==null)records.remove(s);}
                 			Ranking w = new Ranking(records);
                     		for (int i = 2; i >= 0; i--) {
 
@@ -242,13 +244,13 @@ public class Tournament {
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
                 switch(now) {
         		case Weight:{
-        			for(String s:weight.keySet()) {if(Bukkit.getPlayer(s)==null)weight.remove(s);}
+        			for(String s:weight.keySet()) {if(TheAPI.getPlayer(s)==null)weight.remove(s);}
         			Ranking w = new Ranking(weight);
             		for (int i = 2; i >= 0; i--) {
             			String player = w.getPlayer(3-i);
-            			if(Bukkit.getPlayer(player)!=null) {
-                    	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
-                    		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
+            			if(TheAPI.getPlayer(player)!=null) {
+                    	if(inParticle(TheAPI.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
+                    		TheAPI.sendBossBar(TheAPI.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
             			}
             			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                 				.replace("%position%", 3-i+"")
@@ -257,7 +259,7 @@ public class Tournament {
                 				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
             			if(!player.equalsIgnoreCase("-"))
                 			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
-                			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
+                				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                     				.replace("%player%", player)
                     				.replace("%playername%", p(player))
                     				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i))).replace(",", "."))));
@@ -268,13 +270,13 @@ public class Tournament {
 					Loader.saveChatMe();
         		}break;
             		case MostCatch:{
-            			for(String s:fishes.keySet()) {if(Bukkit.getPlayer(s)==null)fishes.remove(s);}
+            			for(String s:fishes.keySet()) {if(TheAPI.getPlayer(s)==null)fishes.remove(s);}
             			Ranking w = new Ranking(fishes);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
-                			if(Bukkit.getPlayer(player)!=null) {
-                            	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
-                            		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
+                			if(TheAPI.getPlayer(player)!=null) {
+                            	if(inParticle(TheAPI.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
+                            		TheAPI.sendBossBar(TheAPI.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
                     			}
                 			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                     				.replace("%position%", 3-i+"")
@@ -283,7 +285,7 @@ public class Tournament {
                     				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+""));
                 			if(!player.equalsIgnoreCase("-"))
                     			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
-                    			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
+                    				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                         				.replace("%player%", player)
                         				.replace("%playername%", p(player))
                         				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+"")));
@@ -294,13 +296,13 @@ public class Tournament {
     					Loader.saveChatMe();
             		}break;
             		case Length:{
-            			for(String s:records.keySet()) {if(Bukkit.getPlayer(s)==null)records.remove(s);}
+            			for(String s:records.keySet()) {if(TheAPI.getPlayer(s)==null)records.remove(s);}
             			Ranking w = new Ranking(records);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
-                			if(Bukkit.getPlayer(player)!=null) {
-                            	if(inParticle(Bukkit.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
-                            		TheAPI.sendBossBar(Bukkit.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
+                			if(TheAPI.getPlayer(player)!=null) {
+                            	if(inParticle(TheAPI.getPlayer(player)) && Loader.c.getBoolean("Options.BossBar.Use"))
+                            		TheAPI.sendBossBar(TheAPI.getPlayer(player), Loader.c.getString("Options.BossBar.Win").replace("%type%", now.toString()).replace("%position%", 3-1+""), 1, 20);
                     			}
                 			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
                     				.replace("%position%", 3-i+"")
@@ -309,7 +311,7 @@ public class Tournament {
                     				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
                     		if(!player.equalsIgnoreCase("-"))
                 			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
-                    			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Color.c(s.replace("%position%", (3-i)+"")
+                				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                         				.replace("%player%", player)
                         				.replace("%playername%", p(player))
                         				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i))).replace(",", "."))));
@@ -334,7 +336,7 @@ public class Tournament {
 	}
 	static String p(String s) {
 		try {
-		if(Bukkit.getPlayer(s)!=null)return Bukkit.getPlayer(s).getDisplayName();
+		if(TheAPI.getPlayer(s)!=null)return TheAPI.getPlayer(s).getDisplayName();
 		return s;
 		}catch(Exception e) {
 			return "-";
