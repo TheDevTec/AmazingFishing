@@ -240,6 +240,7 @@ public class TheAPI_GUIs {
 		String xp = Loader.c.getString("Types."+path+"."+fish+".Xp");
 		String points = Loader.c.getString("Types."+path+"."+fish+".Points");
 		String name = Loader.c.getString("Types."+path+"."+fish+".Name");
+		String chance = Loader.c.getString("Types."+path+"."+fish+".Chance");
 		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
 		a.setSize(54);
 		Create.prepareInv(a);
@@ -307,6 +308,20 @@ public class TheAPI_GUIs {
 		a.setItem(32,Create.createItem(Trans.money(), Material.GOLD_INGOT,Arrays.asList("&6"+money+"$")),w);
 		}else 
 			a.setItem(32,Create.createItem(Trans.money(), Material.GOLD_INGOT),w);
+		w.remove(Options.RUNNABLE);
+		w.put(Options.RUNNABLE, new Runnable() {
+			@Override
+			public void run() {
+				p.getOpenInventory().close();
+				Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
+				Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Chance");
+				Loader.save();
+				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+			}});
+		if(chance != null) {
+		a.setItem(41,Create.createItem(Trans.chance(), Material.PAPER,Arrays.asList("&9"+chance+"%")),w);
+		}else 
+			a.setItem(41,Create.createItem(Trans.chance(), Material.PAPER),w);
 		w.remove(Options.RUNNABLE);
 		w.put(Options.RUNNABLE, new Runnable() {
 			@Override
@@ -527,6 +542,7 @@ public class TheAPI_GUIs {
 		String xp = null;
 		String points = null;
 		String name = null;
+		String chance = null;
 		if(fish != null) {
 			 title= title+" "+fish;
 		 cm = get.getCm(p, where);
@@ -534,6 +550,7 @@ public class TheAPI_GUIs {
 		 xp = get.getXp(p, where);
 		 points = get.getPoints(p, where);
 		 name = get.getName(p, where);
+		 chance = get.getChance(p, where);
 		}
 		String wd = where;
 		a.setTitle("&aFishing Creator &7- "+title);
@@ -588,6 +605,19 @@ public class TheAPI_GUIs {
 		a.setItem(32,Create.createItem(Trans.money(), Material.GOLD_INGOT,Arrays.asList("&6"+money+"$")),w);
 		}else 
 			a.setItem(32,Create.createItem(Trans.money(), Material.GOLD_INGOT),w);
+		w.remove(Options.RUNNABLE);
+		w.put(Options.RUNNABLE, new Runnable() {
+			@Override
+			public void run() {
+				p.getOpenInventory().close();
+				Loader.c.set("Creating-"+wd+"."+p.getName()+".Type", "Chance");
+				Loader.save();
+				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+			}});
+		if(chance != null) {
+		a.setItem(41,Create.createItem(Trans.chance(), Material.PAPER,Arrays.asList("&9"+chance+"%")),w);
+		}else 
+			a.setItem(41,Create.createItem(Trans.chance(), Material.PAPER),w);
 		w.remove(Options.RUNNABLE);
 		w.put(Options.RUNNABLE, new Runnable() {
 			@Override

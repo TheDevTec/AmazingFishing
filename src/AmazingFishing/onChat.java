@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerChatEvent;
 import AmazingFishing.TheAPI_GUIs.TreasureType;
 import AmazingFishing.TheAPI_GUIs.select;
 import AmazingFishing.gui.FishType;
+import me.Straiker123.StringUtils;
 import me.Straiker123.TheAPI;
 
 @SuppressWarnings("deprecation")
@@ -58,7 +59,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}},40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".Money", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Types."+typ+"."+id+".Money", s.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -81,7 +82,30 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}},40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".MaxCm", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Types."+typ+"."+id+".MaxCm", s.getDouble(message.replace(" ", "")));
+				Loader.save();
+				TheAPI_GUIs gui = new TheAPI_GUIs();
+				gui.openFishEditType(p, id, type);}
+				break;
+
+			case Chance:
+				e.setCancelled(true);
+				if(id == null) {
+					p.sendTitle(Loader.s("Editor.MissingFishName.1"), Loader.s("Editor.MissingFishName.2"));
+					if(!Loader.c.getBoolean("Edit-"+path+"."+p.getName()+".Warned")) {
+					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
+					Loader.save();
+					String da = path;
+					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
+
+						@Override
+						public void run() {
+							TheAPI_GUIs gui = new TheAPI_GUIs();
+							gui.openFishEditType(p, id, type);
+						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
+						Loader.save();
+						}},40);}}else {
+				Loader.c.set("Types."+typ+"."+id+".Chance", s.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -103,7 +127,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}},40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".Xp", TheAPI.getNumbersAPI(message.replace(" ", "")).getInt());
+				Loader.c.set("Types."+typ+"."+id+".Xp", s.getInt(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -125,7 +149,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}},40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".Points", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Types."+typ+"."+id+".Points", s.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -138,7 +162,7 @@ public class onChat implements Listener {
 				gui.openFishEditType(p, id, type);
 				break;
 			}}}
-	
+	private static StringUtils s = TheAPI.getStringUtils();
 	private void setEverything(Player p, String msg, FishType type) {
 		String path = null;
 		String typ = null;
@@ -172,7 +196,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Points", TheAPI.getNumbersAPI(msg.replace(" ", "")).getDouble());
+				Loader.c.set("Creating-"+path+"."+p.getName()+".Points", s.getDouble(msg.replace(" ", "")));
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) {
@@ -186,7 +210,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-				Loader.c.set("Creating-"+path+"."+p.getName()+".MaxCm", TheAPI.getNumbersAPI(msg.replace(" ", "")).getDouble());
+				Loader.c.set("Creating-"+path+"."+p.getName()+".MaxCm", s.getDouble(msg.replace(" ", "")));
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) {
@@ -200,7 +224,20 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Money", TheAPI.getNumbersAPI(msg.replace(" ", "")).getDouble());
+				Loader.c.set("Creating-"+path+"."+p.getName()+".Money", s.getDouble(msg.replace(" ", "")));
+				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
+				Loader.save();
+				if(get.ready(p, path)) {
+					get.finish(p, typ,true);
+			}else {
+				TheAPI_GUIs gui = new TheAPI_GUIs();
+				gui.openFishCreatorType(p, fish, type);}}
+			break;
+			case Chance:
+				if(fish == null)
+					get.warn(p, path, type);
+					else {
+				Loader.c.set("Creating-"+path+"."+p.getName()+".Chance", s.getDouble(msg.replace(" ", "")));
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) {
@@ -213,7 +250,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-						Loader.c.set("Creating-"+path+"."+p.getName()+".Xp", TheAPI.getNumbersAPI(msg.replace(" ", "")).getInt());
+						Loader.c.set("Creating-"+path+"."+p.getName()+".Xp", s.getInt(msg.replace(" ", "")));
 						Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) 
@@ -991,7 +1028,8 @@ public class onChat implements Listener {
 		Exp,
 		Cm,
 		Points,
-		Name;
+		Name,
+		Chance
 	}
 	public static enum enchs {
 		MoneyBonus,

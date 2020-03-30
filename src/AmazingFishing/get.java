@@ -77,7 +77,7 @@ public class get {
 	public static boolean ready(Player p,String path) {
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
-		if(fish(p,path) != null && onChat.ex("Creating-"+path+"."+p.getName()+".Xp") && onChat.ex("Creating-"+path+"."+p.getName()+".Money") && onChat.ex("Creating-"+path+"."+p.getName()+".MaxCm") && onChat.ex("Creating-"+path+"."+p.getName()+".Points"))return true;
+		if(fish(p,path) != null && onChat.ex("Creating-"+path+"."+p.getName()+".Xp") && onChat.ex("Creating-"+path+"."+p.getName()+".Chance") && onChat.ex("Creating-"+path+"."+p.getName()+".Money") && onChat.ex("Creating-"+path+"."+p.getName()+".MaxCm") && onChat.ex("Creating-"+path+"."+p.getName()+".Points"))return true;
 		return false;
 	}
 	@SuppressWarnings("deprecation")
@@ -119,6 +119,7 @@ public class get {
 		Loader.c.set("Types."+path+"."+f+".Money", getMoney(p,path));
 		Loader.c.set("Types."+path+"."+f+".MaxCm", getCm(p,path));
 		Loader.c.set("Types."+path+"."+f+".Biomes", getBiomes(p,path));
+		Loader.c.set("Types."+path+"."+f+".Chance", getChance(p,path));
 		Loader.c.set("Types."+path+"."+f+".ModelData", TheAPI.getStringUtils().getInt(f));
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
@@ -135,5 +136,10 @@ public class get {
 					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("Saved", 1), Loader.get("Saved", 2));
 	}
 		
+	}
+	public static String getChance(Player p, String path) {
+		if(path.equals("PufferFish"))path="Pufferfish";
+		if(path.equals("TropicalFish"))path="Tropical_Fish";
+		return Loader.c.getString("Creating-"+path+"."+p.getName()+".Chance");
 	}
 }
