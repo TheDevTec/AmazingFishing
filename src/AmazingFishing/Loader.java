@@ -430,6 +430,7 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Types.Cod.0.Xp", 0.5);
 		cc.addDefault("Types.Cod.0.MaxCm", 130.0);
 		cc.addDefault("Types.Cod.0.ModelData", 0);
+		cc.addDefault("Types.Cod.0.Chance", 33.5);
 		
 		cc.addDefault("Types.Cod.1.Name", "&8Roach");
 		cc.addDefault("Types.Cod.1.Money", 0.2);
@@ -437,12 +438,15 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Types.Cod.1.Xp", 0.2);
 		cc.addDefault("Types.Cod.1.MaxCm", 60.0);
 		cc.addDefault("Types.Cod.1.ModelData", 1);
+		cc.addDefault("Types.Cod.1.Chance", 58.3);
+		
 		cc.addDefault("Types.Cod.2.Name", "&2Common carp");
 		cc.addDefault("Types.Cod.2.Money", 0.6);
 		cc.addDefault("Types.Cod.2.Points", 0.2);
 		cc.addDefault("Types.Cod.2.Xp", 0.4);
 		cc.addDefault("Types.Cod.2.MaxCm", 80.0);
 		cc.addDefault("Types.Cod.2.ModelData", 2);
+		cc.addDefault("Types.Cod.2.Chance", 27.1);
 		
 		cc.addDefault("Types.Salmon.0.Name", "&cSturgeon");
 		cc.addDefault("Types.Salmon.0.Money", 1.1);
@@ -450,18 +454,23 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Types.Salmon.0.Xp", 0.9);
 		cc.addDefault("Types.Salmon.0.MaxCm", 120.0);
 		cc.addDefault("Types.Salmon.0.ModelData", 0);
+		cc.addDefault("Types.Salmon.0.Chance", 11.2);
+		
 		cc.addDefault("Types.Salmon.1.Name", "&8Pike");
 		cc.addDefault("Types.Salmon.1.Money", 0.5);
 		cc.addDefault("Types.Salmon.1.Points", 0.2);
 		cc.addDefault("Types.Salmon.1.Xp", 0.3);
 		cc.addDefault("Types.Salmon.1.MaxCm", 70.0);
 		cc.addDefault("Types.Salmon.1.ModelData", 1);
+		cc.addDefault("Types.Salmon.1.Chance", 35.3);
+		
 		cc.addDefault("Types.Salmon.2.Name", "&aCommon trout");
 		cc.addDefault("Types.Salmon.2.Money", 0.4);
 		cc.addDefault("Types.Salmon.2.Points", 0.1);
 		cc.addDefault("Types.Salmon.2.Xp", 0.2);
 		cc.addDefault("Types.Salmon.2.MaxCm", 60.0);
 		cc.addDefault("Types.Salmon.2.ModelData", 2);
+		cc.addDefault("Types.Salmon.2.Chance", 48.8);
 
 		cc.addDefault("Types.TropicalFish.0.Name", "&aAngel fish");
 		cc.addDefault("Types.TropicalFish.0.Money", 2.6);
@@ -469,25 +478,39 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Types.TropicalFish.0.Xp", 3);
 		cc.addDefault("Types.TropicalFish.0.MaxCm", 25.0);
 		cc.addDefault("Types.TropicalFish.0.ModelData", 0);
+		cc.addDefault("Types.TropicalFish.0.Chance", 12.4);
+		
 		cc.addDefault("Types.TropicalFish.1.Name", "&5Arowana fish");
 		cc.addDefault("Types.TropicalFish.1.Money", 1.5);
 		cc.addDefault("Types.TropicalFish.1.Points", 1.1);
 		cc.addDefault("Types.TropicalFish.1.Xp", 0.5);
 		cc.addDefault("Types.TropicalFish.1.MaxCm", 35.0);
 		cc.addDefault("Types.TropicalFish.1.ModelData", 1);
+		cc.addDefault("Types.TropicalFish.1.Chance", 25.9);
+
 		cc.addDefault("Types.TropicalFish.2.Name", "&6Brackish fish");
 		cc.addDefault("Types.TropicalFish.2.Money", 1.8);
 		cc.addDefault("Types.TropicalFish.2.Points", 0.2);
 		cc.addDefault("Types.TropicalFish.2.Xp", 6);
 		cc.addDefault("Types.TropicalFish.2.MaxCm", 40.0);
 		cc.addDefault("Types.TropicalFish.2.ModelData", 2);
+		cc.addDefault("Types.TropicalFish.2.Chance", 33.6);
 
+		cc.addDefault("Types.TropicalFish.3.Name", "&cNemo");
+		cc.addDefault("Types.TropicalFish.3.Money", 22.9);
+		cc.addDefault("Types.TropicalFish.3.Points", 0.6);
+		cc.addDefault("Types.TropicalFish.3.Xp", 1);
+		cc.addDefault("Types.TropicalFish.3.MaxCm", 20.0);
+		cc.addDefault("Types.TropicalFish.3.ModelData", 3);
+		cc.addDefault("Types.TropicalFish.3.Chance", 7.2);
+		
 		cc.addDefault("Types.PufferFish.0.Name", "&ePufferfish");
 		cc.addDefault("Types.PufferFish.0.Money", 0.5);
 		cc.addDefault("Types.PufferFish.0.Points", 0.1);
 		cc.addDefault("Types.PufferFish.0.Xp", 1);
 		cc.addDefault("Types.PufferFish.0.MaxCm", 20.0);
 		cc.addDefault("Types.PufferFish.0.ModelData", 0);
+		cc.addDefault("Types.PufferFish.0.Chance", 45.9);
 
 		cc.addDefault("Types.PufferFish.1.Name", "&cArothron");
 		cc.addDefault("Types.PufferFish.1.Money", 0.6);
@@ -495,6 +518,7 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Types.PufferFish.1.Xp", 1);
 		cc.addDefault("Types.PufferFish.1.MaxCm", 45.0);
 		cc.addDefault("Types.PufferFish.1.ModelData", 1);
+		cc.addDefault("Types.PufferFish.1.Chance", 32.4);
 		}
 		if(!cc.existPath("Treasures")) {
 		cc.addDefault("Treasures.COMMON.0.Name", "&8Old Chest");

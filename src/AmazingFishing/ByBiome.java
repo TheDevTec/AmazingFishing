@@ -75,10 +75,13 @@ public class ByBiome {
 		for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
 		if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null &&!Loader.c.getStringList("Types."+type+"."+d+".Biomes").isEmpty()) {
 			for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes"))
-			if(s.toLowerCase().contains(a.toLowerCase()))
+			if(s.toLowerCase().contains(a.toLowerCase())) {
+	for(int i = 0; i < (Loader.c.getInt("Types."+type+"."+d+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+d+".Chance") : 1); ++i)
 				fishes.add(d);
-			}else
+			}}else {
+	for(int i = 0; i < (Loader.c.getInt("Types."+type+"."+d+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+d+".Chance") : 1); ++i)
 				fishes.add(d);
+			}
 		}
 		return TheAPI.getRandomFromList(fishes).toString();
 	}
