@@ -1,6 +1,7 @@
 package AmazingFishing;
 
 import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -691,29 +692,84 @@ public class Loader extends JavaPlugin {
 		shopfile.setHeader(
 		"%player%   select player\n"
 		+"%coins%   amount of coins\n");
-		shopfile.addDefault("Format.Item", "&a%item% &7- &6%cost% points");
+			shopfile.addDefault("GUI.Bag.Icon", "CHEST");
+			shopfile.addDefault("GUI.Bag.ModelData", "1");
+			shopfile.addDefault("GUI.Bag.Name", "&6Bag");
+			shopfile.addDefault("GUI.Bag.Lore", Arrays.asList("&7Click to open bag"));
+
+			shopfile.addDefault("GUI.Points.Icon", "LAPIS_LAZULI");
+			shopfile.addDefault("GUI.Points.ModelData", "1");
+			shopfile.addDefault("GUI.Points.Name", "&9Points");
+			shopfile.addDefault("GUI.Points.Lore", Arrays.asList("&7Currently you have %points% points"));
+			
+			shopfile.addDefault("GUI.BuyShop.Icon", "EMERALD");
+			shopfile.addDefault("GUI.BuyShop.ModelData", "1");
+			shopfile.addDefault("GUI.BuyShop.Name", "&eBuy shop");
+			shopfile.addDefault("GUI.BuyShop.Lore", Arrays.asList("&7Open shop in which you can buy items"));
+
+			shopfile.addDefault("GUI.SellShop.Icon", "COD_BUCKET");
+			shopfile.addDefault("GUI.SellShop.ModelData", "1");
+			shopfile.addDefault("GUI.SellShop.Name", "&eSell Shop");
+			shopfile.addDefault("GUI.SellShop.Lore", Arrays.asList("&7Open shop in which you can sell fish"));
+			
+			shopfile.addDefault("GUI.Sell.Icon", "GOLD_INGOT");
+			shopfile.addDefault("GUI.Sell.ModelData", "1");
+			shopfile.addDefault("GUI.Sell.Name", "&eSell fish");
+			shopfile.addDefault("GUI.Sell.Lore", Arrays.asList("&7Sell fish in shop"));
 		if(!shopfile.existPath("Items")) {
-			shopfile.addDefault("Items.Example.Name", "&aAn example item");
-		shopfile.addDefault("Items.Example.Description", Arrays.asList("&eThis is an example kit with"
-				,"&e special items! Cost %cost% points"));
-		shopfile.addDefault("Items.Example.Icon", "STONE_SWORD");
-		shopfile.addDefault("Items.Example.Cost", 50);
-		shopfile.addDefault("Items.Example.OnBuy.ProcessCommands", 
-				Arrays.asList("say &aPlayer &n%player%&r &abuy an example kit for &n%cost%&r &apoints!","eco give %player% 65"));
-		shopfile.addDefault("Items.Example.OnBuy.SendMessages", Arrays.asList("&6You buy an &aExample kit &6for &a%cost% coins"));
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Diamond_Helmet.Name", "&bShiny helmet!!");
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Diamond_Helmet.Amount", 1);
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Diamond_Helmet.HideEnchants", true);
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Iron_Chestplate.Enchants", 
-				Arrays.asList("Unbreaking 1","Protection_Fire 8","Mending"));
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Iron_Chestplate.Name", "&7Knight Chestplate");
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Iron_Chestplate.Amount", 1);
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Iron_Chestplate.Unbreakable", true);
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Iron_Chestplate.Enchants", Arrays.asList("Unbreaking 2","Protection 5"));
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Apple.Name", "&4Tasty apple");
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Apple.Amount", 10);
-		shopfile.addDefault("Items.Example.OnBuy.GiveItem.Apple.Lore", 
-				Arrays.asList("&cIm healthy apple!","&4&lEAT ME"));
+			shopfile.addDefault("Items.0.Icon", "STONE_SWORD");
+			shopfile.addDefault("Items.0.Name", "&7&lBeginner kit");
+			shopfile.addDefault("Items.0.Description", Arrays.asList("&eCost %cost% points"));
+			shopfile.addDefault("Items.0.Cost", 50);
+			
+			shopfile.addDefault("Items.0.Messages", Arrays.asList("&6You bought a &7&lBeginner kit&r &6for &a%cost% points"));
+			
+			shopfile.addDefault("Items.0.Item.0.Material", "Fishing_rod");
+			shopfile.addDefault("Items.0.Item.0.Name", "&7Basic fishing rod");
+			shopfile.addDefault("Items.0.Item.0.ModelData", "0");
+			shopfile.addDefault("Items.0.Item.0.Amount", 1);
+			shopfile.addDefault("Items.0.Item.0.HideEnchants", true);
+			shopfile.addDefault("Items.0.Item.0.Enchants", Arrays.asList("Unbreaking 1"));
+			
+			shopfile.addDefault("Items.0.Item.1.Material", "Oak_Boat");
+			shopfile.addDefault("Items.0.Item.1.ModelData", "1");
+			shopfile.addDefault("Items.0.Item.1.HideAttributes", true);
+			shopfile.addDefault("Items.0.Item.1.Unbreakable", true); //unused, but why not
+			
+			shopfile.addDefault("Items.0.Item.2.Material", "Apple");
+			shopfile.addDefault("Items.0.Item.2.ModelData", "2");
+			shopfile.addDefault("Items.0.Item.2.Name", "&cTasty apple");
+			shopfile.addDefault("Items.0.Item.2.Amount", 3);
+			shopfile.addDefault("Items.0.Item.2.Lore", Arrays.asList("&4&lEAT ME"));
+
+			
+			shopfile.addDefault("Items.1.Icon", "IRON_SWORD");
+			shopfile.addDefault("Items.1.Name", "&e&lIron kit");
+			shopfile.addDefault("Items.1.Description", Arrays.asList("&eCost %cost% points"));
+			shopfile.addDefault("Items.1.Cost", 275);
+			
+			shopfile.addDefault("Items.1.Messages", Arrays.asList("&6You bought a &e&lIron kit&r &6for &a%cost% points"));
+			shopfile.addDefault("Items.1.Commands", Arrays.asList("heal %player%"));
+			
+			shopfile.addDefault("Items.1.Item.0.Material", "Fishing_rod");
+			shopfile.addDefault("Items.1.Item.0.ModelData", "3");
+			shopfile.addDefault("Items.1.Item.0.Name", "&bPerfect fishing rod");
+			shopfile.addDefault("Items.1.Item.0.Lore", Arrays.asList("&3Fishing 4 ever! <3"));
+			shopfile.addDefault("Items.1.Item.0.Amount", 1);
+			shopfile.addDefault("Items.1.Item.0.HideEnchants", true);
+			shopfile.addDefault("Items.1.Item.0.Enchants", Arrays.asList("Unbreaking 4","Luck_of_sea 2"));
+			
+			shopfile.addDefault("Items.1.Item.1.Material", "Oak_Boat");
+			shopfile.addDefault("Items.1.Item.1.Amount", 2);
+			shopfile.addDefault("Items.1.Item.1.ModelData", "4");
+			shopfile.addDefault("Items.1.Item.1.HideAttributes", true);
+			shopfile.addDefault("Items.1.Item.1.Unbreakable", true); //unused, but why not
+			
+			shopfile.addDefault("Items.1.Item.2.Material", "Golden_Apple");
+			shopfile.addDefault("Items.1.Item.2.Name", "&dSpecial apple");
+			shopfile.addDefault("Items.1.Item.2.ModelData", "5");
+			shopfile.addDefault("Items.1.Item.2.Lore", Arrays.asList("&5Really special!"));
+			shopfile.addDefault("Items.1.Item.2.Amount", 7);
 		}
 		shopfile.create();
 		shop=shopfile.getConfig();

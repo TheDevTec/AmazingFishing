@@ -22,12 +22,11 @@ public class Tournament {
 	static int count;
 	static int save;
 	public static boolean running() {
-		if(now == null)return false;
-		return true;
+		return now != null;
 	}
 	public static void add(Player p, double record, double weight) {
-		if(running()) {
-		if(now==Type.MostCatch) {
+		if(now != null) {
+		if(now==Type.MostCatch) { 
 			double i = stats.containsKey(p.getName()) ? stats.get(p.getName()): 0.0;
 			++i;
 			if(stats.containsKey(p.getName()))
@@ -66,11 +65,11 @@ public class Tournament {
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name"))
 				.replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
     	Bukkit.getServer().getScheduler().cancelTask(run);
+		for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
     	TheAPI.broadcastMessage(Loader.s("Winners")
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
 		 switch(now) {
  		case Weight:{
- 			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
  			Ranking w = new Ranking(stats);
      		for (int i = 2; i >= 0; i--) {
      			String player = w.getPlayer(3-i);
@@ -92,7 +91,6 @@ public class Tournament {
 				Loader.saveChatMe();
 		 }break;
      		case MostCatch:{
-     			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
      			Ranking w = new Ranking(stats);
          		for (int i = 2; i >= 0; i--) {
          			String player = w.getPlayer(3-i);
@@ -100,13 +98,13 @@ public class Tournament {
              				.replace("%position%", 3-i+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
-             				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+""));
+             				.replace("%fishes%", ((int)TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))+""));
          			if(!player.equalsIgnoreCase("-"))
             			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
             				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                  				.replace("%player%", player)
                  				.replace("%playername%", p(player))
-                 				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+"")));
+                 				.replace("%fishes%", ((int)TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))+"")));
          			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
  					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
  							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
@@ -114,7 +112,6 @@ public class Tournament {
 					Loader.saveChatMe();
 		 }break;
      		case Length:{
-     			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
      			Ranking w = new Ranking(stats);
          		for (int i = 2; i >= 0; i--) {
          			String player = w.getPlayer(3-i);
@@ -169,6 +166,7 @@ public class Tournament {
                 if(count > 0) {
                 --count;
                 }
+    			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
                 if(Loader.c.getBoolean("Options.BossBar.Use"))
                 for(Player p : Bukkit.getOnlinePlayers())
                 	if(inParticle(p))
@@ -180,7 +178,6 @@ public class Tournament {
             						TheAPI.getStringUtils().setTimeToString(Tournament.count)));
             		switch(now) {
             		case Weight:{
-            			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
             			Ranking w = new Ranking(stats);
             		for (int i = 2; i >= 0; i--) {
             			String player = w.getPlayer(3-i);
@@ -193,7 +190,6 @@ public class Tournament {
             		}
             		}break;
                 		case MostCatch:{
-                			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
                 			Ranking w = new Ranking(stats);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
@@ -202,11 +198,10 @@ public class Tournament {
                     				.replace("%position%", 3-i+"")
                     				.replace("%player%", player)
                     				.replace("%playername%", p(player))
-                    				.replace("%fishes%",TheAPI.getStringUtils().getInt(w.getDouble(3-i))+""));
+                    				.replace("%fishes%",((int)TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))+""));
                 		}
                 		}break;
                 		case Length:{
-                			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
                 			Ranking w = new Ranking(stats);
                     		for (int i = 2; i >= 0; i--) {
 
@@ -228,7 +223,6 @@ public class Tournament {
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
                 switch(now) {
         		case Weight:{
-        			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
         			Ranking w = new Ranking(stats);
             		for (int i = 2; i >= 0; i--) {
             			String player = w.getPlayer(3-i);
@@ -254,7 +248,6 @@ public class Tournament {
 					Loader.saveChatMe();
         		}break;
             		case MostCatch:{
-            			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
             			Ranking w = new Ranking(stats);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
@@ -266,13 +259,13 @@ public class Tournament {
                     				.replace("%position%", 3-i+"")
                     				.replace("%player%", player)
                     				.replace("%playername%", p(player))
-                    				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+""));
+                    				.replace("%fishes%", ((int)TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))+""));
                 			if(!player.equalsIgnoreCase("-"))
                     			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
                     				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                         				.replace("%player%", player)
                         				.replace("%playername%", p(player))
-                        				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+"")));
+                        				.replace("%fishes%", ((int)TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))+"")));
                 			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
         					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
         							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
@@ -280,7 +273,6 @@ public class Tournament {
     					Loader.saveChatMe();
             		}break;
             		case Length:{
-            			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
             			Ranking w = new Ranking(stats);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
