@@ -1,10 +1,25 @@
 package AmazingFishing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.entity.Player;
 
 import me.Straiker123.TheAPI;
 
 public class Utils {
+	
+	public static List<String> createShuffleList(List<String> input){
+		List<String> s = new ArrayList<String>();
+		int size = input.size();
+		for(int i = size; i > 0; --i) {
+			String random = TheAPI.getRandomFromList(input).toString();
+		s.add(random);
+		input.remove(random);
+		}
+		return s;
+	}
+	
 	public static void addRecord(Player p, String fish, String type, double record, double weight) {
 		int amount = Loader.me.getInt("Players."+p.getName()+".Stats.Fishes")+1;
 		if(Loader.me.getString("Players."+p.getName()+"."+type+"."+fish)==null) {
