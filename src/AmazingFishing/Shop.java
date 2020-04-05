@@ -242,7 +242,7 @@ public class Shop {
 			
 			sel=sel+d.getAmount();
 			amount=amount+d.getAmount();
-			sold=sold+((Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus;
+			sold=sold+((Loader.cc.getConfig().getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus;
 			points=points+((Loader.c.getDouble(path+".Points")/2)*d.getAmount())*bonus;
 			exp=exp+((Loader.c.getInt(path+".Xp")/2)*d.getAmount())*bonus;
 			Quests.addProgress(p,path,fish,Actions.SELL_FISH);

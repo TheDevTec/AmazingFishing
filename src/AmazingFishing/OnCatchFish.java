@@ -37,6 +37,7 @@ public class OnCatchFish implements Listener {
 		points = points+(points%pointbonus);
 		if(expbonus!=0)
 		exp = exp+(exp%expbonus);
+		if(!Loader.cc.getConfig().getBoolean("Options.DisableMoneyFromCaught"))
 		TheAPI.getEconomyAPI().depositPlayer(p.getName(), money);
 		p.giveExp(exp);
 		Points.give(p.getName(), points);

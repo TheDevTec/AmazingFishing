@@ -343,6 +343,7 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Options.Treasures", true);
 		cc.addDefault("Options.Shop", true);
 		cc.addDefault("Options.Enchants", true);
+		cc.addDefault("Options.DisableMoneyFromCaught", false);
 		cc.addDefault("Options.EarnFromLength", true);
 		cc.addDefault("Options.UseGUI", true);
 		cc.addDefault("Options.ShopSellFish", true);

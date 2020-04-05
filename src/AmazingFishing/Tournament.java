@@ -27,42 +27,29 @@ public class Tournament {
 	}
 	public static void add(Player p, double record, double weight) {
 		if(running()) {
-		if(now==Type.Length)addRecord(p,record);
-		if(now==Type.MostCatch)addFish(p);
-		if(now==Type.Weight)addWeight(p,weight);
+		if(now==Type.MostCatch) {
+			double i = stats.containsKey(p.getName()) ? stats.get(p.getName()): 0.0;
+			++i;
+			if(stats.containsKey(p.getName()))
+				stats.replace(p.getName(),i);
+			else
+			stats.put(p.getName(), i);
+		}
+		if(now==Type.Length||now==Type.Weight) {
+			if(stats.containsKey(p.getName())) {
+				if(stats.get(p.getName())<record)
+					stats.replace(p.getName(), record);
+			}else
+			stats.put(p.getName(), record);
+		}
 	}}
 	static Type now;
-	public static void addFish(Player p) {
-		double i = fishes.containsKey(p.getName()) ? fishes.get(p.getName()): 0.0;
-		++i;
-		if(fishes.containsKey(p.getName()))
-			fishes.replace(p.getName(),i);
-		else
-		fishes.put(p.getName(), i);
-	}
-	public static void addRecord(Player p, double record) {
-		if(records.containsKey(p.getName())) {
-			if(records.get(p.getName())<record)
-				records.replace(p.getName(), record);
-		}else
-		records.put(p.getName(), record);
-	}
-	public static void addWeight(Player p, double record) {
-				if(weight.containsKey(p.getName())) {
-					if(weight.get(p.getName())<record)
-						weight.replace(p.getName(), record);
-				}else
-					weight.put(p.getName(), record);
-	}
-	
 	public static boolean inParticle(Player p) {
-		return weight.containsKey(p.getName()) || fishes.containsKey(p.getName()) || records.containsKey(p.getName());
+		return stats.containsKey(p.getName());
 	}
 	
 	static int run;
-	static HashMap<String, Double> records = new HashMap<String, Double>();
-	static HashMap<String, Double> fishes = new HashMap<String, Double>();
-	static HashMap<String, Double> weight = new HashMap<String, Double>();
+	static HashMap<String, Double> stats = new HashMap<String, Double>();
 	public static void stop(boolean rewards) {
 		if(now==null)return;
 		if(!rewards) {
@@ -72,8 +59,7 @@ public class Tournament {
     	Bukkit.getServer().getScheduler().cancelTask(run);
     	count=0;
     	save=0;
-        records.clear();
-        fishes.clear();
+        stats.clear();
     	now=null;
 	}else{
 		TheAPI.broadcastMessage(Loader.s("Stopped")
@@ -83,78 +69,76 @@ public class Tournament {
     	TheAPI.broadcastMessage(Loader.s("Winners")
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
 		 switch(now) {
- 		case Weight:
- 			for(String s:weight.keySet()) {if(TheAPI.getPlayer(s)==null)weight.remove(s);}
- 			Ranking wsss = new Ranking(weight);
+ 		case Weight:{
+ 			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+ 			Ranking w = new Ranking(stats);
      		for (int i = 2; i >= 0; i--) {
-     			String player = wsss.getPlayer(3-i);
+     			String player = w.getPlayer(3-i);
      			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
          				.replace("%position%", 3-i+"")
          				.replace("%player%", player)
          				.replace("%playername%", p(player))
-         				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(wsss.getDouble(3-i)))).replace(",", "."));
+         				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
      			if(!player.equalsIgnoreCase("-"))
         			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
         				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
-             				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(wsss.getDouble(3-i))).replace(",", "."))));
+             				.replace("%weight%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i))).replace(",", "."))));
      			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
 					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
 							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
      		}
 				Loader.saveChatMe();
- 		break;
-     		case MostCatch:
-     			for(String s:fishes.keySet()) {if(TheAPI.getPlayer(s)==null)fishes.remove(s);}
-     			Ranking wss = new Ranking(fishes);
+		 }break;
+     		case MostCatch:{
+     			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+     			Ranking w = new Ranking(stats);
          		for (int i = 2; i >= 0; i--) {
-         			String player = wss.getPlayer(3-i);
+         			String player = w.getPlayer(3-i);
          			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
              				.replace("%position%", 3-i+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
-             				.replace("%fishes%", TheAPI.getStringUtils().getInt(wss.getDouble(3-i))+""));
+             				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+""));
          			if(!player.equalsIgnoreCase("-"))
             			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
             				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                  				.replace("%player%", player)
                  				.replace("%playername%", p(player))
-                 				.replace("%fishes%", TheAPI.getStringUtils().getInt(wss.getDouble(3-i))+"")));
+                 				.replace("%fishes%", TheAPI.getStringUtils().getInt(w.getDouble(3-i))+"")));
          			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
  					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
  							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
          		}
 					Loader.saveChatMe();
-     		break;
-     		case Length:
-     			for(String s:records.keySet()) {if(TheAPI.getPlayer(s)==null)records.remove(s);}
-     			Ranking ws = new Ranking(records);
+		 }break;
+     		case Length:{
+     			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+     			Ranking w = new Ranking(stats);
          		for (int i = 2; i >= 0; i--) {
-         			String player = ws.getPlayer(3-i);
+         			String player = w.getPlayer(3-i);
          			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
              				.replace("%position%", 3-i+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
-             				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i)))).replace(",", "."));
+             				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i)))).replace(",", "."));
          			if(!player.equalsIgnoreCase("-"))
             			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+(3-i)))
             				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", (3-i)+"")
                  				.replace("%player%", player)
                  				.replace("%playername%", p(player))
-                 				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(ws.getDouble(3-i))).replace(",", "."))));
+                 				.replace("%length%", String.format("%2.02f",TheAPI.getStringUtils().getDouble(w.getDouble(3-i))).replace(",", "."))));
          			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
  					Loader.me.set("Players."+player+".Stats.Top."+(3-i)+".Tournaments", 
  							1+Loader.me.getInt("Players."+player+".Stats.Top."+(3-i)+".Tournaments"));
          		}
 					Loader.saveChatMe();
-     		break;
+     		}break;
      		default:
      			break;
           }
-        records.clear();
-        fishes.clear();
-        weight.clear();
+		 stats.clear();
     	now=null;
         count=0;
         save=0;
@@ -196,8 +180,8 @@ public class Tournament {
             						TheAPI.getStringUtils().setTimeToString(Tournament.count)));
             		switch(now) {
             		case Weight:{
-            			for(String s:weight.keySet()) {if(TheAPI.getPlayer(s)==null)weight.remove(s);}
-            			Ranking w = new Ranking(weight);
+            			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+            			Ranking w = new Ranking(stats);
             		for (int i = 2; i >= 0; i--) {
             			String player = w.getPlayer(3-i);
             			if(player==null)continue;
@@ -209,8 +193,8 @@ public class Tournament {
             		}
             		}break;
                 		case MostCatch:{
-                			for(String s:fishes.keySet()) {if(TheAPI.getPlayer(s)==null)fishes.remove(s);}
-                			Ranking w = new Ranking(fishes);
+                			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+                			Ranking w = new Ranking(stats);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
                 			if(player==null)continue;
@@ -222,8 +206,8 @@ public class Tournament {
                 		}
                 		}break;
                 		case Length:{
-                			for(String s:records.keySet()) {if(TheAPI.getPlayer(s)==null)records.remove(s);}
-                			Ranking w = new Ranking(records);
+                			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+                			Ranking w = new Ranking(stats);
                     		for (int i = 2; i >= 0; i--) {
 
                     			String player = w.getPlayer(3-i);
@@ -244,8 +228,8 @@ public class Tournament {
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
                 switch(now) {
         		case Weight:{
-        			for(String s:weight.keySet()) {if(TheAPI.getPlayer(s)==null)weight.remove(s);}
-        			Ranking w = new Ranking(weight);
+        			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+        			Ranking w = new Ranking(stats);
             		for (int i = 2; i >= 0; i--) {
             			String player = w.getPlayer(3-i);
             			if(TheAPI.getPlayer(player)!=null) {
@@ -270,8 +254,8 @@ public class Tournament {
 					Loader.saveChatMe();
         		}break;
             		case MostCatch:{
-            			for(String s:fishes.keySet()) {if(TheAPI.getPlayer(s)==null)fishes.remove(s);}
-            			Ranking w = new Ranking(fishes);
+            			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+            			Ranking w = new Ranking(stats);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
                 			if(TheAPI.getPlayer(player)!=null) {
@@ -296,8 +280,8 @@ public class Tournament {
     					Loader.saveChatMe();
             		}break;
             		case Length:{
-            			for(String s:records.keySet()) {if(TheAPI.getPlayer(s)==null)records.remove(s);}
-            			Ranking w = new Ranking(records);
+            			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+            			Ranking w = new Ranking(stats);
                 		for (int i = 2; i >= 0; i--) {
                 			String player = w.getPlayer(3-i);
                 			if(TheAPI.getPlayer(player)!=null) {
@@ -324,9 +308,7 @@ public class Tournament {
             		default:
             			break;
                  }
-                records.clear();
-                fishes.clear();
-                weight.clear();
+                stats.clear();
             	now=null;
                 count=0;
                 save=0;
