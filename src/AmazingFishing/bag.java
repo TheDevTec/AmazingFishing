@@ -76,15 +76,6 @@ public class bag {
 		}
 		
 	}
-	public static void dropFish(Player p, ItemStack fish) {
-		if(p.getInventory().firstEmpty()!=-1) {
-			p.getInventory().addItem(fish);
-			return;
-		}else {
-			p.getWorld().dropItem(p.getLocation(), fish);
-			return;
-		}
-	}
 
 	private static List<ItemStack> getFishes(Player p){
 		List<ItemStack> i = new ArrayList<ItemStack>();
@@ -140,6 +131,6 @@ public class bag {
 		return false;
 	}
 	public static void addFish(Player p, ItemStack fish) {
-		if(!getFirstEmpty(p,fish))dropFish(p,fish);
+		if(!getFirstEmpty(p,fish))TheAPI.giveItem(p,fish);
 	}
 }
