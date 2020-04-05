@@ -191,16 +191,16 @@ public class Shop {
 		ArrayList<ItemStack> a = new ArrayList<ItemStack>();
 		if(!expand) {
 
-			for(int count =10; count < 16; ++count) {
+			for(int count =10; count < 17; ++count) {
 				a.add(i.getItem(count));
 				}
-			for(int count =19; count < 25; ++count) {
+			for(int count =19; count < 26; ++count) {
 				a.add(i.getItem(count));
 				}
 			for(int count =28; count < 34; ++count) {
 				a.add(i.getItem(count));
 				}
-			for(int count =37; count < 43; ++count) {
+			for(int count =37; count < 44; ++count) {
 				a.add(i.getItem(count));
 				}
 		}else {
