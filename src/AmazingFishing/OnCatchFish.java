@@ -171,8 +171,8 @@ public class OnCatchFish implements Listener {
 			
 			if(bag.isFish(d)) {
 				if(!d.getItemMeta().hasDisplayName() && !d.getItemMeta().hasLore() && !e.getCaught().isOnGround() && e.getHook().getNearbyEntities(0, 1, 0).isEmpty()) {
-					
-			try {
+					if(!Loader.c.getBoolean("Options.CustomFishOnlyWhileTournament")||Loader.c.getBoolean("Options.CustomFishOnlyWhileTournament")&&Tournament.running()) {
+					try {
 				if(Loader.c.getBoolean("Options.FishRemove"))
 					i.remove();
 				if(!AFK.isAFK(p))
@@ -181,9 +181,9 @@ public class OnCatchFish implements Listener {
 
 				if(Loader.c.getBoolean("Options.FishRemove"))
 				i.remove();
-			}
+			}}
 		}}else {
-
+			if(!Loader.c.getBoolean("Options.TreasuresOnlyWhileTournament")||Loader.c.getBoolean("Options.TreasuresOnlyWhileTournament")&&Tournament.running())
 			if(!AFK.isAFK(p))
     		if(Loader.c.getBoolean("Options.Treasures")) {
     			Bukkit.getScheduler().runTaskLater(Loader.plugin, new Runnable() {

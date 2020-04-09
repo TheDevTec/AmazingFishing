@@ -343,6 +343,8 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Options.BossBar.Win", "&2Tournament was end. You are on %position%. position");
 		cc.addDefault("Options.Treasures", true);
 		cc.addDefault("Options.Shop", true);
+		cc.addDefault("Options.CustomFishOnlyWhileTournament", false);
+		cc.addDefault("Options.TreasuresOnlyWhileTournament", false);
 		cc.addDefault("Options.Enchants", true);
 		cc.addDefault("Options.DisableMoneyFromCaught", false);
 		cc.addDefault("Options.ShopGiveFullPriceFish", false);
@@ -393,7 +395,7 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("GUI.Stats.1.Lore", Arrays.asList("&3> &a%playername%"));
 		cc.addDefault("GUI.Stats.1.Material", "PLAYER_HEAD");
 		
-		cc.addDefault("GUI.Stats.2.Name", "&bAmount of catched fishes");
+		cc.addDefault("GUI.Stats.2.Name", "&bAmount of catched fish");
 		cc.addDefault("GUI.Stats.2.Lore", Arrays.asList("&3> &a%fish_catched%"));
 		cc.addDefault("GUI.Stats.2.Material", "COD_BUCKET");
 		
@@ -424,7 +426,7 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Tournaments.MostCatch.Rewards.1", Arrays.asList("eco give %player% 400"));
 		cc.addDefault("Tournaments.MostCatch.Rewards.2", Arrays.asList("eco give %player% 200"));
 		cc.addDefault("Tournaments.MostCatch.Rewards.3", Arrays.asList("eco give %player% 80"));
-		cc.addDefault("Tournaments.MostCatch.Positions", "&6%position%. %playername%&6 with %fishes% fishes");
+		cc.addDefault("Tournaments.MostCatch.Positions", "&6%position%. %playername%&6 with %fishes% fish");
 		
 		if(!cc.existPath("Types")) {
 		cc.addDefault("Types.Cod.0.Name", "&cBarracuda");
