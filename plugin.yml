@@ -1,6 +1,6 @@
 name: AmazingFishing
 main: AmazingFishing.Loader
-version: 3.3-TEST
+version: 3.3.2-TEST
 author: Straiker123
 depend: [TheAPI]
 softdepend: [Vault, WorldGuard, WorldEdit, Residence]
@@ -17,7 +17,7 @@ permissions:
       amazingfishing.editor.enchants: true
       amazingfishing.editor.treasures: true
       amazingfishing.editor.settings: true
-      amazingfishing.editor.fishes: true
+      amazingfishing.editor.fish: true
       amazingfishing.tournament: true
       amazingfishing.editor: true
       amazingfishing.afkbypass: true

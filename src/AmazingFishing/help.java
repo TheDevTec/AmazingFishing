@@ -311,7 +311,7 @@ public class help {
 			@Override
 			public void run() {
 				if(p.hasPermission("amazingfishing.list")) {
-				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFishes"),p);
+				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFish"),p);
 				if(Loader.c.getString("Types.Cod")!=null) {
 					Loader.msgCmd(Trans.cod()+":",p);
 				for(String cod:Loader.c.getConfigurationSection("Types.Cod").getKeys(false)) {
@@ -641,7 +641,7 @@ public class help {
 		if(type.equals("TropicalFish"))type="Tropical_Fish";}
 		if(fish == null) fish = "---";
 		if(type == null) type = "---";
-		return s.replace("%fish_catched%", Loader.me.getInt("Players."+w+".Stats.Fishes")+"")
+		return s.replace("%fish_catched%", Loader.me.getInt("Players."+w+".Stats.Fish")+"")
 				.replace("%fish_record%", Loader.me.getDouble("Players."+w+".Stats.Length")+"")
 				.replace("%fish_name%", fish+"")
 				.replace("%fish_type%", type+"")

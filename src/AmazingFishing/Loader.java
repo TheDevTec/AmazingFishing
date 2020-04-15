@@ -87,10 +87,10 @@ public class Loader extends JavaPlugin {
 		a.addDefault("TopPlayers", "&6Top 3 players records on fish &a%fish%");
 		a.addDefault("Prefix", "&bFishing &4• &6");
 		a.addDefault("Stats", Arrays.asList("&6------< &b%playername% &6>------"
-				,"&b> &6Caught fishes: &a%fishes%","&b> &6Longest fish & name: &a%fish%: %record%"
+				,"&b> &6Caught fish: &a%fish%","&b> &6Longest fish & name: &a%fish%: %record%"
 				,"&b> &6Participating tournaments: &a%tournaments%","&b> &6Top 1 in participating tournaments: &a%top1% times"));
 		a.addDefault("ConfigReloaded", "&2Config reloaded!");
-		a.addDefault("SoldFishes", "&eSold %amount% fishes for %money%$, %exp%exp and %points% points");
+		a.addDefault("SoldFish", "&eSold %amount% fish for %money%$, %exp%exp and %points% points");
 		a.addDefault("MissingData", "&cMissing data, First you must caught fish");
 		a.addDefault("CommandIsDisabled", "&cCommand is disabled!");
 		a.addDefault("Biome-Added", "&aBiome added");
@@ -103,8 +103,8 @@ public class Loader extends JavaPlugin {
 		a.addDefault("Help.Stats.Other", "&5Fishing stats of specified player");
 		a.addDefault("Help.Tournament", "&5Start new tournament for time");
 		a.addDefault("Help.Tournament_Stop", "&cStop running tournament");
-		a.addDefault("Help.Editor", "&5Open virtual editor for plugin settings/fishes and more");
-		a.addDefault("Help.List", "&5List of fishes");
+		a.addDefault("Help.Editor", "&5Open virtual editor for plugin settings/fish and more");
+		a.addDefault("Help.List", "&5List of fish");
 		a.addDefault("Help.Points", "&5Manager of player points");
 		a.addDefault("Help.Points-Give", "&5Give player specified amount of points");
 		a.addDefault("Help.Points-Take", "&5Take from player specified amount of points");
@@ -143,7 +143,7 @@ public class Loader extends JavaPlugin {
 		a.addDefault("Editor.WriteLength.2", "&6To the chat.");
 		a.addDefault("Editor.WriteExpBonus.1", "&6Write exp bonus in percentage");
 		a.addDefault("Editor.WriteExpBonus.2", "&6To the chat.");
-		a.addDefault("Editor.WriteAmount.1", "&6Write fishes chance amount bonus");
+		a.addDefault("Editor.WriteAmount.1", "&6Write fish chance amount bonus");
 		a.addDefault("Editor.WriteAmount.2", "&6To the chat.");
 		a.addDefault("Editor.SuccefullyCreatedEnchant.1", "&6Enchant %enchant%");
 		a.addDefault("Editor.SuccefullyCreatedEnchant.2", "&6Succefully created!");
@@ -169,7 +169,7 @@ public class Loader extends JavaPlugin {
 		a.addDefault("NeverCaught", "&6You never caught &c%fish%");
 		a.addDefault("Caught", "&6You caught &a%fish% &6with &a%cm%cm &7(%weight%kg)");
 		a.addDefault("TournamentTypes", "&6Tournament Types:");
-		a.addDefault("ListFishes", "&6List of fishes:");
+		a.addDefault("ListFish", "&6List of fish:");
 
 		a.addDefault("HelpGUI.Record.Want", "&aI want receive record reached message");
 		a.addDefault("HelpGUI.Record.DoNotWant", "&cI don't want receive record reached message");
@@ -199,8 +199,8 @@ public class Loader extends JavaPlugin {
 		a.addDefault("Words.Help.Top", "&bTop 3 players records");
 		a.addDefault("Words.Help.Record", "&cYour records");
 		a.addDefault("Words.Help.Toggle", "&3Toggle new record reached message");
-		a.addDefault("Words.Help.Editor", "&6Editor of Fishes and Settings");
-		a.addDefault("Words.Help.List", "&aList of fishes");
+		a.addDefault("Words.Help.Editor", "&6Editor of Fish and Settings");
+		a.addDefault("Words.Help.List", "&aList of fish");
 		a.addDefault("Words.Help.Tournament", "&bStart new tournament");
 		a.addDefault("Words.PerBiome", "&bPer Biome");
 		
@@ -227,15 +227,15 @@ public class Loader extends JavaPlugin {
 		
 
 		a.addDefault("Words.SelectEnchants", "&5Enchants editor");
-		a.addDefault("Words.SelectFishes", "&6Fishes editor");
+		a.addDefault("Words.SelectFish", "&6Fish editor");
 		a.addDefault("Words.SelectTreasures", "&bTreasures editor");
 		a.addDefault("Words.SelectSettings", "&7Settings editor");
-		a.addDefault("Words.Fish", "&7Fishes");
+		a.addDefault("Words.Fish", "&7Fish");
 		
 		a.addDefault("Words.Commands", "&dCommands");
 		a.addDefault("Words.Messages", "&rMessages");
 		a.addDefault("Words.Chance", "&eChance");
-		a.addDefault("Words.Sell_Fishes", "&6Sell fishes");
+		a.addDefault("Words.Sell_Fish", "&6Sell fish");
 		
 		a.addDefault("Words.Common", "&7Common");
 		a.addDefault("Words.Rare", "&1Rare");
@@ -355,14 +355,14 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Options.FishRemove", false);
 		cc.addDefault("Options.Particles", true);
 		cc.addDefault("Options.Sounds.Shop-BuyItem", true);
-		cc.addDefault("Options.Sounds.Shop-SellFishes", true);
-		cc.addDefault("Options.Sounds.Bag-SellFishes", true);
+		cc.addDefault("Options.Sounds.Shop-SellFish", true);
+		cc.addDefault("Options.Sounds.Bag-SellFish", true);
 		cc.addDefault("Options.Sounds.CatchFish", false);
 		cc.addDefault("Options.Disabled-Worlds", Arrays.asList("creative_world","disabled_world"));
 		cc.addDefault("Options.AFK.Enabled", true);
 		cc.addDefault("Options.AFK.TimeToAFK", 300);
-		cc.addDefault("Options.Bag.StorageItems", Arrays.asList("Fishes","Fishing_rod"));
-		cc.addDefault("Options.Bag.ButtonsToSellFishes", true);
+		cc.addDefault("Options.Bag.StorageItems", Arrays.asList("Fish","Fishing_rod"));
+		cc.addDefault("Options.Bag.ButtonsToSellFish", true);
 		
 		cc.addDefault("Options.Bag.ButtonsToOpenShop", true);
 		cc.addDefault("Options.Manual.MinimalFishLength", 0.15);
@@ -414,19 +414,19 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Tournaments.Length.Rewards.1", Arrays.asList("eco give %player% 500"));
 		cc.addDefault("Tournaments.Length.Rewards.2", Arrays.asList("eco give %player% 250"));
 		cc.addDefault("Tournaments.Length.Rewards.3", Arrays.asList("eco give %player% 100"));
-		cc.addDefault("Tournaments.Length.Positions", "&6%position%. %playername%&6 with %length%cm");
+		cc.addDefault("Tournaments.Length.Positions", "&6%position%. %playername%&6 with %value%Cm");
 
 		cc.addDefault("Tournaments.Weight.Name", "&6Weight");
 		cc.addDefault("Tournaments.Weight.Rewards.1", Arrays.asList("eco give %player% 525"));
 		cc.addDefault("Tournaments.Weight.Rewards.2", Arrays.asList("eco give %player% 275"));
 		cc.addDefault("Tournaments.Weight.Rewards.3", Arrays.asList("eco give %player% 125"));
-		cc.addDefault("Tournaments.Weight.Positions", "&6%position%. %playername%&6 with %weight%kg");
+		cc.addDefault("Tournaments.Weight.Positions", "&6%position%. %playername%&6 with %value%Kg");
 
 		cc.addDefault("Tournaments.MostCatch.Name", "&3Most Catch");
 		cc.addDefault("Tournaments.MostCatch.Rewards.1", Arrays.asList("eco give %player% 400"));
 		cc.addDefault("Tournaments.MostCatch.Rewards.2", Arrays.asList("eco give %player% 200"));
 		cc.addDefault("Tournaments.MostCatch.Rewards.3", Arrays.asList("eco give %player% 80"));
-		cc.addDefault("Tournaments.MostCatch.Positions", "&6%position%. %playername%&6 with %fishes% fish");
+		cc.addDefault("Tournaments.MostCatch.Positions", "&6%position%. %playername%&6 with %value% fish");
 		
 		if(!cc.existPath("Types")) {
 		cc.addDefault("Types.Cod.0.Name", "&cBarracuda");

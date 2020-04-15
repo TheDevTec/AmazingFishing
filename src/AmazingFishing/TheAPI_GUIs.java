@@ -61,8 +61,8 @@ public class TheAPI_GUIs {
 			public void run() {
 			openFish(p);
 			}});
-		if(p.hasPermission("amazingfishing.editor.fishes"))
-		a.setItem(31,Create.createItem(Trans.fishes(), Material.COD),w);
+		if(p.hasPermission("amazingfishing.editor.fish"))
+		a.setItem(31,Create.createItem(Trans.fishs(), Material.COD),w);
 		w.remove(Options.RUNNABLE);
 		w.put(Options.RUNNABLE, new Runnable() {
 			@Override
@@ -76,7 +76,7 @@ public class TheAPI_GUIs {
 
 	public void openFish(Player p) {
 		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Fishing Manager &7- "+Trans.fish());
+		a.setTitle("&6Fishing Manager &7- "+Trans.fishs());
 		a.setSize(54);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();

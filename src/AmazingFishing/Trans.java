@@ -91,8 +91,8 @@ public class Trans {
 	public static String cmd() {
 		return get("Commands");
 	}
-	public static String fishes() {
-		return get("SelectFishes");
+	public static String fish() {
+		return get("SelectFish");
 	}
 	public static String enchants() {
 		return get("SelectEnchants");
@@ -100,7 +100,7 @@ public class Trans {
 	public static String treasures() {
 		return get("SelectTreasures");
 	}
-	public static String fish() {
+	public static String fishs() {
 		return get("Fish");
 	}
 
@@ -201,8 +201,8 @@ public class Trans {
 	public static String close() {
 		return get("Close");
 	}
-	public static String sellFishes() {
-		return get("Sell_Fishes");
+	public static String sellFish() {
+		return get("Sell_Fish");
 	}
 	public static String help_bag() {
 		return get("Help.Bag");

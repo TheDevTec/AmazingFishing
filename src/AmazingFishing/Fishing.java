@@ -359,7 +359,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 					if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
 						fish=Loader.c.getString("Types."+type+"."+fish+".Name");
 					Loader.msgCmd(f
-							.replace("%fishes%", Loader.me.getInt("Players."+s.getName()+".Stats.Fishes")+"")
+							.replace("%fish%", Loader.me.getInt("Players."+s.getName()+".Stats.Fish")+"")
 							.replace("%record%", Loader.me.getDouble("Players."+s.getName()+".Stats.Length")+"")
 							.replace("%tournament%", Loader.me.getInt("Players."+s.getName()+".Stats.Tournaments")+"")
 							.replace("%tournaments%", Loader.me.getInt("Players."+s.getName()+".Stats.Tournaments")+"")
@@ -388,7 +388,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 						if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
 							fish=Loader.c.getString("Types."+type+"."+fish+".Name");
 						Loader.msgCmd(f
-								.replace("%fishes%", Loader.me.getInt("Players."+args[1]+".Stats.Fishes")+"")
+								.replace("%fish%", Loader.me.getInt("Players."+args[1]+".Stats.Fish")+"")
 								.replace("%record%", Loader.me.getDouble("Players."+args[1]+".Stats.Length")+"")
 								.replace("%tournament%", Loader.me.getInt("Players."+args[1]+".Stats.Tournaments")+"")
 								.replace("%tournaments%", Loader.me.getInt("Players."+args[1]+".Stats.Tournaments")+"")
@@ -441,7 +441,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 		}
 		if(args[0].equalsIgnoreCase("List")) {
 			if(Loader.hasPerm(s, "amazingfishing.List")) {
-				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFishes"),s);
+				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFish"),s);
 				if(Loader.c.getString("Types.Cod")!=null) {
 				Loader.msgCmd(Trans.cod()+":",s);
 				for(String cod:Loader.c.getConfigurationSection("Types.Cod").getKeys(false)) {

@@ -36,7 +36,7 @@ public class bag {
 		});
 		a.setItem(49, Create.createItem(Trans.close(), Material.BARRIER),w);
 		if(Loader.c.getBoolean("Options.ShopSellFish")) {
-			if(Loader.c.getBoolean("Options.Bag.ButtonsToSellFishes")) {
+			if(Loader.c.getBoolean("Options.Bag.ButtonsToSellFish")) {
 			w.remove(Options.RUNNABLE);
 			w.put(Options.RUNNABLE, new Runnable() {
 				@Override
@@ -45,8 +45,8 @@ public class bag {
 					saveBag(p,p.getOpenInventory().getTopInventory());
 				}
 			});
-		a.setItem(51, Create.createItem(Trans.sellFishes(), Material.COD_BUCKET),w);
-		a.setItem(47, Create.createItem(Trans.sellFishes(), Material.COD_BUCKET),w);
+		a.setItem(51, Create.createItem(Trans.sellFish(), Material.COD_BUCKET),w);
+		a.setItem(47, Create.createItem(Trans.sellFish(), Material.COD_BUCKET),w);
 		}}
 		if(Loader.c.getBoolean("Options.Shop")) {
 			if(Loader.c.getBoolean("Options.Bag.ButtonsToOpenShop")) {
@@ -60,8 +60,8 @@ public class bag {
 				a.setItem(45, Create.createItem(Trans.help_shop(), Material.EMERALD),w);
 				a.setItem(53, Create.createItem(Trans.help_shop(), Material.EMERALD),w);
 		}}
-		if(getFishes(p).isEmpty()==false)
-		for(ItemStack as : getFishes(p)) {
+		if(getFish(p).isEmpty()==false)
+		for(ItemStack as : getFish(p)) {
 			
 			a.addItem(as);
 		}
@@ -77,7 +77,7 @@ public class bag {
 		
 	}
 
-	private static List<ItemStack> getFishes(Player p){
+	private static List<ItemStack> getFish(Player p){
 		List<ItemStack> i = new ArrayList<ItemStack>();
 		if(Loader.me.getString("Players."+p.getName()+".Bag")!=null) {
 			for(int count = 0; count < 45; ++count) {

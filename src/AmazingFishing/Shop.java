@@ -283,10 +283,10 @@ public class Shop {
 		}
 		if(sell && sel != 0) {
 			if(!expand) {
-			if(Loader.c.getBoolean("Options.Sounds.Shop-SellFishes"))
+			if(Loader.c.getBoolean("Options.Sounds.Shop-SellFish"))
 				Sounds.play(p);
 			}else {
-				if(Loader.c.getBoolean("Options.Sounds.Bag-SellFishes"))
+				if(Loader.c.getBoolean("Options.Sounds.Bag-SellFish"))
 					Sounds.play(p);
 			}
 			TheAPI.getEconomyAPI().depositPlayer(p.getName(), sold);
@@ -294,7 +294,7 @@ public class Shop {
 			p.giveExp(exp);
 			
 			
-		Loader.msgCmd(Loader.s("Prefix")+Loader.s("SoldFishes")
+		Loader.msgCmd(Loader.s("Prefix")+Loader.s("SoldFish")
 		.replace("%amount%", sel+"")
 		.replace("%exp%", exp+"")
 				.replace("%money%", String.format("%2.02f",sold).replace(",", ".")+"")

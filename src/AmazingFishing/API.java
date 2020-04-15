@@ -219,14 +219,14 @@ public class API {
 				.replace("PUFFERFISH", "PufferFish");
 		
 		String f = null;
-		List<String> fishes = new ArrayList<String>();
+		List<String> fish = new ArrayList<String>();
 		if(Loader.c.getString("Types."+type)!=null)
 		for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
-				fishes.add(d);
+			fish.add(d);
 		}
-		if(fishes.isEmpty()==false) {
-		int i=new Random().nextInt(fishes.size()-1);
-		f=fishes.get(i);
+		if(fish.isEmpty()==false) {
+		int i=new Random().nextInt(fish.size()-1);
+		f=fish.get(i);
 		}
 		return f;
 	}
@@ -237,21 +237,21 @@ public class API {
 				.replace("TROPICAL_FISH", "TropicalFish")
 				.replace("PUFFERFISH", "PufferFish");
 			String f = null;
-			List<String> fishes = new ArrayList<String>();
+			List<String> fish = new ArrayList<String>();
 			if(Loader.c.getString("Types."+type)!=null)
 			for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
 			if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null) {
 				for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes")) {
 				if(s.toLowerCase().contains(biome.name().toLowerCase())) {
-					fishes.add(d);
+					fish.add(d);
 				}}}else
-					fishes.add(d);
+					fish.add(d);
 			
 			}
 			
-			if(fishes.isEmpty()==false) {
-			int i=new Random().nextInt(fishes.size()-1);
-			f=fishes.get(i);
+			if(fish.isEmpty()==false) {
+			int i=new Random().nextInt(fish.size()-1);
+			f=fish.get(i);
 			}
 			return f;
 	}

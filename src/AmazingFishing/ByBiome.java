@@ -69,7 +69,7 @@ public class ByBiome {
 		}
 	}
 	
-	private static String fishes(String a, String type){
+	private static String fish(String a, String type){
 		List<String> fish = new ArrayList<String>();
 		if(Loader.c.getString("Types."+type)!=null)
 		for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
@@ -100,7 +100,7 @@ public class ByBiome {
 		if(t==Material.PUFFERFISH)type="PufferFish";
 		if(t==Material.TROPICAL_FISH)type="TropicalFish";
 		if(t==Material.SALMON)type="Salmon";
-		String fish = fishes(hook.getBlock().getBiome().name(),type);
+		String fish = fish(hook.getBlock().getBiome().name(),type);
 		if(fish==null) {
 			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
