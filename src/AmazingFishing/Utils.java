@@ -54,13 +54,13 @@ public class Utils {
 			}
 			if(Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Length")<record) {
 				double last = Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Length");
-
 				Loader.me.set("Players."+p.getName()+"."+type+"."+fish+".Length", record);
 				String name = Loader.c.getString("Types."+type+"."+fish+".Name");
 				if(name==null)name=fish;
 				if(!Loader.me.getBoolean("Players."+p.getName()+".Toggle"))
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ReachNewRecord").replace("%record%", record+"").replace("%fish%", name).replace("%last%", last+""), p);
 				Loader.saveChatMe();
+				giveReward(p,fish,type);
 			}
 		}}
 	public static void giveReward(Player p, String fish, String type) {

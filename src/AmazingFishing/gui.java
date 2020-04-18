@@ -133,8 +133,8 @@ public class gui {
 		ItemCreatorAPI a= TheAPI.getItemCreatorAPI(Material.getMaterial("LEGACY_SKULL_ITEM") == null ? Material.getMaterial("SKULL_ITEM") : Material.getMaterial("LEGACY_SKULL_ITEM"));
 		a.setSkullType("PLAYER");
 		a.setLore(lore);
-		a.setOwner(owner);
-		a.setDisplayName(name);
+		a.setOwner(owner.equals("-") ? "MHF_Question" : owner);
+		a.setDisplayName(name.equals("-") ? "none" : name);
 		return a.create();
 	}
 	
@@ -164,9 +164,9 @@ public class gui {
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
 		w.put(Options.CANT_BE_TAKEN, true);
-		for(int i = 1; i < 3; ++i) {
+		for(int i = 1; i < 4; ++i) {
 		String s = "-";
-		if(r.getObject(i)!=null)s=r.getObject(1).toString();
+		if(r.getObject(i)!=null)s=r.getObject(i).toString();
 		a.setItem(20+(i-1), createHead(name(s),s,Arrays.asList("&7 - Position: "+i+"."
 				,"&7Length:","&7 - "+Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")+"Cm")),w);
 		}
@@ -174,9 +174,9 @@ public class gui {
 				,"&7Length:","&7 - "+Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Length")+"Cm")),w);
 
 
-		for(int i = 1; i < 3; ++i) {
+		for(int i = 1; i < 4; ++i) {
 		String s = "-";
-		if(rw.getObject(i)!=null)s=rw.getObject(1).toString();
+		if(rw.getObject(i)!=null)s=rw.getObject(i).toString();
 		a.setItem(29+(i-1), createHead(name(s),s,Arrays.asList("&7 - Position: "+i+"."
 				,"&7Weight:","&7 - "+Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")+"Kg")),w);
 		}
