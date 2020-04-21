@@ -1,6 +1,7 @@
 package AmazingFishing;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -72,34 +73,39 @@ public class OnCatchFish implements Listener {
 			}}
 	
 	private static void giveTreasure(Player p) {
-		ArrayList<String> legend = new ArrayList<String>();
-		if(RD.hasAccess(p, Type.Common)||WG.hasAccess(p, AmazingFishing.WG.Type.Common)) {
+		List<String> legend = new ArrayList<String>();
+		boolean c,r,e,l;
+		c=RD.hasAccess(p, Type.Common)||WG.hasAccess(p, AmazingFishing.WG.Type.Common);
+		r=RD.hasAccess(p, Type.Rare)||WG.hasAccess(p, AmazingFishing.WG.Type.Rare);
+		e=RD.hasAccess(p, Type.Epic)||WG.hasAccess(p, AmazingFishing.WG.Type.Epic);
+		l=RD.hasAccess(p, Type.Legendary)||WG.hasAccess(p, AmazingFishing.WG.Type.Legendary);
+		if(c) {
 		legend.add("Common");
 		legend.add("Common");
 		legend.add("Common");
 		legend.add("Common");
 		}
-		if(RD.hasAccess(p, Type.Rare)||WG.hasAccess(p, AmazingFishing.WG.Type.Rare))
+		if(r)
 		legend.add("Rare");
-		if(RD.hasAccess(p, Type.Common)||WG.hasAccess(p, AmazingFishing.WG.Type.Common)) {
+		if(c) {
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			}
-		if(RD.hasAccess(p, Type.Rare)||WG.hasAccess(p, AmazingFishing.WG.Type.Rare))
+		if(r)
 		legend.add("Rare");
-		if(RD.hasAccess(p, Type.Epic)||WG.hasAccess(p, AmazingFishing.WG.Type.Epic))
+		if(e)
 		legend.add("Epic");
-		if(RD.hasAccess(p, Type.Common)||WG.hasAccess(p, AmazingFishing.WG.Type.Common)) {
+		if(c) {
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			}
-		if(RD.hasAccess(p, Type.Legendary)||WG.hasAccess(p, AmazingFishing.WG.Type.Legendary))
+		if(l)
 		legend.add("Legendary");
-		if(RD.hasAccess(p, Type.Common)||WG.hasAccess(p, AmazingFishing.WG.Type.Common)) {
+		if(c) {
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
@@ -109,27 +115,27 @@ public class OnCatchFish implements Listener {
 			legend.add("Common");
 			legend.add("Common");
 			}
-		if(RD.hasAccess(p, Type.Rare)||WG.hasAccess(p, AmazingFishing.WG.Type.Rare))
+		if(r)
 		legend.add("Rare");
-		if(RD.hasAccess(p, Type.Common)||WG.hasAccess(p, AmazingFishing.WG.Type.Common)) {
+		if(c) {
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			}
-		if(RD.hasAccess(p, Type.Legendary)||WG.hasAccess(p, AmazingFishing.WG.Type.Legendary))
+		if(l)
 		legend.add("Legendary");
-		if(RD.hasAccess(p, Type.Epic)||WG.hasAccess(p, AmazingFishing.WG.Type.Epic))
+		if(e)
 		legend.add("Epic");
-		if(RD.hasAccess(p, Type.Common)||WG.hasAccess(p, AmazingFishing.WG.Type.Common)) {
+		if(c) {
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			legend.add("Common");
 			}
-		if(RD.hasAccess(p, Type.Rare)||WG.hasAccess(p, AmazingFishing.WG.Type.Rare))
+		if(r)
 		legend.add("Rare");
-		String select = legend.get(new Random().nextInt(legend.size()));
+		String select = legend.get(new Random().nextInt(legend.size()-1));
 			if(Loader.c.getString("Treasures."+select)!=null) {
 				if(Type.valueOf(select)!=null && WG.Type.valueOf(select)!=null)
 			if(RD.hasAccess(p, Type.valueOf(select))|| WG.hasAccess(p, AmazingFishing.WG.Type.valueOf(select))) {
@@ -139,21 +145,15 @@ public class OnCatchFish implements Listener {
 	
 	
 	private void task2(Player p) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		int sel = 0;
+		List<Integer> list = new ArrayList<Integer>();
 		int chance = Loader.c.getInt("Options.Manual.ChanceForTreasure");
 		if(chance==0)chance=1;
-		for (int counter =1; counter<=chance; counter++) {
-		    Random object = new Random();
-		    sel = 0;
-		if(100 > sel) {
-			list.add(object.nextInt(100));
-		}
-	}
+		for(int i = 0; i < 100; ++i)
+			list.add(i);
 		boolean run = true;
-		for(int g : list) {
+		for (int counter =0; counter<chance; counter++) {
 		if(run)
-		if(g == 44||g==38||g==25) {
+		if(list.get(new Random().nextInt(99)) == new Random().nextInt(99)) {
 			run=false;
 			giveTreasure(p);
 		}}
@@ -166,9 +166,8 @@ public class OnCatchFish implements Listener {
 		if(p.hasPermission("amazingfishing.use") && !isDisable(p.getWorld())) {
 		if(e.getCaught() instanceof Item) {
 		Item i = (Item)e.getCaught();
-		if(i!=null) {
+		if(i==null)return;
 			ItemStack d = i.getItemStack();
-			
 			if(bag.isFish(d)) {
 				if(!d.getItemMeta().hasDisplayName() && !d.getItemMeta().hasLore() && !e.getCaught().isOnGround() && e.getHook().getNearbyEntities(0, 1, 0).isEmpty()) {
 					if(!Loader.c.getBoolean("Options.CustomFishOnlyWhileTournament")||Loader.c.getBoolean("Options.CustomFishOnlyWhileTournament")&&Tournament.running()) {
@@ -185,14 +184,6 @@ public class OnCatchFish implements Listener {
 		}}else {
 			if(!Loader.c.getBoolean("Options.TreasuresOnlyWhileTournament")||Loader.c.getBoolean("Options.TreasuresOnlyWhileTournament")&&Tournament.running())
 			if(!AFK.isAFK(p))
-    		if(Loader.c.getBoolean("Options.Treasures")) {
-    			Bukkit.getScheduler().runTaskLater(Loader.plugin, new Runnable() {
-
-    				@Override
-    				public void run() {
+    		if(Loader.c.getBoolean("Options.Treasures"))
     					task2(p);
-    					
-    				}
-    				
-    			},0);
-			}}}}}}}
+			}}}}}

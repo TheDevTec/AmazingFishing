@@ -1,6 +1,7 @@
 package AmazingFishing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import org.bukkit.entity.Player;
@@ -82,26 +83,15 @@ public class Generators {
 				if(lvl==0)lvl=1;
 				double a = Loader.c.getDouble("Enchants."+Enchants.getEnchant(s)+".AmountBonus");
 				int del = 8;
-				ArrayList<Integer> delete = new ArrayList<Integer>();
-				delete.add(8);
-				delete.add(6);
-				delete.add(4);
-				delete.add(2);
-				Random random = new Random();
-				del=delete.get(random.nextInt(delete.size()-1));
+				del=Arrays.asList(8,6,4,2).get(new Random().nextInt(4));
 				
 				
 				double c = a+((a/del)*lvl);
-				if(c>2) {
-	  			    Random object = new Random();
-	  			  int r = 0;
-	  			if(c > r) {
-	  				r = object.nextInt((int)c);
-	  			}
-	  			d=d+(int) r;
-				}else {
+				if(c>=2)
+	  			d=d+(int) new Random().nextInt((int)c);
+				else
 				if((int)c == 1)++d;
-			}}
+			}
 		}
 		}
 		if(d==0)d=1;
