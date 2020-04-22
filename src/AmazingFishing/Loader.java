@@ -339,6 +339,7 @@ public class Loader extends JavaPlugin {
 	static ConfigAPI cc= TheAPI.getConfig("AmazingFishing", "AmazingFishing");
 	static void addDefault() {
 		cc.addDefault("Options.BossBar.Use", true);
+		cc.addDefault("Options.BossBar.OnlyIfCatchFish", true);
 		cc.addDefault("Options.BossBar.Running", "&cRunning tournament type &e%type% &con &e%time_formated%");
 		cc.addDefault("Options.BossBar.Win", "&2Tournament was end. You are on %position%. position");
 		cc.addDefault("Options.Treasures", true);

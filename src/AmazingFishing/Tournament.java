@@ -170,7 +170,7 @@ public class Tournament {
     			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
                 if(Loader.c.getBoolean("Options.BossBar.Use"))
                 for(Player p : Bukkit.getOnlinePlayers())
-                	if(inParticle(p))
+                	if(inParticle(p) && Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish")||!Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish"))
                 		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_formated%", TheAPI.getStringUtils().setTimeToString(count)),1,20);
                 
      			RankingAPI w = new RankingAPI(stats);
