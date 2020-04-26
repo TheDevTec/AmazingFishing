@@ -36,18 +36,6 @@ public class Normal {
 			return null;
 		}
 	}
-	public static void giveRod(Player p) {
-		String path = "Players."+p.getName()+".SavedRod";
-		if(Loader.me.getString(path)!=null) {
-		ItemStack i = Loader.me.getItemStack(path);
-		if (p.getInventory().firstEmpty() == -1) {
-	    p.getWorld().dropItemNaturally(p.getLocation(),i);
-	    } else {
-		p.getInventory().addItem(i);
-	    }
-		Loader.me.set(path,null);
-		Loader.saveChatMe();
-		}}
 	public static void takeRod(Player p, ItemStack i) {
 		Loader.me.set("Players."+p.getName()+".SavedRod",i);
 		Loader.saveChatMe();

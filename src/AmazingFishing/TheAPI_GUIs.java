@@ -767,7 +767,9 @@ public class TheAPI_GUIs {
 		w.put(Options.RUNNABLE_ON_INV_CLOSE, new Runnable() {
 			@Override
 			public void run() {
-				Normal.giveRod(p);
+				TheAPI.giveItem(p, Normal.getRod(p));
+				Loader.me.set("Players."+p.getName()+".SavedRod",null);
+				Loader.saveChatMe();
 			}});
 		a.setItem(4,Create.createItem("&9"+Points.getBal(p.getName())+" Points", Material.LAPIS_LAZULI),w);
 		a.setItem(1,Normal.getRod(p),w);
@@ -782,56 +784,64 @@ public class TheAPI_GUIs {
 		a.setItem(49,Create.createItem(Trans.cancel(), Material.BARRIER),w);
 			if(Loader.c.getString("Enchants")!=null)
 		for(String s:Loader.c.getConfigurationSection("Enchants").getKeys(false)) {
+			CEnch c = Loader.getEnchantment(s);
 			String name = s;
 			if(Loader.c.getString("Enchants."+s+".Name")!=null)name=Loader.c.getString("Enchants."+s+".Name");
-			 double cost= Loader.c.getDouble("Enchants."+s+".Cost");
+			 double cs= Loader.c.getDouble("Enchants."+s+".Cost");
 			 boolean has = false;
-			 ItemMeta d = Normal.getRod(p).getItemMeta();
-				if(d.hasLore())
-					for(String g:d.getLore()) {
-						if(has)break;
-						String old = g;
-						if(Enchants.getEnchantLevel(old)!=0) {
-							g=old.replaceFirst(" "+Enchants.convertLevel(Enchants.getEnchantLevel(old)), "");
-							}
-						if(Enchants.getEnchant(g)!=null)
-						if(Enchants.getEnchant(g).equalsIgnoreCase(s)) {
-							if(Enchants.getEnchantLevel(old)!=0)
-							cost=cost+Enchants.getEnchantLevel(old)+Enchants.getEnchantLevel(old)/cost;
-							has=true;
-						}
+			 int level = 0;
+			 ItemStack f = Normal.getRod(p);
+					if(c != null && f.getEnchantments().containsKey(c)) {
+						has=true;
+						level=f.getEnchantments().get(c);
+							cs=cs+level+level/cs;
 					}
-				double costs = cost;
-				boolean hass = has;
+				int l = level;
+				boolean h = has;
+				double cost = cs;
 			List<String> lore = new ArrayList<String>();
 			w.remove(Options.RUNNABLE);
 			w.put(Options.RUNNABLE, new Runnable() {
 				@Override
 				public void run() {
-					if(Points.has(p.getName(), costs)) {
+					if(Points.has(p.getName(), cost)) {
 					if(sel.equalsIgnoreCase("up")) {
-					if(!hass) {
+					if(!h) {
 						p.getOpenInventory().close();
-						Loader.msgCmd(Loader.s("Prefix")+"&6Enchant is already on your rod!", p);
-						return;
-					}else {
-						Points.take(p.getName(), costs);
-						Enchants.addEnchant(s, p);
-						openEnchantTable(p);
+						Loader.msgCmd(Loader.s("Prefix")+"&cEnchant isn't on your rod!", p);
 						return;
 					}
+						Points.take(p.getName(), cost);
+						f.addUnsafeEnchantment(c, l+1);
+						ItemMeta m = f.getItemMeta();
+						List<String> as = m.getLore() != null ? m.getLore() : new ArrayList<String>();
+						as.remove(TheAPI.colorize(c.getName()+" "+Utils.trasfer(l)));
+						as.add(TheAPI.colorize(c.getName()+" "+Utils.trasfer(l+1)));
+						m.setLore(as);
+						f.setItemMeta(m);
+						TheAPI.giveItem(p, f);
+						Loader.me.set("Players."+p.getName()+".SavedRod",null);
+						Loader.saveChatMe();
+						openEnchantTable(p);
 					}else {
-						if(hass) {
+						if(h) {
 							p.getOpenInventory().close();
-							Loader.msgCmd(Loader.s("Prefix")+"&cEnchant isn't on your rod!", p);
+							Loader.msgCmd(Loader.s("Prefix")+"&6Enchant is already on your rod!", p);
 							return;
-						}else {
-						Points.take(p.getName(), costs);
-						Enchants.addEnchant(s, p);
-						openEnchantTable(p);
-						return;
 						}
+						Points.take(p.getName(), cost);
+						f.addUnsafeEnchantment(c, l+1);
+						ItemMeta m = f.getItemMeta();
+						List<String> as = m.getLore() != null ? m.getLore() : new ArrayList<String>();
+						as.add(TheAPI.colorize(c.getName()+" "+Utils.trasfer(l+1)));
+						m.setLore(as);
+						f.setItemMeta(m);
+						TheAPI.giveItem(p, f);
+						Loader.me.set("Players."+p.getName()+".SavedRod",null);
+						Loader.saveChatMe();
+						openEnchantTable(p);
 					}
+					return;
 				}
 				Loader.msgCmd(Loader.s("Prefix")+"&cYou have lack of points!", p);
 				return;

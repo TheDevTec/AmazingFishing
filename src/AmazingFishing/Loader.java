@@ -1,8 +1,12 @@
 package AmazingFishing;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +21,13 @@ public class Loader extends JavaPlugin {
     public static FileConfiguration me;
 	public static Loader plugin;
 	static FishOfDay f = new FishOfDay();
+	private static HashMap<String, CEnch> map = new HashMap<String, CEnch>();
+	
+	public static List<CEnch> getEnchants(){
+		List<CEnch> a = new ArrayList<CEnch>();
+		for(String s : map.keySet())a.add(map.get(s));
+		return a;
+	}
 	
 	@Override
 	public void onEnable() {
@@ -29,11 +40,18 @@ public class Loader extends JavaPlugin {
 		}
 		plugin=this;
 		LoadAll();
+		for(String s : c.getConfigurationSection("Enchants").getKeys(false)) {
+			CEnch d = new CEnch(new NamespacedKey(this, s));
+			d.setName(c.getString("Enchants."+s+".Name"), s);
+			TheAPI.getEnchantmentAPI().registerEnchantment(d);
+			map.put(s, d);
+		}
+		
 		f.startRunnable();
 		if(getDescription().getVersion().contains("TESTING"))isTest();
-		getServer().getPluginManager().registerEvents(new OnCatchFish(), this);
 		getServer().getPluginManager().registerEvents(new onChat(), this);
 		getServer().getPluginManager().registerEvents(new AFK(), this);
+		getServer().getPluginManager().registerEvents(new onFish(), this);
 		getServer().getPluginCommand("fish").setExecutor(new Fishing());
 		getServer().getPluginCommand("amazingfishing").setExecutor(new Fishing());
 		
@@ -65,12 +83,12 @@ public class Loader extends JavaPlugin {
 		shopfile.reload();
 	}
 	
-	public static void LoadAll() {
+	public void LoadAll() {
 		load();
 		setupTranslations();
 		setupChatMe();
 		loadShop();
-	}
+		}
 	public static String getAFK(int i) {
 		if(TranslationsFile.getString("AFK-Title."+i)!=null)
 			return Color.c(TranslationsFile.getString("AFK-Title."+i));
@@ -795,6 +813,9 @@ public class Loader extends JavaPlugin {
 	}
 	public static String PlayerNotEx(String p) {
 		return s("PlayerNotExist").replace("%player%", p).replace("%playername%", p);
+	}
+	public static CEnch getEnchantment(String string) {
+		return map.get(string);
 	}
 	
 }

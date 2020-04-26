@@ -93,7 +93,32 @@ public class ByBiome {
 		return Color.c(Loader.s("Words.Biomes.ALL.Name"));
 	}
 	
-	public static void generateFish(Player p, Material t, Location hook) {
+	public static void addEarn(CEnch c,Player p, String type, String fish, double length) {
+		double money = Loader.c.getDouble("Types."+type+"."+fish+".Money");
+		double points = Loader.c.getDouble("Types."+type+"."+fish+".Points");
+		double exp = Loader.c.getInt("Types."+type+"."+fish+".Exp");
+		if(Loader.c.getBoolean("Options.EarnFromLength")) {
+			money=money%length;
+			points = points%length;
+			exp = exp%length;
+		}
+		double moneybonus = c.getBonus("Money",p);
+		double pointbonus = c.getBonus("Points",p);
+		double expbonus = c.getBonus("Exp",p);
+		
+		if(moneybonus!=0.0)
+		money = money+(money%moneybonus);
+		if(pointbonus!=0.0)
+		points = points+(points%pointbonus);
+		if(expbonus!=0)
+		exp = exp+(exp%expbonus);
+		if(!Loader.cc.getConfig().getBoolean("Options.DisableMoneyFromCaught"))
+		TheAPI.getEconomyAPI().depositPlayer(p.getName(), money);
+		TheAPI.getPlayerAPI(p).giveExp((int)exp);
+		Points.give(p.getName(), points);
+	}
+	
+	public static void generateFish(List<CEnch> enchs, Player p, Material t, Location hook) {
 		String type = null;
 		if(t==null)t=Material.COD;
 		if(t==Material.COD)type="Cod";
@@ -178,7 +203,8 @@ public class ByBiome {
 				bag.addFish(p,i.create());
 				Utils.addRecord(p, fish, type, length,weight);
 				Tournament.add(p, length,weight);
-				OnCatchFish.addEarn(p,type,fish,length);
+				for(CEnch ec: enchs)
+				addEarn(ec,p,type,fish,length);
 			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", length+"").replace("%length%", length+"").replace("%weight%", weight+"").replace("%fish%", name), p);
 			Logger.info(p.getDisplayName(), type, fish, length, weight);
 			Quests.addProgress(p,type,fish,Actions.CATCH_FISH);

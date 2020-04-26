@@ -52,18 +52,16 @@ public class API {
 		TheAPI.giveItem(p, Loader.c.getItemStack("Treasures."+type+"."+treasure+".Contents."+i));
 	}
 	private static String createTreasure(treasureType type, boolean b) {
-		ArrayList<String> a = new ArrayList<String>();
+		List<String> a = new ArrayList<String>();
 		for(String s:Loader.c.getConfigurationSection("Treasures."+type).getKeys(false)) {
 			if(b) {
-				for(int i = 0; i<Loader.c.getInt("Treasures."+type+"."+s+".Chance")+1; ++i) {
+				for(int i = 0; i<Loader.c.getInt("Treasures."+type+"."+s+".Chance")+1; ++i)
 					a.add(s);
-				}
+				a=Utils.createShuffleList(a);
 			}else
 				a.add(s);
 		}
-		if(a.get(0)!=null)
-		return a.get(new Random().nextInt(a.size()-1));
-		return null;
+		return TheAPI.getRandomFromList(a).toString();
 	}
 
 	/**
