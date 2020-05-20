@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import me.Straiker123.RankingAPI;
 import me.Straiker123.TheAPI;
 import me.Straiker123.TheAPI.SudoType;
-import me.Straiker123.TheRunnable;
+import me.Straiker123.Scheduler.Tasker;
 
 public class Tournament {
 
@@ -55,8 +55,8 @@ public class Tournament {
 			TheAPI.broadcastMessage(Loader.s("Stopped")
 					.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%",
 							TheAPI.getStringUtils().setTimeToString(Tournament.count)));
-			if(r!=null)
-			r.cancel();
+			if(r!=-1)
+				Tasker.cancelTask(r);
     	count=0;
     	save=0;
         stats.clear();
@@ -65,7 +65,7 @@ public class Tournament {
 		TheAPI.broadcastMessage(Loader.s("Stopped")
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name"))
 				.replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
-    	r.cancel();
+		Tasker.cancelTask(r);
 		for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
     	TheAPI.broadcastMessage(Loader.s("Winners")
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
@@ -140,12 +140,12 @@ public class Tournament {
     	now=null;
         count=0;
         save=0;
+        r=-1;
         return;
         }
 	}
-	public static TheRunnable r;
+	public static int r=-1;
 	public static void startType(Type type, int length) {
-		r=new TheRunnable();
 		if(type==Type.Random)type=Type.valueOf(TheAPI.getRandomFromList(legend).toString());
 		now=type;
 		count=length;
@@ -159,10 +159,10 @@ public class Tournament {
          int a=as,b=bs,c=bs,d=ds;
 		TheAPI.broadcastMessage(Loader.s("Started")
 				.replace("%type%", Loader.c.getString("Tournaments."+type.toString()+".Name")).replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
-		r.runRepeating(new Runnable(){
+	r=new Tasker() {
            public void run(){
 				if(now==null) {
-					r.cancel();
+					cancel();
 					return;
 				}
                 if(count > 0)
@@ -188,7 +188,7 @@ public class Tournament {
             				.replace("%value%",(now==Type.MostCatch ? ""+(int)w.getValue(player) : String.format("%2.02f",w.getValue(player)).replace(",", "."))));
         		}}
                 if(count == 0) {
-					r.cancel();
+					cancel();
                 	TheAPI.broadcastMessage(Loader.s("Winners")
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
 
@@ -216,9 +216,10 @@ public class Tournament {
             	now=null;
                 count=0;
                 save=0;
+                r=-1;
                 }
            }
-       }, 20,20);
+       }.repeatingAsync(20,20);
 	}
 	static String p(String s) {
 		try {

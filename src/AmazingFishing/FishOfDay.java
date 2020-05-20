@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import me.Straiker123.TheAPI;
+import me.Straiker123.Scheduler.Tasker;
 
 public class FishOfDay {
 	int run;
 	public void startRunnable() {
-		run=Bukkit.getScheduler().scheduleSyncRepeatingTask(Loader.plugin, new Runnable() {
-
-			@Override
+		run=new Tasker() {
 			public void run() {
 				List<Object> r = new ArrayList<Object>();
 				for(String s : Loader.c.getConfigurationSection("Types").getKeys(false))r.add(s);
@@ -29,11 +27,11 @@ public class FishOfDay {
 				 Loader.saveChatMe();
 			}
 			
-		}, 20, 20*60*60*24);
+		}.repeatingAsync(0,20*60*60*24);
 	}
 	
 	public void stopRunnable() {
-		Bukkit.getScheduler().cancelTask(run);
+		Tasker.cancelTask(run);
 	}
 	
 	public String getType() {

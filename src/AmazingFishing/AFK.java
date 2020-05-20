@@ -1,12 +1,13 @@
 package AmazingFishing;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+
+import me.Straiker123.Scheduler.Tasker;
 
 public class AFK implements Listener {
 	@SuppressWarnings("deprecation")
@@ -33,15 +34,13 @@ public class AFK implements Listener {
 	private boolean w() {
 		if(!waiting) {
 			waiting=true;
-			Bukkit.getScheduler().runTaskLater(Loader.plugin, new Runnable() {
-
-				@Override
+			new Tasker() {
 				public void run() {
 					waiting=false;
 					
 				}
 				
-			}, 20);
+			}.laterAsync(20);
 			return false;
 		}
 		return true;

@@ -2,7 +2,6 @@ package AmazingFishing;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +12,7 @@ import AmazingFishing.TheAPI_GUIs.select;
 import AmazingFishing.gui.FishType;
 import me.Straiker123.StringUtils;
 import me.Straiker123.TheAPI;
+import me.Straiker123.Scheduler.Tasker;
 
 @SuppressWarnings("deprecation")
 public class onChat implements Listener {
@@ -50,15 +50,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Money", s.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -73,15 +71,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String da = path;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".MaxCm", s.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -96,15 +92,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String da = path;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Chance", s.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -118,15 +112,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String da = path;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Xp", s.getInt(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -140,15 +132,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String da = path;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Points", s.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -331,14 +321,12 @@ public class onChat implements Listener {
 					if(!Loader.c.getBoolean("Edit-Enchants."+p.getName()+".Warned")) {
 					Loader.c.set("Edit-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+fish+".PointsBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 						
@@ -360,14 +348,12 @@ public class onChat implements Listener {
 					if(!Loader.c.getBoolean("Edit-Enchants."+p.getName()+".Warned")) {
 					Loader.c.set("Edit-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+fish+".MoneyBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 						
@@ -389,14 +375,12 @@ public class onChat implements Listener {
 					if(!Loader.c.getBoolean("Edit-Enchants."+p.getName()+".Warned")) {
 					Loader.c.set("Edit-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+fish+".Cost", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 						
@@ -418,14 +402,12 @@ public class onChat implements Listener {
 					if(!Loader.c.getBoolean("Edit-Enchants."+p.getName()+".Warned")) {
 					Loader.c.set("Edit-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 							List<String> list = Loader.c.getStringList("Enchants."+fish+".Description");
 							list.add(message);
 				Loader.c.set("Enchants."+fish+".Description", list);
@@ -446,14 +428,12 @@ public class onChat implements Listener {
 					if(!Loader.c.getBoolean("Edit-Enchants."+p.getName()+".Warned")) {
 					Loader.c.set("Edit-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+fish+".ExpBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 				ench.openEditor(p, ench.select.EDIT, fish);
@@ -466,14 +446,12 @@ public class onChat implements Listener {
 					if(!Loader.c.getBoolean("Edit-Enchants."+p.getName()+".Warned")) {
 					Loader.c.set("Edit-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+fish+".AmountBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 				ench.openEditor(p, ench.select.EDIT, fish);
@@ -493,14 +471,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
 					String ed = n;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+n+".PointsBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 
@@ -523,14 +499,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
 					String ed = n;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+n+".MoneyBonus",TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 
@@ -553,14 +527,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
 					String ed = n;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+n+".Cost", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 
@@ -583,14 +555,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
 					String ed = n;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 							List<String> list = Loader.c.getStringList("Enchants."+n+".Description");
 							list.add(e.getMessage());
 				Loader.c.set("Enchants."+n+".Description", list);
@@ -618,13 +588,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
 					String ed = n;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+n+".ExpBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
@@ -646,14 +615,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-Enchants."+p.getName()+".Warned", true);
 					Loader.save();
 					String ed = n;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Enchants."+n+".AmountBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
@@ -697,15 +664,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Points", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -720,15 +685,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Money", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -750,15 +713,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Chance",TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 				TheAPI_GUIs guis= new TheAPI_GUIs();
@@ -773,15 +734,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Messages");
 							list.add(e.getMessage());
 				Loader.c.set("Treasures."+path+"."+fish+".Messages", list);
@@ -798,15 +757,13 @@ public class onChat implements Listener {
 					Loader.c.set("Edit-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Commands");
 							list.add(e.getMessage());
 				Loader.c.set("Treasures."+path+"."+fish+".Commands", list);
@@ -857,15 +814,13 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							TheAPI_GUIs gui = new TheAPI_GUIs();
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Points", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 						
@@ -889,14 +844,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Money", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 
@@ -930,14 +883,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Chance", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
 				Loader.save();
 
@@ -961,14 +912,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Messages");
 							list.add(message);
 				Loader.c.set("Treasures."+path+"."+fish+".Messages", list);
@@ -994,14 +943,12 @@ public class onChat implements Listener {
 					Loader.c.set("Creating-"+path+"."+p.getName()+".Warned", true);
 					Loader.save();
 					String d = path ;
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-
-						@Override
+					new Tasker() {
 						public void run() {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}},40);}}else {
+						}}.later(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Commands");
 							list.add(message);
 				Loader.c.set("Treasures."+path+"."+fish+".Commands", list);

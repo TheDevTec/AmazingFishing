@@ -3,8 +3,6 @@ package AmazingFishing;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.bekvon.bukkit.residence.api.ResidenceApi;
-
 public class RD {
 	private static boolean existRD() {
 		return Bukkit.getPluginManager().getPlugin("Residence")!=null;
@@ -12,7 +10,7 @@ public class RD {
 	
     public static boolean isInResidence(Player p, String reg){
     	if(existRD()) {
-        if(ResidenceApi.getResidenceManager().getByLoc(p.getLocation())!=null)return true;
+        if(com.bekvon.bukkit.residence.api.ResidenceApi.getResidenceManager().getByLoc(p.getLocation())!=null)return true;
         return false;
     	}
     	return false;
@@ -20,8 +18,8 @@ public class RD {
     public static String getResidence(Player p) {
     	String region = null;
     	if(existRD()) {
-            if(ResidenceApi.getResidenceManager().getByLoc(p.getLocation()) != null)
-            	region=ResidenceApi.getResidenceManager().getByLoc(p.getLocation()).getName();
+            if(com.bekvon.bukkit.residence.api.ResidenceApi.getResidenceManager().getByLoc(p.getLocation()) != null)
+            	region=com.bekvon.bukkit.residence.api.ResidenceApi.getResidenceManager().getByLoc(p.getLocation()).getName();
          
     	}
     	return region;

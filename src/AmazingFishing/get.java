@@ -2,12 +2,12 @@ package AmazingFishing;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import AmazingFishing.gui.FishType;
 import AmazingFishing.onChat.create;
 import me.Straiker123.TheAPI;
+import me.Straiker123.Scheduler.Tasker;
 
 public class get {
 	public static String fish(Player p, String path) {
@@ -89,14 +89,13 @@ public class get {
 		Loader.c.set("Creating-"+path+"."+p.getName()+".Warned", true);
 		Loader.save();
 		String s = path;
-		Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
-			@Override
+		new Tasker() {
 			public void run() {
 			Loader.c.set("Creating-"+s+"."+p.getName()+".Warned", null);
 			Loader.save();
 			TheAPI_GUIs g = new TheAPI_GUIs();
 			g.openFishCreatorType(p, fish(p,s), type);
-			}},40);}
+			}}.later(40);}
 	}
 
 	public static String getName(String path) {
