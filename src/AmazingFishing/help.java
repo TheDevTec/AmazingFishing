@@ -603,7 +603,7 @@ public class help {
 			@Override
 			public void run() {
 				Tournament.startType(Tournament.Type.valueOf(Loader.c.getString("Creating-Tournament."+p.getName()+".Type"))
-						, Loader.c.getInt("Creating-Tournament."+p.getName()+".Time"));
+						, Loader.c.getInt("Creating-Tournament."+p.getName()+".Time"),false);
 				Loader.c.set("Creating-Tournament."+p.getName()+".Time",Loader.c.getInt("Creating-Tournament."+p.getName()+".Time")+30);
 				Loader.save();
 				tour(p);

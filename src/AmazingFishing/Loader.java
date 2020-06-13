@@ -11,9 +11,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import AmazingFishing.Tournament.Type;
 import me.DevTec.ConfigAPI;
 import me.DevTec.EnchantmentAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.Scheduler.Tasker;
 
 public class Loader extends JavaPlugin {
     public static FileConfiguration c;
@@ -36,7 +38,7 @@ public class Loader extends JavaPlugin {
 			Bukkit.getLogger().severe("************************************************");
 			Bukkit.getLogger().severe("Supported server versions are only 1.13 and newer!");
 			Bukkit.getLogger().severe("************************************************");
-			Bukkit.getPluginManager().disablePlugin(this);
+			TheAPI.getPluginsManagerAPI().unloadPlugin(this);
 			return;
 		}
 		plugin=this;
@@ -50,11 +52,17 @@ public class Loader extends JavaPlugin {
 		
 		f.startRunnable();
 		if(getDescription().getVersion().contains("TESTING"))isTest();
-		getServer().getPluginManager().registerEvents(new onChat(), this);
-		getServer().getPluginManager().registerEvents(new AFK(), this);
-		getServer().getPluginManager().registerEvents(new onFish(), this);
-		getServer().getPluginCommand("fish").setExecutor(new Fishing());
-		getServer().getPluginCommand("amazingfishing").setExecutor(new Fishing());
+		Bukkit.getPluginManager().registerEvents(new onChat(), this);
+		Bukkit.getPluginManager().registerEvents(new AFK(), this);
+		Bukkit.getPluginManager().registerEvents(new onFish(), this);
+		Bukkit.getPluginCommand("fish").setExecutor(new Fishing());
+		Bukkit.getPluginCommand("amazingfishing").setExecutor(new Fishing());
+		if(cc.getBoolean("Options.Tournament.AutoStart"))
+		new Tasker() {
+			public void run() {
+				Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(cc.getString("Options.Tournament.Time")), true);
+			}
+		}.repeatingAsync(0, TheAPI.getStringUtils().getTimeFromString(cc.getString("Options.Tournament.Delay")));
 		
 	}
 	private void isTest() {
@@ -372,6 +380,10 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Options.UseGUI", true);
 		cc.addDefault("Options.ShopSellFish", true);
 		cc.addDefault("Options.LogCaughtFishToConsole", false);
+		cc.addDefault("Options.Tournament.AutoStart", true);
+		cc.addDefault("Options.Tournament.RequiredPlayers", 10);
+		cc.addDefault("Options.Tournament.Delay", "2h");
+		cc.addDefault("Options.Tournament.Time", "5min");
 		cc.addDefault("Options.FishRemove", false);
 		cc.addDefault("Options.Particles", true);
 		cc.addDefault("Options.Sounds.Shop-BuyItem", true);

@@ -111,7 +111,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Length, 0);
+							Tournament.startType(Type.Length, 0,false);
 							return true;
 						}else
 							if(args[2].equalsIgnoreCase("MostCatch")) {
@@ -119,7 +119,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 									Loader.msgCmd("&cAlreary running tournament.", s);
 									return true;
 								}
-								Tournament.startType(Type.MostCatch, 0);
+								Tournament.startType(Type.MostCatch, 0,false);
 								return true;
 							}else
 								if(args[2].equalsIgnoreCase("Weight")) {
@@ -127,7 +127,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 										Loader.msgCmd("&cAlreary running tournament.", s);
 										return true;
 									}
-									Tournament.startType(Type.Weight, 0);
+									Tournament.startType(Type.Weight, 0,false);
 									return true;
 								}else
 						if(args[2].equalsIgnoreCase("Random")) {
@@ -135,7 +135,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Random, 0);
+							Tournament.startType(Type.Random, 0,false);
 							return true;
 						}else {
 							Loader.msgCmd("&e/Fish Tournament Start <type> <length>", s);
@@ -153,7 +153,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Length, (int)TheAPI.getStringUtils().getTimeFromString(args[3]));
+							Tournament.startType(Type.Length, (int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
 							return true;
 						}else
 							if(args[2].equalsIgnoreCase("MostCatch")) {
@@ -161,7 +161,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 									Loader.msgCmd("&cAlreary running tournament.", s);
 									return true;
 								}
-								Tournament.startType(Type.MostCatch, (int)TheAPI.getStringUtils().getTimeFromString(args[3]));
+								Tournament.startType(Type.MostCatch, (int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
 								return true;
 							}else
 								if(args[2].equalsIgnoreCase("Weight")) {
@@ -169,7 +169,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 										Loader.msgCmd("&cAlreary running tournament.", s);
 										return true;
 									}
-									Tournament.startType(Type.Weight,(int)TheAPI.getStringUtils().getTimeFromString(args[3]));
+									Tournament.startType(Type.Weight,(int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
 									return true;
 								}else
 						if(args[2].equalsIgnoreCase("Random")) {
@@ -177,7 +177,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(args[3]));
+							Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
 							return true;
 						}else {
 							Loader.msgCmd("&e/Fish Tournament Start <type> <length>", s);

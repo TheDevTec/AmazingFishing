@@ -145,7 +145,9 @@ public class Tournament {
         }
 	}
 	public static int r=-1;
-	public static void startType(Type type, int length) {
+	public static void startType(Type type, int length, boolean e) {
+		if(e) //autostart
+		if(Loader.cc.getInt("Options.Tournament.RequiredPlayers") > TheAPI.getOnlinePlayers().size())return;
 		if(type==Type.Random)type=Type.valueOf(TheAPI.getRandomFromList(legend).toString());
 		now=type;
 		count=length;
