@@ -11,8 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.Straiker123.ConfigAPI;
-import me.Straiker123.TheAPI;
+import me.DevTec.ConfigAPI;
+import me.DevTec.EnchantmentAPI;
+import me.DevTec.TheAPI;
 
 public class Loader extends JavaPlugin {
     public static FileConfiguration c;
@@ -43,7 +44,7 @@ public class Loader extends JavaPlugin {
 		for(String s : c.getConfigurationSection("Enchants").getKeys(false)) {
 			CEnch d = new CEnch(new NamespacedKey(this, s));
 			d.setName(c.getString("Enchants."+s+".Name"), s);
-			TheAPI.getEnchantmentAPI().registerEnchantment(d);
+			EnchantmentAPI.registerEnchantment(d);
 			map.put(s, d);
 		}
 		

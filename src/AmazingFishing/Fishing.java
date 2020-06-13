@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import AmazingFishing.Tournament.Type;
-import me.Straiker123.TheAPI;
+import me.DevTec.TheAPI;
 
 public class Fishing implements CommandExecutor, TabCompleter {
 

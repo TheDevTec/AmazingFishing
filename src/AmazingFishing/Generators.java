@@ -3,7 +3,7 @@ package AmazingFishing;
 import java.util.Arrays;
 import java.util.Random;
 
-import me.Straiker123.TheAPI;
+import me.DevTec.TheAPI;
 
 public class Generators {
 	public static double length(String path, String fish) {

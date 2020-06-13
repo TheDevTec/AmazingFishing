@@ -10,10 +10,10 @@ import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 
 import AmazingFishing.Shop.ShopType;
-import me.Straiker123.GUICreatorAPI;
-import me.Straiker123.GUICreatorAPI.Options;
-import me.Straiker123.ItemCreatorAPI;
-import me.Straiker123.TheAPI;
+import me.DevTec.ItemCreatorAPI;
+import me.DevTec.TheAPI;
+import me.DevTec.GUI.GUICreatorAPI;
+import me.DevTec.GUI.GUICreatorAPI.Options;
 
 @SuppressWarnings("deprecation")
 public class help {

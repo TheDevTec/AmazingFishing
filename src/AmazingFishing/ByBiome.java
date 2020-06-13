@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
 import AmazingFishing.Quests.Actions;
-import me.Straiker123.ItemCreatorAPI;
-import me.Straiker123.TheAPI;
+import me.DevTec.ItemCreatorAPI;
+import me.DevTec.TheAPI;
 
 public class ByBiome {
 	public static enum biomes{

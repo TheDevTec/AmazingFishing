@@ -10,9 +10,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Shop.ShopType;
-import me.Straiker123.GUICreatorAPI;
-import me.Straiker123.GUICreatorAPI.Options;
-import me.Straiker123.TheAPI;
+import me.DevTec.TheAPI;
+import me.DevTec.GUI.GUICreatorAPI;
+import me.DevTec.GUI.GUICreatorAPI.Options;
 
 public class bag {
 	public static void openBag(Player p) {

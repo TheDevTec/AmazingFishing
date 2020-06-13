@@ -8,10 +8,10 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import me.Straiker123.GUICreatorAPI;
-import me.Straiker123.TheAPI;
-import me.Straiker123.GUICreatorAPI.Options;
-import me.Straiker123.TheAPI.SudoType;
+import me.DevTec.TheAPI;
+import me.DevTec.TheAPI.SudoType;
+import me.DevTec.GUI.GUICreatorAPI;
+import me.DevTec.GUI.GUICreatorAPI.Options;
 
 public class Quests {
 	public static void openQuestMenu(Player p) {

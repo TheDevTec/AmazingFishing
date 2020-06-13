@@ -9,7 +9,7 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.Straiker123.TheAPI;
+import me.DevTec.TheAPI;
 
 public class CEnch extends Enchantment {
 	private String n,r;

@@ -6,10 +6,10 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import me.Straiker123.GUICreatorAPI;
-import me.Straiker123.GUICreatorAPI.Options;
-import me.Straiker123.ItemCreatorAPI;
-import me.Straiker123.TheAPI;
+import me.DevTec.ItemCreatorAPI;
+import me.DevTec.TheAPI;
+import me.DevTec.GUI.GUICreatorAPI;
+import me.DevTec.GUI.GUICreatorAPI.Options;
 
 public class Create {
     public static ItemStack createItem(String name, Material material) {

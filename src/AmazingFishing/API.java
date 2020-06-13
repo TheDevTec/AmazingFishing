@@ -11,9 +11,9 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
-import me.Straiker123.ItemCreatorAPI;
-import me.Straiker123.TheAPI;
-import me.Straiker123.TheAPI.SudoType;
+import me.DevTec.ItemCreatorAPI;
+import me.DevTec.TheAPI;
+import me.DevTec.TheAPI.SudoType;
 
 public class API {
 	public static enum treasureType{

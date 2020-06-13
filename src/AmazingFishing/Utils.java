@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import AmazingFishing.API.treasureType;
 import AmazingFishing.RD.Type;
-import me.Straiker123.TheAPI;
+import me.DevTec.TheAPI;
 
 public class Utils {
 	

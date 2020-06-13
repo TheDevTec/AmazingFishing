@@ -7,7 +7,6 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -15,12 +14,12 @@ import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import AmazingFishing.help.Type;
-import me.Straiker123.GUICreatorAPI;
-import me.Straiker123.GUICreatorAPI.Options;
-import me.Straiker123.ItemCreatorAPI;
-import me.Straiker123.ItemGUI;
-import me.Straiker123.TheAPI;
-import me.Straiker123.TheAPI.SudoType;
+import me.DevTec.ItemCreatorAPI;
+import me.DevTec.TheAPI;
+import me.DevTec.TheAPI.SudoType;
+import me.DevTec.GUI.GUICreatorAPI;
+import me.DevTec.GUI.GUICreatorAPI.Options;
+import me.DevTec.GUI.ItemGUI;
 
 public class Shop {
 	public Shop(CommandSender s) {
@@ -180,14 +179,13 @@ public class Shop {
 							a.addItemFlag(ItemFlag.HIDE_ENCHANTS);
 						if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideAttributes"))
 							a.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
-						HashMap<Enchantment, Integer> enchs = new HashMap<Enchantment, Integer>();
 						if(Loader.shop.getString("Items."+kit+".Item."+f+".Enchants")!=null)
 						for(String s:Loader.shop.getStringList("Items."+kit+".Item."+f+".Enchants")) {
 			            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
 			            	int num = TheAPI.getStringUtils().getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
 			            	if(num==0)num=1;
 			            	try {
-						enchs.put(TheAPI.getEnchantmentAPI().getByName(ench), num);
+			            		a.addEnchantment(ench, num);
 			            	}catch(Exception e) {
 			            		
 			            	}

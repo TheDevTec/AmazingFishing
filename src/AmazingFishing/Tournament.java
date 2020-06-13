@@ -7,10 +7,10 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import me.Straiker123.RankingAPI;
-import me.Straiker123.TheAPI;
-import me.Straiker123.TheAPI.SudoType;
-import me.Straiker123.Scheduler.Tasker;
+import me.DevTec.RankingAPI;
+import me.DevTec.TheAPI;
+import me.DevTec.TheAPI.SudoType;
+import me.DevTec.Scheduler.Tasker;
 
 public class Tournament {
 

@@ -12,9 +12,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.gui.FishType;
 import AmazingFishing.help.Type;
-import me.Straiker123.GUICreatorAPI;
-import me.Straiker123.GUICreatorAPI.Options;
-import me.Straiker123.TheAPI;
+import me.DevTec.TheAPI;
+import me.DevTec.GUI.GUICreatorAPI;
+import me.DevTec.GUI.GUICreatorAPI.Options;
 
 public class TheAPI_GUIs {
 	public void editShop(Player p) {

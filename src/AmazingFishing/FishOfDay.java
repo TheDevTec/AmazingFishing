@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.bukkit.Material;
 
-import me.Straiker123.TheAPI;
-import me.Straiker123.Scheduler.Tasker;
+import me.DevTec.TheAPI;
+import me.DevTec.Scheduler.Tasker;
 
 public class FishOfDay {
 	int run;

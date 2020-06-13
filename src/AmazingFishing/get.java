@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import AmazingFishing.gui.FishType;
 import AmazingFishing.onChat.create;
-import me.Straiker123.TheAPI;
-import me.Straiker123.Scheduler.Tasker;
+import me.DevTec.TheAPI;
+import me.DevTec.Scheduler.Tasker;
 
 public class get {
 	public static String fish(Player p, String path) {
