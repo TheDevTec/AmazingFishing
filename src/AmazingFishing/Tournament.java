@@ -1,5 +1,6 @@
 package AmazingFishing;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -29,18 +30,18 @@ public class Tournament {
 	public static void add(Player p, double record, double weight) {
 		if(now != null) {
 		if(now==Type.MostCatch) {
-			double i = stats.containsKey(p.getName()) ? stats.get(p.getName()): 0.0;
+			double i = stats.containsKey(p.getName()) ? stats.get(p.getName()).doubleValue(): 0.0;
 			++i;
 			if(stats.containsKey(p.getName()))
-				stats.put(p.getName(), i);
+				stats.put(p.getName(), new BigDecimal(i));
 			else
-			stats.put(p.getName(), i);
+			stats.put(p.getName(), new BigDecimal(i));
 		}else {
 			if(stats.containsKey(p.getName())) {
-				if(stats.get(p.getName())<record)
-					stats.put(p.getName(), record);
+				if(stats.get(p.getName()).floatValue()<new BigDecimal(record).floatValue())
+					stats.put(p.getName(), new BigDecimal(record));
 			}else
-			stats.put(p.getName(), record);
+			stats.put(p.getName(), new BigDecimal(record));
 		}
 	}}
 	static Type now;
@@ -48,7 +49,7 @@ public class Tournament {
 		return stats.containsKey(p.getName());
 	}
 	
-	static HashMap<String, Double> stats = new HashMap<String, Double>();
+	static HashMap<String, BigDecimal> stats = new HashMap<String, BigDecimal>();
 	public static void stop(boolean rewards) {
 		if(now==null)return;
 		if(!rewards) {
@@ -71,20 +72,20 @@ public class Tournament {
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
 		 switch(now) {
  		case Weight:{
- 			RankingAPI w = new RankingAPI(stats);
+ 			RankingAPI<String> w = new RankingAPI<String>(stats);
      		for (int i = 1; i < 3; i++) {
      			String player = w.getObject(i).toString();
      			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
          				.replace("%position%", i+"")
          				.replace("%player%", player)
          				.replace("%playername%", p(player))
-         				.replace("%value%", String.format("%2.02f",w.getValue(i))).replace(",", "."));
+         				.replace("%value%", String.format("%2.02f",w.getValue(w.getObject(i)).floatValue())).replace(",", "."));
      			if(!player.equalsIgnoreCase("-"))
         			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+i))
         				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", i+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
-             				.replace("%value%", String.format("%2.02f",w.getValue(i)).replace(",", "."))));
+             				.replace("%value%", String.format("%2.02f",w.getValue(w.getObject(i)).floatValue()).replace(",", "."))));
      			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
 					Loader.me.set("Players."+player+".Stats.Top."+i+".Tournaments", 
 							1+Loader.me.getInt("Players."+player+".Stats.Top."+i+".Tournaments"));
@@ -92,20 +93,20 @@ public class Tournament {
 			Loader.saveChatMe();
 		 }break;
      		case MostCatch:{
-     			RankingAPI w = new RankingAPI(stats);
+     			RankingAPI<String> w = new RankingAPI<String>(stats);
          		for (int i = 1; i < 3; i++) {
          			String player = w.getObject(i).toString();
          			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
              				.replace("%position%", i+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
-             				.replace("%value%", String.format("%2.02f",w.getValue(i))).replace(",", "."));
+             				.replace("%value%", String.format("%2.02f",w.getValue(w.getObject(i)).floatValue())).replace(",", "."));
          			if(!player.equalsIgnoreCase("-"))
             			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+i))
             				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", i+"")
                  				.replace("%player%", player)
                  				.replace("%playername%", p(player))
-                 				.replace("%value%", ((int)w.getValue(i))+"").replace(",", ".")));
+                 				.replace("%value%", w.getValue(w.getObject(i)).floatValue()+"").replace(",", ".")));
          			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
     					Loader.me.set("Players."+player+".Stats.Top."+i+".Tournaments", 
     							1+Loader.me.getInt("Players."+player+".Stats.Top."+i+".Tournaments"));
@@ -113,20 +114,20 @@ public class Tournament {
     			Loader.saveChatMe();
 		 }break;
      		case Length:{
-     			RankingAPI w = new RankingAPI(stats);
+     			RankingAPI<String> w = new RankingAPI<String>(stats);
          		for (int i = 1; i < 3; i++) {
          			String player = w.getObject(i).toString();
          			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
              				.replace("%position%", i+"")
              				.replace("%player%", player)
              				.replace("%playername%", p(player))
-             				.replace("%value%", String.format("%2.02f",w.getValue(i))).replace(",", "."));
+             				.replace("%value%", String.format("%2.02f",w.getValue(w.getObject(i)).floatValue())).replace(",", "."));
          			if(!player.equalsIgnoreCase("-"))
             			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+i))
             				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", i+"")
                  				.replace("%player%", player)
                  				.replace("%playername%", p(player))
-                 				.replace("%value%", String.format("%2.02f",w.getValue(i)).replace(",", "."))));
+                 				.replace("%value%", String.format("%2.02f",w.getValue(w.getObject(i)).floatValue()).replace(",", "."))));
          			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
     					Loader.me.set("Players."+player+".Stats.Top."+i+".Tournaments", 
     							1+Loader.me.getInt("Players."+player+".Stats.Top."+i+".Tournaments"));
@@ -175,7 +176,7 @@ public class Tournament {
                 	if(inParticle(p) && Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish")||!Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish"))
                 		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_formated%", TheAPI.getStringUtils().setTimeToString(count)),1,20);
                 
-     			RankingAPI w = new RankingAPI(stats);
+     			RankingAPI<String> w = new RankingAPI<String>(stats);
                 if(count == a || count == b || count == c || count == d) {
                 	TheAPI.broadcastMessage(Loader.s("Running")
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%", 
@@ -187,7 +188,7 @@ public class Tournament {
             				.replace("%position%", i+"")
             				.replace("%player%", player)
             				.replace("%playername%", p(player))
-            				.replace("%value%",(now==Type.MostCatch ? ""+(int)w.getValue(player) : String.format("%2.02f",w.getValue(player)).replace(",", "."))));
+            				.replace("%value%",(now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."))));
         		}}
                 if(count == 0) {
 					cancel();
@@ -197,7 +198,7 @@ public class Tournament {
            		for (int i = 1; i < 4; i++) {
          			String player = w.getObject(i).toString();
     			if(player==null)continue;
-    			String value = (now==Type.MostCatch ? ""+(int)w.getValue(player) : String.format("%2.02f",w.getValue(player)).replace(",", "."));
+    			String value = (now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."));
     			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
         				.replace("%position%", i+"")
         				.replace("%player%", player)

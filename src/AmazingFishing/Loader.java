@@ -371,6 +371,8 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Options.BossBar.Win", "&2Tournament was end. You are on %position%. position");
 		cc.addDefault("Options.Treasures", true);
 		cc.addDefault("Options.Shop", true);
+		cc.addDefault("Options.UseDoubles.Length", true);
+		cc.addDefault("Options.UseDoubles.Weight", true);
 		cc.addDefault("Options.CustomFishOnlyWhileTournament", false);
 		cc.addDefault("Options.TreasuresOnlyWhileTournament", false);
 		cc.addDefault("Options.Enchants", true);

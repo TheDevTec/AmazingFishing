@@ -19,6 +19,7 @@ import me.DevTec.TheAPI;
 import me.DevTec.TheAPI.SudoType;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.GUICreatorAPI.Options;
+import me.DevTec.Scheduler.Tasker;
 import me.DevTec.GUI.ItemGUI;
 
 public class Shop {
@@ -45,7 +46,9 @@ public class Shop {
 		if(Loader.shop.getString("GUI."+item+".ModelData")!=null)
 		a.setCustomModelData(Loader.shop.getInt("GUI."+item+".ModelData"));
 		a.setLore(lore);
-		ItemGUI d = new ItemGUI(a.create());
+		ItemGUI d = new ItemGUI(a.create()) {@Override
+		public void onClick(Player arg0) {}
+		};
 		d.addOption(Options.CANT_BE_TAKEN, true);
 		if(r!=null)
 		d.addOption(Options.RUNNABLE, r);
@@ -58,6 +61,11 @@ public class Shop {
 		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
 		a.setTitle(shop);
 		a.setSize(54);
+		a.open();
+		new Tasker() {
+			
+			@Override
+			public void run() {
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_BE_TAKEN, true);
@@ -101,7 +109,8 @@ public class Shop {
 			}});
 		a.setItem(53,Create.createItem(Trans.back(), Material.BARRIER),w);
 		}
-		a.open();
+			}
+		}.runAsync();
 	}
 	
 	private static boolean ex(String ss) {

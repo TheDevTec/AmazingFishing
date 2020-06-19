@@ -1,5 +1,6 @@
 package AmazingFishing;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -141,21 +142,21 @@ public class gui {
 	public static void onOpenFish(Player p, FishType t, String fish, String type) {
 		String name = Loader.c.getString("Types."+type+"."+fish+".Name");
 		if(name==null)name=fish;
-		HashMap<String, Double> as = new HashMap<String, Double>();
+		HashMap<String, BigDecimal> as = new HashMap<String, BigDecimal>();
 		if(Loader.me.getString("Players")!=null)
 		for(String s : Loader.me.getConfigurationSection("Players").getKeys(false)) {
 			if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Length")!=null)
-			as.put(s, Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length"));
+			as.put(s, new BigDecimal(Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")));
 		}
-		RankingAPI r = new RankingAPI(as);
+		RankingAPI<String> r = new RankingAPI<String>(as);
 		
-		HashMap<String, Double> aw = new HashMap<String, Double>();
+		HashMap<String, BigDecimal> aw = new HashMap<String, BigDecimal>();
 		if(Loader.me.getString("Players")!=null)
 		for(String s : Loader.me.getConfigurationSection("Players").getKeys(false)) {
 			if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Weight")!=null)
-			aw.put(s, Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight"));
+			aw.put(s, new BigDecimal(Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")));
 		}
-		RankingAPI rw = new RankingAPI(aw);
+		RankingAPI<String> rw = new RankingAPI<String>(aw);
 		
 		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
 		a.setTitle("&6Top 3 players on "+name);
@@ -386,7 +387,7 @@ public class gui {
 				}});
 			ItemStack as = Create.createItem(name, aS,lore);
 			if(ench) {
-				as.addEnchantment(Enchantment.DURABILITY, 1);
+				as.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
 				ItemMeta ad = as.getItemMeta();
 				ad.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 				ad.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);

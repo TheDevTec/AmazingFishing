@@ -1,5 +1,6 @@
 package AmazingFishing;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -83,6 +84,7 @@ public class ByBiome {
 				fish.add(d);
 			}
 		}
+		if(fish.isEmpty())return null;
 		return TheAPI.getRandomFromList(Utils.createShuffleList(fish)).toString();
 	}
 	
@@ -130,6 +132,10 @@ public class ByBiome {
 			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
 			double weight = Generators.weight(length);
+			if(!Loader.cc.getBoolean("Options.UseDoubles.Length"))
+				length=(int)length;
+			if(!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+				weight=(int)weight;
 			if(Loader.c.getString("Format.FishDescription")!=null) {
 				List<String> lore=new ArrayList<String>();
 				
@@ -143,12 +149,13 @@ public class ByBiome {
 				String b = StringUtils.join(biomes, ", ");
 			for(String s:Loader.c.getStringList("Format.FishDescription")) {
 				lore.add(Color.c(s
+						.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
 						.replace("%fish_biomes%", b)
 						.replace("%biomes%", b)
-						.replace("%fish_weight%", weight+"")
-						.replace("%weight%", weight+"")
-						.replace("%fish_length%", length+"")
-						.replace("%length%", length+"")
+						.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+						.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+						.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+						.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
 						.replace("%fish_name%", "Uknown")
 						.replace("%fish%",  "Uknown")
 						.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
@@ -159,7 +166,9 @@ public class ByBiome {
 			i.setLore(lore);
 			}
 				bag.addFish(p,i.create());
-			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", length+"").replace("%length%", length+"").replace("%weight%", weight+"").replace("%fish%",  "Uknown"), p);
+			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", (new DecimalFormat("#,##0.00").format(length))
+					.replaceAll("\\.00", "")).replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+					.replace("%weight%",(new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", "")).replace("%fish%",  "Uknown"), p);
 			return;
 		}
 			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
@@ -184,15 +193,16 @@ public class ByBiome {
 					biomes.add(getTran(null));
 				String b = StringUtils.join(biomes, ", ");
 			for(String s:Loader.c.getStringList("Format.FishDescription")) {
-				lore.add(Color.c(s.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
+				lore.add(Color.c(s
+						.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
 						.replace("%fish_biomes%", b)
 						.replace("%biomes%", b)
-						.replace("%fish_weight%", weight+"")
-						.replace("%weight%", weight+"")
-						.replace("%fish_length%", length+"")
-						.replace("%length%", length+"")
-						.replace("%fish_name%", name)
-						.replace("%fish%", name)
+						.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+						.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+						.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+						.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+						.replace("%fish_name%", "Uknown")
+						.replace("%fish%",  "Uknown")
 						.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
 						.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
 						.replace("%fisherman%", p.getName())
@@ -205,7 +215,9 @@ public class ByBiome {
 				Tournament.add(p, length,weight);
 				for(CEnch ec: enchs)
 				addEarn(ec,p,type,fish,length);
-			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", length+"").replace("%length%", length+"").replace("%weight%", weight+"").replace("%fish%", name), p);
+			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", (new DecimalFormat("#,##0.00").format(length))
+					.replaceAll("\\.00", "")).replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+					.replace("%weight%",(new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", "")).replace("%fish%", name), p);
 			Logger.info(p.getDisplayName(), type, fish, length, weight);
 			Quests.addProgress(p,type,fish,Actions.CATCH_FISH);
 		return;

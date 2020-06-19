@@ -13,11 +13,12 @@ import me.DevTec.TheAPI;
 public class Utils {
 	
 	public static List<String> createShuffleList(List<String> input){
+		List<String> toR = new ArrayList<String>(input);
 		List<String> s = new ArrayList<String>();
 		for(int i = input.size(); i > 0; --i) {
-			String random = TheAPI.getRandomFromList(input).toString();
+		String random = TheAPI.getRandomFromList(toR).toString();
 		s.add(random);
-		input.remove(random);
+		toR.remove(random);
 		}
 		return s;
 	}
