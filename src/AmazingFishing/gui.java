@@ -26,9 +26,7 @@ public class gui {
 		PUFFERFISH,TROPICAL_FISH,COD,SALMON
 	}
 	public static void openGlobal(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Select fish type");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Select fish type",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -70,7 +68,6 @@ public class gui {
 				openGlobalFish(p,FishType.COD);
 			}});
 		a.setItem(32,Create.createItem(Trans.cod(), Material.COD),w);
-		a.open();
 	}
 	public static void openGlobalFish(Player p, FishType type) {
 		String path = null;
@@ -98,9 +95,7 @@ public class gui {
 			title=Trans.tro();
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Top 3 players &7- "+title);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Top 3 players &7- "+title,54,p);
 		Create.prepareInv(a);
 		String pat =path;
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
@@ -123,7 +118,6 @@ public class gui {
 				}});
 			a.addItem(Create.createItem(name, i),w);
 			}
-		a.open();
 	}
 	private static String name(String s) {
 		if(TheAPI.getPlayer(s)!=null)return TheAPI.getPlayer(s).getDisplayName();
@@ -158,9 +152,7 @@ public class gui {
 		}
 		RankingAPI<String> rw = new RankingAPI<String>(aw);
 		
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Top 3 players on "+name);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Top 3 players on "+name,54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -190,13 +182,10 @@ public class gui {
 				openGlobalFish(p, t);
 			}});
 		a.setItem(49, Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 
 	public static void openMy(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Your records &7- &eSelect fish type");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Your records &7- &eSelect fish type",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -238,7 +227,6 @@ public class gui {
 				openMyFish(p,FishType.COD);
 			}});
 		a.setItem(32,Create.createItem(Trans.cod(), Material.COD),w);
-		a.open();
 	}
 	public static void openMyFish(Player p, FishType type) {
 		String path = null;
@@ -266,9 +254,7 @@ public class gui {
 			title=Trans.tro();
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Your record &7- "+title);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Your record &7- "+title,54,p);
 		Create.prepareInv(a);
 		String pat = path;
 		
@@ -294,15 +280,12 @@ public class gui {
 				openMy(p);
 			}});
 		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	public static void onOpenMy(Player p, FishType t, String fish, String type) {
 		String name = Loader.c.getString("Types."+type+"."+fish+".Name");
 		if(name==null)name=fish;
 
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Your record on "+name);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Your record on "+name,54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -322,7 +305,6 @@ public class gui {
 				openMyFish(p, t);
 			}});
 		a.setItem(49, Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	public static void openBiomeSettting(Player p, String fish, String type, boolean edit) {
 		String title = null;
@@ -348,9 +330,7 @@ public class gui {
 			title=Trans.sal();
 		}
 		String typ =type;
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Fishing per biome fish settings &7- "+title+" "+fish);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Per biome fish settings &7- "+title+" "+fish,54,p);
 		Create.prepareInv(a);
 		for(biomes s :ByBiome.biomes.values()) {
 			Material aS = Material.STONE;
@@ -409,6 +389,5 @@ public class gui {
 					a.openFishCreatorType(p, fish, r);
 			}});
 		a.setItem(49, Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 }

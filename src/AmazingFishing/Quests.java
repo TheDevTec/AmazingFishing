@@ -16,9 +16,7 @@ import me.DevTec.GUI.GUICreatorAPI.Options;
 public class Quests {
 	public static void openQuestMenu(Player p) {
 		
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Quests");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Quests",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_BE_TAKEN, true);
@@ -92,7 +90,6 @@ public class Quests {
 				p.getOpenInventory().close();
 			}});
 		a.setItem(49, Create.createItem(Trans.close(), Material.BARRIER),w); //Cancel quest
-		a.open();
 	}
 	
 	public static enum Actions {
@@ -102,9 +99,7 @@ public class Quests {
 	}
 	
 	public static void selectQuest(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Quests &7- &eSelect Quest");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Quests &7- &eSelect Quest",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_BE_TAKEN, true);
@@ -151,7 +146,6 @@ public class Quests {
 				p.getOpenInventory().close();
 			}});
 		a.setItem(49, Create.createItem(Trans.close(), Material.BARRIER),w);
-		a.open();
 	}
 	public static void addProgress(Player p, String type, String fish, Actions c) {
 		String q = API.getQuest(p);

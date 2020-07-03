@@ -16,9 +16,7 @@ import me.DevTec.GUI.GUICreatorAPI.Options;
 
 public class bag {
 	public static void openBag(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&b"+Trans.bag_title());
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&b"+Trans.bag_title(),54,p);
 		Create.prepareInvBig(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_BE_TAKEN, true);
@@ -65,7 +63,6 @@ public class bag {
 			
 			a.addItem(as);
 		}
-		a.open();
 	}
 	public static void saveBag(Player p, Inventory i) {
 		Loader.me.set("Players."+p.getName()+".Bag",null);

@@ -16,9 +16,7 @@ import me.DevTec.GUI.GUICreatorAPI.Options;
 public class ench {
 
 	public static void openEnchanter(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Fishing Manager &7- &dEnchants");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Fishing Manager &7- &dEnchants",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -53,7 +51,6 @@ public class ench {
 				openSelected(p,select.EDIT);
 			}});
 		a.setItem(31,Create.createItem(Trans.edit(), Material.ORANGE_DYE),w);
-		a.open();
 		
 	}
 	public static enum select{
@@ -77,8 +74,7 @@ public class ench {
 			break;
 		}
 		String wa =what;
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI(name==null?s:s+" &7- "+name,54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -91,10 +87,6 @@ public class ench {
 					Loader.save();
 					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}});
-		if(name==null)
-			a.setTitle(s);
-		else
-			a.setTitle(s+" &7- "+name);	
 		if(name != null) {
 			String custom = name;
 			if(Loader.c.getString("Enchants."+name+".Name")!=null)
@@ -223,7 +215,6 @@ public class ench {
 			}
 		});
 		a.setItem(49,Create.createItem(Trans.save(), Material.EMERALD_BLOCK),w);
-		a.open();
 	}
 	public static void openSelected(Player p, select type) {
 		String s = null;
@@ -238,9 +229,7 @@ public class ench {
 			s="&6Fishing Selector &7- &dEnchants";
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle(s);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI(s,54,p);
 		Create.prepareInv(a);
 		if(Loader.c.getString("Enchants")!=null)
 		for(String g:Loader.c.getConfigurationSection("Enchants").getKeys(false)) {
@@ -272,6 +261,5 @@ public class ench {
 					openEnchanter(p);
 				}});
 		a.setItem(49,Create.createItem(Trans.cancel(), Material.BARRIER),w);
-		a.open();
 	}
 }

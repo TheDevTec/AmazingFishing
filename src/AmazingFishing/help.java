@@ -23,9 +23,7 @@ public class help {
 	}
 	
 	public static void pointsManager(Player p,String name) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &9Points Manager");
-		a.setSize(18);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&9Points Manager",18,p);
 		Create.prepareInvSmall(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -58,13 +56,10 @@ public class help {
 				help.setPoints(p, name);
 			}});
 		a.setItem(4, Create.createItem("&6Set amount of points", Material.ORANGE_DYE),w);
-		a.open();
 	}
 	
 	public static void givePoints(Player p, String name) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &9Points Manager &7- &2Give");
-		a.setSize(18);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&9Points Manager &7- &2Give",18,p);
 		Create.prepareInvSmall(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -114,13 +109,10 @@ public class help {
 				givePoints(p, name);
 			}});
 		a.setItem(6, Create.createItem("&c- 1", Material.RED_WOOL),w);
-		a.open();
 	}
 
 	public static void takePoints(Player p, String name) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &9Points Manager &7- &cTake");
-		a.setSize(18);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&9Points Manager &7- &cTake",18,p);
 		Create.prepareInvSmall(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -164,13 +156,10 @@ public class help {
 				takePoints(p, name);
 			}});
 		a.setItem(6, Create.createItem("&c- 1", Material.RED_WOOL),w);
-		a.open();
 	}
 
 	public static void setPoints(Player p, String name) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &9Points Manager &7- &6Set");
-		a.setSize(18);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&9Points Manager &7- &6Set",18,p);
 		Create.prepareInvSmall(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -214,13 +203,10 @@ public class help {
 				setPoints(p, name);
 			}});
 		a.setItem(6, Create.createItem("&c- 1", Material.RED_WOOL),w);
-		a.open();
 	}
 
 	public static void selectPlayerPointsManager(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &9Points Manager");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&9Points Manager",54,p);
 		Create.prepareInvBig(a);
 		for(Player s:Bukkit.getOnlinePlayers()) {
 				ItemCreatorAPI ss = TheAPI.getItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
@@ -247,16 +233,13 @@ public class help {
 				open(p,Type.Admin);
 			}});
 		a.setItem(53, Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	
 	public static void open(Player p, Type type) {
 		String typ = "Player";
 		if(type==Type.Admin)typ="Admin";
 
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &5Help &7- &4"+typ);
-		a.setSize(18);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&5Help &7- &4"+typ,18,p);
 		Create.prepareInvSmall(a);
 		if(type==Type.Player) {
 			HashMap<Options, Object> w = new HashMap<Options, Object>();
@@ -450,13 +433,10 @@ public class help {
 				}});
 			a.setItem(9, Create.createItem(Trans.help_player(), Material.CHEST),w);
 		}
-		a.open();
 	}
 	
 	public static void toggle(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &3Toggle record reached message");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&3Toggle record reached message",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -488,13 +468,10 @@ public class help {
 				help.toggle(p);
 			}});
 		a.setItem(24,Create.createItem(Loader.s("HelpGUI.Record.DoNotWant"), Material.RED_WOOL),w);
-		a.open();
 	}
 	
 	public static void tour(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &2Tournaments");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&2Tournaments",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -554,7 +531,6 @@ public class help {
 				tourCreate(p);
 			}});
 		a.setItem(13,Create.createItem("&5Random", Material.EXPERIENCE_BOTTLE),w);
-		a.open();
 	}
 	
 	public static enum TournamentType{
@@ -564,9 +540,7 @@ public class help {
 		Random
 	}
 	public static void tourCreate(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &2Tournaments &7- &a"+Loader.c.getString("Creating-Tournament."+p.getName()+".Type"));
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&2Tournaments &7- &a"+Loader.c.getString("Creating-Tournament."+p.getName()+".Type"),54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -628,7 +602,6 @@ public class help {
 				tourCreate(p);
 			}});
 		a.setItem(33,Create.createItem("&c- 30s", Material.RED_WOOL),w);
-		a.open();
 	}
 	
 	private static String rep(String s, String w) {
@@ -657,10 +630,7 @@ public class help {
 		return s;
 	}
 	public static void stats(Player p,String name, boolean admin) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &6Stats");
-		a.setSize(18);
-
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Stats",18,p);
 		Create.prepareInvSmall(a);
 		HashMap<Options, Object> wb = new HashMap<Options, Object>();
 		wb.put(Options.CANT_PUT_ITEM, true);
@@ -709,13 +679,10 @@ public class help {
 				a.addItem(Create.createItem(Color.c(rep(c,name)), m),w);
 			}
 		}
-		a.open();
 	}
 	
 	public static void selectPlayer(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bFishing &6Stats");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Stats",54,p);
 		Create.prepareInvBig(a);
 		for(Player s:Bukkit.getOnlinePlayers()) {
 			if(Loader.me.getString("Players."+p.getName()+".Stats")!=null) {
@@ -742,7 +709,6 @@ public class help {
 				open(p, Type.Admin);
 			}});
 		a.setItem(53, Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	
 }

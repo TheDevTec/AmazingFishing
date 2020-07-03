@@ -21,9 +21,7 @@ public class TheAPI_GUIs {
 		
 	}
 	public void open(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Fishing Manager &7- &6Selector");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Manager &7- &6Selector",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -71,13 +69,10 @@ public class TheAPI_GUIs {
 			}});
 		if(p.hasPermission("amazingfishing.editor.treasures"))
 		a.setItem(13,Create.createItem(Trans.treasures(), Material.CHEST),w);
-		a.open();
 	}
 
 	public void openFish(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Fishing Manager &7- "+Trans.fishs());
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Manager &7- "+Trans.fishs(),54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -109,12 +104,9 @@ public class TheAPI_GUIs {
 			openFishEdit(p);
 			}});
 		a.setItem(31,Create.createItem(Trans.edit(), Material.ORANGE_DYE),w);
-		a.open();
 	}	
 	public void openFishEdit(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
-		a.setTitle("&6Fishing Editor");
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Editor",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -153,7 +145,6 @@ public class TheAPI_GUIs {
 				openFish(p);
 			}});
 		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	public void openFishEditSelect(Player p, FishType type) {
 		String title = "";
@@ -181,10 +172,8 @@ public class TheAPI_GUIs {
 			path="TropicalFish";
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Selector &7- "+title,54,p);
 		Create.prepareInv(a);
-		a.setTitle("&6Fishing Selector &7- "+title);
 		String pat=path;
 		if(Loader.c.getString("Types."+path)!=null)
 			for(String s:Loader.c.getConfigurationSection("Types."+path).getKeys(false)) {
@@ -211,7 +200,6 @@ public class TheAPI_GUIs {
 					openFishEdit(p);
 				}});
 		a.setItem(49,Create.createItem(Trans.cancel(), Material.BARRIER),w);
-		a.open();
 	}
 	
 	public void openFishEditType(Player p,String fish, FishType type){
@@ -241,10 +229,8 @@ public class TheAPI_GUIs {
 		String points = Loader.c.getString("Types."+path+"."+fish+".Points");
 		String name = Loader.c.getString("Types."+path+"."+fish+".Name");
 		String chance = Loader.c.getString("Types."+path+"."+fish+".Chance");
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Editor &7- "+title+" &7"+fish,54,p);
 		Create.prepareInv(a);
-		a.setTitle("&6Fishing Editor &7- "+title+" &7"+fish);
 		String pat = path;
 		String ww = path;
 		if(path.equals("TropicalFish"))ww="Tropical_Fish";
@@ -353,13 +339,10 @@ public class TheAPI_GUIs {
 				openFishEditSelect(p, type);
 			}});
 		a.setItem(40,Create.createItem(Trans.save(), Material.EMERALD_BLOCK),w);
-		a.open();
 	}
 	
 	public void openFishDelete(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&cFishing Destroyer");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&cRemover",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -398,7 +381,6 @@ public class TheAPI_GUIs {
 				openFish(p);
 			}});
 		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	
 	public void openFishDeleteType(Player p, FishType type) {
@@ -427,9 +409,7 @@ public class TheAPI_GUIs {
 			title=Trans.tro();
 			break;
 		}
-		GUICreatorAPI a =TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&cFishing Destroyer &7- "+title);
-		a.setSize(54);
+		GUICreatorAPI a =TheAPI.getGUICreatorAPI("&cRemover &7- "+title,54,p);
 		Create.prepareInv(a);
 		String pat = path;
 		if(Loader.c.getString("Types."+path)!=null)
@@ -457,13 +437,10 @@ public class TheAPI_GUIs {
 					openFishDelete(p);
 				}});
 		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	
 	public void openFishCreate(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&aFishing Creator");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&aCreator",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -502,13 +479,9 @@ public class TheAPI_GUIs {
 			openFish(p);
 			}});
 		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	
 	public void openFishCreatorType(Player p, String fish,FishType type) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
-		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
 		w.put(Options.CANT_BE_TAKEN, true);
@@ -552,8 +525,9 @@ public class TheAPI_GUIs {
 		 name = get.getName(p, where);
 		 chance = get.getChance(p, where);
 		}
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&aCreator &7- "+title,54,p);
+		Create.prepareInv(a);
 		String wd = where;
-		a.setTitle("&aFishing Creator &7- "+title);
 		w.put(Options.RUNNABLE, new Runnable() {
 			@Override
 			public void run() {
@@ -664,13 +638,10 @@ public class TheAPI_GUIs {
 				openFishCreate(p);
 			}});
 		a.setItem(33,Create.createItem(Trans.save(), Material.EMERALD_BLOCK),w);
-		a.open();
 	}
 	
  	public void openEnchantTable(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bAmazing Fishing &5Enchant Table");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&5Enchant Table",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -709,13 +680,10 @@ public class TheAPI_GUIs {
 					openEnchanterPlace(p,"up");
 				}});
 			a.setItem(24,Create.createItem("&6Upgrade Enchant", Material.ANVIL),w);
-			a.open();
 		}
 	
 	public void openEnchanterPlace(Player p, String sel) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&5Enchant Table &7- &6Select fishing rod");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&5Enchant Table &7- &6Select fishing rod",54,p);
 		Create.prepareInv(a);
 		if(p.getInventory().getContents()!=null)
 		for(ItemStack i : p.getInventory().getContents()) {
@@ -743,12 +711,9 @@ public class TheAPI_GUIs {
 					openEnchantTable(p);
 			}});
 		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 
 	public void openEnchantSel(Player p, String sel) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
 		String select = null;
 		Material mat = null;
 		if(sel.equalsIgnoreCase("add")) {
@@ -759,7 +724,7 @@ public class TheAPI_GUIs {
 			mat=Material.PAPER;
 			select="&6Upgrade Enchant";
 		}
-		a.setTitle("&5Enchant Table &7- &6"+select);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&5Enchant Table &7- &6"+select,54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -860,13 +825,10 @@ public class TheAPI_GUIs {
 				}
 			}
 		}
-		a.open();
 	}
 	
 	public void openSetting(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&bAmazing Fishing &7Settings");
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&7Settings",54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -947,13 +909,10 @@ public class TheAPI_GUIs {
 		}else {
 			a.setItem(20,Create.createItem(Trans.enchs(), Material.ENCHANTED_BOOK,Arrays.asList(Trans.disabled())),w);
 		}
-		a.open();
 	}
 
 	public void openTreas(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle("&6Fishing Manager &7- "+Trans.treas());
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Manager &7- "+Trans.treas(),54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -985,7 +944,6 @@ public class TheAPI_GUIs {
 				openTreasSelect(p,select.EDIT);
 			}});
 		a.setItem(31,Create.createItem(Trans.edit(), Material.ORANGE_DYE),w);
-		a.open();
 	}
 	public enum select{
 		CREATE,
@@ -1035,12 +993,7 @@ public class TheAPI_GUIs {
 		default:
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
-		if(f==null)
-			a.setTitle(s+" "+Trans.treas()+" &7- "+getTrans(t));
-		else
-			a.setTitle(s+" "+Trans.treas()+" &7- "+getTrans(t)+" "+f);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI(s+" "+Trans.treas()+" &7- "+getTrans(t)+(f==null?"":" "+f),54,p);
 		Create.prepareInv(a);
 		String d = path;
 		String c = ac;
@@ -1180,7 +1133,6 @@ public class TheAPI_GUIs {
 				Loader.save();
 			}});
 		a.setItem(49,Create.createItem(Trans.cancel(), Material.BARRIER),w);
-		a.open();
 	}
 	public void openTreasSelect(Player p, select type) {
 		String s = null;
@@ -1195,9 +1147,7 @@ public class TheAPI_GUIs {
 			s="&6Fishing Editor";
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
-		a.setTitle(s+" &7- "+Trans.treas());
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI(s+" &7- "+Trans.treas(),54,p);
 		Create.prepareInv(a);
 		HashMap<Options, Object> w = new HashMap<Options, Object>();
 		w.put(Options.CANT_PUT_ITEM, true);
@@ -1248,7 +1198,6 @@ public class TheAPI_GUIs {
 				openTreas(p);
 			}});
 		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		a.open();
 	}
 	private String getTrans(TreasureType t) {
 		if(t==TreasureType.COMMON)
@@ -1294,10 +1243,8 @@ public class TheAPI_GUIs {
 			path="Legendary";
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setSize(54);
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI(s+" "+Trans.treas()+" &7- "+getTrans(f),54,p);
 		Create.prepareInv(a);
-		a.setTitle(s+" "+Trans.treas()+" &7- "+getTrans(f));
 		
 		if(Loader.c.getString("Treasures."+path)!=null)
 		for(String g:Loader.c.getConfigurationSection("Treasures."+path).getKeys(false)) {
@@ -1330,6 +1277,5 @@ public class TheAPI_GUIs {
 					openTreasSelect(p, type);
 				}});
 		a.setItem(49,Create.createItem(Trans.cancel(), Material.BARRIER),w);
-		a.open();
 	}
 }

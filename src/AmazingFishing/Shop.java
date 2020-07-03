@@ -49,19 +49,16 @@ public class Shop {
 		ItemGUI d = new ItemGUI(a.create()) {@Override
 		public void onClick(Player arg0) {}
 		};
-		d.addOption(Options.CANT_BE_TAKEN, true);
+		d.add(Options.CANT_BE_TAKEN, true);
 		if(r!=null)
-		d.addOption(Options.RUNNABLE, r);
+		d.add(Options.RUNNABLE, r);
 		return d;
 	}
 	
 	public static void openShop(Player p, ShopType t) {
 		String shop = Trans.shoplog();
 		if(t==ShopType.Sell)shop="&6"+Trans.shoplogsell();
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(p);
-		a.setTitle(shop);
-		a.setSize(54);
-		a.open();
+		GUICreatorAPI a = TheAPI.getGUICreatorAPI(shop,54,p);
 		new Tasker() {
 			
 			@Override
@@ -133,7 +130,7 @@ public class Shop {
 					w.put(Options.CANT_BE_TAKEN, true);
 						w.put(Options.RUNNABLE, new Runnable() {
 							public void run() {
-								giveItem(inv.getPlayer(), item);
+								giveItem(inv.getPlayers().get(0), item);
 							}});
 						ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(icon));
 						a.setDisplayName(ItemName);
