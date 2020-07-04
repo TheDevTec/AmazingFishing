@@ -58,6 +58,7 @@ public class onChat implements Listener {
 						Loader.save();
 						}}.later(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Money", s.getDouble(message.replace(" ", "")));
+				Loader.c.set("Edit-"+path, null);
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}

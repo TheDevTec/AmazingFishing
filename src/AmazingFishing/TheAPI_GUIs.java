@@ -330,11 +330,12 @@ public class TheAPI_GUIs {
 			}});
 		a.setItem(39,Create.createItem(Trans.perbiome(), Material.CHEST),w);
 		w.remove(Options.RUNNABLE);
+
 		w.put(Options.RUNNABLE, new Runnable() {
 			@Override
 			public void run() {
-				Loader.c.set("Edit-"+pat+"."+p.getName(), null);
-				Loader.c.set("Creating-"+pat+"."+p.getName(), null);
+				Loader.c.set("Edit-"+pats+"."+p.getName(), null);
+				Loader.c.set("Creating-"+pats+"."+p.getName(), null);
 				Loader.save();
 				openFishEditSelect(p, type);
 			}});
