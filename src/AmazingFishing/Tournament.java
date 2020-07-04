@@ -182,6 +182,7 @@ public class Tournament {
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%", 
             						TheAPI.getStringUtils().setTimeToString(Tournament.count)));
                 	for (int i = 1; i < 4; i++) {
+                		if(w.getObject(i)==null)continue;
              			String player = w.getObject(i).toString();
         			if(player==null)continue;
         			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
@@ -191,11 +192,12 @@ public class Tournament {
             				.replace("%value%",(now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."))));
         		}}
                 if(count == 0) {
-					cancel();
+					//cancel();
                 	TheAPI.broadcastMessage(Loader.s("Winners")
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
 
            		for (int i = 1; i < 4; i++) {
+           			if(w.getObject(i)==null)continue;
          			String player = w.getObject(i).toString();
     			if(player==null)continue;
     			String value = (now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."));
@@ -204,12 +206,17 @@ public class Tournament {
         				.replace("%player%", player)
         				.replace("%playername%", p(player))
         				.replace("%value%",value));
-    			if(!player.equalsIgnoreCase("-"))
-         			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+i))
-         				TheAPI.sudoConsole(SudoType.COMMAND, Color.c(s.replace("%position%", i+"")
-              				.replace("%player%", player)
-              				.replace("%playername%", p(player))
-              				.replace("%value%", value)));
+    			if(!player.equalsIgnoreCase("-")) {
+         			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+i)) {
+         				int in = i;
+         				Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
+         					public void run() {
+         						Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), s.replace("%player%", player)
+                 						.replace("%playername%", p(player)).replace("%value%", value).replace("%position%", in+""));
+         					}
+         				}, 5);
+         			}
+    			}
       			Loader.me.set("Players."+player+".Stats.Tournaments", 1+Loader.me.getInt("Players."+player+".Stats.Tournaments"));
  					Loader.me.set("Players."+player+".Stats.Top."+i+".Tournaments", 
  							1+Loader.me.getInt("Players."+player+".Stats.Top."+i+".Tournaments"));
@@ -220,6 +227,7 @@ public class Tournament {
                 count=0;
                 save=0;
                 r=-1;
+				cancel();
                 }
            }
        }.repeatingAsync(20,20);
