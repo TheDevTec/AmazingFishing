@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import AmazingFishing.API.treasureType;
 import AmazingFishing.RD.Type;
+import Main.Loader;
 import me.DevTec.TheAPI;
 
 public class Utils {
@@ -125,7 +126,7 @@ public class Utils {
 				String name = Loader.c.getString("Types."+type+"."+fish+".Name");
 				if(name==null)name=fish;
 				if(!Loader.me.getBoolean("Players."+p.getName()+".Toggle")) {
-					if(!Loader.cc.getBoolean("Options.UseDoubles.Length")) {
+					if(!Loader.c.getBoolean("Options.UseDoubles.Length")) {
 						Loader.msgCmd(Loader.s("Prefix")+Loader.s("ReachNewRecord").replace("%record%", (record+"").replace(".0", "")).replace("%fish%", name).replace("%last%", (last+"").replace(".0", "")), p);
 					}else {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ReachNewRecord").replace("%record%", record+"").replace("%fish%", name).replace("%last%", last+""), p);

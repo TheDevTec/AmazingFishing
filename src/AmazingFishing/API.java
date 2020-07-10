@@ -11,6 +11,8 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.TheAPI.SudoType;
@@ -195,14 +197,14 @@ public class API {
 	public static void startQuest(Player p, String quest) {
 		 Loader.me.set("Players."+p.getName()+".Quests.Current",quest);
 		 Loader.me.set("Players."+p.getName()+".Quests.Amount",0);
-		 Loader.saveChatMe();
+		 Configs.me.save();
 	}
 	/**
 	 * Cancel current quest
 	 */
 	public static void cancelQuest(Player p) {
 		 Loader.me.set("Players."+p.getName()+".Quests",null);
-		 Loader.saveChatMe();
+		 Configs.me.save();
 	}
 	/**
 	 * @return String Current quest

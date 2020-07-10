@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.google.common.collect.Maps;
 
+import Main.Loader;
+
 public class AFK implements Listener {
 	static HashMap<String, Long> a = Maps.newHashMap();
 	@SuppressWarnings("deprecation")

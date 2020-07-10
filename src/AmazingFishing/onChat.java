@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerChatEvent;
 import AmazingFishing.TheAPI_GUIs.TreasureType;
 import AmazingFishing.TheAPI_GUIs.select;
 import AmazingFishing.gui.FishType;
+import Main.Loader;
 import me.DevTec.TheAPI;
 import me.DevTec.Other.StringUtils;
 import me.DevTec.Scheduler.Tasker;

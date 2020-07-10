@@ -3,6 +3,7 @@ package AmazingFishing;
 import java.util.Arrays;
 import java.util.Random;
 
+import Main.Loader;
 import me.DevTec.TheAPI;
 
 public class Generators {

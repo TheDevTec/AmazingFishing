@@ -1,5 +1,5 @@
 name: AmazingFishing
-main: AmazingFishing.Loader
+main: Main.Loader
 version: 3.3.6
 author: Straiker123
 depend: [TheAPI]

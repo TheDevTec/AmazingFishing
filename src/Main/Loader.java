@@ -1,7 +1,6 @@
-package AmazingFishing;
+package Main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +10,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import AmazingFishing.CEnch;
+import AmazingFishing.Color;
+import AmazingFishing.FishOfDay;
+import AmazingFishing.Tournament;
 import AmazingFishing.Tournament.Type;
 import me.DevTec.ConfigAPI;
 import me.DevTec.EnchantmentAPI;
@@ -23,7 +26,7 @@ public class Loader extends JavaPlugin {
     public static FileConfiguration TranslationsFile;
     public static FileConfiguration me;
 	public static Loader plugin;
-	static FishOfDay f = new FishOfDay();
+	public static FishOfDay f = new FishOfDay();
 	private static HashMap<String, CEnch> map = new HashMap<String, CEnch>();
 	
 	public static List<CEnch> getEnchants(){
@@ -41,8 +44,8 @@ public class Loader extends JavaPlugin {
 			TheAPI.getPluginsManagerAPI().unloadPlugin(this);
 			return;
 		}
+		Configs.LoadConfigs();
 		plugin=this;
-		LoadAll();
 		for(String s : c.getConfigurationSection("Enchants").getKeys(false)) {
 			CEnch d = new CEnch(new NamespacedKey(this, s));
 			d.setName(c.getString("Enchants."+s+".Name"), s);
@@ -52,17 +55,17 @@ public class Loader extends JavaPlugin {
 		
 		f.startRunnable();
 		if(getDescription().getVersion().contains("TESTING"))isTest();
-		Bukkit.getPluginManager().registerEvents(new onChat(), this);
-		Bukkit.getPluginManager().registerEvents(new AFK(), this);
-		Bukkit.getPluginManager().registerEvents(new onFish(), this);
-		Bukkit.getPluginCommand("fish").setExecutor(new Fishing());
-		Bukkit.getPluginCommand("amazingfishing").setExecutor(new Fishing());
-		if(cc.getBoolean("Options.Tournament.AutoStart"))
+		Bukkit.getPluginManager().registerEvents(new AmazingFishing.onChat(), this);
+		Bukkit.getPluginManager().registerEvents(new AmazingFishing. AFK(), this);
+		Bukkit.getPluginManager().registerEvents(new AmazingFishing.onFish(), this);
+		Bukkit.getPluginCommand("fish").setExecutor(new AmazingFishing.Fishing());
+		Bukkit.getPluginCommand("amazingfishing").setExecutor(new AmazingFishing.Fishing());
+		if(c.getBoolean("Options.Tournament.AutoStart"))
 		new Tasker() {
 			public void run() {
-				Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(cc.getString("Options.Tournament.Time")), true);
+				Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(c.getString("Options.Tournament.Time")), true);
 			}
-		}.repeatingAsync(0, TheAPI.getStringUtils().getTimeFromString(cc.getString("Options.Tournament.Delay")));
+		}.repeatingAsync(0, TheAPI.getStringUtils().getTimeFromString(c.getString("Options.Tournament.Delay")));
 		
 	}
 	private void isTest() {
@@ -78,26 +81,26 @@ public class Loader extends JavaPlugin {
 	}
 	@Override
 	public void onDisable() {
-		reloadAll();
+		Configs.LoadConfigs();
 		f.stopRunnable();
 	}
 	public static void msgCmd(String msg, CommandSender s) {
 		s.sendMessage(Color.c(msg));
 	}
 	
-	public static void reloadAll() {
+	/*public static void reloadAll() {
 		a.reload();
 		chat.reload();
 		cc.reload();
 		shopfile.reload();
-	}
+	}*/
 	
-	public void LoadAll() {
+	/*public void LoadAll() {
 		load();
 		setupTranslations();
 		setupChatMe();
 		loadShop();
-		}
+		}*/
 	public static String getAFK(int i) {
 		if(TranslationsFile.getString("AFK-Title."+i)!=null)
 			return Color.c(TranslationsFile.getString("AFK-Title."+i));
@@ -108,6 +111,9 @@ public class Loader extends JavaPlugin {
 			return Color.c(TranslationsFile.getString("Editor."+path+"."+i));
 		return "";
 	}
+	public static ConfigAPI getConfig(String localization,  String name) {
+		return new ConfigAPI(localization, name);
+	}/*
 	static ConfigAPI a=TheAPI.getConfig("AmazingFishing", "Translations");
 	static void setupTranslations() {
 		a.addDefault("CommandIsDisabled", "&cCommand is disabled!");
@@ -727,14 +733,14 @@ public class Loader extends JavaPlugin {
 		cc.create();
 		c=cc.getConfig();
 	}
-	
+	*/
 	public static void save() {
-		cc.save();
+		Configs.c.save();
 	}
 	public static void saveChatMe() {
-		chat.save();
+		Configs.me.save();
 	}
-	static ConfigAPI shopfile;
+	/*static ConfigAPI shopfile;
 	
 	public static void loadShop() {
 		shopfile = TheAPI.getConfig("AmazingFishing","AmazingFishing-Shop.yml");
@@ -828,6 +834,7 @@ public class Loader extends JavaPlugin {
 	public static void saveShop() {
 		shopfile.save();
 	}
+	*/
 	public static boolean hasPerm(CommandSender s, String perm) {
 		if(s.hasPermission(perm)) {
 		return true;

@@ -8,6 +8,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import Main.Loader;
 import me.DevTec.RankingAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.TheAPI.SudoType;
@@ -148,7 +149,7 @@ public class Tournament {
 	public static int r=-1;
 	public static void startType(Type type, int length, boolean e) {
 		if(e) //autostart
-		if(Loader.cc.getInt("Options.Tournament.RequiredPlayers") > TheAPI.getOnlinePlayers().size())return;
+		if(Loader.c.getInt("Options.Tournament.RequiredPlayers") > TheAPI.getOnlinePlayers().size())return;
 		if(type==Type.Random)type=Type.valueOf(TheAPI.getRandomFromList(legend).toString());
 		now=type;
 		count=length;
@@ -186,7 +187,7 @@ public class Tournament {
              			String player = w.getObject(i).toString();
         			if(player==null)continue;
         			String value = (now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."));
-        			if(!Loader.cc.getBoolean("Options.UseDoubles.Length")||!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+        			if(!Loader.c.getBoolean("Options.UseDoubles.Length")||!Loader.c.getBoolean("Options.UseDoubles.Weight"))
         				value=value.replaceAll("\\.00", "");
         			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
             				.replace("%position%", i+"")
@@ -204,7 +205,7 @@ public class Tournament {
          			String player = w.getObject(i).toString();
     			if(player==null)continue;
     			String value = (now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."));
-    			if(!Loader.cc.getBoolean("Options.UseDoubles.Length")||!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+    			if(!Loader.c.getBoolean("Options.UseDoubles.Length")||!Loader.c.getBoolean("Options.UseDoubles.Weight"))
     				value=value.replaceAll("\\.00", "");
     			
     			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")

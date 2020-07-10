@@ -15,6 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.ByBiome.biomes;
 import AmazingFishing.help.Type;
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.RankingAPI;
 import me.DevTec.TheAPI;
@@ -362,7 +364,7 @@ public class gui {
 							list.add(s.name());
 						}
 						Loader.c.set("Types."+typ+"."+fish+".Biomes",list);
-						Loader.save();
+						Configs.c.save();
 						openBiomeSettting(p, fish, typ,edit);
 				}});
 			ItemStack as = Create.createItem(name, aS,lore);

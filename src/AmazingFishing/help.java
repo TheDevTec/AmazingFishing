@@ -10,6 +10,8 @@ import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 
 import AmazingFishing.Shop.ShopType;
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
@@ -411,7 +413,7 @@ public class help {
 				@Override
 				public void run() {
 					if(p.hasPermission("amazingfishing.reload")) {
-					Loader.reloadAll();
+					Configs.reload();
 					Loader.msgCmd(Loader.s("Prefix")+Loader.s("ConfigReloaded"), p);}
 				}});
 			if(p.hasPermission("amazingfishing.reload"))

@@ -10,6 +10,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Shop.ShopType;
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.GUICreatorAPI.Options;
@@ -66,7 +68,7 @@ public class bag {
 	}
 	public static void saveBag(Player p, Inventory i) {
 		Loader.me.set("Players."+p.getName()+".Bag",null);
-		Loader.saveChatMe();
+		Configs.me.save();
 		for(int count = 0; count < 45; ++count) {
 			if(i.getItem(count)==null)continue;
 			addFish(p,i.getItem(count));
@@ -91,7 +93,7 @@ public class bag {
 			if(find)break;
 			if(Loader.me.getString("Players."+p.getName()+".Bag."+count)==null) {
 				Loader.me.set("Players."+p.getName()+".Bag."+count, i);
-				Loader.saveChatMe();
+				Configs.me.save();
 				find=true;
 			}else {
 				ItemStack a = Loader.me.getItemStack("Players."+p.getName()+".Bag."+count).clone();
@@ -104,7 +106,7 @@ public class bag {
 					if(i.getAmount()+Loader.me.getItemStack("Players."+p.getName()+".Bag."+count).getAmount()<64) {
 						c.setAmount(i.getAmount()+Loader.me.getItemStack("Players."+p.getName()+".Bag."+count).getAmount());
 						Loader.me.set("Players."+p.getName()+".Bag."+count, c);
-						Loader.saveChatMe();
+						Configs.me.save();
 						find=true;
 					}
 				}

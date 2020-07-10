@@ -1,5 +1,7 @@
 package AmazingFishing;
 
+import Main.Loader;
+
 public class Trans {
 	public static String tour_stop() {
 		return get("Help.Tournament_Stop");

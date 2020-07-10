@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.gui.FishType;
 import AmazingFishing.help.Type;
+import Main.Loader;
 import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.GUICreatorAPI.Options;

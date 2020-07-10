@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
 import AmazingFishing.Quests.Actions;
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
 
@@ -61,12 +63,12 @@ public class ByBiome {
 			}else
 				list.remove(biom.name());
 			Loader.c.set("Types."+type+"."+fish+".Biomes",list);
-			Loader.save();
+			Configs.c.save();
 		}else {
 		List<String> list = new ArrayList<String>();
 		list.add(biom.name());
 		Loader.c.set("Types."+type+"."+fish+".Biomes",list);
-		Loader.save();
+		Configs.c.save();
 		}
 	}
 	
@@ -114,7 +116,7 @@ public class ByBiome {
 		points = points+(points%pointbonus);
 		if(expbonus!=0)
 		exp = exp+(exp%expbonus);
-		if(!Loader.cc.getConfig().getBoolean("Options.DisableMoneyFromCaught"))
+		if(!Loader.c.getBoolean("Options.DisableMoneyFromCaught"))
 		TheAPI.getEconomyAPI().depositPlayer(p.getName(), money);
 		TheAPI.getPlayerAPI(p).giveExp((int)exp);
 		Points.give(p.getName(), points);
@@ -132,9 +134,9 @@ public class ByBiome {
 			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
 			double weight = Generators.weight(length);
-			if(!Loader.cc.getBoolean("Options.UseDoubles.Length"))
+			if(!Loader.c.getBoolean("Options.UseDoubles.Length"))
 				length=(int)length;
-			if(!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+			if(!Loader.c.getBoolean("Options.UseDoubles.Weight"))
 				weight=(int)weight;
 			if(Loader.c.getString("Format.FishDescription")!=null) {
 				List<String> lore=new ArrayList<String>();
@@ -174,9 +176,9 @@ public class ByBiome {
 			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
 			double weight = Generators.weight(length);
-			if(!Loader.cc.getBoolean("Options.UseDoubles.Length"))
+			if(!Loader.c.getBoolean("Options.UseDoubles.Length"))
 				length=(int)length;
-			if(!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+			if(!Loader.c.getBoolean("Options.UseDoubles.Weight"))
 				weight=(int)weight;
 			String name = fish;
 			if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)

@@ -14,13 +14,14 @@ import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import AmazingFishing.help.Type;
+import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.TheAPI.SudoType;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.GUICreatorAPI.Options;
-import me.DevTec.Scheduler.Tasker;
 import me.DevTec.GUI.ItemGUI;
+import me.DevTec.Scheduler.Tasker;
 
 public class Shop {
 	public Shop(CommandSender s) {
@@ -267,9 +268,9 @@ public class Shop {
 			
 			sel=sel+d.getAmount();
 			amount=amount+d.getAmount();
-			sold=sold+(((Loader.cc.getConfig().getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Money") : (Loader.cc.getConfig().getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4))*d.getAmount())*bonus);
-			points=points+(((Loader.cc.getConfig().getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Points") : (Loader.cc.getConfig().getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Points") : Loader.c.getDouble(path+".Points")/2))*d.getAmount())*bonus);
-			exp=exp+(int)(((Loader.cc.getConfig().getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Xp") : (Loader.cc.getConfig().getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Xp") : Loader.c.getDouble(path+".Xp")/2))*d.getAmount())*bonus);
+			sold=sold+(((Loader.c.getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Money") : (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4))*d.getAmount())*bonus);
+			points=points+(((Loader.c.getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Points") : (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Points") : Loader.c.getDouble(path+".Points")/2))*d.getAmount())*bonus);
+			exp=exp+(int)(((Loader.c.getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Xp") : (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Xp") : Loader.c.getDouble(path+".Xp")/2))*d.getAmount())*bonus);
 			Quests.addProgress(p,path,fish,Actions.SELL_FISH);
 			i.remove(d);
 		}else {

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bukkit.Material;
 
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.TheAPI;
 import me.DevTec.Scheduler.Tasker;
 
@@ -24,7 +26,7 @@ public class FishOfDay {
 				 Loader.me.set("FishOfDay.Type", type);
 				 Loader.me.set("FishOfDay.Name", fish);
 				 Loader.me.set("FishOfDay.Bonus", TheAPI.getRandomFromList(Arrays.asList(2,2,2,3,2,4,2,2,2,8,2,4,2,6,2,5,2,2,2,7,2,2,2,2,9,2,2)));
-				 Loader.saveChatMe();
+				 Configs.me.save();
 			}
 			
 		}.repeatingAsync(0,20*60*60*24);

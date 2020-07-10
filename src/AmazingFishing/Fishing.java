@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import AmazingFishing.Tournament.Type;
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.TheAPI;
 
 public class Fishing implements CommandExecutor, TabCompleter {
@@ -327,19 +329,19 @@ public class Fishing implements CommandExecutor, TabCompleter {
 			if(Loader.me.getBoolean("Players."+s.getName()+".Toggle")) {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("Toggled.false"), s);
 				Loader.me.set("Players."+s.getName()+".Toggle", false);
-				Loader.saveChatMe();
+				Configs.me.save();
 			return true;
 			}else {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("Toggled.true"), s);
 				Loader.me.set("Players."+s.getName()+".Toggle", true);
-				Loader.saveChatMe();
+				Configs.me.save();
 			return true;
 			}}
 		if(args[0].equalsIgnoreCase("reload")) {
 			if(Loader.hasPerm(s, "amazingfishing.reload")) {
 				Loader.msgCmd(Loader.s("Prefix")+ ChatColor.YELLOW+"----------------- "+ChatColor.DARK_AQUA+"AmazingFishing Reload"+ChatColor.YELLOW+" -----------------",s);
 			    Loader.msgCmd("",s);
-				Loader.reloadAll();
+				Configs.reload();
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ConfigReloaded"), s);
 				return true;
 			}

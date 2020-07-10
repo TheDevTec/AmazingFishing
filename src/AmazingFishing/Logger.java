@@ -2,6 +2,8 @@ package AmazingFishing;
 
 import org.bukkit.Bukkit;
 
+import Main.Loader;
+
 public class Logger {
 	public static void info(String p, String fish, String type, double length, double weight) {
 		if(Loader.c.getBoolean("Options.LogCaughtFishToConsole")) {

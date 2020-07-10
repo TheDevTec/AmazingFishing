@@ -9,6 +9,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import AmazingFishing.onChat.enchs;
+import Main.Configs;
+import Main.Loader;
 import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.GUICreatorAPI.Options;
@@ -84,7 +86,7 @@ public class ench {
 				public void run() {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
-					Loader.save();
+					Configs.c.save();
 					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}});
 		if(name != null) {
@@ -100,7 +102,7 @@ public class ench {
 			public void run() {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
-				Loader.save();
+				Configs.c.save();
 				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
 			}
 		});
@@ -115,7 +117,7 @@ public class ench {
 			public void run() {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
-				Loader.save();
+				Configs.c.save();
 				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
 			}
 		});
@@ -130,7 +132,7 @@ public class ench {
 			public void run() {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
-				Loader.save();
+				Configs.c.save();
 				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
 			}
 		});
@@ -151,7 +153,7 @@ public class ench {
 							
 						}
 				openEditor(p, type, name);
-				Loader.save();
+				Configs.c.save();
 			}
 		});
 		w.put(Options.RUNNABLE_LEFT_CLICK, new Runnable() {
@@ -159,7 +161,7 @@ public class ench {
 			public void run() {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type",enchs.Description); 
-				Loader.save();
+				Configs.c.save();
 				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
 			}
 		});
@@ -177,7 +179,7 @@ public class ench {
 			public void run() {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
-				Loader.save();
+				Configs.c.save();
 				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 			}
 		});
@@ -191,7 +193,7 @@ public class ench {
 			public void run() {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
-				Loader.save();
+				Configs.c.save();
 				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
 			}
 		});
@@ -211,7 +213,7 @@ public class ench {
 					openEnchanter(p);
 				Loader.c.set("Creating-Enchants."+p.getName(), null);
 				Loader.c.set("Edit-Enchants."+p.getName(), null);
-				Loader.save();
+				Configs.c.save();
 			}
 		});
 		a.setItem(49,Create.createItem(Trans.save(), Material.EMERALD_BLOCK),w);
@@ -244,7 +246,7 @@ public class ench {
 					public void run() {
 						if(type==select.DELETE) {;
 						Loader.c.set("Enchants."+g, null);
-						Loader.save();
+						Configs.c.save();
 						openSelected(p, type);
 							return;
 						}

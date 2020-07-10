@@ -1,5 +1,7 @@
 package AmazingFishing;
 
+import Main.Loader;
+
 public class Points {
 
 	public static double bal(String p) {
