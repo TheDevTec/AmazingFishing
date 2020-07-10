@@ -174,6 +174,10 @@ public class ByBiome {
 			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
 			double weight = Generators.weight(length);
+			if(!Loader.cc.getBoolean("Options.UseDoubles.Length"))
+				length=(int)length;
+			if(!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+				weight=(int)weight;
 			String name = fish;
 			if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
 				name=Color.c(Loader.c.getString("Types."+type+"."+fish+".Name"));

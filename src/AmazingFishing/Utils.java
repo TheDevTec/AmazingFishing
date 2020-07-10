@@ -124,8 +124,13 @@ public class Utils {
 				Loader.me.set("Players."+p.getName()+"."+type+"."+fish+".Length", record);
 				String name = Loader.c.getString("Types."+type+"."+fish+".Name");
 				if(name==null)name=fish;
-				if(!Loader.me.getBoolean("Players."+p.getName()+".Toggle"))
+				if(!Loader.me.getBoolean("Players."+p.getName()+".Toggle")) {
+					if(!Loader.cc.getBoolean("Options.UseDoubles.Length")) {
+						Loader.msgCmd(Loader.s("Prefix")+Loader.s("ReachNewRecord").replace("%record%", (record+"").replace(".0", "")).replace("%fish%", name).replace("%last%", (last+"").replace(".0", "")), p);
+					}else {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ReachNewRecord").replace("%record%", record+"").replace("%fish%", name).replace("%last%", last+""), p);
+					}
+				}
 				Loader.saveChatMe();
 				giveReward(p,fish,type);
 			}

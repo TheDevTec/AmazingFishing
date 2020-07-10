@@ -78,9 +78,20 @@ public class Shop {
 		}else {
 			w.remove(Options.RUNNABLE);
 			List<String> s = new ArrayList<String>();
-			for(String d : Loader.c.getStringList("Options.Manual.FishOfDay"))
-				s.add(d.replace("%fish_name%", Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".Name")).replace("%fish%", Loader.f.getFish()).replace("%bonus%", ""+Loader.f.getBonus()));
-			a.setItem(35,Create.createItem(Trans.fishday(),Loader.f.getMaterial(), s),w);
+			for(String d : Loader.c.getStringList("Format.FishOfDay"))
+				s.add(d
+						.replace("%fish_name%", Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".Name"))
+						.replace("%fish%", Loader.f.getFish())
+						.replace("%fish_type%", Loader.f.getType())
+						.replace("%bonus%", ""+Loader.f.getBonus()));
+			ItemCreatorAPI item = TheAPI.getItemCreatorAPI(Loader.f.getMaterial());
+			int mod = 0;
+			if(Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData")!=null)
+				mod = Loader.c.getInt("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData");
+			item.setCustomModelData(mod);
+			item.setDisplayName(Trans.fishday());
+			item.setLore(s);
+			a.setItem(35,item,w);
 			a.applyItemGUI(c(p,"BuyShop",new Runnable() {
 				@Override
 				public void run() {

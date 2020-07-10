@@ -258,6 +258,7 @@ public class Loader extends JavaPlugin {
 		a.addDefault("Words.SelectTreasures", "&bTreasures editor");
 		a.addDefault("Words.SelectSettings", "&7Settings editor");
 		a.addDefault("Words.Fish", "&7Fish");
+		a.addDefault("Words.FishOfDay", "&aToday's bonus fish");
 		
 		a.addDefault("Words.Commands", "&dCommands");
 		a.addDefault("Words.Messages", "&rMessages");
@@ -373,6 +374,10 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Options.Shop", true);
 		cc.addDefault("Options.UseDoubles.Length", true);
 		cc.addDefault("Options.UseDoubles.Weight", true);
+		
+		cc.addDefault("Options.UseDoubles.Weight", true);
+		cc.addDefault("Options.UseDoubles.Weight", true);
+		
 		cc.addDefault("Options.CustomFishOnlyWhileTournament", false);
 		cc.addDefault("Options.TreasuresOnlyWhileTournament", false);
 		cc.addDefault("Options.Enchants", true);
@@ -424,6 +429,14 @@ public class Loader extends JavaPlugin {
 		cc.addDefault("Format.FishDescription", Arrays.asList("&8-------------------------"
 				,"&7Weight: &a%weight%kg","&7Length: &a%length%cm","&7Can be found:"," &a%biomes%"
 				,"&7Caught by: &a%fisher%","&8-------------------------"));
+		
+		cc.addDefault("Format.FishOfDay",
+				Arrays.asList("&8-------------------------"
+				,"&7Name: &a%fish_name%"
+				,"&7Type: &a%fish_type%"
+				,"&7Bonus: &a%bonus%x"
+				,"&8-------------------------"));
+		
 		if(!cc.existPath("GUI.Stats")) {
 		cc.addDefault("GUI.Stats.1.Name", "&aPlayer");
 		cc.addDefault("GUI.Stats.1.Lore", Arrays.asList("&3> &a%playername%"));

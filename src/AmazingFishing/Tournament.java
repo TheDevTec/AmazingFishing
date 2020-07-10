@@ -185,11 +185,14 @@ public class Tournament {
                 		if(w.getObject(i)==null)continue;
              			String player = w.getObject(i).toString();
         			if(player==null)continue;
+        			String value = (now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."));
+        			if(!Loader.cc.getBoolean("Options.UseDoubles.Length")||!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+        				value=value.replaceAll("\\.00", "");
         			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
             				.replace("%position%", i+"")
             				.replace("%player%", player)
             				.replace("%playername%", p(player))
-            				.replace("%value%",(now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."))));
+            				.replace("%value%",value));
         		}}
                 if(count == 0) {
 					//cancel();
@@ -201,6 +204,9 @@ public class Tournament {
          			String player = w.getObject(i).toString();
     			if(player==null)continue;
     			String value = (now==Type.MostCatch ? ""+w.getValue(player).floatValue() : String.format("%2.02f",w.getValue(player).floatValue()).replace(",", "."));
+    			if(!Loader.cc.getBoolean("Options.UseDoubles.Length")||!Loader.cc.getBoolean("Options.UseDoubles.Weight"))
+    				value=value.replaceAll("\\.00", "");
+    			
     			TheAPI.broadcastMessage(Loader.c.getString("Tournaments."+now.toString()+".Positions")
         				.replace("%position%", i+"")
         				.replace("%player%", player)
@@ -208,11 +214,12 @@ public class Tournament {
         				.replace("%value%",value));
     			if(!player.equalsIgnoreCase("-")) {
          			for(String s:Loader.c.getStringList("Tournaments."+now.toString()+".Rewards."+i)) {
+         				String valuE = value;
          				int in = i;
          				Bukkit.getScheduler().scheduleSyncDelayedTask(Loader.plugin, new Runnable() {
          					public void run() {
          						Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), s.replace("%player%", player)
-                 						.replace("%playername%", p(player)).replace("%value%", value).replace("%position%", in+""));
+                 						.replace("%playername%", p(player)).replace("%value%", valuE).replace("%position%", in+""));
          					}
          				}, 5);
          			}
