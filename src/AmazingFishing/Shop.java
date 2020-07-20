@@ -1,13 +1,13 @@
 package AmazingFishing;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +19,6 @@ import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.TheAPI.SudoType;
 import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.GUICreatorAPI.Options;
 import me.DevTec.GUI.ItemGUI;
 import me.DevTec.Scheduler.Tasker;
 
@@ -47,37 +46,39 @@ public class Shop {
 		if(Loader.shop.getString("GUI."+item+".ModelData")!=null)
 		a.setCustomModelData(Loader.shop.getInt("GUI."+item+".ModelData"));
 		a.setLore(lore);
-		ItemGUI d = new ItemGUI(a.create()) {@Override
-		public void onClick(Player arg0) {}
+		ItemGUI d = new ItemGUI(a.create()){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				if(r!=null)
+					r.run();
+			}
 		};
-		d.add(Options.CANT_BE_TAKEN, true);
-		if(r!=null)
-		d.add(Options.RUNNABLE, r);
 		return d;
 	}
 	
 	public static void openShop(Player p, ShopType t) {
-		String shop = Trans.shoplog();
-		if(t==ShopType.Sell)shop="&6"+Trans.shoplogsell();
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI(shop,54,p);
+		GUICreatorAPI a = new GUICreatorAPI(Trans.shoplog()+(t==ShopType.Sell?"&6"+Trans.shoplogsell():""),54,p) {
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
+		if(t==ShopType.Sell)
+			a.setInsertable(true);
 		new Tasker() {
 			
 			@Override
 			public void run() {
 		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_BE_TAKEN, true);
-		a.applyItemGUI(c(p,"Points",null), 4);
+		a.setItem(4,c(p,"Points",null));
 		if(t==ShopType.Buy) {
 		if(Loader.c.getBoolean("Options.ShopSellFish"))
-			a.applyItemGUI(c(p,"SellShop",new Runnable() {
+			a.setItem(45,c(p,"SellShop",new Runnable() {
 				@Override
 				public void run() {
 					openShop(p, ShopType.Sell);
-				}}), 45);
+				}}));
 		addItems(a);
 		}else {
-			w.remove(Options.RUNNABLE);
 			List<String> s = new ArrayList<String>();
 			for(String d : Loader.c.getStringList("Format.FishOfDay"))
 				s.add(d
@@ -92,31 +93,35 @@ public class Shop {
 			item.setCustomModelData(mod);
 			item.setDisplayName(Trans.fishday());
 			item.setLore(s);
-			a.setItem(35,item,w);
-			a.applyItemGUI(c(p,"BuyShop",new Runnable() {
+			a.setItem(35,new ItemGUI(item.create()){
 				@Override
-				public void run() {
-					openShop(p, ShopType.Buy);
-				}}), 45);
-			a.applyItemGUI(c(p,"Bag",new Runnable() {
+				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				}
+			});
+			
+			 a.setItem(45, c(p,"BuyShop",new Runnable() {
+					@Override
+					public void run() {
+						openShop(p, ShopType.Buy);
+					}}));
+			a.setItem(26,c(p,"Bag",new Runnable() {
 				@Override
 				public void run() {
 					bag.openBag(p);
-				}}), 26);
-			a.applyItemGUI(c(p,"Sell",new Runnable() {
+				}}));
+			a.setItem(49,c(p,"Sell",new Runnable() {
 				@Override
 				public void run() {
 					sellAll(p, p.getOpenInventory().getTopInventory(), true, false);
-				}}), 49);
+				}}));
 		}
 		if(Loader.c.getBoolean("Options.UseGUI")) {
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(53,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				help.open(p, Type.Player);
-			}});
-		a.setItem(53,Create.createItem(Trans.back(), Material.BARRIER),w);
+			}
+		});
 		}
 			}
 		}.runAsync();
@@ -138,23 +143,24 @@ public class Shop {
 				List<String> lore= new ArrayList<String>();
 					if(ex("Items."+item+".Description") && Loader.shop.getStringList("Items."+item+".Description").isEmpty()==false)
 					for(String ss:Loader.shop.getStringList("Items."+item+".Description"))lore.add(ss.replace("%item%", item).replace("%cost%", cost+""));
-					HashMap<Options, Object> w = new HashMap<Options, Object>();
-					w.put(Options.CANT_BE_TAKEN, true);
-						w.put(Options.RUNNABLE, new Runnable() {
-							public void run() {
-								giveItem(inv.getPlayers().get(0), item);
-							}});
 						ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(icon));
 						a.setDisplayName(ItemName);
 						a.setLore(lore);
 						if(Loader.shop.getString("Items."+item+".ModelData")!=null)
 						a.setCustomModelData(Loader.shop.getInt("Items."+item+".ModelData"));
-					inv.addItem(a.create(),w);
+					inv.addItem(new ItemGUI(a.create()){
+							@Override
+							public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+								giveItem(inv.getPlayers().get(0), item);
+							}
+						});
+			 
 		}
 		}catch(Exception e) {
 			Bukkit.getLogger().severe("Error when adding items to Amazing Fishing Shop");	
 			}
 		}
+
 	public static void giveItem(Player p,String kit) {
 			int cost = Loader.shop.getInt("Items."+kit+".Cost");
 			if(Points.has(p.getName(), cost)) {

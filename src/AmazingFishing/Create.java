@@ -1,15 +1,16 @@
 package AmazingFishing;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.GUICreatorAPI.Options;
+import me.DevTec.GUI.ItemGUI;
 
 public class Create {
     public static ItemStack createItem(String name, Material material) {
@@ -26,31 +27,57 @@ public class Create {
     }
 	public static void prepareInv(GUICreatorAPI inv) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
-		HashMap<Options, Object> setting = new HashMap<Options, Object>();
-		setting.put(Options.CANT_BE_TAKEN, true);
 		for(int i = 0; i<10; ++i)
-		inv.setItem(i, item,setting);
-		inv.setItem(17, item,setting);
-		inv.setItem(18, item,setting);
-		inv.setItem(26, item,setting);
-		inv.setItem(27, item,setting);
-		inv.setItem(35, item,setting);
-		inv.setItem(36, item,setting);
+		inv.setItem(i, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
+
+		inv.setItem(17, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
+		inv.setItem(18, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
+		inv.setItem(26, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
+		inv.setItem(27, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
+		inv.setItem(35, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
+		inv.setItem(36, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
 		for(int i = 44; i<54; ++i)
-		inv.setItem(i, item,setting);
+		inv.setItem(i,  new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
 	}
 	public static void prepareInvBig(GUICreatorAPI inv) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
-		HashMap<Options, Object> setting = new HashMap<Options, Object>();
-		setting.put(Options.CANT_BE_TAKEN, true);
 		for(int i = 45; i<54; ++i)
-		inv.setItem(i, item,setting);
+		inv.setItem(i, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
+
 	}
 	public static void prepareInvSmall(GUICreatorAPI inv) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
-		HashMap<Options, Object> setting = new HashMap<Options, Object>();
-		setting.put(Options.CANT_BE_TAKEN, true);
 		for(int i = 9; i<18; ++i)
-		inv.setItem(i, item,setting);
+		inv.setItem(i, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {}
+		});
 	}
 }

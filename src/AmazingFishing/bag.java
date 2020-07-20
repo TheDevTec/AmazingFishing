@@ -1,11 +1,11 @@
 package AmazingFishing;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,58 +14,78 @@ import Main.Configs;
 import Main.Loader;
 import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.GUICreatorAPI.Options;
+import me.DevTec.GUI.ItemGUI;
 
 public class bag {
 	public static void openBag(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&b"+Trans.bag_title(),54,p);
-		Create.prepareInvBig(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_BE_TAKEN, true);
-		w.put(Options.RUNNABLE_ON_INV_CLOSE, new Runnable() {
+		GUICreatorAPI a = new GUICreatorAPI("&b"+Trans.bag_title(),54,p) {
+			
 			@Override
-			public void run() {
+			public void onClose(Player arg0) {
 				saveBag(p,p.getOpenInventory().getTopInventory());
 			}
-		});
-		w.put(Options.RUNNABLE, new Runnable() {
+		};
+		Create.prepareInvBig(a);
+
+		a.setItem(49,new ItemGUI( Create.createItem(Trans.close(), Material.BARRIER)) {
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
 				p.getOpenInventory().close();
 			}
 		});
-		a.setItem(49, Create.createItem(Trans.close(), Material.BARRIER),w);
+		
 		if(Loader.c.getBoolean("Options.ShopSellFish")) {
 			if(Loader.c.getBoolean("Options.Bag.ButtonsToSellFish")) {
-			w.remove(Options.RUNNABLE);
-			w.put(Options.RUNNABLE, new Runnable() {
+			a.setItem(51,new ItemGUI(Create.createItem(Trans.sellFish(), Material.COD_BUCKET)) {
 				@Override
-				public void run() {
+				public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
 					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
 					saveBag(p,p.getOpenInventory().getTopInventory());
 				}
 			});
-		a.setItem(51, Create.createItem(Trans.sellFish(), Material.COD_BUCKET),w);
-		a.setItem(47, Create.createItem(Trans.sellFish(), Material.COD_BUCKET),w);
+			a.setItem(47,new ItemGUI(Create.createItem(Trans.sellFish(), Material.COD_BUCKET)) {
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
+					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
+					saveBag(p,p.getOpenInventory().getTopInventory());
+				}
+			});
 		}}
 		if(Loader.c.getBoolean("Options.Shop")) {
 			if(Loader.c.getBoolean("Options.Bag.ButtonsToOpenShop")) {
-				w.remove(Options.RUNNABLE);
-				w.put(Options.RUNNABLE, new Runnable() {
+				a.setItem(45, new ItemGUI(Create.createItem(Trans.help_shop(), Material.EMERALD)){
 					@Override
-					public void run() {
+					public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
 						Shop.openShop(p, ShopType.Buy);
 					}
 				});
-				a.setItem(45, Create.createItem(Trans.help_shop(), Material.EMERALD),w);
-				a.setItem(53, Create.createItem(Trans.help_shop(), Material.EMERALD),w);
+				a.setItem(53, new ItemGUI(Create.createItem(Trans.help_shop(), Material.EMERALD)){
+					@Override
+					public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
+						Shop.openShop(p, ShopType.Buy);
+					}
+				});
+				
 		}}
 		if(getFish(p).isEmpty()==false)
 		for(ItemStack as : getFish(p)) {
-			
-			a.addItem(as);
+			ItemGUI item = new ItemGUI(as){
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				}
+			};
+			item.setUnstealable(false);
+			a.addItem(item);
 		}
+		a.setInsertable(true);
 	}
+	/*
+	 a.setItem(-, new ItemGUI(){
+					@Override
+					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					}
+				});
+	 */
 	public static void saveBag(Player p, Inventory i) {
 		Loader.me.set("Players."+p.getName()+".Bag",null);
 		Configs.me.save();

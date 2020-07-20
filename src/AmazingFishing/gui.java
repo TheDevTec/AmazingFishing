@@ -9,6 +9,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,56 +22,55 @@ import me.DevTec.ItemCreatorAPI;
 import me.DevTec.RankingAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.GUICreatorAPI.Options;
+import me.DevTec.GUI.ItemGUI;
 
 public class gui {
 	public static enum FishType {
 		PUFFERFISH,TROPICAL_FISH,COD,SALMON
 	}
 	public static void openGlobal(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Select fish type",54,p);
-		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-		if(Loader.c.getBoolean("Options.UseGUI")) {
-			w.put(Options.RUNNABLE, new Runnable() {
-				@Override
-				public void run() {
-				help.open(p, Type.Player);
-				}});
+		GUICreatorAPI a = new GUICreatorAPI("&6Select fish type",54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 
-			a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
+		Create.prepareInv(a);
+		if(Loader.c.getBoolean("Options.UseGUI")) {
+			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+					help.open(p, Type.Player);
+				}
+			});
 		}
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(20,new ItemGUI(Create.createItem(Trans.puf(), Material.PUFFERFISH)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openGlobalFish(p,FishType.PUFFERFISH);
-			}});
-		a.setItem(20,Create.createItem(Trans.puf(), Material.PUFFERFISH),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(24,new ItemGUI(Create.createItem(Trans.tro(), Material.TROPICAL_FISH)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openGlobalFish(p,FishType.TROPICAL_FISH);
-			}});
-		a.setItem(24,Create.createItem(Trans.tro(), Material.TROPICAL_FISH),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(30,new ItemGUI(Create.createItem(Trans.sal(), Material.SALMON)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openGlobalFish(p,FishType.SALMON);
-			}});
-		a.setItem(30,Create.createItem(Trans.sal(), Material.SALMON),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(32,new ItemGUI(Create.createItem(Trans.cod(), Material.COD)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openGlobalFish(p,FishType.COD);
-			}});
-		a.setItem(32,Create.createItem(Trans.cod(), Material.COD),w);
+			}
+		});;
 	}
+
 	public static void openGlobalFish(Player p, FishType type) {
 		String path = null;
 		String title = null;
@@ -97,30 +97,32 @@ public class gui {
 			title=Trans.tro();
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Top 3 players &7- "+title,54,p);
+		GUICreatorAPI a = new GUICreatorAPI("&6Top 3 players &7- "+title,54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 		Create.prepareInv(a);
 		String pat =path;
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-			w.put(Options.RUNNABLE, new Runnable() {
+			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 				@Override
-				public void run() {
+				public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 					openGlobal(p);
-				}});
-			a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
+				}
+			});
 		for(String s:Loader.c.getConfigurationSection("Types."+path).getKeys(false)) {
 			String name = s;
 			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
-			w.remove(Options.RUNNABLE);
-			w.put(Options.RUNNABLE, new Runnable() {
+			a.addItem(new ItemGUI(Create.createItem(name, i)){
 				@Override
-				public void run() {
+				public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 					onOpenFish(p,type,s,pat);
-				}});
-			a.addItem(Create.createItem(name, i),w);
+				}
+			});
 			}
 	}
+
 	private static String name(String s) {
 		if(TheAPI.getPlayer(s)!=null)return TheAPI.getPlayer(s).getDisplayName();
 		return s;
@@ -154,82 +156,99 @@ public class gui {
 		}
 		RankingAPI<String> rw = new RankingAPI<String>(aw);
 		
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Top 3 players on "+name,54,p);
+		GUICreatorAPI a = new GUICreatorAPI("&6Top 3 players on "+name,54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
 		for(int i = 1; i < 4; ++i) {
 		String s = "-";
 		if(r.getObject(i)!=null)s=r.getObject(i).toString();
-		a.setItem(20+(i-1), createHead(name(s),s,Arrays.asList("&7 - Position: "+i+"."
-				,"&7Length:","&7 - "+Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")+"Cm")),w);
+		a.setItem(20+(i-1), new ItemGUI(createHead(name(s),s,Arrays.asList("&7 - Position: "+i+"."
+				,"&7Length:","&7 - "+Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")+"Cm"))){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			}
+		});
 		}
-		a.setItem(24,createHead(p.getDisplayName(),p.getName(),Arrays.asList("&7 - Position: "+r.getPosition(p.getName())+"."
-				,"&7Length:","&7 - "+Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Length")+"Cm")),w);
-
+		a.setItem(24,new ItemGUI(createHead(p.getDisplayName(),p.getName(),Arrays.asList("&7 - Position: "+r.getPosition(p.getName())+"."
+				,"&7Length:","&7 - "+Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Length")+"Cm"))){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			}
+		});
 
 		for(int i = 1; i < 4; ++i) {
 		String s = "-";
 		if(rw.getObject(i)!=null)s=rw.getObject(i).toString();
-		a.setItem(29+(i-1), createHead(name(s),s,Arrays.asList("&7 - Position: "+i+"."
-				,"&7Weight:","&7 - "+Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")+"Kg")),w);
-		}
-		a.setItem(33,createHead(p.getDisplayName(),p.getName(),Arrays.asList("&7 - Position: "+rw.getPosition(p.getName())+"."
-				,"&7Weight:","&7 - "+Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Weight")+"Kg")),w);
-		
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(29+(i-1), new ItemGUI(createHead(name(s),s,Arrays.asList("&7 - Position: "+i+"."
+				,"&7Weight:","&7 - "+Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")+"Kg"))){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			}
+		});
+		}
+		a.setItem(33,new ItemGUI(createHead(p.getDisplayName(),p.getName(),Arrays.asList("&7 - Position: "+rw.getPosition(p.getName())+"."
+				,"&7Weight:","&7 - "+Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Weight")+"Kg"))){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			}
+		});
+		
+		a.setItem(49, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openGlobalFish(p, t);
-			}});
-		a.setItem(49, Create.createItem(Trans.back(), Material.BARRIER),w);
+			}
+		});
 	}
 
 	public static void openMy(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Your records &7- &eSelect fish type",54,p);
-		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
+		GUICreatorAPI a = new GUICreatorAPI("&6Your records &7- &eSelect fish type",54,p) {
 			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
+		Create.prepareInv(a);
 		if(Loader.c.getBoolean("Options.UseGUI")) {
-			w.put(Options.RUNNABLE, new Runnable() {
+
+			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 				@Override
-				public void run() {
+				public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 					help.open(p, Type.Player);
-				}});
-			a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
+				}
+			});
 		}
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(20,new ItemGUI(Create.createItem(Trans.puf(), Material.PUFFERFISH)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openMyFish(p,FishType.PUFFERFISH);
-			}});
-		a.setItem(20,Create.createItem(Trans.puf(), Material.PUFFERFISH),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+
+		a.setItem(24,new ItemGUI(Create.createItem(Trans.tro(), Material.TROPICAL_FISH)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openMyFish(p,FishType.TROPICAL_FISH);
-			}});
-		a.setItem(24,Create.createItem(Trans.tro(), Material.TROPICAL_FISH),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(30,new ItemGUI(Create.createItem(Trans.sal(), Material.SALMON)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openMyFish(p,FishType.SALMON);
-			}});
-		a.setItem(30,Create.createItem(Trans.sal(), Material.SALMON),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(32,new ItemGUI(Create.createItem(Trans.cod(), Material.COD)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openMyFish(p,FishType.COD);
-			}});
-		a.setItem(32,Create.createItem(Trans.cod(), Material.COD),w);
+			}
+		});
 	}
+
 	public static void openMyFish(Player p, FishType type) {
 		String path = null;
 		String title = null;
@@ -256,58 +275,69 @@ public class gui {
 			title=Trans.tro();
 			break;
 		}
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Your record &7- "+title,54,p);
+		GUICreatorAPI a = new GUICreatorAPI("&6Your record &7- "+title,54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 		Create.prepareInv(a);
 		String pat = path;
 		
 		for(String s:Loader.c.getConfigurationSection("Types."+path).getKeys(false)) {
 			String name = s;
 			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
-			HashMap<Options, Object> w = new HashMap<Options, Object>();
-			w.put(Options.CANT_PUT_ITEM, true);
-			w.put(Options.CANT_BE_TAKEN, true);
-			w.put(Options.RUNNABLE, new Runnable() {
+			a.addItem(new ItemGUI(Create.createItem(name, i)){
 				@Override
-				public void run() {
+				public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 					onOpenMy(p,type, s, pat);
-				}});
-			a.addItem(Create.createItem(name, i),w);
+				}
+			});
 			}
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openMy(p);
-			}});
-		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
+			}
+		});
 	}
+
 	public static void onOpenMy(Player p, FishType t, String fish, String type) {
 		String name = Loader.c.getString("Types."+type+"."+fish+".Name");
 		if(name==null)name=fish;
 
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Your record on "+name,54,p);
+		GUICreatorAPI a = new GUICreatorAPI("&6Your record on "+name,54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
 		String s = p.getName();
 		String i = Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")+"";
 		if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Length")==null)i="-";
-		a.setItem(20, createHead(p.getDisplayName(),s, Arrays.asList("&7Length:","&7 - "+i+"Cm")),w);
+		a.setItem(20, new ItemGUI(createHead(p.getDisplayName(),s, Arrays.asList("&7Length:","&7 - "+i+"Cm"))){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			}
+		});
 
 		i = Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")+"";
 		if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Weight")==null)i="-";
-		a.setItem(24, createHead(p.getDisplayName(), s, Arrays.asList("&7Weight:","&7 - "+i+"Kg")),w);
-		
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(24, new ItemGUI(createHead(p.getDisplayName(), s, Arrays.asList("&7Weight:","&7 - "+i+"Kg"))){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			}
+		});
+		
+		a.setItem(49, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				openMyFish(p, t);
-			}});
-		a.setItem(49, Create.createItem(Trans.back(), Material.BARRIER),w);
+			}
+		});
 	}
+
 	public static void openBiomeSettting(Player p, String fish, String type, boolean edit) {
 		String title = null;
 		FishType t = null;
@@ -332,7 +362,12 @@ public class gui {
 			title=Trans.sal();
 		}
 		String typ =type;
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Per biome fish settings &7- "+title+" "+fish,54,p);
+		GUICreatorAPI a = new GUICreatorAPI("&6Per biome fish settings &7- "+title+" "+fish,54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 		Create.prepareInv(a);
 		for(biomes s :ByBiome.biomes.values()) {
 			Material aS = Material.STONE;
@@ -349,12 +384,17 @@ public class gui {
 				}else {
 					lore=null;
 				}
-			HashMap<Options, Object> w = new HashMap<Options, Object>();
-			w.put(Options.CANT_PUT_ITEM, true);
-			w.put(Options.CANT_BE_TAKEN, true);
-			w.put(Options.RUNNABLE, new Runnable() {
+			ItemStack as = Create.createItem(name, aS,lore);
+			if(ench) {
+				as.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+				ItemMeta ad = as.getItemMeta();
+				ad.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+				ad.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+				as.setItemMeta(ad);
+			}
+			a.addItem(new ItemGUI(as){
 				@Override
-				public void run() {
+				public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 					List<String> list = new ArrayList<String>();
 					if(Loader.c.getString("Types."+typ+"."+fish+".Biomes")!=null)
 					for(String s:Loader.c.getStringList("Types."+typ+"."+fish+".Biomes"))list.add(s);
@@ -366,30 +406,20 @@ public class gui {
 						Loader.c.set("Types."+typ+"."+fish+".Biomes",list);
 						Configs.c.save();
 						openBiomeSettting(p, fish, typ,edit);
-				}});
-			ItemStack as = Create.createItem(name, aS,lore);
-			if(ench) {
-				as.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-				ItemMeta ad = as.getItemMeta();
-				ad.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-				ad.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-				as.setItemMeta(ad);
-			}
-			a.addItem(as,w);
+				}
+			});
 		}
 		FishType r = t;
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(49, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
 				TheAPI_GUIs a = new TheAPI_GUIs();
 				if(edit)
 				a.openFishEditType(p, fish, r);
 				else
 					a.openFishCreatorType(p, fish, r);
-			}});
-		a.setItem(49, Create.createItem(Trans.back(), Material.BARRIER),w);
+			}
+		});
 	}
+
 }

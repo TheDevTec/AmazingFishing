@@ -2,26 +2,27 @@ package AmazingFishing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 
 import Main.Loader;
 import me.DevTec.TheAPI;
 import me.DevTec.TheAPI.SudoType;
 import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.GUICreatorAPI.Options;
+import me.DevTec.GUI.ItemGUI;
 
 public class Quests {
 	public static void openQuestMenu(Player p) {
-		
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Quests",54,p);
+		GUICreatorAPI a = new GUICreatorAPI("&6Quests",54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_BE_TAKEN, true);
-		w.put(Options.CANT_PUT_ITEM, true);
 		String quest = API.getQuest(p);
 		if(quest==null) {
 			API.cancelQuest(p);
@@ -51,103 +52,115 @@ public class Quests {
 			questInfo="Sell "+amount+"x "+fishname;
 		}
 		int questStages =Loader.c.getConfigurationSection("Quests."+quest+".Stage").getKeys(false).size()-1;
-		w.put(Options.RUNNABLE, new Runnable() {
+
+		a.setItem(20, new ItemGUI(Create.createItem("&2Finish quest", Material.GREEN_WOOL)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				if(stage>=questStages) {
-				Loader.me.set("Players."+p.getName()+".Quests", null);
-				Loader.saveChatMe();
-				if(Loader.c.getString("Quests."+quest+".Rewards.Commands")!=null)
-				for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Commands")) {
-					TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(s.replace("%player%", p.getName()).replace("%quest%", quest)));
-				}
-				if(Loader.c.getString("Quests."+quest+".Rewards.Messages")!=null)
-				for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Messages")) {
-					TheAPI.getPlayerAPI(p).msg(s.replace("%player%", p.getName()).replace("%quest%", quest));
-				}
-				if(Loader.c.getString("Quests."+quest+".Rewards.Items")!=null)
-				for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Items")) {
-					TheAPI.giveItem(p, Loader.c.getItemStack("Quests."+quest+".Rewards.Items."+s));
-				}
-				selectQuest(p);
-				}
-			}});
-		a.setItem(20, Create.createItem("&2Finish quest", Material.GREEN_WOOL),w); //Finish quest (If available)
-		w.remove(Options.RUNNABLE);
-		a.setItem(22, Create.createItem("&6Info about quest", Material.PAPER, Arrays.asList("&7 - Quest "+Loader.c.getString("Quests."+quest+".Name"),"&7 - "+questInfo
-				,"&7 - Progress: "+Loader.c.getInt("Players."+p.getName()+".Stage."+stage+".Amount")+"/"+Loader.c.getInt("Quests."+quest+".Stage."+stage+".Amount"),"&7 - Stage: "+stage+"/"+questStages)),w); //Info about quest
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+					Loader.me.set("Players."+p.getName()+".Quests", null);
+					Loader.saveChatMe();
+					if(Loader.c.getString("Quests."+quest+".Rewards.Commands")!=null)
+					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Commands")) {
+						TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(s.replace("%player%", p.getName()).replace("%quest%", quest)));
+					}
+					if(Loader.c.getString("Quests."+quest+".Rewards.Messages")!=null)
+					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Messages")) {
+						TheAPI.getPlayerAPI(p).msg(s.replace("%player%", p.getName()).replace("%quest%", quest));
+					}
+					if(Loader.c.getString("Quests."+quest+".Rewards.Items")!=null)
+					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Items")) {
+						TheAPI.giveItem(p, Loader.c.getItemStack("Quests."+quest+".Rewards.Items."+s));
+					}
+					selectQuest(p);
+					}
+			}}); //Finish quest (If available)
+		a.setItem(22,new ItemGUI(
+				Create.createItem("&6Info about quest", Material.PAPER, Arrays.asList("&7 - Quest "+Loader.c.getString("Quests."+quest+".Name")
+				,"&7 - "+questInfo
+				,"&7 - Progress: "+Loader.c.getInt("Players."+p.getName()+".Stage."+stage+".Amount")
+				+"/"+Loader.c.getInt("Quests."+quest+".Stage."+stage+".Amount"),"&7 - Stage: "+stage+"/"+questStages))){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			}
+		}); //Info about quest
+		a.setItem(24, new ItemGUI(Create.createItem("&cCancel quest", Material.RED_WOOL)){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				Loader.me.set("Players."+p.getName()+".Quests."+quest, null);
 				selectQuest(p);
-			}});
-		a.setItem(24, Create.createItem("&cCancel quest", Material.RED_WOOL),w); //Cancel quest
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		}); //Cancel quest
+		a.setItem(49, new ItemGUI(Create.createItem(Trans.close(), Material.BARRIER)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				p.getOpenInventory().close();
-			}});
-		a.setItem(49, Create.createItem(Trans.close(), Material.BARRIER),w); //Cancel quest
+			}
+		}); //Cancel quest
 	}
-	
+
 	public static enum Actions {
 		CATCH_FISH,
 		SELL_FISH
 		
 	}
-	
+
 	public static void selectQuest(Player p) {
-		GUICreatorAPI a = TheAPI.getGUICreatorAPI("&6Quests &7- &eSelect Quest",54,p);
+		GUICreatorAPI a = new GUICreatorAPI("&6Quests &7- &eSelect Quest",54,p) {
+			
+			@Override
+			public void onClose(Player arg0) {
+			}
+		};
 		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_BE_TAKEN, true);
-		w.put(Options.CANT_PUT_ITEM, true);
 		List<Object> list = new ArrayList<Object>();
 		if(Loader.c.getString("Quests")!=null)
 		for(String s: Loader.c.getConfigurationSection("Quests").getKeys(false))list.add(s);
 		String q = TheAPI.getRandomFromList(list).toString();
+
 		if(q!=null) {
-			w.put(Options.RUNNABLE, new Runnable() {
-				@Override
-				public void run() {
-					Actions s = Actions.valueOf(Loader.c.getString("Quests."+q+".Stage.0.Action").toUpperCase());
-					if(s==null)return;
-					if(s==Actions.CATCH_FISH||s==Actions.SELL_FISH){
-						Loader.me.set("Players."+p.getName()+".Quests.Current", q);
-						Loader.me.set("Players."+p.getName()+".Quests.Stage", 0);
-						if(Loader.c.getString("Quests."+q+".Time")!=null)
-						TheAPI.getCooldownAPI("amazingfishing.quests."+q).createCooldown(p.getName(), TheAPI.getStringUtils().getTimeFromString(Loader.c.getString("Quests."+q+".Time")));
-						}
-					Loader.saveChatMe();
-					openQuestMenu(p);
-				}});
-		a.setItem(20, Create.createItem("&aAccept quest", Material.GREEN_WOOL),w);
+		a.setItem(20, new ItemGUI(Create.createItem("&aAccept quest", Material.GREEN_WOOL)){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				Actions s = Actions.valueOf(Loader.c.getString("Quests."+q+".Stage.0.Action").toUpperCase());
+				if(s==null)return;
+				if(s==Actions.CATCH_FISH||s==Actions.SELL_FISH){
+					Loader.me.set("Players."+p.getName()+".Quests.Current", q);
+					Loader.me.set("Players."+p.getName()+".Quests.Stage", 0);
+					if(Loader.c.getString("Quests."+q+".Time")!=null)
+					TheAPI.getCooldownAPI("amazingfishing.quests."+q).createCooldown(p.getName(), TheAPI.getStringUtils().getTimeFromString(Loader.c.getString("Quests."+q+".Time")));
+					}
+				Loader.saveChatMe();
+				openQuestMenu(p);
+			}
+		});
 		String questInfo = Loader.c.getString("Quests."+q+".Description");
 		String questStages =Loader.c.getConfigurationSection("Quests."+q+".Stage").getKeys(false).size()-1+"";
 
-		w.remove(Options.RUNNABLE);
-		a.setItem(22, Create.createItem("&6Info about quest", Material.PAPER, Arrays.asList("&7 - "+Loader.c.getString("Quests."+q+".Name"),"&7 - "+questInfo
-				,"&7 - Stages: "+questStages)),w);
+		a.setItem(22,new ItemGUI(Create.createItem("&6Info about quest", Material.PAPER,
+				Arrays.asList("&7 - "+Loader.c.getString("Quests."+q+".Name"),"&7 - "+questInfo
+				,"&7 - Stages: "+questStages))){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			}
+		});
 		}
 
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(24, new ItemGUI(Create.createItem("&6Another quest", Material.ORANGE_WOOL)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				selectQuest(p);
-			}});
-		a.setItem(24, Create.createItem("&6Another quest", Material.ORANGE_WOOL),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		
+		a.setItem(49, new ItemGUI(Create.createItem(Trans.close(), Material.BARRIER)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				p.getOpenInventory().close();
-			}});
-		a.setItem(49, Create.createItem(Trans.close(), Material.BARRIER),w);
+			}
+		});
 	}
+
+
 	public static void addProgress(Player p, String type, String fish, Actions c) {
 		String q = API.getQuest(p);
 		if(q!=null) {
