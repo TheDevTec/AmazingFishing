@@ -1,6 +1,7 @@
 package AmazingFishing;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,13 +28,38 @@ public class CEnch extends Enchantment {
 		return r;
 	}
 	
+	public static double generateRandomDouble(double maxDouble) {
+		boolean inMinus = false;
+		double i = 0.0;
+		if (maxDouble < 0) {
+			maxDouble = -1 * maxDouble;
+			inMinus = true;
+		}
+		if (maxDouble == 0.0) {
+			return 0.0;
+		}
+		if (maxDouble < 1.0) {
+			i = 0.0 + new Random().nextDouble();
+		}else {
+			i = new Random().nextInt((int) maxDouble) + new Random().nextDouble();
+		}
+		//double i = new Random().nextInt((int) maxDouble) + new Random().nextDouble();
+		if (i <= 0)
+			i = 1;
+		if (i > maxDouble)
+			i = maxDouble;
+		if (inMinus)
+			i = -1 * i;
+		return i;
+	}
+	
 	public double getBonus(String b,int lvl) {
 		double s = 0;
 		switch(b) {
 		case "Amount":{
 			double a = Loader.c.getDouble("Enchants."+r+".AmountBonus");
 			int del=Arrays.asList(8,6,4,2).get(TheAPI.generateRandomInt(3));
-			s= TheAPI.generateRandomDouble(a+(a > 0 ? (a/del)*lvl : 0));
+			s= generateRandomDouble(a+(a > 0 ? (a/del)*lvl : 0.1));
 		}break;
 		default:
 			double a = Loader.c.getDouble("Enchants."+r+"."+b+"Bonus");

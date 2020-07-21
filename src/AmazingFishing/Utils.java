@@ -89,11 +89,11 @@ public class Utils {
 		}
 	
 	public static void addRecord(Player p, String fish, String type, double record, double weight) {
-		int amount = Loader.me.getInt("Players."+p.getName()+".Stats.Fish")+1;
+		int amount = Loader.me.getInt("Players."+p.getName()+".Stats.Amount")+1;
 		if(Loader.me.getString("Players."+p.getName()+"."+type+"."+fish)==null) {
 			Loader.me.set("Players."+p.getName()+"."+type+"."+fish+".Length", record);
 			Loader.me.set("Players."+p.getName()+"."+type+"."+fish+".Weight", weight);
-			Loader.me.set("Players."+p.getName()+".Stats.Fish", amount);
+			Loader.me.set("Players."+p.getName()+".Stats.Amount", amount);
 			Loader.me.set("Players."+p.getName()+".Stats.Fish", fish);
 			Loader.me.set("Players."+p.getName()+".Stats.Type", type);
 			Loader.me.set("Players."+p.getName()+".Stats.Length", record);
@@ -101,7 +101,7 @@ public class Utils {
 			Loader.saveChatMe();
 			giveReward(p,fish,type);
 		}else {
-			Loader.me.set("Players."+p.getName()+".Stats.Fish", amount);
+			Loader.me.set("Players."+p.getName()+".Stats.Amount", amount);
 			Loader.saveChatMe();
 			
 			if(Loader.me.getDouble("Players."+p.getName()+".Stats.Length")<record ||Loader.me.getString("Players."+p.getName()+".Stats.Type")==null) {

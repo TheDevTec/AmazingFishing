@@ -2,7 +2,6 @@ package AmazingFishing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -10,8 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import com.sk89q.jchronic.Options;
 
 import AmazingFishing.gui.FishType;
 import AmazingFishing.help.Type;
@@ -1014,15 +1011,7 @@ public class TheAPI_GUIs {
 				}
 			});
 	}
-	//TODO
-	/*
-	 a.setItem(-, new ItemGUI(){
-					@Override
-					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
-					}
-				});
-	 */
-	//TODO
+
 	public void openTreas(Player p) {
 		GUICreatorAPI a = new GUICreatorAPI("&6Manager &7- "+Trans.treas(),54,p) {
 			
@@ -1031,36 +1020,30 @@ public class TheAPI_GUIs {
 			}
 		};
 		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-			w.put(Options.RUNNABLE, new Runnable() {
-				@Override
-				public void run() {
+		a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				open(p);
-				}});
-		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(20,new ItemGUI(Create.createItem(Trans.cre(), Material.GREEN_DYE)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				openTreasSelect(p,select.CREATE);
-			}});
-		a.setItem(20,Create.createItem(Trans.cre(), Material.GREEN_DYE),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(24,new ItemGUI(Create.createItem(Trans.del(), Material.RED_DYE)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				openTreasSelect(p,select.DELETE);
-			}});
-		a.setItem(24,Create.createItem(Trans.del(), Material.RED_DYE),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(31,new ItemGUI(Create.createItem(Trans.edit(), Material.ORANGE_DYE)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				openTreasSelect(p,select.EDIT);
-			}});
-		a.setItem(31,Create.createItem(Trans.edit(), Material.ORANGE_DYE),w);
+			}
+		});
 	}
 	public enum select{
 		CREATE,
@@ -1119,143 +1102,207 @@ public class TheAPI_GUIs {
 		Create.prepareInv(a);
 		String d = path;
 		String c = ac;
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-		w.put(Options.RUNNABLE, new Runnable() {
+		if(f != null) {
+			String custom = f;
+			if(Loader.c.getString("Treasures."+d+"."+f+".Name")!=null)
+				custom=Loader.c.getString("Treasures."+d+"."+f+".Name");
+		a.setItem(13, new ItemGUI(Create.createItem(Trans.name(), Material.NAME_TAG, Arrays.asList("&b>> "+Color.c(custom)))){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
 				p.getOpenInventory().close();
 				Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 				Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Name");
 				Loader.save();
 				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
-			}});
-		if(f != null) {
-			String custom = f;
-			if(Loader.c.getString("Treasures."+d+"."+f+".Name")!=null)
-				custom=Loader.c.getString("Treasures."+d+"."+f+".Name");
-		a.setItem(13,Create.createItem(Trans.name(), Material.NAME_TAG, Arrays.asList("&b>> "+Color.c(custom))),w);
+			}
+		});
 		}else
-			a.setItem(13,Create.createItem(Trans.name(), Material.NAME_TAG),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE_RIGHT_CLICK, new Runnable() {
+			a.setItem(13,new ItemGUI(Create.createItem(Trans.name(), Material.NAME_TAG)){
 				@Override
-				public void run() {
-					try {
-					Loader.c.set("Treasures."+d+"."+f+".Commands", Loader.c.getStringList("Treasures."+d+"."+f+".Commands").remove( Loader.c.getStringList("Treasures."+d+"."+f+".Commands").size()-1));
-					}catch(Exception e) {
-						
-					}
+				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					p.getOpenInventory().close();
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Name");
 					Loader.save();
-					openEditor(p, f, type, t);
-				}});
-		w.put(Options.RUNNABLE_LEFT_CLICK, new Runnable() {
-			@Override
-			public void run() {
-				p.getOpenInventory().close();
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Command");
-				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCommand", 1), Loader.get("WriteCommand", 2));
-			}});
+					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+				}
+			});		
 		if(f!=null && Loader.c.getString("Treasures."+d+"."+f+".Commands")!=null) {
 			List<String> lore = new ArrayList<String>();
 			for(String ff:Loader.c.getStringList("Treasures."+d+"."+f+".Commands"))
 			lore.add("&6> &a"+ff);
-			a.setItem(20,Create.createItem(Trans.cmd(), Material.COMMAND_BLOCK, lore),w);
-			}else
-				a.setItem(20,Create.createItem(Trans.cmd(), Material.COMMAND_BLOCK),w);
-		w.remove(Options.RUNNABLE_LEFT_CLICK);
-		w.remove(Options.RUNNABLE_RIGHT_CLICK);
-
-		w.put(Options.RUNNABLE_RIGHT_CLICK, new Runnable() {
-			@Override
-			public void run() {
-				try {
-				Loader.c.set("Treasures."+d+"."+f+".Messages", Loader.c.getStringList("Treasures."+d+"."+f+".Messages").remove( Loader.c.getStringList("Treasures."+d+"."+f+".Messages").size()-1));
-				}catch(Exception e) {
-					
+			a.setItem(20,new ItemGUI(Create.createItem(Trans.cmd(), Material.COMMAND_BLOCK, lore)){
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+					if(typee.isRightClick()) {
+						try {
+						Loader.c.set("Treasures."+d+"."+f+".Commands", Loader.c.getStringList("Treasures."+d+"."+f+".Commands").remove( Loader.c.getStringList("Treasures."+d+"."+f+".Commands").size()-1));
+						}catch(Exception e) {
+							
+						}
+						Loader.save();
+						openEditor(p, f, type, t);
+					}
+					if(typee.isLeftClick()) {
+						p.getOpenInventory().close();
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Command");
+						Loader.save();
+						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCommand", 1), Loader.get("WriteCommand", 2));
+					}
 				}
-				Loader.save();
-				openEditor(p, f, type, t);
-			}});
-	w.put(Options.RUNNABLE_LEFT_CLICK, new Runnable() {
-		@Override
-		public void run() {
-			p.getOpenInventory().close();
-			Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
-			Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Message");
-			Loader.save();
-			TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMessage", 1), Loader.get("WriteMessage", 2));
-		}});
+			});
+			}else
+				a.setItem(20,new ItemGUI(Create.createItem(Trans.cmd(), Material.COMMAND_BLOCK)){
+					@Override
+					public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+						if(typee.isRightClick()) {
+							try {
+							Loader.c.set("Treasures."+d+"."+f+".Commands", Loader.c.getStringList("Treasures."+d+"."+f+".Commands").remove( Loader.c.getStringList("Treasures."+d+"."+f+".Commands").size()-1));
+							}catch(Exception e) {
+								
+							}
+							Loader.save();
+							openEditor(p, f, type, t);
+						}
+						if(typee.isLeftClick()) {
+							p.getOpenInventory().close();
+							Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+							Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Command");
+							Loader.save();
+							TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCommand", 1), Loader.get("WriteCommand", 2));
+						}
+					}
+				});
 		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Messages")!=null) {
 			List<String> lore = new ArrayList<String>();
 			for(String ff:Loader.c.getStringList("Treasures."+path+"."+f+".Messages"))
 			lore.add("&6> &a"+ff);
-			a.setItem(24,Create.createItem(Trans.mes(), Material.PAPER, lore),w);
+			a.setItem(24,new ItemGUI(Create.createItem(Trans.mes(), Material.PAPER, lore)){
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+					if(typee.isRightClick()) {
+						try {
+							Loader.c.set("Treasures."+d+"."+f+".Messages", Loader.c.getStringList("Treasures."+d+"."+f+".Messages").remove( Loader.c.getStringList("Treasures."+d+"."+f+".Messages").size()-1));
+							}catch(Exception e) {
+								
+							}
+							Loader.save();
+							openEditor(p, f, type, t);
+					}
+					if(typee.isLeftClick()) {
+						p.getOpenInventory().close();
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Message");
+						Loader.save();
+						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMessage", 1), Loader.get("WriteMessage", 2));
+					}
+				}
+			});
 			}else
-				a.setItem(24,Create.createItem(Trans.mes(), Material.PAPER),w);
-
-		w.remove(Options.RUNNABLE_LEFT_CLICK);
-		w.remove(Options.RUNNABLE_RIGHT_CLICK);
-		w.put(Options.RUNNABLE, new Runnable() {
-			@Override
-			public void run() {
-				p.getOpenInventory().close();
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Money");
-				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
-			}});
+				a.setItem(24,new ItemGUI(Create.createItem(Trans.mes(), Material.PAPER)){
+					@Override
+					public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+						if(typee.isRightClick()) {
+							try {
+								Loader.c.set("Treasures."+d+"."+f+".Messages", Loader.c.getStringList("Treasures."+d+"."+f+".Messages").remove( Loader.c.getStringList("Treasures."+d+"."+f+".Messages").size()-1));
+								}catch(Exception e) {
+									
+								}
+								Loader.save();
+								openEditor(p, f, type, t);
+						}
+						if(typee.isLeftClick()) {
+							p.getOpenInventory().close();
+							Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+							Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Message");
+							Loader.save();
+							TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMessage", 1), Loader.get("WriteMessage", 2));
+						}
+					}
+				});
 		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Money") != null) {
-			a.setItem(22,Create.createItem(Trans.money(), Material.GOLD_INGOT,
-					Arrays.asList("&6"+Loader.c.getDouble("Treasures."+path+"."+f+".Money")+"$")),w);
+			a.setItem(22,new ItemGUI(Create.createItem(Trans.money(), Material.GOLD_INGOT,
+					Arrays.asList("&6"+Loader.c.getDouble("Treasures."+path+"."+f+".Money")+"$"))){
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					p.getOpenInventory().close();
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Money");
+					Loader.save();
+					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
+				}
+			});
 			}else
-				a.setItem(22,Create.createItem(Trans.money(), Material.GOLD_INGOT),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
-			@Override
-			public void run() {
-				p.getOpenInventory().close();
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Points");
-				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
-			}});
+				a.setItem(22,new ItemGUI(Create.createItem(Trans.money(), Material.GOLD_INGOT)){
+					@Override
+					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+						p.getOpenInventory().close();
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Money");
+						Loader.save();
+						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
+					}
+				});;
 		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Points") != null) {
 			List<String> lore = new ArrayList<String>();
 			lore.add(Color.c("&9"+Loader.c.getDouble("Treasures."+path+"."+f+".Points")+"Points"));
-			a.setItem(30,Create.createItem(Trans.point(), Material.LAPIS_LAZULI,
-					Arrays.asList("&9"+Loader.c.getDouble("Treasures."+path+"."+f+".Points")+"Points")),w);
+			a.setItem(30,new ItemGUI(Create.createItem(Trans.point(), Material.LAPIS_LAZULI,
+					Arrays.asList("&9"+Loader.c.getDouble("Treasures."+path+"."+f+".Points")+"Points"))){
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					p.getOpenInventory().close();
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Points");
+					Loader.save();
+					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
+				}
+			});
 			}else
-				a.setItem(30,Create.createItem(Trans.point(), Material.LAPIS_LAZULI),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
-			@Override
-			public void run() {
-				p.getOpenInventory().close();
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
-				Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Chance");
-				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
-			}});
+				a.setItem(30,new ItemGUI(Create.createItem(Trans.point(), Material.LAPIS_LAZULI)){
+					@Override
+					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+						p.getOpenInventory().close();
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Points");
+						Loader.save();
+						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
+					}
+				});
 		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Chance") != null) {
-			a.setItem(32,Create.createItem(Trans.chance(), Material.EXPERIENCE_BOTTLE, 
-					Arrays.asList("&b"+getChance(Loader.c.getDouble("Treasures."+path+"."+f+".Chance")))),w);
+			a.setItem(32,new ItemGUI(Create.createItem(Trans.chance(), Material.EXPERIENCE_BOTTLE, 
+					Arrays.asList("&b"+getChance(Loader.c.getDouble("Treasures."+path+"."+f+".Chance"))))){
+				@Override
+				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					p.getOpenInventory().close();
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Chance");
+					Loader.save();
+					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+				}
+			});;
 			}else
-				a.setItem(32,Create.createItem(Trans.chance(), Material.EXPERIENCE_BOTTLE),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+				a.setItem(32,new ItemGUI(Create.createItem(Trans.chance(), Material.EXPERIENCE_BOTTLE)){
+					@Override
+					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+						p.getOpenInventory().close();
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
+						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Chance");
+						Loader.save();
+						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+					}
+				});;
+		a.setItem(49,new ItemGUI(Create.createItem(Trans.cancel(), Material.BARRIER)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
 				openSelected(p, type, t);
 				Loader.c.set("Creating-"+d+"."+p.getName(), null);
 				Loader.c.set("Edit-"+d+"."+p.getName(), null);
 				Loader.save();
-			}});
-		a.setItem(49,Create.createItem(Trans.cancel(), Material.BARRIER),w);
+			}
+		});
 	}
+
 	public void openTreasSelect(Player p, select type) {
 		String s = null;
 		switch(type) {
@@ -1277,55 +1324,48 @@ public class TheAPI_GUIs {
 		}
 	};
 		Create.prepareInv(a);
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-			w.put(Options.RUNNABLE, new Runnable() {
-				@Override
-				public void run() {
-					if(type==select.CREATE)
-						openEditor(p, null, type, TreasureType.COMMON);
-					else
-					openSelected(p,type,TreasureType.COMMON);
-				}});
-		a.setItem(13,Create.createItem(Trans.common(), Material.GRAY_DYE),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+		a.setItem(13,new ItemGUI(Create.createItem(Trans.common(), Material.GRAY_DYE)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+				if(type==select.CREATE)
+					openEditor(p, null, type, TreasureType.COMMON);
+				else
+				openSelected(p,type,TreasureType.COMMON);
+			}
+		});
+		a.setItem(20,new ItemGUI(Create.createItem(Trans.rare(), Material.BLUE_DYE)){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
 				if(type==select.CREATE)
 					openEditor(p, null, type, TreasureType.RARE);
 				else
 				openSelected(p,type,TreasureType.RARE);
-			}});
-		a.setItem(20,Create.createItem(Trans.rare(), Material.BLUE_DYE),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(24,new ItemGUI(Create.createItem(Trans.epic(), Material.ORANGE_DYE)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
 				if(type==select.CREATE)
 					openEditor(p, null, type, TreasureType.EPIC);
 				else
 				openSelected(p,type,TreasureType.EPIC);
-			}});
-		a.setItem(24,Create.createItem(Trans.epic(), Material.ORANGE_DYE),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(31,new ItemGUI(Create.createItem(Trans.legend(), Material.RED_DYE)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
 				if(type==select.CREATE)
 					openEditor(p, null, type, TreasureType.LEGEND);
 				else
 				openSelected(p,type,TreasureType.LEGEND);
-			}});
-		a.setItem(31,Create.createItem(Trans.legend(), Material.RED_DYE),w);
-		w.remove(Options.RUNNABLE);
-		w.put(Options.RUNNABLE, new Runnable() {
+			}
+		});
+		a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
-			public void run() {
+			public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
 				openTreas(p);
-			}});
-		a.setItem(49,Create.createItem(Trans.back(), Material.BARRIER),w);
+			}
+		});
 	}
 	private String getTrans(TreasureType t) {
 		if(t==TreasureType.COMMON)
@@ -1385,30 +1425,24 @@ public class TheAPI_GUIs {
 			if(Loader.c.getString("Treasures."+path+"."+g+".Name")!=null)
 				name=Loader.c.getString("Treasures."+path+"."+g+".Name");
 			String pat = path;
-			HashMap<Options, Object> w = new HashMap<Options, Object>();
-			w.put(Options.CANT_PUT_ITEM, true);
-			w.put(Options.CANT_BE_TAKEN, true);
-				w.put(Options.RUNNABLE, new Runnable() {
-					@Override
-					public void run() {
-						if(select.DELETE!=type)
-						openEditor(p, g, type, f);
-						else {
-							Loader.c.set("Treasures."+pat+"."+g, null);
-							Loader.save();
-							openSelected(p, type, f);
-						}
-					}});
-			a.addItem(Create.createItem(name,material),w);
-		}
-		HashMap<Options, Object> w = new HashMap<Options, Object>();
-		w.put(Options.CANT_PUT_ITEM, true);
-		w.put(Options.CANT_BE_TAKEN, true);
-			w.put(Options.RUNNABLE, new Runnable() {
+			a.addItem(new ItemGUI(Create.createItem(name,material)){
 				@Override
-				public void run() {
-					openTreasSelect(p, type);
-				}});
-		a.setItem(49,Create.createItem(Trans.cancel(), Material.BARRIER),w);
+				public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+					if(select.DELETE!=type)
+					openEditor(p, g, type, f);
+					else {
+						Loader.c.set("Treasures."+pat+"."+g, null);
+						Loader.save();
+						openSelected(p, type, f);
+					}
+				}
+			});
+		}
+		a.setItem(49,new ItemGUI(Create.createItem(Trans.cancel(), Material.BARRIER)){
+			@Override
+			public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+				openTreasSelect(p, type);
+			}
+		});
 	}
 }

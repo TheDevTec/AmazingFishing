@@ -393,6 +393,7 @@ public class help {
 				open(p, Type.Admin);
 			}}
 		);
+		}
 		}else {
 			if(p.hasPermission("amazingfishing.tournament"))
 			a.addItem(new ItemGUI(Create.createItem(Trans.help_tour(), Material.CLOCK)){
@@ -444,7 +445,6 @@ public class help {
 					open(p,Type.Player);
 				}}
 			);
-		}
 		}
 	}
 
@@ -625,7 +625,7 @@ public class help {
 		if(type.equals("TropicalFish"))type="Tropical_Fish";}
 		if(fish == null) fish = "---";
 		if(type == null) type = "---";
-		return s.replace("%fish_catched%", Loader.me.getInt("Players."+w+".Stats.Fish")+"")
+		return s.replace("%fish_catched%", Loader.me.getInt("Players."+w+".Stats.Amount")+"")
 				.replace("%fish_record%", Loader.me.getDouble("Players."+w+".Stats.Length")+"")
 				.replace("%fish_name%", fish+"")
 				.replace("%fish_type%", type+"")
