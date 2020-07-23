@@ -1,4 +1,4 @@
-package Main;
+package me.DevTec.AmazingFishing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,9 @@ public class Loader extends JavaPlugin {
 		for(String s : map.keySet())a.add(map.get(s));
 		return a;
 	}
-	
+	public void onLoad() {
+		Configs.LoadConfigs();
+	}
 	@Override
 	public void onEnable() {
 		if(!TheAPI.isNewVersion()) {
@@ -44,6 +46,9 @@ public class Loader extends JavaPlugin {
 			TheAPI.getPluginsManagerAPI().unloadPlugin(this);
 			return;
 		}
+		TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
+		TheAPI.getConsole().sendMessage(TheAPI.colorize("&3 Plugin &2has been &b&lLoaded &3."));
+		TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
 		Configs.LoadConfigs();
 		plugin=this;
 		for(String s : c.getConfigurationSection("Enchants").getKeys(false)) {

@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import Main.Loader;
+import me.DevTec.AmazingFishing.Loader;
 
 public class Normal {
 	public static ItemStack createItem(String name, int amount, Material material, List<String> lore, HashMap<Enchantment, Integer> enchs, boolean unb, boolean hide) {

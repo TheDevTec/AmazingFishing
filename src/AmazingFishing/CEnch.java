@@ -3,6 +3,7 @@ package AmazingFishing;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -10,8 +11,8 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import Main.Loader;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Loader;
 
 public class CEnch extends Enchantment {
 	private String n,r;
@@ -64,6 +65,13 @@ public class CEnch extends Enchantment {
 		default:
 			double a = Loader.c.getDouble("Enchants."+r+"."+b+"Bonus");
 			s=a+((a/TheAPI.generateRandomInt(4))*lvl);
+			Bukkit.broadcastMessage("");
+			Bukkit.broadcastMessage("a "+a);
+			Bukkit.broadcastMessage("s "+s);
+			Bukkit.broadcastMessage("lvl "+lvl);
+			Bukkit.broadcastMessage("b "+b);
+			Bukkit.broadcastMessage("Enchants."+r+"."+b+"Bonus");
+			Bukkit.broadcastMessage("");
 			break;
 		}
 		return s;

@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.inventory.ItemStack;
 
-import Main.Loader;
+import me.DevTec.AmazingFishing.Loader;
 
 public class onFish implements Listener {
 	@EventHandler

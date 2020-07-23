@@ -3,7 +3,7 @@ package AmazingFishing;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 
-import Main.Loader;
+import me.DevTec.AmazingFishing.Loader;
 
 
 public class Particles {

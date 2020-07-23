@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
 import AmazingFishing.Quests.Actions;
-import Main.Configs;
-import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Configs;
+import me.DevTec.AmazingFishing.Loader;
 
 public class ByBiome {
 	public static enum biomes{
@@ -100,6 +101,7 @@ public class ByBiome {
 	public static void addEarn(CEnch c,Player p, String type, String fish, double length) {
 		double money = Loader.c.getDouble("Types."+type+"."+fish+".Money");
 		double points = Loader.c.getDouble("Types."+type+"."+fish+".Points");
+		Bukkit.broadcastMessage(points+"");
 		double exp = Loader.c.getInt("Types."+type+"."+fish+".Exp");
 		if(Loader.c.getBoolean("Options.EarnFromLength")) {
 			money=money%length;
@@ -114,8 +116,17 @@ public class ByBiome {
 		money = money+(money%moneybonus);
 		if(pointbonus!=0.0)
 		points = points+(points%pointbonus);
+		
+		Bukkit.broadcastMessage("type "+type);
+		Bukkit.broadcastMessage("fish "+fish);
+		
+		Bukkit.broadcastMessage("(p/pb) "+(points%pointbonus));
+		Bukkit.broadcastMessage("pb "+pointbonus);
+		Bukkit.broadcastMessage(points+"");
+		
 		if(expbonus!=0)
 		exp = exp+(exp%expbonus);
+		//if(money==0.0||points==0.0||exp==0.0) addEarn(c, p, type, fish, length);
 		if(!Loader.c.getBoolean("Options.DisableMoneyFromCaught"))
 		TheAPI.getEconomyAPI().depositPlayer(p.getName(), money);
 		TheAPI.getPlayerAPI(p).giveExp((int)exp);

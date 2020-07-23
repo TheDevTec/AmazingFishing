@@ -8,9 +8,9 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import Main.Loader;
 import me.DevTec.RankingAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.SudoType;
 import me.DevTec.Scheduler.Tasker;
 

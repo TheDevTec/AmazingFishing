@@ -14,9 +14,9 @@ import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import AmazingFishing.help.Type;
-import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.SudoType;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.ItemGUI;

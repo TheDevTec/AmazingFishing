@@ -1,6 +1,6 @@
 package AmazingFishing;
 
-import Main.Loader;
+import me.DevTec.AmazingFishing.Loader;
 
 public class Points {
 

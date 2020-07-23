@@ -1,4 +1,4 @@
-package Main;
+package me.DevTec.AmazingFishing;
 
 import java.util.Arrays;
 import java.util.HashMap;

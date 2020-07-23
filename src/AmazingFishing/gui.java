@@ -16,11 +16,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.ByBiome.biomes;
 import AmazingFishing.help.Type;
-import Main.Configs;
-import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.RankingAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Configs;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.ItemGUI;
 

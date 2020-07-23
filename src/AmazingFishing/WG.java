@@ -8,7 +8,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
-import Main.Loader;
+import me.DevTec.AmazingFishing.Loader;
 
 public class WG {
 	private static boolean existWG() {

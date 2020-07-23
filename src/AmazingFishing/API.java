@@ -11,10 +11,10 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
-import Main.Configs;
-import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Configs;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.SudoType;
 
 

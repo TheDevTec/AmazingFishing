@@ -3,7 +3,7 @@ package AmazingFishing;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import Main.Loader;
+import me.DevTec.AmazingFishing.Loader;
 
 public class RD {
 	private static boolean existRD() {

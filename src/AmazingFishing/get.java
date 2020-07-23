@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 
 import AmazingFishing.gui.FishType;
 import AmazingFishing.onChat.create;
-import Main.Configs;
-import Main.Loader;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Configs;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.Scheduler.Tasker;
 
 public class get {

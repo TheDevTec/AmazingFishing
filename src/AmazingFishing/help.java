@@ -10,10 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 import AmazingFishing.Shop.ShopType;
-import Main.Configs;
-import Main.Loader;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Configs;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.ItemGUI;
 

@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import AmazingFishing.Tournament.Type;
-import Main.Configs;
-import Main.Loader;
 import me.DevTec.TheAPI;
+import me.DevTec.AmazingFishing.Configs;
+import me.DevTec.AmazingFishing.Loader;
 
 public class Fishing implements CommandExecutor, TabCompleter {
 
