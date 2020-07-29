@@ -3,7 +3,6 @@ package AmazingFishing;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -55,7 +54,7 @@ public class CEnch extends Enchantment {
 	}
 	
 	public double getBonus(String b,int lvl) {
-		double s = 0;
+		double s = 0.0;
 		switch(b) {
 		case "Amount":{
 			double a = Loader.c.getDouble("Enchants."+r+".AmountBonus");
@@ -64,20 +63,34 @@ public class CEnch extends Enchantment {
 		}break;
 		default:
 			double a = Loader.c.getDouble("Enchants."+r+"."+b+"Bonus");
-			s=a+((a/TheAPI.generateRandomInt(4))*lvl);
-			Bukkit.broadcastMessage("");
-			Bukkit.broadcastMessage("a "+a);
-			Bukkit.broadcastMessage("s "+s);
+			int i = TheAPI.generateRandomInt(4);
+			//Bukkit.broadcastMessage("");
+			//Bukkit.broadcastMessage("i: "+i);
+			if(i==0) i=1;
+			s=a+((a/i)*lvl);
+			//Bukkit.broadcastMessage("a "+a);
+			if(s==0.0) s=0.15;
+			/*Bukkit.broadcastMessage("s "+s);
 			Bukkit.broadcastMessage("lvl "+lvl);
 			Bukkit.broadcastMessage("b "+b);
 			Bukkit.broadcastMessage("Enchants."+r+"."+b+"Bonus");
-			Bukkit.broadcastMessage("");
+			Bukkit.broadcastMessage("");*/
 			break;
 		}
 		return s;
 	}
 	public double getBonus(String b,Player s) {
-		return getBonus(b,s.getEquipment().getItemInMainHand().getEnchantmentLevel(this));
+		//Bukkit.broadcastMessage(""+this);
+		//Bukkit.broadcastMessage(""+s.getEquipment().getItemInMainHand().getEnchantmentLevel(this));
+		//Bukkit.broadcastMessage(""+s.getEquipment().getItemInMainHand().getEnchantments());
+		int level = 0;
+		ItemStack f = s.getEquipment().getItemInMainHand();
+		if(b != null && f.getEnchantments().containsKey(this)) {
+			level=f.getEnchantments().get(this);
+		}
+		//Bukkit.broadcastMessage(""+level);
+		return getBonus(b,level);
+		//return getBonus(b,s.getEquipment().getItemInMainHand().getEnchantmentLevel(this));
 	}
 	
 	@Override

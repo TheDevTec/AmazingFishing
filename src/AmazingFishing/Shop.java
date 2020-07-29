@@ -218,7 +218,7 @@ public class Shop {
 					}catch(Exception e) {
 					Bukkit.getLogger().warning("Error when giving item from AmazingFishing Shop to player "+p.getName()+", ShopItem: "+kit+", Item: "+f);	
 					}}}}}
-
+	
 	public static void sellAll(Player p, Inventory i, boolean sell, boolean expand) {
 		ArrayList<ItemStack> a = new ArrayList<ItemStack>();
 		if(!expand) {

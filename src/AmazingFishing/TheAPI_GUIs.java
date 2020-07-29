@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -771,6 +772,7 @@ public class TheAPI_GUIs {
 				TheAPI.giveItem(p, Normal.getRod(p));
 				Loader.me.set("Players."+p.getName()+".SavedRod",null);
 				Loader.saveChatMe();
+				a.close();
 			}
 		});
 		a.setItem(6,new ItemGUI(Normal.getRod(p)){
@@ -779,6 +781,7 @@ public class TheAPI_GUIs {
 				TheAPI.giveItem(p, Normal.getRod(p));
 				Loader.me.set("Players."+p.getName()+".SavedRod",null);
 				Loader.saveChatMe();
+				a.close();
 			}
 		});
 		a.setItem(47,new ItemGUI(Normal.getRod(p)){
@@ -787,6 +790,7 @@ public class TheAPI_GUIs {
 				TheAPI.giveItem(p, Normal.getRod(p));
 				Loader.me.set("Players."+p.getName()+".SavedRod",null);
 				Loader.saveChatMe();
+				a.close();
 			}
 		});
 		a.setItem(51,new ItemGUI(Normal.getRod(p)){
@@ -795,6 +799,7 @@ public class TheAPI_GUIs {
 				TheAPI.giveItem(p, Normal.getRod(p));
 				Loader.me.set("Players."+p.getName()+".SavedRod",null);
 				Loader.saveChatMe();
+				a.close();
 			}
 		});
 
@@ -839,6 +844,7 @@ public class TheAPI_GUIs {
 						return;
 					}
 						Points.take(p.getName(), cost);
+						Bukkit.broadcastMessage("Upgrading Enchant: "+c+" level: "+(l+1));
 						f.addUnsafeEnchantment(c, l+1);
 						ItemMeta m = f.getItemMeta();
 						List<String> as = m.getLore() != null ? m.getLore() : new ArrayList<String>();
@@ -857,6 +863,7 @@ public class TheAPI_GUIs {
 							return;
 						}
 						Points.take(p.getName(), cost);
+						Bukkit.broadcastMessage("Upgrading Enchant: "+c+" level: "+(l+1));
 						f.addUnsafeEnchantment(c, l+1);
 						ItemMeta m = f.getItemMeta();
 						List<String> as = m.getLore() != null ? m.getLore() : new ArrayList<String>();
@@ -891,6 +898,7 @@ public class TheAPI_GUIs {
 					}
 						Points.take(p.getName(), cost);
 						f.addUnsafeEnchantment(c, l+1);
+						Bukkit.broadcastMessage("Adding Enchant: "+c+" level: "+(l+1));
 						ItemMeta m = f.getItemMeta();
 						List<String> as = m.getLore() != null ? m.getLore() : new ArrayList<String>();
 						as.remove(TheAPI.colorize(c.getName()+" "+Utils.trasfer(l)));
@@ -909,6 +917,7 @@ public class TheAPI_GUIs {
 						}
 						Points.take(p.getName(), cost);
 						f.addUnsafeEnchantment(c, l+1);
+						Bukkit.broadcastMessage("Adding Enchant: "+c+" level: "+(l+1));
 						ItemMeta m = f.getItemMeta();
 						List<String> as = m.getLore() != null ? m.getLore() : new ArrayList<String>();
 						as.add(TheAPI.colorize(c.getName()+" "+Utils.trasfer(l+1)));
