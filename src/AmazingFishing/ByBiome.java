@@ -148,6 +148,21 @@ public class ByBiome {
 				length=(int)length;
 			if(!Loader.c.getBoolean("Options.UseDoubles.Weight"))
 				weight=(int)weight;
+			
+			if(Loader.c.getBoolean("Options.Fish.EnchantsOnCustomFish")==true&&Loader.c.getString("Types."+type+"."+fish+".Enchants")!=null) {
+				for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Enchants")) {
+					String[] ss = s.split(":");
+					if(ss[0]==null || ss[1]==null || ss[0].isEmpty() || ss[1].isEmpty()) continue;
+					i.addEnchantment(ss[0], TheAPI.getStringUtils().getInt(ss[1]));
+				}
+				/*if(Loader.c.getBoolean("Options.Fish.HideEnchants")==true){
+					Bukkit.broadcastMessage("1");
+					i.getItemFlags().add(ItemFlag.HIDE_ENCHANTS);
+					
+				i.getItemMeta().addItemFlags(ItemFlag.HIDE_ENCHANTS);
+				}*/
+			}
+			
 			if(Loader.c.getString("Format.FishDescription")!=null) {
 				List<String> lore=new ArrayList<String>();
 				
@@ -159,22 +174,42 @@ public class ByBiome {
 				else
 					biomes.add(getTran(null));
 				String b = StringUtils.join(biomes, ", ");
-			for(String s:Loader.c.getStringList("Format.FishDescription")) {
-				lore.add(Color.c(s
-						.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
-						.replace("%fish_biomes%", b)
-						.replace("%biomes%", b)
-						.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
-						.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
-						.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
-						.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
-						.replace("%fish_name%", "Uknown")
-						.replace("%fish%",  "Uknown")
-						.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
-						.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
-						.replace("%fisherman%", p.getName())
-						.replace("%fisher%", p.getName())));
-			}
+				
+				if(Loader.c.getBoolean("Options.UseCustomFishDescription-ifItIsPossible")==true&&Loader.c.getString("Types."+type+"."+fish+".Lore")!=null) {
+					for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Lore")) {
+						lore.add(Color.c(s
+								.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
+								.replace("%fish_biomes%", b)
+								.replace("%biomes%", b)
+								.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%fish_name%", "Uknown")
+								.replace("%fish%",  "Uknown")
+								.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
+								.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
+								.replace("%fisherman%", p.getName())
+								.replace("%fisher%", p.getName())));
+					}
+				}else {
+					for(String s:Loader.c.getStringList("Format.FishDescription")) {
+						lore.add(Color.c(s
+								.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
+								.replace("%fish_biomes%", b)
+								.replace("%biomes%", b)
+								.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%fish_name%", "Uknown")
+								.replace("%fish%",  "Uknown")
+								.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
+								.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
+								.replace("%fisherman%", p.getName())
+								.replace("%fisher%", p.getName())));
+					}
+				}
 			i.setLore(lore);
 			}
 				bag.addFish(p,i.create());
@@ -190,6 +225,20 @@ public class ByBiome {
 				length=(int)length;
 			if(!Loader.c.getBoolean("Options.UseDoubles.Weight"))
 				weight=(int)weight;
+			
+			if(Loader.c.getBoolean("Options.Fish.EnchantsOnCustomFish")==true&&Loader.c.getString("Types."+type+"."+fish+".Enchants")!=null) {
+				for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Enchants")) {
+					String[] ss = s.split(":");
+					if(ss[0]==null || ss[1]==null || ss[0].isEmpty() || ss[1].isEmpty()) continue;
+					i.addEnchantment(ss[0], TheAPI.getStringUtils().getInt(ss[1]));
+				}
+				/*if(Loader.c.getBoolean("Options.Fish.HideEnchants")==true) {
+					Bukkit.broadcastMessage("1");
+
+					i.getItemFlags().add(ItemFlag.HIDE_ENCHANTS);
+					i.getItemMeta().addItemFlags(ItemFlag.HIDE_ENCHANTS);
+				}*/
+			}
 			String name = fish;
 			if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
 				name=Color.c(Loader.c.getString("Types."+type+"."+fish+".Name"));
@@ -208,22 +257,42 @@ public class ByBiome {
 				else
 					biomes.add(getTran(null));
 				String b = StringUtils.join(biomes, ", ");
-			for(String s:Loader.c.getStringList("Format.FishDescription")) {
-				lore.add(Color.c(s
-						.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
-						.replace("%fish_biomes%", b)
-						.replace("%biomes%", b)
-						.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
-						.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
-						.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
-						.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
-						.replace("%fish_name%", "Uknown")
-						.replace("%fish%",  "Uknown")
-						.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
-						.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
-						.replace("%fisherman%", p.getName())
-						.replace("%fisher%", p.getName())));
-			}
+				
+				if(Loader.c.getBoolean("Options.UseCustomFishDescription-ifItIsPossible")==true&&Loader.c.getString("Types."+type+"."+fish+".Lore")!=null) {
+					for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Lore")) {
+						lore.add(Color.c(s
+								.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
+								.replace("%fish_biomes%", b)
+								.replace("%biomes%", b)
+								.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%fish_name%", "Uknown")
+								.replace("%fish%",  "Uknown")
+								.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
+								.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
+								.replace("%fisherman%", p.getName())
+								.replace("%fisher%", p.getName())));
+					}
+				}else {
+					for(String s:Loader.c.getStringList("Format.FishDescription")) {
+						lore.add(Color.c(s
+								.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
+								.replace("%fish_biomes%", b)
+								.replace("%biomes%", b)
+								.replace("%fish_weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%weight%", (new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", ""))
+								.replace("%fish_length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
+								.replace("%fish_name%", "Uknown")
+								.replace("%fish%",  "Uknown")
+								.replace("%time%", new SimpleDateFormat("HH:mm:ss").format(new Date()))
+								.replace("%date%", new SimpleDateFormat("dd.MM.yyyy").format(new Date()))
+								.replace("%fisherman%", p.getName())
+								.replace("%fisher%", p.getName())));
+					}
+				}
 			i.setLore(lore);
 			}
 				bag.addFish(p,i.create());

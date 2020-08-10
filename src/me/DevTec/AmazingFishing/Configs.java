@@ -23,11 +23,12 @@ public class Configs {
 		cc.put("Options.BossBar.Win", "&2Tournament was end. You are on %position%. position");
 		cc.put("Options.Treasures", true);
 		cc.put("Options.Shop", true);
-		cc.put("Options.UseDoubles.Length", true);
-		cc.put("Options.UseDoubles.Weight", true);
 		
 		cc.put("Options.UseDoubles.Weight", true);
 		cc.put("Options.UseDoubles.Weight", true);
+		cc.put("Options.UseCustomFishDescription-ifItIsPossible", false);
+		cc.put("Options.Fish.EnchantsOnCustomFish", false);
+		cc.put("Options.Fish.HideEnchants", false);
 		
 		cc.put("Options.CustomFishOnlyWhileTournament", false);
 		cc.put("Options.TreasuresOnlyWhileTournament", false);
@@ -42,6 +43,7 @@ public class Configs {
 		cc.put("Options.Tournament.RequiredPlayers", 10);
 		cc.put("Options.Tournament.Delay", "2h");
 		cc.put("Options.Tournament.Time", "5min");
+		cc.put("Options.Tournament.DeletePlayersOnLeave", true);
 		cc.put("Options.FishRemove", false);
 		cc.put("Options.Particles", true);
 		cc.put("Options.Sounds.Shop-BuyItem", true);
@@ -53,6 +55,7 @@ public class Configs {
 		cc.put("Options.AFK.TimeToAFK", 300);
 		cc.put("Options.Bag.StorageItems", Arrays.asList("Fish","Fishing_rod"));
 		cc.put("Options.Bag.ButtonsToSellFish", true);
+		cc.put("Options.Bag.StoreCaughtFish", true);
 		
 		cc.put("Options.Bag.ButtonsToOpenShop", true);
 		cc.put("Options.Manual.MinimalFishLength", 0.15);
@@ -134,6 +137,11 @@ public class Configs {
 		cc.put("Types.Cod.0.MaxCm", 130.0);
 		cc.put("Types.Cod.0.ModelData", 0);
 		cc.put("Types.Cod.0.Chance", 33.5);
+		cc.put("Types.Cod.0.Lore", Arrays.asList("&8-------------------------"
+				,"&7Weight: &a%weight%kg","&7Length: &a%length%cm","&7Can be found:"," &a%biomes%"
+				,"&7Caught by: &a%fisher%","&8-------------------------"));
+		cc.put("Types.Cod.0.Enchants", Arrays.asList("LURE:3"));
+		
 		
 		cc.put("Types.Cod.1.Name", "&8Roach");
 		cc.put("Types.Cod.1.Money", 0.2);

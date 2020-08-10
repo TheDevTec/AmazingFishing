@@ -68,7 +68,8 @@ public class Tournament {
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name"))
 				.replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
 		Tasker.cancelTask(r);
-		for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+		if(Loader.c.getBoolean("Options.Tournament.DeletePlayersOnLeave")==true)
+			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
     	TheAPI.broadcastMessage(Loader.s("Winners")
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")));
 		 switch(now) {
@@ -171,7 +172,8 @@ public class Tournament {
 				}
                 if(count > 0)
                 --count;
-    			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
+                if(Loader.c.getBoolean("Options.Tournament.DeletePlayersOnLeave")==true)
+                	for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
                 if(Loader.c.getBoolean("Options.BossBar.Use"))
                 for(Player p : Bukkit.getOnlinePlayers())
                 	if(inParticle(p) && Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish")||!Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish"))

@@ -3,11 +3,14 @@ package AmazingFishing;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.Shop.ShopType;
 import me.DevTec.TheAPI;
@@ -150,6 +153,14 @@ public class bag {
 		return false;
 	}
 	public static void addFish(Player p, ItemStack fish) {
-		if(!getFirstEmpty(p,fish))TheAPI.giveItem(p,fish);
+		if(Loader.c.getBoolean("Options.Fish.HideEnchants")==true&& !fish.getEnchantments().isEmpty()) {
+			Bukkit.broadcastMessage("2");
+			ItemMeta m = fish.getItemMeta();
+			m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			fish.setItemMeta(m);
+		}
+		
+		if(Loader.c.getBoolean("Options.Bag.StoreCaughtFish")==false)TheAPI.giveItem(p,fish);
+		else { if(!getFirstEmpty(p,fish))TheAPI.giveItem(p,fish); }
 	}
 }
