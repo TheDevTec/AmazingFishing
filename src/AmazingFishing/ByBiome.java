@@ -212,7 +212,7 @@ public class ByBiome {
 				}
 			i.setLore(lore);
 			}
-				bag.addFish(p,i.create());
+				bag.addFishToBagOrInv(p,i.create());
 			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", (new DecimalFormat("#,##0.00").format(length))
 					.replaceAll("\\.00", "")).replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
 					.replace("%weight%",(new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", "")).replace("%fish%",  "Uknown"), p);
@@ -295,7 +295,7 @@ public class ByBiome {
 				}
 			i.setLore(lore);
 			}
-				bag.addFish(p,i.create());
+				bag.addFishToBagOrInv(p,i.create());
 				Utils.addRecord(p, fish, type, length,weight);
 				Tournament.add(p, length,weight);
 				for(CEnch ec: enchs)

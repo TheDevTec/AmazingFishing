@@ -763,10 +763,10 @@ public class TheAPI_GUIs {
 		a.setItem(4,new ItemGUI(Create.createItem("&9"+Points.getBal(p.getName())+" Points", Material.LAPIS_LAZULI)){
 			@Override
 			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
-				TheAPI.giveItem(p, Normal.getRod(p));
+				/*TheAPI.giveItem(p, Normal.getRod(p));
 				Loader.me.set("Players."+p.getName()+".SavedRod",null);
 				Loader.saveChatMe();
-				a.close();
+				a.close();*/
 			}
 		});
 		a.setItem(1,new ItemGUI(Normal.getRod(p)){
