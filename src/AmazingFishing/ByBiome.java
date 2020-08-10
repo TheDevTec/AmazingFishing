@@ -148,7 +148,7 @@ public class ByBiome {
 				length=(int)length;
 			if(!Loader.c.getBoolean("Options.UseDoubles.Weight"))
 				weight=(int)weight;
-			
+			 
 			if(Loader.c.getBoolean("Options.Fish.EnchantsOnCustomFish")==true&&Loader.c.getString("Types."+type+"."+fish+".Enchants")!=null) {
 				for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Enchants")) {
 					String[] ss = s.split(":");
