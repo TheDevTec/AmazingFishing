@@ -63,6 +63,7 @@ public class Loader extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new AmazingFishing.onChat(), this);
 		Bukkit.getPluginManager().registerEvents(new AmazingFishing. AFK(), this);
 		Bukkit.getPluginManager().registerEvents(new AmazingFishing.onFish(), this);
+		Bukkit.getPluginManager().registerEvents(new AmazingFishing.AnvilPrepare(), this);
 		Bukkit.getPluginCommand("fish").setExecutor(new AmazingFishing.Fishing());
 		Bukkit.getPluginCommand("amazingfishing").setExecutor(new AmazingFishing.Fishing());
 		if(c.getBoolean("Options.Tournament.AutoStart"))
