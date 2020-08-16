@@ -251,7 +251,7 @@ public class TheAPI_GUIs {
 				Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 				Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Name");
 				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 			}
 			});
 		}else 
@@ -262,7 +262,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Name");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}
 			});
 			
@@ -274,7 +274,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Exp");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteExp", 1), Loader.get("WriteExp", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteExp", 1), Loader.get("WriteExp", 2));
 				}
 			});
 
@@ -286,7 +286,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Exp");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteExp", 1), Loader.get("WriteExp", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteExp", 1), Loader.get("WriteExp", 2));
 				}
 			});
 		if(points != null) {
@@ -297,7 +297,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Points");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
+					TheAPI.sendTitle(p,Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
 				}
 			});
 		}else 
@@ -308,7 +308,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Points");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
+					TheAPI.sendTitle(p,Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
 				}
 			});
 		if(money != null) {
@@ -319,7 +319,7 @@ public class TheAPI_GUIs {
 				Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 				Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Money");
 				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
 			}
 		});
 		}else 
@@ -330,7 +330,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Money");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
 				}
 			});
 		if(chance != null) {
@@ -341,7 +341,7 @@ public class TheAPI_GUIs {
 				Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 				Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Chance");
 				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
 			}
 		});
 		}else 
@@ -352,7 +352,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Chance");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
 				}
 			});
 		if(cm != null) {
@@ -363,7 +363,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Cm");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteLength", 1), Loader.get("WriteLength", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteLength", 1), Loader.get("WriteLength", 2));
 				}
 			});
 		}else
@@ -374,7 +374,7 @@ public class TheAPI_GUIs {
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Fish", fish);
 					Loader.c.set("Edit-"+pats+"."+p.getName()+".Type", "Cm");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteLength", 1), Loader.get("WriteLength", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteLength", 1), Loader.get("WriteLength", 2));
 				}
 			});
 		a.setItem(39,new ItemGUI(Create.createItem(Trans.perbiome(), Material.CHEST)){
@@ -585,7 +585,7 @@ public class TheAPI_GUIs {
 				p.getOpenInventory().close();
 				Loader.c.set("Creating-"+wd+"."+p.getName()+".Type", "Name");
 				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 			}
 		});
 
@@ -596,7 +596,7 @@ public class TheAPI_GUIs {
 					p.getOpenInventory().close();
 					Loader.c.set("Creating-"+wd+"."+p.getName()+".Type", "Exp");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteExp", 1), Loader.get("WriteExp", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteExp", 1), Loader.get("WriteExp", 2));
 				}
 			});
 			a.setItem(29,new ItemGUI(points != null?Create.createItem(Trans.point(), Material.LAPIS_LAZULI,Arrays.asList("&d"+points+"Points")):
@@ -606,7 +606,7 @@ public class TheAPI_GUIs {
 					p.getOpenInventory().close();
 					Loader.c.set("Creating-"+wd+"."+p.getName()+".Type", "Points");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
+					TheAPI.sendTitle(p,Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
 				}
 			});
 		a.setItem(32,new ItemGUI(money != null?Create.createItem(Trans.money(), Material.GOLD_INGOT,Arrays.asList("&6"+money+"$")):
@@ -616,7 +616,7 @@ public class TheAPI_GUIs {
 				p.getOpenInventory().close();
 				Loader.c.set("Creating-"+wd+"."+p.getName()+".Type", "Money");
 				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
 			}
 		});
 		a.setItem(41, new ItemGUI(chance != null?Create.createItem(Trans.chance(), Material.PAPER,Arrays.asList("&9"+chance+"%")):
@@ -626,7 +626,7 @@ public class TheAPI_GUIs {
 				p.getOpenInventory().close();
 				Loader.c.set("Creating-"+wd+"."+p.getName()+".Type", "Chance");
 				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
 			}
 		});
 
@@ -637,7 +637,7 @@ public class TheAPI_GUIs {
 					p.getOpenInventory().close();
 					Loader.c.set("Creating-"+wd+"."+p.getName()+".Type", "Cm");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteLength", 1), Loader.get("WriteLength", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteLength", 1), Loader.get("WriteLength", 2));
 				}
 			});
 		a.setItem(40,new ItemGUI(Create.createItem(Trans.cancel(), Material.BARRIER)){
@@ -1121,7 +1121,7 @@ public class TheAPI_GUIs {
 				Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 				Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Name");
 				Loader.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 			}
 		});
 		}else
@@ -1132,7 +1132,7 @@ public class TheAPI_GUIs {
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Name");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}
 			});		
 		if(f!=null && Loader.c.getString("Treasures."+d+"."+f+".Commands")!=null) {
@@ -1156,7 +1156,7 @@ public class TheAPI_GUIs {
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Command");
 						Loader.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCommand", 1), Loader.get("WriteCommand", 2));
+						TheAPI.sendTitle(p,Loader.get("WriteCommand", 1), Loader.get("WriteCommand", 2));
 					}
 				}
 			});
@@ -1178,7 +1178,7 @@ public class TheAPI_GUIs {
 							Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 							Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Command");
 							Loader.save();
-							TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCommand", 1), Loader.get("WriteCommand", 2));
+							TheAPI.sendTitle(p,Loader.get("WriteCommand", 1), Loader.get("WriteCommand", 2));
 						}
 					}
 				});
@@ -1203,7 +1203,7 @@ public class TheAPI_GUIs {
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Message");
 						Loader.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMessage", 1), Loader.get("WriteMessage", 2));
+						TheAPI.sendTitle(p,Loader.get("WriteMessage", 1), Loader.get("WriteMessage", 2));
 					}
 				}
 			});
@@ -1225,7 +1225,7 @@ public class TheAPI_GUIs {
 							Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 							Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Message");
 							Loader.save();
-							TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMessage", 1), Loader.get("WriteMessage", 2));
+							TheAPI.sendTitle(p,Loader.get("WriteMessage", 1), Loader.get("WriteMessage", 2));
 						}
 					}
 				});
@@ -1238,7 +1238,7 @@ public class TheAPI_GUIs {
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Money");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
 				}
 			});
 			}else
@@ -1249,7 +1249,7 @@ public class TheAPI_GUIs {
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Money");
 						Loader.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
+						TheAPI.sendTitle(p,Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
 					}
 				});;
 		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Points") != null) {
@@ -1263,7 +1263,7 @@ public class TheAPI_GUIs {
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Points");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
+					TheAPI.sendTitle(p,Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
 				}
 			});
 			}else
@@ -1274,7 +1274,7 @@ public class TheAPI_GUIs {
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Points");
 						Loader.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
+						TheAPI.sendTitle(p,Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
 					}
 				});
 		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Chance") != null) {
@@ -1286,7 +1286,7 @@ public class TheAPI_GUIs {
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 					Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Chance");
 					Loader.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
 				}
 			});;
 			}else
@@ -1297,7 +1297,7 @@ public class TheAPI_GUIs {
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Crate", f);
 						Loader.c.set(c+"-"+d+"."+p.getName()+".Type", "Chance");
 						Loader.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
+						TheAPI.sendTitle(p,Loader.get("WriteChance", 1), Loader.get("WriteChance", 2));
 					}
 				});;
 		a.setItem(49,new ItemGUI(Create.createItem(Trans.cancel(), Material.BARRIER)){

@@ -11,11 +11,12 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
+import me.DevTec.EconomyAPI;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.TheAPI.SudoType;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.SudoType;
 
 
 public class API {
@@ -43,9 +44,9 @@ public class API {
 		double points = Loader.c.getDouble("Treasures."+type+"."+treasure+".Points");
 		double per = Loader.c.getDouble("Treasures."+type+"."+treasure+".Chance");
 		Points.give(p.getName(), points);
-		TheAPI.getEconomyAPI().depositPlayer(p.getName(), money);
+		EconomyAPI.depositPlayer(p.getName(), money);
 		for(String d:messages) {
-			TheAPI.getPlayerAPI(p).msg(d.replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+""));
+			TheAPI.msg(d.replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+""),p);
 		}
 		for(String d:commands) {
 			TheAPI.sudoConsole(SudoType.COMMAND, Color.c(d.replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+"")));
@@ -71,7 +72,7 @@ public class API {
 	 * give specifed Fish (Ignoring biome)
 	 */
 	public static void giveFish(Player p, fishType t, String fish) {
-		ItemCreatorAPI a = TheAPI.getItemCreatorAPI(Material.matchMaterial(""+t));
+		ItemCreatorAPI a = new ItemCreatorAPI(Material.matchMaterial(""+t));
 		String type=t.toString().replace("COD", "Cod")
 				.replace("SALMON", "Salmon")
 				.replace("TROPICAL_FISH", "TropicalFish")
@@ -126,7 +127,7 @@ public class API {
 	 * give specifed Fish by Biome
 	 */
 	public static void giveFish(Player p, fishType t, String fish, Biome biome) {
-		ItemCreatorAPI a = TheAPI.getItemCreatorAPI(Material.matchMaterial(""+t));
+		ItemCreatorAPI a = new ItemCreatorAPI(Material.matchMaterial(""+t));
 		String type=t.toString().replace("COD", "Cod")
 				.replace("SALMON", "Salmon")
 				.replace("TROPICAL_FISH", "TropicalFish")

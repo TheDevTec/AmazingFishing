@@ -58,7 +58,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".Money", s.getDouble(message.replace(" ", "")));
+				Loader.c.set("Types."+typ+"."+id+".Money", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.c.set("Edit-"+path, null);
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -80,7 +80,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".MaxCm", s.getDouble(message.replace(" ", "")));
+				Loader.c.set("Types."+typ+"."+id+".MaxCm", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -101,7 +101,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".Chance", s.getDouble(message.replace(" ", "")));
+				Loader.c.set("Types."+typ+"."+id+".Chance", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -121,7 +121,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".Xp", s.getInt(message.replace(" ", "")));
+				Loader.c.set("Types."+typ+"."+id+".Xp", StringUtils.getInt(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -141,7 +141,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Types."+typ+"."+id+".Points", s.getDouble(message.replace(" ", "")));
+				Loader.c.set("Types."+typ+"."+id+".Points", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishEditType(p, id, type);}
@@ -154,7 +154,6 @@ public class onChat implements Listener {
 				gui.openFishEditType(p, id, type);
 				break;
 			}}}
-	private static StringUtils s = TheAPI.getStringUtils();
 	private void setEverything(Player p, String msg, FishType type) {
 		String path = null;
 		String typ = null;
@@ -188,7 +187,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Points", s.getDouble(msg.replace(" ", "")));
+				Loader.c.set("Creating-"+path+"."+p.getName()+".Points", StringUtils.getDouble(msg.replace(" ", "")));
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) {
@@ -202,7 +201,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-				Loader.c.set("Creating-"+path+"."+p.getName()+".MaxCm", s.getDouble(msg.replace(" ", "")));
+				Loader.c.set("Creating-"+path+"."+p.getName()+".MaxCm", StringUtils.getDouble(msg.replace(" ", "")));
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) {
@@ -216,7 +215,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Money", s.getDouble(msg.replace(" ", "")));
+				Loader.c.set("Creating-"+path+"."+p.getName()+".Money", StringUtils.getDouble(msg.replace(" ", "")));
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) {
@@ -229,7 +228,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Chance", s.getDouble(msg.replace(" ", "")));
+				Loader.c.set("Creating-"+path+"."+p.getName()+".Chance", StringUtils.getDouble(msg.replace(" ", "")));
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) {
@@ -242,7 +241,7 @@ public class onChat implements Listener {
 				if(fish == null)
 					get.warn(p, path, type);
 					else {
-						Loader.c.set("Creating-"+path+"."+p.getName()+".Xp", s.getInt(msg.replace(" ", "")));
+						Loader.c.set("Creating-"+path+"."+p.getName()+".Xp", StringUtils.getInt(msg.replace(" ", "")));
 						Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
 				Loader.save();
 				if(get.ready(p, path)) 

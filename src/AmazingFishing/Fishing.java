@@ -16,6 +16,7 @@ import AmazingFishing.Tournament.Type;
 import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.Other.StringUtils;
 
 public class Fishing implements CommandExecutor, TabCompleter {
 
@@ -155,7 +156,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Length, (int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
+							Tournament.startType(Type.Length, (int)StringUtils.getTimeFromString(args[3]),false);
 							return true;
 						}else
 							if(args[2].equalsIgnoreCase("MostCatch")) {
@@ -163,7 +164,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 									Loader.msgCmd("&cAlreary running tournament.", s);
 									return true;
 								}
-								Tournament.startType(Type.MostCatch, (int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
+								Tournament.startType(Type.MostCatch, (int)StringUtils.getTimeFromString(args[3]),false);
 								return true;
 							}else
 								if(args[2].equalsIgnoreCase("Weight")) {
@@ -171,7 +172,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 										Loader.msgCmd("&cAlreary running tournament.", s);
 										return true;
 									}
-									Tournament.startType(Type.Weight,(int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
+									Tournament.startType(Type.Weight,(int)StringUtils.getTimeFromString(args[3]),false);
 									return true;
 								}else
 						if(args[2].equalsIgnoreCase("Random")) {
@@ -179,7 +180,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								Loader.msgCmd("&cAlreary running tournament.", s);
 								return true;
 							}
-							Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(args[3]),false);
+							Tournament.startType(Type.Random, (int)StringUtils.getTimeFromString(args[3]),false);
 							return true;
 						}else {
 							Loader.msgCmd("&e/Fish Tournament Start <type> <length>", s);
@@ -266,7 +267,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 			}
 			if(args.length==4) {
 				String p = args[1];
-				double b = TheAPI.getStringUtils().getDouble(args[3]);
+				double b = StringUtils.getDouble(args[3]);
 				if(args[2].equalsIgnoreCase("set")) {
 				if(Loader.hasPerm(s, "amazingfishing.points.set")) {
 					Points.take(p, Points.bal(p));

@@ -9,6 +9,7 @@ import AmazingFishing.onChat.create;
 import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.Other.StringUtils;
 import me.DevTec.Scheduler.Tasker;
 
 public class get {
@@ -121,7 +122,7 @@ public class get {
 		Loader.c.set("Types."+path+"."+f+".MaxCm", getCm(p,path));
 		Loader.c.set("Types."+path+"."+f+".Biomes", getBiomes(p,path));
 		Loader.c.set("Types."+path+"."+f+".Chance", getChance(p,path));
-		Loader.c.set("Types."+path+"."+f+".ModelData", TheAPI.getStringUtils().getInt(f));
+		Loader.c.set("Types."+path+"."+f+".ModelData", StringUtils.getInt(f));
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
 		Loader.c.set("Creating-"+path+"."+p.getName(), null);
@@ -130,11 +131,11 @@ public class get {
 		if(path.equals("Pufferfish"))path="PufferFish";
 		if(path.equals("Tropical_Fish"))path="TropicalFish";
 			if(title)
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.s("Editor.SuccefullyCreated.1")
+				TheAPI.sendTitle(p,Loader.s("Editor.SuccefullyCreated.1")
 						.replace("%fish%", Loader.c.getString("Types."+path+"."+f+".Name")), Loader.s("Editor.SuccefullyCreated.2")
 						.replace("%fish%", Loader.c.getString("Types."+path+"."+f+".Name")));
 				else
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("Saved", 1), Loader.get("Saved", 2));
+					TheAPI.sendTitle(p,Loader.get("Saved", 1), Loader.get("Saved", 2));
 	}
 		
 	}

@@ -8,19 +8,18 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import me.DevTec.ItemCreatorAPI;
-import me.DevTec.TheAPI;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.ItemGUI;
 
 public class Create {
     public static ItemStack createItem(String name, Material material) {
-    	ItemCreatorAPI a = TheAPI.getItemCreatorAPI(material);
+    	ItemCreatorAPI a = new ItemCreatorAPI(material);
     	a.setDisplayName(name);
     	return a.create();
     }
     
 	public static ItemStack createItem(String name, Material material, List<String> lore) {
-    	ItemCreatorAPI a = TheAPI.getItemCreatorAPI(material);
+    	ItemCreatorAPI a = new ItemCreatorAPI(material);
     	a.setDisplayName(name);
     	a.setLore(lore);
     	return a.create();

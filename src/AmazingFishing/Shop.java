@@ -14,12 +14,14 @@ import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import AmazingFishing.help.Type;
+import me.DevTec.EconomyAPI;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
-import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.SudoType;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.ItemGUI;
+import me.DevTec.Other.StringUtils;
 import me.DevTec.Scheduler.Tasker;
 
 public class Shop {
@@ -86,7 +88,7 @@ public class Shop {
 						.replace("%fish%", Loader.f.getFish())
 						.replace("%fish_type%", Loader.f.getType())
 						.replace("%bonus%", ""+Loader.f.getBonus()));
-			ItemCreatorAPI item = TheAPI.getItemCreatorAPI(Loader.f.getMaterial());
+			ItemCreatorAPI item = new ItemCreatorAPI(Loader.f.getMaterial());
 			int mod = 0;
 			if(Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData")!=null)
 				mod = Loader.c.getInt("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData");
@@ -182,12 +184,12 @@ public class Shop {
 				
 				if(msgs != null)
 					for(String f:msgs) {
-						TheAPI.getPlayerAPI(p).msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""));
+						TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
 					}
 				if(ex("Items."+kit+".Item")) {
 					for(String f:Loader.shop.getConfigurationSection("Items."+kit+".Item").getKeys(false)) {
 						try {
-							ItemCreatorAPI a = TheAPI.getItemCreatorAPI(Material.matchMaterial(Loader.shop.getString("Items."+kit+".Item."+f+".Material")));
+							ItemCreatorAPI a = new ItemCreatorAPI(Material.matchMaterial(Loader.shop.getString("Items."+kit+".Item."+f+".Material")));
 							int amount = 1;
 							if(Loader.shop.getInt("Items."+kit+".Item."+f+".Amount")>0)
 								amount=Loader.shop.getInt("Items."+kit+".Item."+f+".Amount");
@@ -206,7 +208,7 @@ public class Shop {
 						if(Loader.shop.getString("Items."+kit+".Item."+f+".Enchants")!=null)
 						for(String s:Loader.shop.getStringList("Items."+kit+".Item."+f+".Enchants")) {
 			            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
-			            	int num = TheAPI.getStringUtils().getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
+			            	int num = StringUtils.getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
 			            	if(num==0)num=1;
 			            	try {
 			            		a.addEnchantment(ench, num);
@@ -311,7 +313,7 @@ public class Shop {
 				if(Loader.c.getBoolean("Options.Sounds.Bag-SellFish"))
 					Sounds.play(p);
 			}
-			TheAPI.getEconomyAPI().depositPlayer(p.getName(), sold);
+			EconomyAPI.depositPlayer(p.getName(), sold);
 			Points.give(p.getName(), points);
 			p.giveExp(exp);
 			

@@ -129,7 +129,7 @@ public class gui {
 	}
 	
 	private static ItemStack createHead(String name, String owner, List<String> lore) {
-		ItemCreatorAPI a= TheAPI.getItemCreatorAPI(Material.getMaterial("LEGACY_SKULL_ITEM") == null ? Material.getMaterial("SKULL_ITEM") : Material.getMaterial("LEGACY_SKULL_ITEM"));
+		ItemCreatorAPI a= new ItemCreatorAPI(Material.getMaterial("LEGACY_SKULL_ITEM") == null ? Material.getMaterial("SKULL_ITEM") : Material.getMaterial("LEGACY_SKULL_ITEM"));
 		a.setSkullType("PLAYER");
 		a.setLore(lore);
 		a.setOwner(owner.equals("-") ? "MHF_Question" : owner);

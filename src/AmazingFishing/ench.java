@@ -93,7 +93,7 @@ public class ench {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
 				Configs.c.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 			}});
 		}else
 			a.setItem(13,new ItemGUI(Create.createItem(Trans.name(), Material.NAME_TAG)){
@@ -102,7 +102,7 @@ public class ench {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
 					Configs.c.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteName", 1), Loader.get("WriteName", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}});
 		if(name!=null && Loader.c.getString("Enchants."+name+".Cost") != null) {
 			a.setItem(22,new ItemGUI(Create.createItem(Trans.cost(), Material.SUNFLOWER, 
@@ -112,7 +112,7 @@ public class ench {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
 					Configs.c.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
 				}
 			});
 			}else
@@ -122,7 +122,7 @@ public class ench {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
 						Configs.c.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
+						TheAPI.sendTitle(p,Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
 					}
 				});
 
@@ -134,7 +134,7 @@ public class ench {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
 					Configs.c.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
 				}
 			});
 			}else
@@ -144,7 +144,7 @@ public class ench {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
 				Configs.c.save();
-				TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
+				TheAPI.sendTitle(p,Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
 			}
 		});
 		
@@ -156,7 +156,7 @@ public class ench {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
 					Configs.c.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
 				}
 			});
 			}else
@@ -166,7 +166,7 @@ public class ench {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
 						Configs.c.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
+						TheAPI.sendTitle(p,Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
 					}
 				});
 		
@@ -194,7 +194,7 @@ public class ench {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type",enchs.Description); 
 						Configs.c.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
+						TheAPI.sendTitle(p,Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
 					}
 				}
 			});
@@ -217,7 +217,7 @@ public class ench {
 							p.getOpenInventory().close();
 							Loader.c.set(wa+"-Enchants."+p.getName()+".Type",enchs.Description); 
 							Configs.c.save();
-							TheAPI.getPlayerAPI(p).sendTitle(Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
+							TheAPI.sendTitle(p,Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
 						}
 					}
 				});
@@ -230,7 +230,7 @@ public class ench {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
 					Configs.c.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
+					TheAPI.sendTitle(p,Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 				}
 			});
 			}else
@@ -240,7 +240,7 @@ public class ench {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
 						Configs.c.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
+						TheAPI.sendTitle(p,Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 					}
 				});
 		if(name!=null && Loader.c.getString("Enchants."+name+".MoneyBonus") != null) {
@@ -251,7 +251,7 @@ public class ench {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
 					Configs.c.save();
-					TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
+					TheAPI.sendTitle(p,Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
 				}
 			});
 			}else
@@ -261,7 +261,7 @@ public class ench {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
 						Configs.c.save();
-						TheAPI.getPlayerAPI(p).sendTitle(Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
+						TheAPI.sendTitle(p,Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
 					}
 				});
 

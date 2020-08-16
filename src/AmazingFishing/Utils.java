@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import AmazingFishing.API.treasureType;
 import AmazingFishing.RD.Type;
+import me.DevTec.EconomyAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Loader;
 
@@ -138,7 +139,7 @@ public class Utils {
 		}}
 	public static void giveReward(Player p, String fish, String type) {
 		if(Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Length")>=Loader.c.getDouble("Types."+type+"."+fish+".MaxCm")-5) {
-			TheAPI.getEconomyAPI().depositPlayer(p.getName(), Loader.c.getDouble("Types."+type+"."+fish+".Money")+(Loader.c.getDouble("Types."+type+"."+fish+".Money")%85));
+			EconomyAPI.depositPlayer(p.getName(), Loader.c.getDouble("Types."+type+"."+fish+".Money")+(Loader.c.getDouble("Types."+type+"."+fish+".Money")%85));
 		}}
 
 	public static String trasfer(int i) {

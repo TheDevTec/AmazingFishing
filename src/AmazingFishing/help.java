@@ -16,6 +16,7 @@ import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.ItemGUI;
+import me.DevTec.Other.StringUtils;
 
 @SuppressWarnings("deprecation")
 public class help {
@@ -228,7 +229,7 @@ public class help {
 		};
 		Create.prepareInvBig(a);
 		for(Player s:Bukkit.getOnlinePlayers()) {
-				ItemCreatorAPI ss = TheAPI.getItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
+				ItemCreatorAPI ss = new ItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
 				ss.setOwner(s.getName());
 				ss.setSkullType(SkullType.PLAYER);
 				ss.setDisplayName(s.getDisplayName());
@@ -585,7 +586,7 @@ public class help {
 			}
 		});
 		
-		String time=TheAPI.getTimeConventorAPI().setTimeToString(Loader.c.getInt("Creating-Tournament."+p.getName()+".Time"));
+		String time=StringUtils.timeToString(Loader.c.getInt("Creating-Tournament."+p.getName()+".Time"));
 		a.setItem(22, new ItemGUI(Create.createItem(Loader.s("HelpGUI.ClickToStart"), Material.CLOCK,
 				Arrays.asList("&3> &5Type: "+Loader.c.getString("Creating-Tournament."+p.getName()+".Type"),"&3> &5Time: "+time))){
 			@Override
@@ -670,7 +671,7 @@ public class help {
 			}
 			if(l.isEmpty()==false) {
 				if(m==Material.PLAYER_HEAD||m==Material.LEGACY_SKULL||m==Material.LEGACY_SKULL_ITEM) {
-					ItemCreatorAPI ss = TheAPI.getItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
+					ItemCreatorAPI ss = new ItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
 					ss.setOwner(name);
 					ss.setSkullType(SkullType.PLAYER);
 					ss.setDisplayName(rep(c,name));
@@ -688,7 +689,7 @@ public class help {
 			});
 			}else {
 				if(m==Material.PLAYER_HEAD||m==Material.LEGACY_SKULL||m==Material.LEGACY_SKULL_ITEM) {
-					ItemCreatorAPI ss = TheAPI.getItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
+					ItemCreatorAPI ss = new ItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
 					ss.setOwner(name);
 					ss.setSkullType(SkullType.PLAYER);
 					ss.setDisplayName(rep(c,name));
@@ -717,7 +718,7 @@ public class help {
 		Create.prepareInvBig(a);
 		for(Player s:Bukkit.getOnlinePlayers()) {
 			if(Loader.me.getString("Players."+p.getName()+".Stats")!=null) {
-				ItemCreatorAPI ss = TheAPI.getItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
+				ItemCreatorAPI ss = new ItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
 				ss.setOwner(s.getName());
 				ss.setSkullType(SkullType.PLAYER);
 				ss.setDisplayName(s.getDisplayName());

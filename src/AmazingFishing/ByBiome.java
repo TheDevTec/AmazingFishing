@@ -9,13 +9,14 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.sqlite.util.StringUtils;
 
 import AmazingFishing.Quests.Actions;
+import me.DevTec.EconomyAPI;
 import me.DevTec.ItemCreatorAPI;
 import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.Other.StringUtils;
 
 public class ByBiome {
 	public static enum biomes{
@@ -127,8 +128,8 @@ public class ByBiome {
 		exp = exp+(exp%expbonus);
 		//if(money==0.0||points==0.0||exp==0.0) addEarn(c, p, type, fish, length);
 		if(!Loader.c.getBoolean("Options.DisableMoneyFromCaught"))
-		TheAPI.getEconomyAPI().depositPlayer(p.getName(), money);
-		TheAPI.getPlayerAPI(p).giveExp((int)exp);
+		EconomyAPI.depositPlayer(p.getName(), money);
+		p.giveExp((int)exp);
 		Points.give(p.getName(), points);
 	}
 	
@@ -141,7 +142,7 @@ public class ByBiome {
 		if(t==Material.SALMON)type="Salmon";
 		String fish = fish(hook.getBlock().getBiome().name(),type);
 		if(fish==null) {
-			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
+			ItemCreatorAPI i = new ItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
 			double weight = Generators.weight(length);
 			if(!Loader.c.getBoolean("Options.UseDoubles.Length"))
@@ -153,7 +154,7 @@ public class ByBiome {
 				for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Enchants")) {
 					String[] ss = s.split(":");
 					if(ss[0]==null || ss[1]==null || ss[0].isEmpty() || ss[1].isEmpty()) continue;
-					i.addEnchantment(ss[0], TheAPI.getStringUtils().getInt(ss[1]));
+					i.addEnchantment(ss[0], StringUtils.getInt(ss[1]));
 				}
 				/*if(Loader.c.getBoolean("Options.Fish.HideEnchants")==true){
 					Bukkit.broadcastMessage("1");
@@ -218,7 +219,7 @@ public class ByBiome {
 					.replace("%weight%",(new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", "")).replace("%fish%",  "Uknown"), p);
 			return;
 		}
-			ItemCreatorAPI i = TheAPI.getItemCreatorAPI(t);
+			ItemCreatorAPI i = new ItemCreatorAPI(t);
 			double length = Generators.length(type, fish);
 			double weight = Generators.weight(length);
 			if(!Loader.c.getBoolean("Options.UseDoubles.Length"))
@@ -230,7 +231,7 @@ public class ByBiome {
 				for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Enchants")) {
 					String[] ss = s.split(":");
 					if(ss[0]==null || ss[1]==null || ss[0].isEmpty() || ss[1].isEmpty()) continue;
-					i.addEnchantment(ss[0], TheAPI.getStringUtils().getInt(ss[1]));
+					i.addEnchantment(ss[0], StringUtils.getInt(ss[1]));
 				}
 				/*if(Loader.c.getBoolean("Options.Fish.HideEnchants")==true) {
 					Bukkit.broadcastMessage("1");

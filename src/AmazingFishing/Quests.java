@@ -9,10 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 import me.DevTec.TheAPI;
-import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.SudoType;
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.GUI.GUICreatorAPI;
 import me.DevTec.GUI.ItemGUI;
+import me.DevTec.Other.StringUtils;
 
 public class Quests {
 	public static void openQuestMenu(Player p) {
@@ -65,7 +66,7 @@ public class Quests {
 					}
 					if(Loader.c.getString("Quests."+quest+".Rewards.Messages")!=null)
 					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Messages")) {
-						TheAPI.getPlayerAPI(p).msg(s.replace("%player%", p.getName()).replace("%quest%", quest));
+						TheAPI.msg(s.replace("%player%", p.getName()).replace("%quest%", quest),p);
 					}
 					if(Loader.c.getString("Quests."+quest+".Rewards.Items")!=null)
 					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Items")) {
@@ -127,7 +128,7 @@ public class Quests {
 					Loader.me.set("Players."+p.getName()+".Quests.Current", q);
 					Loader.me.set("Players."+p.getName()+".Quests.Stage", 0);
 					if(Loader.c.getString("Quests."+q+".Time")!=null)
-					TheAPI.getCooldownAPI("amazingfishing.quests."+q).createCooldown(p.getName(), TheAPI.getStringUtils().getTimeFromString(Loader.c.getString("Quests."+q+".Time")));
+					TheAPI.getCooldownAPI("amazingfishing.quests."+q).createCooldown(p.getName(), StringUtils.getTimeFromString(Loader.c.getString("Quests."+q+".Time")));
 					}
 				Loader.saveChatMe();
 				openQuestMenu(p);
@@ -174,16 +175,16 @@ public class Quests {
 					if(amount>=Loader.c.getInt("Quests."+q+".Stage."+next+".Amount")) {
 						Loader.me.set("Players."+p.getName()+".Quests.Stage", next);
 						Loader.me.set("Players."+p.getName()+".Quests.Amount", 0);
-					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6-= Quest &a"+q+"&r&6 =-");
-					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6+ Stage "+next+"/"+(Loader.c.getConfigurationSection("Quests."+q+".Stage").getKeys(false).size()-1));
+					TheAPI.msg(Loader.s("Prefix")+"&6-= Quest &a"+q+"&r&6 =-",p);
+					TheAPI.msg(Loader.s("Prefix")+"&6+ Stage "+next+"/"+(Loader.c.getConfigurationSection("Quests."+q+".Stage").getKeys(false).size()-1),p);
 					String action = "&aCatch fish";
 					if(s==Actions.SELL_FISH)
 						action="&eSell fish";
 					String typ = Loader.c.getString("Quests."+q+".Stage."+next+".Type");
 					String fis = Loader.c.getString("Quests."+q+".Stage."+next+".Fish");
-					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6+ Action: &c"+action);
-					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6+ Fish: &c"+Loader.c.getString("Types."+typ+"."+fis+".Name"));
-					TheAPI.getPlayerAPI(p).msg(Loader.s("Prefix")+"&6+ Amount: &c"+Loader.c.getInt("Quests."+q+".Stage."+next+".Amount"));
+					TheAPI.msg(Loader.s("Prefix")+"&6+ Action: &c"+action,p);
+					TheAPI.msg(Loader.s("Prefix")+"&6+ Fish: &c"+Loader.c.getString("Types."+typ+"."+fis+".Name"),p);
+					TheAPI.msg(Loader.s("Prefix")+"&6+ Amount: &c"+Loader.c.getInt("Quests."+q+".Stage."+next+".Amount"),p);
 				}
 					Loader.saveChatMe();
 			}

@@ -17,7 +17,9 @@ import AmazingFishing.Tournament;
 import AmazingFishing.Tournament.Type;
 import me.DevTec.ConfigAPI;
 import me.DevTec.EnchantmentAPI;
+import me.DevTec.PluginManagerAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.Other.StringUtils;
 import me.DevTec.Scheduler.Tasker;
 
 public class Loader extends JavaPlugin {
@@ -43,7 +45,7 @@ public class Loader extends JavaPlugin {
 			Bukkit.getLogger().severe("************************************************");
 			Bukkit.getLogger().severe("Supported server versions are only 1.13 and newer!");
 			Bukkit.getLogger().severe("************************************************");
-			TheAPI.getPluginsManagerAPI().unloadPlugin(this);
+			PluginManagerAPI.unloadPlugin(this);
 			return;
 		}
 		TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
@@ -69,9 +71,9 @@ public class Loader extends JavaPlugin {
 		if(c.getBoolean("Options.Tournament.AutoStart"))
 		new Tasker() {
 			public void run() {
-				Tournament.startType(Type.Random, (int)TheAPI.getStringUtils().getTimeFromString(c.getString("Options.Tournament.Time")), true);
+				Tournament.startType(Type.Random, (int)StringUtils.getTimeFromString(c.getString("Options.Tournament.Time")), true);
 			}
-		}.repeatingAsync(0, TheAPI.getStringUtils().getTimeFromString(c.getString("Options.Tournament.Delay")));
+		}.repeatingAsync(0, StringUtils.getTimeFromString(c.getString("Options.Tournament.Delay")));
 		
 	}
 	private void isTest() {
@@ -124,7 +126,7 @@ public class Loader extends JavaPlugin {
 	static void setupTranslations() {
 		a.addDefault("CommandIsDisabled", "&cCommand is disabled!");
 		a.addDefault("TopPlayers", "&6Top 3 players records on fish &a%fish%");
-		a.addDefault("Prefix", "&bFishing &4• &6");
+		a.addDefault("Prefix", "&bFishing &4ï¿½ &6");
 		a.addDefault("Stats", Arrays.asList("&6------< &b%playername% &6>------"
 				,"&b> &6Caught fish: &a%fish%","&b> &6Longest fish & name: &a%fish%: %record%"
 				,"&b> &6Participating tournaments: &a%tournaments%","&b> &6Top 1 in participating tournaments: &a%top1% times"));

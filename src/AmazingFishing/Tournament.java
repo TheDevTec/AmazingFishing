@@ -10,8 +10,9 @@ import org.bukkit.entity.Player;
 
 import me.DevTec.RankingAPI;
 import me.DevTec.TheAPI;
-import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.SudoType;
+import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.Other.StringUtils;
 import me.DevTec.Scheduler.Tasker;
 
 public class Tournament {
@@ -56,7 +57,7 @@ public class Tournament {
 		if(!rewards) {
 			TheAPI.broadcastMessage(Loader.s("Stopped")
 					.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%",
-							TheAPI.getStringUtils().setTimeToString(Tournament.count)));
+							StringUtils.setTimeToString(Tournament.count)));
 			if(r!=-1)
 				Tasker.cancelTask(r);
     	count=0;
@@ -66,7 +67,7 @@ public class Tournament {
 	}else{
 		TheAPI.broadcastMessage(Loader.s("Stopped")
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name"))
-				.replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
+				.replace("%time%", StringUtils.setTimeToString(Tournament.count)));
 		Tasker.cancelTask(r);
 		if(Loader.c.getBoolean("Options.Tournament.DeletePlayersOnLeave")==true)
 			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
@@ -163,7 +164,7 @@ public class Tournament {
          if(ds<3)ds=-20;
          int a=as,b=bs,c=bs,d=ds;
 		TheAPI.broadcastMessage(Loader.s("Started")
-				.replace("%type%", Loader.c.getString("Tournaments."+type.toString()+".Name")).replace("%time%", TheAPI.getStringUtils().setTimeToString(Tournament.count)));
+				.replace("%type%", Loader.c.getString("Tournaments."+type.toString()+".Name")).replace("%time%", StringUtils.setTimeToString(Tournament.count)));
 	r=new Tasker() {
            public void run(){
 				if(now==null) {
@@ -177,13 +178,13 @@ public class Tournament {
                 if(Loader.c.getBoolean("Options.BossBar.Use"))
                 for(Player p : Bukkit.getOnlinePlayers())
                 	if(inParticle(p) && Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish")||!Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish"))
-                		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_formated%", TheAPI.getStringUtils().setTimeToString(count)),1,20);
+                		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_formated%", StringUtils.setTimeToString(count)),1,20);
                 
      			RankingAPI<String> w = new RankingAPI<String>(stats);
                 if(count == a || count == b || count == c || count == d) {
                 	TheAPI.broadcastMessage(Loader.s("Running")
             				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%", 
-            						TheAPI.getStringUtils().setTimeToString(Tournament.count)));
+            						StringUtils.setTimeToString(Tournament.count)));
                 	for (int i = 1; i < 4; i++) {
                 		if(w.getObject(i)==null)continue;
              			String player = w.getObject(i).toString();
