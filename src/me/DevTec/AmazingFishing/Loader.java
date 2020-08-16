@@ -19,6 +19,7 @@ import me.DevTec.ConfigAPI;
 import me.DevTec.EnchantmentAPI;
 import me.DevTec.PluginManagerAPI;
 import me.DevTec.TheAPI;
+import me.DevTec.Other.LoaderClass;
 import me.DevTec.Other.StringUtils;
 import me.DevTec.Scheduler.Tasker;
 
@@ -30,7 +31,7 @@ public class Loader extends JavaPlugin {
 	public static Loader plugin;
 	public static FishOfDay f = new FishOfDay();
 	private static HashMap<String, CEnch> map = new HashMap<String, CEnch>();
-	
+	private boolean disabling;
 	public static List<CEnch> getEnchants(){
 		List<CEnch> a = new ArrayList<CEnch>();
 		for(String s : map.keySet())a.add(map.get(s));
@@ -41,6 +42,20 @@ public class Loader extends JavaPlugin {
 	}
 	@Override
 	public void onEnable() {
+		int count = 0;
+		for(String s : LoaderClass.plugin.getDescription().getVersion().split("."))
+			count+=Integer.valueOf(s);
+		if(count < 9) {
+			disabling = true;
+			TheAPI.msg("&0[&cSkyWars&0] &7You are using old version of TheAPI", TheAPI.getConsole());
+			TheAPI.msg("&0[&cSkyWars&0] &7Please update TheAPI to newest version!", TheAPI.getConsole());
+			TheAPI.msg("&0[&cSkyWars&0] &7Links:", TheAPI.getConsole());
+			TheAPI.msg("&0[&cSkyWars&0] &7 Discord: &ehttps://discord.io/spigotdevtec", TheAPI.getConsole());
+			TheAPI.msg("&0[&cSkyWars&0] &7 Github: &ehttps://github.com/TheDevTec/TheAPI", TheAPI.getConsole());
+			TheAPI.msg("&0[&cSkyWars&0] &7 Spigot: &ehttps://www.spigotmc.org/resources/theapi-1-7-10-up-to-1-16-2.72679/", TheAPI.getConsole());
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
 		if(!TheAPI.isNewVersion()) {
 			Bukkit.getLogger().severe("************************************************");
 			Bukkit.getLogger().severe("Supported server versions are only 1.13 and newer!");
@@ -89,6 +104,7 @@ public class Loader extends JavaPlugin {
 	}
 	@Override
 	public void onDisable() {
+		if(disabling)return;
 		Configs.LoadConfigs();
 		f.stopRunnable();
 	}
