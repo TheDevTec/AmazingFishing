@@ -47,12 +47,12 @@ public class Loader extends JavaPlugin {
 			count+=Integer.valueOf(s);
 		if(count < 9) {
 			disabling = true;
-			TheAPI.msg("&0[&cSkyWars&0] &7You are using old version of TheAPI", TheAPI.getConsole());
-			TheAPI.msg("&0[&cSkyWars&0] &7Please update TheAPI to newest version!", TheAPI.getConsole());
-			TheAPI.msg("&0[&cSkyWars&0] &7Links:", TheAPI.getConsole());
-			TheAPI.msg("&0[&cSkyWars&0] &7 Discord: &ehttps://discord.io/spigotdevtec", TheAPI.getConsole());
-			TheAPI.msg("&0[&cSkyWars&0] &7 Github: &ehttps://github.com/TheDevTec/TheAPI", TheAPI.getConsole());
-			TheAPI.msg("&0[&cSkyWars&0] &7 Spigot: &ehttps://www.spigotmc.org/resources/theapi-1-7-10-up-to-1-16-2.72679/", TheAPI.getConsole());
+			TheAPI.msg("&0[&bAmazingFishing&0] &7You are using old version of TheAPI", TheAPI.getConsole());
+			TheAPI.msg("&0[&bAmazingFishing&0] &7Please update TheAPI to newest version!", TheAPI.getConsole());
+			TheAPI.msg("&0[&bAmazingFishing&0] &7Links:", TheAPI.getConsole());
+			TheAPI.msg("&0[&bAmazingFishing&0] &7 Discord: &ehttps://discord.io/spigotdevtec", TheAPI.getConsole());
+			TheAPI.msg("&0[&bAmazingFishing&0] &7 Github: &ehttps://github.com/TheDevTec/TheAPI", TheAPI.getConsole());
+			TheAPI.msg("&0[&bAmazingFishing&0] &7 Spigot: &ehttps://www.spigotmc.org/resources/theapi-1-7-10-up-to-1-16-2.72679/", TheAPI.getConsole());
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
