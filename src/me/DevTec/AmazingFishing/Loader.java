@@ -43,7 +43,7 @@ public class Loader extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		int count = 0;
-		for(String s : LoaderClass.plugin.getDescription().getVersion().split("."))
+		for(String s : LoaderClass.plugin.getDescription().getVersion().split("\\."))
 			count+=Integer.valueOf(s);
 		if(count < 9) {
 			disabling = true;
