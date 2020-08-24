@@ -133,7 +133,7 @@ public class Tournament {
                 if(Loader.c.getBoolean("Options.Tournament.DeletePlayersOnLeave")==true)
                 	for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
                 if(Loader.c.getBoolean("Options.BossBar.Use"))
-                for(Player p : Bukkit.getOnlinePlayers())
+                for(Player p : TheAPI.getOnlinePlayers())
                 	if(inParticle(p) && Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish")||!Loader.c.getBoolean("Options.BossBar.OnlyIfCatchFish"))
                 		TheAPI.sendBossBar(p, Loader.c.getString("Options.BossBar.Running").replace("%time%", count+"").replace("%type%", now.toString()).replace("%time_formated%", StringUtils.setTimeToString(count)),1,20);
 

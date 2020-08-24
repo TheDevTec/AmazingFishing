@@ -3,7 +3,6 @@ package AmazingFishing;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
@@ -228,7 +227,7 @@ public class help {
 			}
 		};
 		Create.prepareInvBig(a);
-		for(Player s:Bukkit.getOnlinePlayers()) {
+		for(Player s:TheAPI.getOnlinePlayers()) {
 				ItemCreatorAPI ss = new ItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
 				ss.setOwner(s.getName());
 				ss.setSkullType(SkullType.PLAYER);
@@ -716,7 +715,7 @@ public class help {
 			}
 		};
 		Create.prepareInvBig(a);
-		for(Player s:Bukkit.getOnlinePlayers()) {
+		for(Player s:TheAPI.getOnlinePlayers()) {
 			if(Loader.me.getString("Players."+p.getName()+".Stats")!=null) {
 				ItemCreatorAPI ss = new ItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
 				ss.setOwner(s.getName());
