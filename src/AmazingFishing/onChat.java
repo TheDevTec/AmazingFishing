@@ -10,10 +10,9 @@ import org.bukkit.event.player.PlayerChatEvent;
 import AmazingFishing.TheAPI_GUIs.TreasureType;
 import AmazingFishing.TheAPI_GUIs.select;
 import AmazingFishing.gui.FishType;
-import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.Other.StringUtils;
-import me.DevTec.Scheduler.Tasker;
+import me.DevTec.TheAPI.Scheduler.Tasker;
+import me.DevTec.TheAPI.Utils.StringUtils;
 
 @SuppressWarnings("deprecation")
 public class onChat implements Listener {
@@ -328,7 +327,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+fish+".PointsBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+fish+".PointsBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
 				if(ex("Enchants."+fish+".Cost") && ex("Enchants."+fish+".MoneyBonus") && ex("Enchants."+fish+".PointsBonus")) {
@@ -355,7 +354,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+fish+".MoneyBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+fish+".MoneyBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
 				if(ex("Enchants."+fish+".Cost") && ex("Enchants."+fish+".MoneyBonus") && ex("Enchants."+fish+".PointsBonus")) {
@@ -382,7 +381,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+fish+".Cost", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+fish+".Cost", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
 				if(ex("Enchants."+fish+".Cost") && ex("Enchants."+fish+".MoneyBonus") && ex("Enchants."+fish+".PointsBonus")) {
@@ -435,7 +434,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+fish+".ExpBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+fish+".ExpBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				ench.openEditor(p, ench.select.EDIT, fish);
 				}
@@ -453,7 +452,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+fish+".AmountBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+fish+".AmountBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				ench.openEditor(p, ench.select.EDIT, fish);
 				}
@@ -478,7 +477,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+n+".PointsBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+n+".PointsBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
@@ -506,7 +505,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+n+".MoneyBonus",TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+n+".MoneyBonus",StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
@@ -534,7 +533,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+n+".Cost", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+n+".Cost", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
@@ -595,7 +594,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+n+".ExpBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+n+".ExpBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
 					p.getOpenInventory().close();
@@ -622,7 +621,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Enchants."+n+".AmountBonus", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Enchants."+n+".AmountBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
 					p.getOpenInventory().close();
@@ -672,7 +671,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Treasures."+path+"."+fish+".Points", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Treasures."+path+"."+fish+".Points", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openEditor(p, fish, select.EDIT,w);
@@ -693,7 +692,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Treasures."+path+"."+fish+".Money", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Treasures."+path+"."+fish+".Money", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openEditor(p, fish, select.EDIT,w);
@@ -721,7 +720,7 @@ public class onChat implements Listener {
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Treasures."+path+"."+fish+".Chance",TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Treasures."+path+"."+fish+".Chance",StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs guis= new TheAPI_GUIs();
 				guis.openEditor(p, fish, select.EDIT,w);
@@ -822,7 +821,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Treasures."+path+"."+fish+".Points", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Treasures."+path+"."+fish+".Points", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
 				if(ex("Treasures."+path+"."+fish+".Points") && ex("Treasures."+path+"."+fish+".Money") && ex("Treasures."+path+"."+fish+".Chance")) {
@@ -851,7 +850,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Treasures."+path+"."+fish+".Money", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Treasures."+path+"."+fish+".Money", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
 				if(ex("Treasures."+path+"."+fish+".Points") && ex("Treasures."+path+"."+fish+".Money") && ex("Treasures."+path+"."+fish+".Chance")) {
@@ -890,7 +889,7 @@ public class onChat implements Listener {
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.later(40);}}else {
-				Loader.c.set("Treasures."+path+"."+fish+".Chance", TheAPI.getNumbersAPI(message.replace(" ", "")).getDouble());
+				Loader.c.set("Treasures."+path+"."+fish+".Chance", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
 				if(ex("Treasures."+path+"."+fish+".Points") && ex("Treasures."+path+"."+fish+".Money") && ex("Treasures."+path+"."+fish+".Chance")) {

@@ -3,9 +3,9 @@ package AmazingFishing;
 import java.util.Arrays;
 import java.util.Random;
 
-import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.Other.StringUtils;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.Utils.StringUtils;
 
 public class Generators {
 	public static double length(String path, String fish) {

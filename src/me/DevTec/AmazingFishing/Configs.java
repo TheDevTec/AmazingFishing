@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.DevTec.ConfigAPI;
+import me.DevTec.TheAPI.ConfigAPI.ConfigAPI;
 
 public class Configs {
 	
@@ -385,7 +385,7 @@ public class Configs {
 		Map<String, Object> a = new HashMap<String, Object>();
 		a.put("CommandIsDisabled", "&cCommand is disabled!");
 		a.put("TopPlayers", "&6Top 3 players records on fish &a%fish%");
-		a.put("Prefix", "&bFishing &4• &6");
+		a.put("Prefix", "&bFishing &4ï¿½ &6");
 		a.put("Stats", Arrays.asList("&6------< &b%playername% &6>------"
 				,"&b> &6Caught fish: &a%fish%","&b> &6Longest fish & name: &a%fish%: %record%"
 				,"&b> &6Participating tournaments: &a%tournaments%","&b> &6Top 1 in participating tournaments: &a%top1% times"));

@@ -9,16 +9,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 import AmazingFishing.onChat.enchs;
-import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.ItemGUI;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.GUIAPI.GUI;
+import me.DevTec.TheAPI.GUIAPI.ItemGUI;
 
 public class ench {
 
 	public static void openEnchanter(Player p) {
-		GUICreatorAPI a = new GUICreatorAPI("&6Fishing Manager &7- &dEnchants",54,p) {
+		GUI a = new GUI("&6Fishing Manager &7- &dEnchants",54,p) {
 			
 			@Override
 			public void onClose(Player arg0) {
@@ -27,7 +27,7 @@ public class ench {
 		Create.prepareInv(a);
 			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 					TheAPI_GUIs s = new TheAPI_GUIs();
 					s.open(p);
 				}
@@ -35,20 +35,20 @@ public class ench {
 		
 		a.setItem(20,new ItemGUI(Create.createItem(Trans.cre(), Material.GREEN_DYE)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				openEditor(p, select.CREATE, null);
 			}
 		});
 
 		a.setItem(24,new ItemGUI(Create.createItem(Trans.del(), Material.RED_DYE)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				openSelected(p,select.DELETE);
 			}
 		});
 		a.setItem(31,new ItemGUI(Create.createItem(Trans.edit(), Material.ORANGE_DYE)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				openSelected(p,select.EDIT);
 			}
 		});
@@ -75,7 +75,7 @@ public class ench {
 			break;
 		}
 		String wa =what;
-		GUICreatorAPI a = new GUICreatorAPI(name==null?s:s+" &7- "+name,54,p) {
+		GUI a = new GUI(name==null?s:s+" &7- "+name,54,p) {
 			
 			@Override
 			public void onClose(Player arg0) {
@@ -89,7 +89,7 @@ public class ench {
 				custom=Loader.c.getString("Enchants."+name+".Name");
 		a.setItem(13,new ItemGUI(Create.createItem(Trans.name(), Material.NAME_TAG, Arrays.asList("&b>> "+Color.c(custom)))){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
 				Configs.c.save();
@@ -98,7 +98,7 @@ public class ench {
 		}else
 			a.setItem(13,new ItemGUI(Create.createItem(Trans.name(), Material.NAME_TAG)){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
 					Configs.c.save();
@@ -108,7 +108,7 @@ public class ench {
 			a.setItem(22,new ItemGUI(Create.createItem(Trans.cost(), Material.SUNFLOWER, 
 					Arrays.asList("&6"+Loader.c.getDouble("Enchants."+name+".Cost")+"Points"))){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
 					Configs.c.save();
@@ -118,7 +118,7 @@ public class ench {
 			}else
 				a.setItem(22,new ItemGUI(Create.createItem(Trans.cost(), Material.SUNFLOWER)){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
 						Configs.c.save();
@@ -130,7 +130,7 @@ public class ench {
 			a.setItem(20,new ItemGUI(Create.createItem(Trans.expbonus(), Material.EXPERIENCE_BOTTLE, 
 					Arrays.asList("&9"+Loader.c.getDouble("Enchants."+name+".ExpBonus")+"% Bonus"))){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
 					Configs.c.save();
@@ -140,7 +140,7 @@ public class ench {
 			}else
 		a.setItem(20,new ItemGUI(Create.createItem(Trans.expbonus(), Material.EXPERIENCE_BOTTLE)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
 				Configs.c.save();
@@ -152,7 +152,7 @@ public class ench {
 			a.setItem(21,new ItemGUI(Create.createItem(Trans.amountbonus(), Material.WHEAT_SEEDS, 
 					Arrays.asList("&9"+Loader.c.getDouble("Enchants."+name+".AmountBonus")+" Bonus"))){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
 					Configs.c.save();
@@ -162,7 +162,7 @@ public class ench {
 			}else
 				a.setItem(21,new ItemGUI(Create.createItem(Trans.amountbonus(), Material.WHEAT_SEEDS)){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
 						Configs.c.save();
@@ -178,7 +178,7 @@ public class ench {
 			lore.add(Color.c("&6> &a"+f));
 			a.setItem(24,new ItemGUI(Create.createItem(Trans.dec(), Material.PAPER, lore)){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+				public void onClick(Player p, GUI arg, ClickType typee) {
 					if(typee.isRightClick()) {
 						try {
 							Loader.c.set("Enchants."+name+".Description", 
@@ -201,7 +201,7 @@ public class ench {
 			}else
 				a.setItem(24,new ItemGUI(Create.createItem(Trans.dec(), Material.PAPER)){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg, ClickType typee) {
+					public void onClick(Player p, GUI arg, ClickType typee) {
 						if(typee.isRightClick()) {
 							try {
 								Loader.c.set("Enchants."+name+".Description", 
@@ -226,7 +226,7 @@ public class ench {
 			a.setItem(30,new ItemGUI(Create.createItem(Trans.pointbonus(), Material.LAPIS_LAZULI, 
 					Arrays.asList("&9"+Loader.c.getDouble("Enchants."+name+".PointsBonus")+"% Bonus"))){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
 					Configs.c.save();
@@ -236,7 +236,7 @@ public class ench {
 			}else
 				a.setItem(30,new ItemGUI(Create.createItem(Trans.pointbonus(), Material.LAPIS_LAZULI)){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
 						Configs.c.save();
@@ -247,7 +247,7 @@ public class ench {
 			a.setItem(32, new ItemGUI(Create.createItem(Trans.moneybonus(), Material.GOLD_INGOT, 
 					Arrays.asList("&6"+Loader.c.getDouble("Enchants."+name+".MoneyBonus")+"% Bonus"))){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
 					Configs.c.save();
@@ -257,7 +257,7 @@ public class ench {
 			}else
 				a.setItem(32,new ItemGUI(Create.createItem(Trans.moneybonus(), Material.GOLD_INGOT)){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
 						Configs.c.save();
@@ -267,7 +267,7 @@ public class ench {
 
 		a.setItem(49,new ItemGUI(Create.createItem(Trans.save(), Material.EMERALD_BLOCK)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(type==select.EDIT) {
 				ench.openSelected(p, type);
 				}else
@@ -292,7 +292,7 @@ public class ench {
 			s="&6Fishing Selector &7- &dEnchants";
 			break;
 		}
-		GUICreatorAPI a = new GUICreatorAPI(s,54,p) {
+		GUI a = new GUI(s,54,p) {
 			
 			@Override
 			public void onClose(Player arg0) {
@@ -307,7 +307,7 @@ public class ench {
 
 			a.addItem(new ItemGUI(Create.createItem(name,Material.ENCHANTED_BOOK,Loader.c.getStringList("Enchants."+g+".Description"))){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+				public void onClick(Player p, GUI arg, ClickType ctype) {
 					if(type==select.DELETE) {;
 					Loader.c.set("Enchants."+g, null);
 					Configs.c.save();
@@ -320,7 +320,7 @@ public class ench {
 		}
 		a.setItem(49,new ItemGUI(Create.createItem(Trans.cancel(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType ctype) {
+			public void onClick(Player p, GUI arg, ClickType ctype) {
 				openEnchanter(p);
 			}
 		});

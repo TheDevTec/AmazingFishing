@@ -8,16 +8,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
-import me.DevTec.TheAPI;
-import me.DevTec.TheAPI.SudoType;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.ItemGUI;
-import me.DevTec.Other.StringUtils;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.TheAPI.SudoType;
+import me.DevTec.TheAPI.GUIAPI.GUI;
+import me.DevTec.TheAPI.GUIAPI.ItemGUI;
+import me.DevTec.TheAPI.Utils.StringUtils;
 
 public class Quests {
 	public static void openQuestMenu(Player p) {
-		GUICreatorAPI a = new GUICreatorAPI("&6Quests",54,p) {
+		GUI a = new GUI("&6Quests",54,p) {
 			
 			@Override
 			public void onClose(Player arg0) {
@@ -56,7 +56,7 @@ public class Quests {
 
 		a.setItem(20, new ItemGUI(Create.createItem("&2Finish quest", Material.GREEN_WOOL)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				if(stage>=questStages) {
 					Loader.me.set("Players."+p.getName()+".Quests", null);
 					Loader.saveChatMe();
@@ -81,19 +81,19 @@ public class Quests {
 				,"&7 - Progress: "+Loader.c.getInt("Players."+p.getName()+".Stage."+stage+".Amount")
 				+"/"+Loader.c.getInt("Quests."+quest+".Stage."+stage+".Amount"),"&7 - Stage: "+stage+"/"+questStages))){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 			}
 		}); //Info about quest
 		a.setItem(24, new ItemGUI(Create.createItem("&cCancel quest", Material.RED_WOOL)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				Loader.me.set("Players."+p.getName()+".Quests."+quest, null);
 				selectQuest(p);
 			}
 		}); //Cancel quest
 		a.setItem(49, new ItemGUI(Create.createItem(Trans.close(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
 			}
 		}); //Cancel quest
@@ -106,7 +106,7 @@ public class Quests {
 	}
 
 	public static void selectQuest(Player p) {
-		GUICreatorAPI a = new GUICreatorAPI("&6Quests &7- &eSelect Quest",54,p) {
+		GUI a = new GUI("&6Quests &7- &eSelect Quest",54,p) {
 			
 			@Override
 			public void onClose(Player arg0) {
@@ -121,7 +121,7 @@ public class Quests {
 		if(q!=null) {
 		a.setItem(20, new ItemGUI(Create.createItem("&aAccept quest", Material.GREEN_WOOL)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				Actions s = Actions.valueOf(Loader.c.getString("Quests."+q+".Stage.0.Action").toUpperCase());
 				if(s==null)return;
 				if(s==Actions.CATCH_FISH||s==Actions.SELL_FISH){
@@ -141,21 +141,21 @@ public class Quests {
 				Arrays.asList("&7 - "+Loader.c.getString("Quests."+q+".Name"),"&7 - "+questInfo
 				,"&7 - Stages: "+questStages))){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 			}
 		});
 		}
 
 		a.setItem(24, new ItemGUI(Create.createItem("&6Another quest", Material.ORANGE_WOOL)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				selectQuest(p);
 			}
 		});
 		
 		a.setItem(49, new ItemGUI(Create.createItem(Trans.close(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
 			}
 		});

@@ -14,15 +14,15 @@ import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import AmazingFishing.help.Type;
-import me.DevTec.EconomyAPI;
-import me.DevTec.ItemCreatorAPI;
-import me.DevTec.TheAPI;
-import me.DevTec.TheAPI.SudoType;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.ItemGUI;
-import me.DevTec.Other.StringUtils;
-import me.DevTec.Scheduler.Tasker;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.TheAPI.SudoType;
+import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
+import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
+import me.DevTec.TheAPI.GUIAPI.GUI;
+import me.DevTec.TheAPI.GUIAPI.ItemGUI;
+import me.DevTec.TheAPI.Scheduler.Tasker;
+import me.DevTec.TheAPI.Utils.StringUtils;
 
 public class Shop {
 	public Shop(CommandSender s) {
@@ -50,7 +50,7 @@ public class Shop {
 		a.setLore(lore);
 		ItemGUI d = new ItemGUI(a.create()){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				if(r!=null)
 					r.run();
 			}
@@ -59,7 +59,7 @@ public class Shop {
 	}
 	
 	public static void openShop(Player p, ShopType t) {
-		GUICreatorAPI a = new GUICreatorAPI(Trans.shoplog()+(t==ShopType.Sell?"&6"+Trans.shoplogsell():""),54,p) {
+		GUI a = new GUI(Trans.shoplog()+(t==ShopType.Sell?"&6"+Trans.shoplogsell():""),54,p) {
 			@Override
 			public void onClose(Player arg0) {
 			}
@@ -97,7 +97,7 @@ public class Shop {
 			item.setLore(s);
 			a.setItem(35,new ItemGUI(item.create()){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 				}
 			});
 			
@@ -120,7 +120,7 @@ public class Shop {
 		if(Loader.c.getBoolean("Options.UseGUI")) {
 		a.setItem(53,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+			public void onClick(Player p, GUI arg, ClickType type) {
 				help.open(p, Type.Player);
 			}
 		});
@@ -132,7 +132,7 @@ public class Shop {
 	private static boolean ex(String ss) {
 		return Loader.shop.getString(ss)!=null;
 	}
-	private  static void addItems(GUICreatorAPI inv) {
+	private  static void addItems(GUI inv) {
 		try {
 		if(Loader.shop.getString("Items")!=null)
 		for(String item:Loader.shop.getConfigurationSection("Items").getKeys(false)) {
@@ -152,7 +152,7 @@ public class Shop {
 						a.setCustomModelData(Loader.shop.getInt("Items."+item+".ModelData"));
 					inv.addItem(new ItemGUI(a.create()){
 							@Override
-							public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+							public void onClick(Player p, GUI arg, ClickType type) {
 								giveItem(inv.getPlayers().get(0), item);
 							}
 						});

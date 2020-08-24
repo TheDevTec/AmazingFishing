@@ -12,15 +12,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.Shop.ShopType;
-import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.GUI.GUICreatorAPI;
-import me.DevTec.GUI.ItemGUI;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.GUIAPI.GUI;
+import me.DevTec.TheAPI.GUIAPI.ItemGUI;
 
 public class bag {
 	public static void openBag(Player p) {
-		GUICreatorAPI a = new GUICreatorAPI("&b"+Trans.bag_title(),54,p) {
+		GUI a = new GUI("&b"+Trans.bag_title(),54,p) {
 			
 			@Override
 			public void onClose(Player arg0) {
@@ -31,7 +31,7 @@ public class bag {
 
 		a.setItem(49,new ItemGUI( Create.createItem(Trans.close(), Material.BARRIER)) {
 			@Override
-			public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
+			public void onClick(Player p, GUI arg1, ClickType arg2) {
 				p.getOpenInventory().close();
 			}
 		});
@@ -40,14 +40,14 @@ public class bag {
 			if(Loader.c.getBoolean("Options.Bag.ButtonsToSellFish")) {
 			a.setItem(51,new ItemGUI(Create.createItem(Trans.sellFish(), Material.COD_BUCKET)) {
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
+				public void onClick(Player p, GUI arg1, ClickType arg2) {
 					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
 					saveBag(p,p.getOpenInventory().getTopInventory());
 				}
 			});
 			a.setItem(47,new ItemGUI(Create.createItem(Trans.sellFish(), Material.COD_BUCKET)) {
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
+				public void onClick(Player p, GUI arg1, ClickType arg2) {
 					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
 					saveBag(p,p.getOpenInventory().getTopInventory());
 				}
@@ -57,13 +57,13 @@ public class bag {
 			if(Loader.c.getBoolean("Options.Bag.ButtonsToOpenShop")) {
 				a.setItem(45, new ItemGUI(Create.createItem(Trans.help_shop(), Material.EMERALD)){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
+					public void onClick(Player p, GUI arg1, ClickType arg2) {
 						Shop.openShop(p, ShopType.Buy);
 					}
 				});
 				a.setItem(53, new ItemGUI(Create.createItem(Trans.help_shop(), Material.EMERALD)){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg1, ClickType arg2) {
+					public void onClick(Player p, GUI arg1, ClickType arg2) {
 						Shop.openShop(p, ShopType.Buy);
 					}
 				});
@@ -73,7 +73,7 @@ public class bag {
 		for(ItemStack as : getFish(p)) {
 			ItemGUI item = new ItemGUI(as){
 				@Override
-				public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+				public void onClick(Player p, GUI arg, ClickType type) {
 				}
 			};
 			item.setUnstealable(false);
@@ -84,7 +84,7 @@ public class bag {
 	/*
 	 a.setItem(-, new ItemGUI(){
 					@Override
-					public void onClick(Player p, GUICreatorAPI arg, ClickType type) {
+					public void onClick(Player p, GUI arg, ClickType type) {
 					}
 				});
 	 */

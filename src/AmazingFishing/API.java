@@ -11,12 +11,12 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.sqlite.util.StringUtils;
 
-import me.DevTec.EconomyAPI;
-import me.DevTec.ItemCreatorAPI;
-import me.DevTec.TheAPI;
-import me.DevTec.TheAPI.SudoType;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.TheAPI.SudoType;
+import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
+import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
 
 
 public class API {

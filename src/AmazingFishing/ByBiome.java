@@ -11,12 +11,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import AmazingFishing.Quests.Actions;
-import me.DevTec.EconomyAPI;
-import me.DevTec.ItemCreatorAPI;
-import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.Other.StringUtils;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
+import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
+import me.DevTec.TheAPI.Utils.StringUtils;
 
 public class ByBiome {
 	public static enum biomes{

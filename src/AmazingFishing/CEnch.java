@@ -10,8 +10,8 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.TheAPI.TheAPI;
 
 public class CEnch extends Enchantment {
 	private String n,r;

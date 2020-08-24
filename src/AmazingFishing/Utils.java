@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 import AmazingFishing.API.treasureType;
 import AmazingFishing.RD.Type;
-import me.DevTec.EconomyAPI;
-import me.DevTec.TheAPI;
 import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
 
 public class Utils {
 	

@@ -15,13 +15,13 @@ import AmazingFishing.Color;
 import AmazingFishing.FishOfDay;
 import AmazingFishing.Tournament;
 import AmazingFishing.Tournament.Type;
-import me.DevTec.ConfigAPI;
-import me.DevTec.EnchantmentAPI;
-import me.DevTec.PluginManagerAPI;
-import me.DevTec.TheAPI;
-import me.DevTec.Other.LoaderClass;
-import me.DevTec.Other.StringUtils;
-import me.DevTec.Scheduler.Tasker;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.APIs.EnchantmentAPI;
+import me.DevTec.TheAPI.APIs.PluginManagerAPI;
+import me.DevTec.TheAPI.ConfigAPI.ConfigAPI;
+import me.DevTec.TheAPI.Scheduler.Tasker;
+import me.DevTec.TheAPI.Utils.StringUtils;
+import me.DevTec.TheAPI.Utils.TheAPIUtils.LoaderClass;
 
 public class Loader extends JavaPlugin {
     public static FileConfiguration c;
