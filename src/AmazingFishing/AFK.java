@@ -9,12 +9,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.google.common.collect.Maps;
-
 import me.DevTec.AmazingFishing.Loader;
 
 public class AFK implements Listener {
-	static HashMap<String, Long> a = Maps.newHashMap();
+	static HashMap<String, Long> a = new HashMap<>();
 	@SuppressWarnings("deprecation")
 	public static boolean isAFK(Player p) {
 		if(Loader.c.getBoolean("Options.AFK.Enabled")) {
