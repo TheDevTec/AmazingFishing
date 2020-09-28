@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
@@ -259,6 +260,13 @@ public class Shop {
 			if(m==Material.PUFFERFISH)type="PufferFish";
 			if(m==Material.TROPICAL_FISH)type="TropicalFish";
 			if(m==Material.COD)type="Cod";
+			
+			double length = 0.0;
+			if(Loader.c.getBoolean("Options.SellFish.EarnFromLength")==true) {
+			ItemStack bukkitstack = d;
+			net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(bukkitstack);
+			length = nms.getTag().getDouble("af.length");
+			}
 			if(d.getItemMeta().hasDisplayName()) {
 			path="Types."+type;
 			String fish = null;
@@ -270,15 +278,30 @@ public class Shop {
 			}
 			if(fish!=null) {
 			path=path+"."+fish;
+			
 			int bonus=1;
 			if(Loader.f.getFish().equals(fish) && Loader.f.getType().equals(type))
-				bonus=2;
+				bonus=Loader.me.getInt("FishOfDay.Bonus");
 			
 			sel=sel+d.getAmount();
 			amount=amount+d.getAmount();
-			sold=sold+(((Loader.c.getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Money") : (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4))*d.getAmount())*bonus);
-			points=points+(((Loader.c.getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Points") : (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Points") : Loader.c.getDouble(path+".Points")/2))*d.getAmount())*bonus);
-			exp=exp+(int)(((Loader.c.getBoolean("Options.DisableMoneyFromCaught") ? Loader.c.getDouble(path+".Xp") : (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Xp") : Loader.c.getDouble(path+".Xp")/2))*d.getAmount())*bonus);
+			
+			
+			//sold=sold+(( (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
+			Bukkit.broadcastMessage(sold+" :pøed");
+			sold=sold+( Loader.c.getBoolean("Options.SellFish.EarnFromLength")? 
+					(length*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus :
+						((Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
+			// if("Options.EarnFromLength") +length*money :
+			//if(length!=0.0) sold=sold+(length*fishMoney);
+			
+			points=points+(( (Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Points") : Loader.c.getDouble(path+".Points")/2)*d.getAmount())*bonus);
+			exp=exp+(int)(( (Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Xp") : Loader.c.getDouble(path+".Xp")/2)*d.getAmount())*bonus);
+			if(Loader.c.getBoolean("Options.SellFish.DisableMoney")==true) sold=0.0;
+			if(Loader.c.getBoolean("Options.SellFish.DisableXP")==true) exp=0;
+			if(Loader.c.getBoolean("Options.SellFish.DisablePoints")==true) points=0.0;
+			Bukkit.broadcastMessage(sold+" :po");
+			
 			Quests.addProgress(p,path,fish,Actions.SELL_FISH);
 			i.remove(d);
 		}else {

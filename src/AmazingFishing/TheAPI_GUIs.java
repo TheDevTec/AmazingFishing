@@ -754,9 +754,11 @@ public class TheAPI_GUIs {
 			
 			@Override
 			public void onClose(Player arg0) {
-				TheAPI.giveItem(p, Normal.getRod(p));
-				Loader.me.set("Players."+p.getName()+".SavedRod",null);
-				Loader.saveChatMe();
+				if(Loader.me.getString("Players."+p.getName()+".SavedRod")!=null) {
+					TheAPI.giveItem(p, Normal.getRod(p));
+					Loader.me.set("Players."+p.getName()+".SavedRod",null);
+					Loader.saveChatMe();
+				}
 			}
 		};
 		Create.prepareInv(a);

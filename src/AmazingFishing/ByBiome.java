@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import me.DevTec.AmazingFishing.Configs;
@@ -17,6 +19,7 @@ import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
 import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
 import me.DevTec.TheAPI.Utils.StringUtils;
+import net.minecraft.server.v1_16_R2.NBTTagCompound;
 
 public class ByBiome {
 	public static enum biomes{
@@ -213,7 +216,14 @@ public class ByBiome {
 				}
 			i.setLore(lore);
 			}
-				bag.addFishToBagOrInv(p,i.create());
+			ItemStack bukkitstack = i.create();
+			net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(bukkitstack);
+			NBTTagCompound tag = nms.getOrCreateTag();
+			tag.setDouble("af.length", length);
+			nms.setTag(tag);
+			bukkitstack = CraftItemStack.asBukkitCopy(nms);
+			
+				bag.addFishToBagOrInv(p,bukkitstack);
 			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", (new DecimalFormat("#,##0.00").format(length))
 					.replaceAll("\\.00", "")).replace("%length%", (new DecimalFormat("#,##0.00").format(length)).replaceAll("\\.00", ""))
 					.replace("%weight%",(new DecimalFormat("#,##0.00").format(weight)).replaceAll("\\.00", "")).replace("%fish%",  "Uknown"), p);
@@ -296,7 +306,14 @@ public class ByBiome {
 				}
 			i.setLore(lore);
 			}
-				bag.addFishToBagOrInv(p,i.create());
+			ItemStack bukkitstack = i.create();
+			net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(bukkitstack);
+			NBTTagCompound tag = nms.getOrCreateTag();
+			tag.setDouble("af.length", length);
+			nms.setTag(tag);
+			bukkitstack = CraftItemStack.asBukkitCopy(nms);
+			
+				bag.addFishToBagOrInv(p,bukkitstack);
 				Utils.addRecord(p, fish, type, length,weight);
 				Tournament.add(p, length,weight);
 				for(CEnch ec: enchs)

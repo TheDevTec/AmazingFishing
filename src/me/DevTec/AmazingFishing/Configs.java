@@ -34,6 +34,13 @@ public class Configs {
 		cc.put("Options.TreasuresOnlyWhileTournament", false);
 		cc.put("Options.Enchants", true);
 		cc.put("Options.DisableMoneyFromCaught", false);
+
+		cc.put("Options.SellFish.DisableMoney", false);
+		cc.put("Options.SellFish.DisableXP", false);
+		cc.put("Options.SellFish.DisablePoints", false);
+		cc.put("Options.SellFish.ShopGiveFullPriceFish", false);
+		cc.put("Options.SellFish.EarnFromLength", false);
+		
 		cc.put("Options.ShopGiveFullPriceFish", false);
 		cc.put("Options.EarnFromLength", true);
 		cc.put("Options.UseGUI", true);
