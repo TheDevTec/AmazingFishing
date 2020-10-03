@@ -49,7 +49,7 @@ public class API {
 			TheAPI.msg(d.replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+""),p);
 		}
 		for(String d:commands) {
-			TheAPI.sudoConsole(SudoType.COMMAND, Color.c(d.replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+"")));
+			TheAPI.sudoConsole(SudoType.COMMAND, Color.c(d.replace("%player%", p.getName()).replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+"")));
 		}
 		if(Loader.c.getString("Treasures."+type+"."+treasure+".Contents")!=null)
 		for(String i : Loader.c.getConfigurationSection("Treasures."+type+"."+treasure+".Contents").getKeys(false))

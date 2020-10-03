@@ -243,19 +243,19 @@ public class Configs {
 		cc.put("Treasures.COMMON.0.Money", 17);
 		cc.put("Treasures.COMMON.0.Points", 1.08);
 		cc.put("Treasures.COMMON.0.Chance", 86);
-		cc.put("Treasures.COMMON.0.Messages", Arrays.asList("&6You found %treasure% &7(Rare)"));
+		cc.put("Treasures.COMMON.0.Messages", Arrays.asList("&6You found %treasure% &7(Common)"));
 		cc.put("Treasures.COMMON.0.Commands", Arrays.asList("give %player% stick 1", "give %player% dirt 4", "give %player% string 1"));
 		cc.put("Treasures.COMMON.1.Name", "&6Crate");
 		cc.put("Treasures.COMMON.1.Money", 27);
 		cc.put("Treasures.COMMON.1.Points", 0.12);
 		cc.put("Treasures.COMMON.1.Chance", 14);
-		cc.put("Treasures.COMMON.1.Messages", Arrays.asList("&6You found %treasure% &7(Rare)"));
+		cc.put("Treasures.COMMON.1.Messages", Arrays.asList("&6You found %treasure% &7(Common)"));
 		cc.put("Treasures.COMMON.1.Commands", Arrays.asList("give %player% stick 8", "give %player% apple 12", "give %player% string 11"));
 		cc.put("Treasures.COMMON.2.Name", "&aTreasure");
 		cc.put("Treasures.COMMON.2.Money", 53);
 		cc.put("Treasures.COMMON.2.Points", 2.1);
 		cc.put("Treasures.COMMON.2.Chance", 10);
-		cc.put("Treasures.COMMON.2.Messages", Arrays.asList("&6You found %treasure% &7(Rare)"));
+		cc.put("Treasures.COMMON.2.Messages", Arrays.asList("&6You found %treasure% &7(Common)"));
 		cc.put("Treasures.COMMON.2.Commands", Arrays.asList("give %player% gold_ingot 4", "give %player% fishing_rod 1", "give %player% iron_ingot 2"));
 
 		cc.put("Treasures.RARE.0.Name", "&9Box");

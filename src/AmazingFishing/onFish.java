@@ -41,6 +41,8 @@ public class onFish implements Listener {
 			if(Loader.c.getBoolean("Options.Treasures"))
 			if(!Loader.c.getBoolean("Options.TreasuresOnlyWhileTournament")||Loader.c.getBoolean("Options.TreasuresOnlyWhileTournament")&&Tournament.running())
 				Utils.giveTreasure(s);
+			
 			}}
-			}}
+			}
+	}
 }

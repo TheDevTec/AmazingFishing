@@ -52,40 +52,45 @@ public class Utils {
 		legend.add("Common");
 		}
 		if(r) {
-			legend.add("Rare");
+		legend.add("Rare");
 		legend.add("Rare");
 		legend.add("Rare");
 		legend.add("Rare");
 		legend.add("Rare");
 		}
 		if(e) {
-			legend.add("Epic");
+		legend.add("Epic");
 		legend.add("Epic");
 		}
 		if(l)
 		legend.add("Legendary");
+		
 		String select = TheAPI.getRandomFromList(createShuffleList(legend)).toString();
-			if(Loader.c.getString("Treasures."+select)!=null) {
-				if(Type.valueOf(select)!=null && WG.Type.valueOf(select)!=null)
-			if(RD.hasAccess(p, Type.valueOf(select))|| WG.hasAccess(p, AmazingFishing.WG.Type.valueOf(select))) {
-			API.giveTreasureByChance(p, treasureType.valueOf(select.toUpperCase()));
-			}
+			if(Loader.c.getString("Treasures."+select.toUpperCase())!=null) {
+				if(Type.valueOf(select)!=null && WG.Type.valueOf(select)!=null) {
+					if(RD.hasAccess(p, Type.valueOf(select))|| WG.hasAccess(p, AmazingFishing.WG.Type.valueOf(select))) {
+						API.giveTreasureByChance(p, treasureType.valueOf(select.toUpperCase()));
+					}
+				}
 	}}
 	
 	
 	public static void giveTreasure(Player p) {
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<Integer>(); // numbers from 0 to 99
 		int chance = Loader.c.getInt("Options.Manual.ChanceForTreasure");
 		if(chance==0)chance=1;
 		for(int i = 0; i < 100; ++i)
 			list.add(i);
+		int number = list.get(new Random().nextInt(99)); //random number from list
 		boolean run = true;
-		for (int counter =0; counter<chance; counter++) {
-		if(run)
-		if(list.get(new Random().nextInt(99)) == new Random().nextInt(99)) {
-			run=false;
-			g(p);
-		}}
+		for (int counter =0; counter<chance; counter++) { // chance 5 ---> 0-4 == 5 chances
+			int random = new Random().nextInt(99);
+			if(run) {
+			if(number == random) {
+				run=false;
+				g(p);
+			}}
+		}
 		list.clear();
 		}
 	

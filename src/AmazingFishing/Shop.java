@@ -288,7 +288,6 @@ public class Shop {
 			
 			
 			//sold=sold+(( (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
-			Bukkit.broadcastMessage(sold+" :pøed");
 			sold=sold+( Loader.c.getBoolean("Options.SellFish.EarnFromLength")? 
 					(length*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus :
 						((Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
@@ -300,7 +299,6 @@ public class Shop {
 			if(Loader.c.getBoolean("Options.SellFish.DisableMoney")==true) sold=0.0;
 			if(Loader.c.getBoolean("Options.SellFish.DisableXP")==true) exp=0;
 			if(Loader.c.getBoolean("Options.SellFish.DisablePoints")==true) points=0.0;
-			Bukkit.broadcastMessage(sold+" :po");
 			
 			Quests.addProgress(p,path,fish,Actions.SELL_FISH);
 			i.remove(d);
