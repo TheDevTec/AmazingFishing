@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
-import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
@@ -67,19 +66,19 @@ public class ByBiome {
 			}else
 				list.remove(biom.name());
 			Loader.c.set("Types."+type+"."+fish+".Biomes",list);
-			Configs.c.save();
+			Loader.c.save();
 		}else {
 		List<String> list = new ArrayList<String>();
 		list.add(biom.name());
 		Loader.c.set("Types."+type+"."+fish+".Biomes",list);
-		Configs.c.save();
+		Loader.c.save();
 		}
 	}
 	
 	private static String fish(String a, String type){
 		List<String> fish = new ArrayList<String>();
 		if(Loader.c.getString("Types."+type)!=null)
-		for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
+		for(String d:Loader.c.getKeys("Types."+type)) {
 		if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null &&!Loader.c.getStringList("Types."+type+"."+d+".Biomes").isEmpty()) {
 			for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes"))
 			if(s.toLowerCase().contains(a.toLowerCase())) {

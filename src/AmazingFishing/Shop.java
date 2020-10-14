@@ -127,7 +127,7 @@ public class Shop {
 		});
 		}
 			}
-		}.runAsync();
+		}.runTask();
 	}
 	
 	private static boolean ex(String ss) {
@@ -136,7 +136,7 @@ public class Shop {
 	private  static void addItems(GUI inv) {
 		try {
 		if(Loader.shop.getString("Items")!=null)
-		for(String item:Loader.shop.getConfigurationSection("Items").getKeys(false)) {
+		for(String item:Loader.shop.getKeys("Items")) {
 		int cost = Loader.shop.getInt("Items."+item+".Cost");
 				String ItemName=item;
 				if(ex("Items."+item+".Name"))
@@ -188,7 +188,7 @@ public class Shop {
 						TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
 					}
 				if(ex("Items."+kit+".Item")) {
-					for(String f:Loader.shop.getConfigurationSection("Items."+kit+".Item").getKeys(false)) {
+					for(String f:Loader.shop.getKeys("Items."+kit+".Item")) {
 						try {
 							ItemCreatorAPI a = new ItemCreatorAPI(Material.matchMaterial(Loader.shop.getString("Items."+kit+".Item."+f+".Material")));
 							int amount = 1;
@@ -271,7 +271,7 @@ public class Shop {
 			path="Types."+type;
 			String fish = null;
 			if(Loader.c.getString(path)!=null)
-			for(String s:Loader.c.getConfigurationSection(path).getKeys(false)) {
+			for(String s:Loader.c.getKeys(path)) {
 				if(Loader.c.getString(path+"."+s+".Name")!=null) {
 					if(w.equalsIgnoreCase(Color.c(Loader.c.getString(path+"."+s+".Name"))))fish=s;
 				}

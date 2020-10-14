@@ -184,7 +184,7 @@ public class TheAPI_GUIs {
 		Create.prepareInv(a);
 		String pat=path;
 		if(Loader.c.getString("Types."+path)!=null)
-			for(String s:Loader.c.getConfigurationSection("Types."+path).getKeys(false)) {
+			for(String s:Loader.c.getKeys("Types."+path)) {
 				String name = s;
 				if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
 				a.addItem(new ItemGUI(Create.createItem(name, m)){
@@ -469,7 +469,7 @@ public class TheAPI_GUIs {
 		Create.prepareInv(a);
 		String pat = path;
 		if(Loader.c.getString("Types."+path)!=null)
-		for(String s:Loader.c.getConfigurationSection("Types."+path).getKeys(false)) {
+		for(String s:Loader.c.getKeys("Types."+path)) {
 			String name = s;
 			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
 			a.addItem(new ItemGUI(Create.createItem(name, i)){
@@ -695,7 +695,7 @@ public class TheAPI_GUIs {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
 					if(Loader.me.getString("Players."+p.getName()+".SavedRod")!=null) {
-					ItemStack i = Loader.me.getItemStack("Players."+p.getName()+".SavedRod");
+					ItemStack i = ((ItemStack)Loader.me.get("Players."+p.getName()+".SavedRod"));
 					TheAPI.giveItem(p, i);
 					Loader.me.set("Players."+p.getName()+".SavedRod",null);
 					Loader.saveChatMe();
@@ -815,7 +815,7 @@ public class TheAPI_GUIs {
 			}
 		});
 			if(Loader.c.getString("Enchants")!=null)
-		for(String s:Loader.c.getConfigurationSection("Enchants").getKeys(false)) {
+		for(String s:Loader.c.getKeys("Enchants")) {
 			CEnch c = Loader.getEnchantment(s);
 			String name = s;
 			if(Loader.c.getString("Enchants."+s+".Name")!=null)name=Loader.c.getString("Enchants."+s+".Name");
@@ -1430,7 +1430,7 @@ public class TheAPI_GUIs {
 		Create.prepareInv(a);
 		
 		if(Loader.c.getString("Treasures."+path)!=null)
-		for(String g:Loader.c.getConfigurationSection("Treasures."+path).getKeys(false)) {
+		for(String g:Loader.c.getKeys("Treasures."+path)) {
 			String name = g;
 			if(Loader.c.getString("Treasures."+path+"."+g+".Name")!=null)
 				name=Loader.c.getString("Treasures."+path+"."+g+".Name");

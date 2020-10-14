@@ -330,12 +330,12 @@ public class Fishing implements CommandExecutor, TabCompleter {
 			if(Loader.me.getBoolean("Players."+s.getName()+".Toggle")) {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("Toggled.false"), s);
 				Loader.me.set("Players."+s.getName()+".Toggle", false);
-				Configs.me.save();
+				Loader.me.save();
 			return true;
 			}else {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("Toggled.true"), s);
 				Loader.me.set("Players."+s.getName()+".Toggle", true);
-				Configs.me.save();
+				Loader.me.save();
 			return true;
 			}}
 		if(args[0].equalsIgnoreCase("reload")) {
@@ -447,7 +447,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFish"),s);
 				if(Loader.c.getString("Types.Cod")!=null) {
 				Loader.msgCmd(Trans.cod()+":",s);
-				for(String cod:Loader.c.getConfigurationSection("Types.Cod").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.Cod")) {
 					String name = cod;
 					if(Loader.c.getString("Types.Cod."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.Cod."+cod+".Name");
@@ -455,7 +455,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 				}}
 				if(Loader.c.getString("Types.Salmon")!=null) {
 				Loader.msgCmd(Trans.sal()+":",s);
-				for(String cod:Loader.c.getConfigurationSection("Types.Salmon").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.Salmon")) {
 					String name = cod;
 					if(Loader.c.getString("Types.Salmon."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.Salmon."+cod+".Name");
@@ -463,7 +463,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 				}}
 				if(Loader.c.getString("Types.PufferFish")!=null) {
 				Loader.msgCmd(Trans.puf()+":",s);
-				for(String cod:Loader.c.getConfigurationSection("Types.PufferFish").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.PufferFish")) {
 					String name = cod;
 					if(Loader.c.getString("Types.PufferFish."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.PufferFish."+cod+".Name");
@@ -471,7 +471,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 				}}
 				if(Loader.c.getString("Types.TropicalFish")!=null) {
 				Loader.msgCmd(Trans.tro()+":",s);
-				for(String cod:Loader.c.getConfigurationSection("Types.TropicalFish").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.TropicalFish")) {
 					String name = cod;
 					if(Loader.c.getString("Types.TropicalFish."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.TropicalFish."+cod+".Name");

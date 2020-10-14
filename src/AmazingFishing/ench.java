@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 import AmazingFishing.onChat.enchs;
-import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.GUIAPI.GUI;
@@ -92,7 +91,7 @@ public class ench {
 			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
-				Configs.c.save();
+				Loader.c.save();
 				TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 			}});
 		}else
@@ -101,7 +100,7 @@ public class ench {
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
-					Configs.c.save();
+					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}});
 		if(name!=null && Loader.c.getString("Enchants."+name+".Cost") != null) {
@@ -111,7 +110,7 @@ public class ench {
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
-					Configs.c.save();
+					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
 				}
 			});
@@ -121,7 +120,7 @@ public class ench {
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
-						Configs.c.save();
+						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
 					}
 				});
@@ -133,7 +132,7 @@ public class ench {
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
-					Configs.c.save();
+					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
 				}
 			});
@@ -143,7 +142,7 @@ public class ench {
 			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
 				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
-				Configs.c.save();
+				Loader.c.save();
 				TheAPI.sendTitle(p,Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
 			}
 		});
@@ -155,7 +154,7 @@ public class ench {
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
-					Configs.c.save();
+					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
 				}
 			});
@@ -165,7 +164,7 @@ public class ench {
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
-						Configs.c.save();
+						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
 					}
 				});
@@ -188,12 +187,12 @@ public class ench {
 							
 						}
 				openEditor(p, type, name);
-				Configs.c.save();
+				Loader.c.save();
 					}
 					if(typee.isLeftClick()) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type",enchs.Description); 
-						Configs.c.save();
+						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
 					}
 				}
@@ -211,12 +210,12 @@ public class ench {
 								
 							}
 					openEditor(p, type, name);
-					Configs.c.save();
+					Loader.c.save();
 						}
 						if(typee.isLeftClick()) {
 							p.getOpenInventory().close();
 							Loader.c.set(wa+"-Enchants."+p.getName()+".Type",enchs.Description); 
-							Configs.c.save();
+							Loader.c.save();
 							TheAPI.sendTitle(p,Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
 						}
 					}
@@ -229,7 +228,7 @@ public class ench {
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
-					Configs.c.save();
+					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 				}
 			});
@@ -239,7 +238,7 @@ public class ench {
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
-						Configs.c.save();
+						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 					}
 				});
@@ -250,7 +249,7 @@ public class ench {
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
 					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
-					Configs.c.save();
+					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
 				}
 			});
@@ -260,7 +259,7 @@ public class ench {
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
 						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
-						Configs.c.save();
+						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
 					}
 				});
@@ -274,7 +273,7 @@ public class ench {
 					openEnchanter(p);
 				Loader.c.set("Creating-Enchants."+p.getName(), null);
 				Loader.c.set("Edit-Enchants."+p.getName(), null);
-				Configs.c.save();
+				Loader.c.save();
 			}
 		});
 	}
@@ -300,7 +299,7 @@ public class ench {
 		};
 		Create.prepareInv(a);
 		if(Loader.c.getString("Enchants")!=null)
-		for(String g:Loader.c.getConfigurationSection("Enchants").getKeys(false)) {
+		for(String g:Loader.c.getKeys("Enchants")) {
 			String name = g;
 			if(Loader.c.getString("Enchants."+g+".Name")!=null)
 				name=Loader.c.getString("Enchants."+g+".Name");
@@ -310,7 +309,7 @@ public class ench {
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					if(type==select.DELETE) {;
 					Loader.c.set("Enchants."+g, null);
-					Configs.c.save();
+					Loader.c.save();
 					openSelected(p, type);
 						return;
 					}

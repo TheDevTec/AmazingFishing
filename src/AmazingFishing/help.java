@@ -312,7 +312,7 @@ public class help {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFish"),p);
 				if(Loader.c.getString("Types.Cod")!=null) {
 					Loader.msgCmd(Trans.cod()+":",p);
-				for(String cod:Loader.c.getConfigurationSection("Types.Cod").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.Cod")) {
 					String name = cod;
 					if(Loader.c.getString("Types.Cod."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.Cod."+cod+".Name");
@@ -320,7 +320,7 @@ public class help {
 				}}
 				if(Loader.c.getString("Types.Salmon")!=null) {
 					Loader.msgCmd(Trans.sal()+":",p);
-				for(String cod:Loader.c.getConfigurationSection("Types.Salmon").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.Salmon")) {
 					String name = cod;
 					if(Loader.c.getString("Types.Salmon."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.Salmon."+cod+".Name");
@@ -328,7 +328,7 @@ public class help {
 				}}
 				if(Loader.c.getString("Types.PufferFish")!=null) {
 					Loader.msgCmd(Trans.puf()+":",p);
-				for(String cod:Loader.c.getConfigurationSection("Types.PufferFish").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.PufferFish")) {
 					String name = cod;
 					if(Loader.c.getString("Types.PufferFish."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.PufferFish."+cod+".Name");
@@ -336,7 +336,7 @@ public class help {
 				}}
 				if(Loader.c.getString("Types.TropicalFish")!=null) {
 					Loader.msgCmd(Trans.tro()+":",p);
-				for(String cod:Loader.c.getConfigurationSection("Types.TropicalFish").getKeys(false)) {
+				for(String cod:Loader.c.getKeys("Types.TropicalFish")) {
 					String name = cod;
 					if(Loader.c.getString("Types.TropicalFish."+cod+".Name")!=null)
 						name=Loader.c.getString("Types.TropicalFish."+cod+".Name");
@@ -656,7 +656,7 @@ public class help {
 				open(p,Type.Player);
 			}
 		});
-		for(String s:Loader.c.getConfigurationSection("GUI.Stats").getKeys(false)) {
+		for(String s:Loader.c.getKeys("GUI.Stats")) {
 			Material m = Material.STONE;
 			if(Material.matchMaterial(Loader.c.getString("GUI.Stats."+s+".Material"))!=null)
 				m=Material.matchMaterial(Loader.c.getString("GUI.Stats."+s+".Material"));

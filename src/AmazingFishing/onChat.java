@@ -56,7 +56,7 @@ public class onChat implements Listener {
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Money", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.c.set("Edit-"+path, null);
 				Loader.save();
@@ -78,7 +78,7 @@ public class onChat implements Listener {
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".MaxCm", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -99,7 +99,7 @@ public class onChat implements Listener {
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Chance", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -119,7 +119,7 @@ public class onChat implements Listener {
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Xp", StringUtils.getInt(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -139,7 +139,7 @@ public class onChat implements Listener {
 							gui.openFishEditType(p, id, type);
 						Loader.c.set("Edit-"+da+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Types."+typ+"."+id+".Points", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -326,7 +326,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+fish+".PointsBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
@@ -353,7 +353,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+fish+".MoneyBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
@@ -380,7 +380,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+fish+".Cost", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
@@ -407,7 +407,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 							List<String> list = Loader.c.getStringList("Enchants."+fish+".Description");
 							list.add(message);
 				Loader.c.set("Enchants."+fish+".Description", list);
@@ -433,7 +433,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+fish+".ExpBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				ench.openEditor(p, ench.select.EDIT, fish);
@@ -451,7 +451,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, fish);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+fish+".AmountBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				ench.openEditor(p, ench.select.EDIT, fish);
@@ -476,7 +476,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+n+".PointsBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
@@ -504,7 +504,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+n+".MoneyBonus",StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
@@ -532,7 +532,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+n+".Cost", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
@@ -560,7 +560,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 							List<String> list = Loader.c.getStringList("Enchants."+n+".Description");
 							list.add(e.getMessage());
 				Loader.c.set("Enchants."+n+".Description", list);
@@ -593,7 +593,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+n+".ExpBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
@@ -620,7 +620,7 @@ public class onChat implements Listener {
 							ench.openEditor(p, ench.select.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+n+".AmountBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				if(ex("Enchants."+n+".Cost") && ex("Enchants."+n+".AmountBonus") &&ex("Enchants."+n+".MoneyBonus") && ex("Enchants."+n+".PointsBonus") && ex("Enchants."+n+".ExpBonus")) {
@@ -670,7 +670,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Points", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -691,7 +691,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Money", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -719,7 +719,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Chance",StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 				TheAPI_GUIs guis= new TheAPI_GUIs();
@@ -740,7 +740,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Messages");
 							list.add(e.getMessage());
 				Loader.c.set("Treasures."+path+"."+fish+".Messages", list);
@@ -763,7 +763,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, fish, select.EDIT,w);
 						Loader.c.set("Edit-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Commands");
 							list.add(e.getMessage());
 				Loader.c.set("Treasures."+path+"."+fish+".Commands", list);
@@ -820,7 +820,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Points", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 						
@@ -849,7 +849,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Money", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
@@ -888,7 +888,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 				Loader.c.set("Treasures."+path+"."+fish+".Chance", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
 
@@ -917,7 +917,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Messages");
 							list.add(message);
 				Loader.c.set("Treasures."+path+"."+fish+".Messages", list);
@@ -948,7 +948,7 @@ public class onChat implements Listener {
 							gui.openEditor(p, null, select.CREATE,w);
 						Loader.c.set("Creating-"+d+"."+p.getName()+".Warned", false);
 						Loader.save();
-						}}.later(40);}}else {
+						}}.runLater(40);}}else {
 							List<String> list = Loader.c.getStringList("Treasures."+path+"."+fish+".Commands");
 							list.add(message);
 				Loader.c.set("Treasures."+path+"."+fish+".Commands", list);

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.TheAPI.SudoType;
+import me.DevTec.TheAPI.Scheduler.Scheduler;
 import me.DevTec.TheAPI.Scheduler.Tasker;
 import me.DevTec.TheAPI.SortedMap.RankingAPI;
 import me.DevTec.TheAPI.Utils.StringUtils;
@@ -32,6 +33,7 @@ public class Tournament {
 	}
 	public static void add(Player p, double record, double weight) {
 		if(now != null) {
+			
 		if(now==Type.MostCatch) {
 			double i = stats.containsKey(p.getName()) ? stats.get(p.getName()).doubleValue(): 0.0;
 			++i;
@@ -40,11 +42,14 @@ public class Tournament {
 			else
 			stats.put(p.getName(), new BigDecimal(i));
 		}else {
+			double value;
+			if(now==Type.Length) value=record;
+			else value=weight;
 			if(stats.containsKey(p.getName())) {
-				if(stats.get(p.getName()).floatValue()<new BigDecimal(record).floatValue())
-					stats.put(p.getName(), new BigDecimal(record));
+				if(stats.get(p.getName()).floatValue()<new BigDecimal(value).floatValue())
+					stats.put(p.getName(), new BigDecimal(value));
 			}else
-			stats.put(p.getName(), new BigDecimal(record));
+			stats.put(p.getName(), new BigDecimal(value));
 		}
 	}}
 	static Type now;
@@ -60,7 +65,7 @@ public class Tournament {
 					.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name")).replace("%time%",
 							StringUtils.setTimeToString(Tournament.count)));
 			if(r!=-1)
-				Tasker.cancelTask(r);
+				Scheduler.cancelTask(r);
     	count=0;
     	save=0;
         stats.clear();
@@ -69,7 +74,7 @@ public class Tournament {
 		TheAPI.broadcastMessage(Loader.s("Stopped")
 				.replace("%type%", Loader.c.getString("Tournaments."+now.toString()+".Name"))
 				.replace("%time%", StringUtils.setTimeToString(Tournament.count)));
-		Tasker.cancelTask(r);
+		Scheduler.cancelTask(r);
 		if(Loader.c.getBoolean("Options.Tournament.DeletePlayersOnLeave")==true)
 			for(String s:stats.keySet()) {if(TheAPI.getPlayer(s)==null)stats.remove(s);}
     	TheAPI.broadcastMessage(Loader.s("Winners")
@@ -107,8 +112,8 @@ public class Tournament {
 	}
 	public static int r=-1;
 	public static void startType(Type type, int length, boolean e) {
-		if(e) //autostart
-		if(Loader.c.getInt("Options.Tournament.RequiredPlayers") > TheAPI.getOnlinePlayers().size())return;
+		if(e)// TODO - asi nefunguje -- spouští se i když tam je málo hráèù
+			if(Loader.c.getInt("Options.Tournament.RequiredPlayers") > TheAPI.getOnlinePlayers().size())return;
 		if(type==Type.Random)type=Type.valueOf(TheAPI.getRandomFromList(legend).toString());
 		now=type;
 		count=length;
@@ -196,7 +201,7 @@ public class Tournament {
 				cancel();
                 }
            }
-       }.repeatingAsync(20,20);
+       }.runRepeating(20,20);
 	}
 	static String p(String s) {
 		try {

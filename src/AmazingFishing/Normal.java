@@ -44,7 +44,7 @@ public class Normal {
 	}
 	public static ItemStack getRod(Player p) {
 		String path = "Players."+p.getName()+".SavedRod";
-		if(Loader.me.getString(path)!=null)return Loader.me.getItemStack(path);
+		if(Loader.me.getString(path)!=null)return ((ItemStack)Loader.me.get(path));
 		return null;
 	}
 }

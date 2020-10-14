@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import AmazingFishing.gui.FishType;
 import AmazingFishing.onChat.create;
-import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.Scheduler.Tasker;
@@ -28,7 +27,7 @@ public class get {
 	public static void setfish(Player p, String path, String typ) {
 		int ryba = 0;
 		if(Loader.c.getString("Types."+typ)!=null)
-		 ryba = Loader.c.getConfigurationSection("Types."+typ).getKeys(false).size();
+		 ryba = Loader.c.getKeys("Types."+typ).size();
 		Loader.c.set("Creating-"+path+"."+p.getName()+".Fish", ryba);
 		
 	}
@@ -62,11 +61,11 @@ public class get {
 		if(list.contains(biome)==false) {
 			list.add(biome);
 			Loader.c.set("Creating-"+path+"."+p.getName()+".BiomesList", list);
-			Configs.c.save();
+			Loader.c.save();
 		}else {
 			list.remove(biome);
 			Loader.c.set("Creating-"+path+"."+p.getName()+".BiomesList", list);
-			Configs.c.save();
+			Loader.c.save();
 		}
 	}
 	
@@ -90,15 +89,15 @@ public class get {
 			if(path.equals("PufferFish"))path="Pufferfish";
 			if(path.equals("TropicalFish"))path="Tropical_Fish";
 		Loader.c.set("Creating-"+path+"."+p.getName()+".Warned", true);
-		Configs.c.save();
+		Loader.c.save();
 		String s = path;
 		new Tasker() {
 			public void run() {
 			Loader.c.set("Creating-"+s+"."+p.getName()+".Warned", null);
-			Configs.c.save();
+			Loader.c.save();
 			TheAPI_GUIs g = new TheAPI_GUIs();
 			g.openFishCreatorType(p, fish(p,s), type);
-			}}.later(40);}
+			}}.runLater(40);}
 	}
 
 	public static String getName(String path) {
@@ -127,7 +126,7 @@ public class get {
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
 		Loader.c.set("Creating-"+path+"."+p.getName(), null);
 		Loader.c.set("Edit-"+path+"."+p.getName(), null);
-		Configs.c.save();
+		Loader.c.save();
 		if(path.equals("Pufferfish"))path="PufferFish";
 		if(path.equals("Tropical_Fish"))path="TropicalFish";
 			if(title)

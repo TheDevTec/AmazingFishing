@@ -9,9 +9,9 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.sqlite.util.StringUtils;
 
-import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.TheAPI.SudoType;
@@ -52,12 +52,12 @@ public class API {
 			TheAPI.sudoConsole(SudoType.COMMAND, Color.c(d.replace("%player%", p.getName()).replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+"")));
 		}
 		if(Loader.c.getString("Treasures."+type+"."+treasure+".Contents")!=null)
-		for(String i : Loader.c.getConfigurationSection("Treasures."+type+"."+treasure+".Contents").getKeys(false))
-		TheAPI.giveItem(p, Loader.c.getItemStack("Treasures."+type+"."+treasure+".Contents."+i));
+		for(String i : Loader.c.getKeys("Treasures."+type+"."+treasure+".Contents"))
+		TheAPI.giveItem(p, ((ItemStack)Loader.c.get("Treasures."+type+"."+treasure+".Contents."+i)));
 	}
 	private static String createTreasure(treasureType type, boolean b) {
 		List<String> a = new ArrayList<String>();
-		for(String s:Loader.c.getConfigurationSection("Treasures."+type).getKeys(false)) {
+		for(String s:Loader.c.getKeys("Treasures."+type)) {
 			if(b) {
 				for(int i = 0; i<Loader.c.getInt("Treasures."+type+"."+s+".Chance")+1; ++i)
 					a.add(s);
@@ -198,14 +198,14 @@ public class API {
 	public static void startQuest(Player p, String quest) {
 		 Loader.me.set("Players."+p.getName()+".Quests.Current",quest);
 		 Loader.me.set("Players."+p.getName()+".Quests.Amount",0);
-		 Configs.me.save();
+		 Loader.me.save();
 	}
 	/**
 	 * Cancel current quest
 	 */
 	public static void cancelQuest(Player p) {
 		 Loader.me.set("Players."+p.getName()+".Quests",null);
-		 Configs.me.save();
+		 Loader.me.save();
 	}
 	/**
 	 * @return String Current quest
@@ -223,7 +223,7 @@ public class API {
 		String f = null;
 		List<String> fish = new ArrayList<String>();
 		if(Loader.c.getString("Types."+type)!=null)
-		for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
+		for(String d:Loader.c.getKeys("Types."+type)) {
 			fish.add(d);
 		}
 		if(fish.isEmpty()==false) {
@@ -241,7 +241,7 @@ public class API {
 			String f = null;
 			List<String> fish = new ArrayList<String>();
 			if(Loader.c.getString("Types."+type)!=null)
-			for(String d:Loader.c.getConfigurationSection("Types."+type).getKeys(false)) {
+			for(String d:Loader.c.getKeys("Types."+type)) {
 			if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null) {
 				for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes")) {
 				if(s.toLowerCase().contains(biome.name().toLowerCase())) {

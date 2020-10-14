@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.bukkit.Material;
 
-import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.Scheduler.Scheduler;
 import me.DevTec.TheAPI.Scheduler.Tasker;
 
 public class FishOfDay {
@@ -17,23 +17,23 @@ public class FishOfDay {
 		run=new Tasker() {
 			public void run() {
 				List<Object> r = new ArrayList<Object>();
-				for(String s : Loader.c.getConfigurationSection("Types").getKeys(false))r.add(s);
+				for(String s : Loader.c.getKeys("Types"))r.add(s);
 				String type = TheAPI.getRandomFromList(r).toString();
 
 				List<Object> rs = new ArrayList<Object>();
-				for(String s : Loader.c.getConfigurationSection("Types."+type).getKeys(false))rs.add(s);
+				for(String s : Loader.c.getKeys("Types."+type))rs.add(s);
 				String fish = TheAPI.getRandomFromList(rs).toString();
 				 Loader.me.set("FishOfDay.Type", type);
 				 Loader.me.set("FishOfDay.Name", fish);
 				 Loader.me.set("FishOfDay.Bonus", TheAPI.getRandomFromList(Arrays.asList(2,2,2,3,2,4,2,2,2,8,2,4,2,6,2,5,2,2,2,7,2,2,2,2,9,2,2)));
-				 Configs.me.save();
+				 Loader.me.save();
 			}
 			
-		}.repeatingAsync(0,20*60*60*24);
+		}.runRepeatingSync(0,20*60*60*24);
 	}
 	
 	public void stopRunnable() {
-		Tasker.cancelTask(run);
+		Scheduler.cancelTask(run);
 	}
 	
 	public String getType() {

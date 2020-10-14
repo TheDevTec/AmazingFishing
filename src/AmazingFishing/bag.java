@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.Shop.ShopType;
-import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.GUIAPI.GUI;
@@ -90,7 +89,7 @@ public class bag {
 	 */
 	public static void saveBag(Player p, Inventory i) {
 		Loader.me.set("Players."+p.getName()+".Bag",null);
-		Configs.me.save();
+		Loader.me.save();
 		for(int count = 0; count < 45; ++count) {
 			if(i.getItem(count)==null)continue;
 			addFish(p,i.getItem(count));
@@ -103,7 +102,7 @@ public class bag {
 		if(Loader.me.getString("Players."+p.getName()+".Bag")!=null) {
 			for(int count = 0; count < 45; ++count) {
 				if(Loader.me.getString("Players."+p.getName()+".Bag."+count)!=null)
-				i.add(Loader.me.getItemStack("Players."+p.getName()+".Bag."+count));
+				i.add((ItemStack)Loader.me.get("Players."+p.getName()+".Bag."+count));
 			}
 		}
 		return i;
@@ -115,20 +114,20 @@ public class bag {
 			if(find)break;
 			if(Loader.me.getString("Players."+p.getName()+".Bag."+count)==null) {
 				Loader.me.set("Players."+p.getName()+".Bag."+count, i);
-				Configs.me.save();
+				Loader.me.save();
 				find=true;
 			}else {
-				ItemStack a = Loader.me.getItemStack("Players."+p.getName()+".Bag."+count).clone();
+				ItemStack a = ((ItemStack)Loader.me.get("Players."+p.getName()+".Bag."+count)).clone();
 				a.setAmount(1);
 				ItemStack b = i.clone();
 				b.setAmount(1);
 				if(a.equals(b)) {
 					find=true;
 					ItemStack c = i.clone();
-					if(i.getAmount()+Loader.me.getItemStack("Players."+p.getName()+".Bag."+count).getAmount()<64) {
-						c.setAmount(i.getAmount()+Loader.me.getItemStack("Players."+p.getName()+".Bag."+count).getAmount());
+					if(i.getAmount()+((ItemStack)Loader.me.get("Players."+p.getName()+".Bag."+count)).getAmount()<64) {
+						c.setAmount(i.getAmount()+((ItemStack)Loader.me.get("Players."+p.getName()+".Bag."+count)).getAmount());
 						Loader.me.set("Players."+p.getName()+".Bag."+count, c);
-						Configs.me.save();
+						Loader.me.save();
 						find=true;
 					}
 				}

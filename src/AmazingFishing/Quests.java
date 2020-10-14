@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
@@ -52,7 +53,7 @@ public class Quests {
 			String fishname=Loader.c.getString("Types."+typ+"."+fis+".Name");
 			questInfo="Sell "+amount+"x "+fishname;
 		}
-		int questStages =Loader.c.getConfigurationSection("Quests."+quest+".Stage").getKeys(false).size()-1;
+		int questStages =Loader.c.getKeys("Quests."+quest+".Stage").size()-1;
 
 		a.setItem(20, new ItemGUI(Create.createItem("&2Finish quest", Material.GREEN_WOOL)){
 			@Override
@@ -70,7 +71,7 @@ public class Quests {
 					}
 					if(Loader.c.getString("Quests."+quest+".Rewards.Items")!=null)
 					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Items")) {
-						TheAPI.giveItem(p, Loader.c.getItemStack("Quests."+quest+".Rewards.Items."+s));
+						TheAPI.giveItem(p, (ItemStack)Loader.c.get("Quests."+quest+".Rewards.Items."+s));
 					}
 					selectQuest(p);
 					}
@@ -115,7 +116,7 @@ public class Quests {
 		Create.prepareInv(a);
 		List<Object> list = new ArrayList<Object>();
 		if(Loader.c.getString("Quests")!=null)
-		for(String s: Loader.c.getConfigurationSection("Quests").getKeys(false))list.add(s);
+		for(String s: Loader.c.getKeys("Quests"))list.add(s);
 		String q = TheAPI.getRandomFromList(list).toString();
 
 		if(q!=null) {
@@ -135,7 +136,7 @@ public class Quests {
 			}
 		});
 		String questInfo = Loader.c.getString("Quests."+q+".Description");
-		String questStages =Loader.c.getConfigurationSection("Quests."+q+".Stage").getKeys(false).size()-1+"";
+		String questStages =Loader.c.getKeys("Quests."+q+".Stage").size()-1+"";
 
 		a.setItem(22,new ItemGUI(Create.createItem("&6Info about quest", Material.PAPER,
 				Arrays.asList("&7 - "+Loader.c.getString("Quests."+q+".Name"),"&7 - "+questInfo
@@ -176,7 +177,7 @@ public class Quests {
 						Loader.me.set("Players."+p.getName()+".Quests.Stage", next);
 						Loader.me.set("Players."+p.getName()+".Quests.Amount", 0);
 					TheAPI.msg(Loader.s("Prefix")+"&6-= Quest &a"+q+"&r&6 =-",p);
-					TheAPI.msg(Loader.s("Prefix")+"&6+ Stage "+next+"/"+(Loader.c.getConfigurationSection("Quests."+q+".Stage").getKeys(false).size()-1),p);
+					TheAPI.msg(Loader.s("Prefix")+"&6+ Stage "+next+"/"+(Loader.c.getKeys("Quests."+q+".Stage").size()-1),p);
 					String action = "&aCatch fish";
 					if(s==Actions.SELL_FISH)
 						action="&eSell fish";

@@ -16,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.ByBiome.biomes;
 import AmazingFishing.help.Type;
-import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
@@ -111,7 +110,7 @@ public class gui {
 					openGlobal(p);
 				}
 			});
-		for(String s:Loader.c.getConfigurationSection("Types."+path).getKeys(false)) {
+		for(String s:Loader.c.getKeys("Types."+path)) {
 			String name = s;
 			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
 			a.addItem(new ItemGUI(Create.createItem(name, i)){
@@ -142,7 +141,7 @@ public class gui {
 		if(name==null)name=fish;
 		HashMap<String, BigDecimal> as = new HashMap<String, BigDecimal>();
 		if(Loader.me.getString("Players")!=null)
-		for(String s : Loader.me.getConfigurationSection("Players").getKeys(false)) {
+		for(String s : Loader.me.getKeys("Players")) {
 			if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Length")!=null)
 			as.put(s, new BigDecimal(Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")));
 		}
@@ -150,7 +149,7 @@ public class gui {
 		
 		HashMap<String, BigDecimal> aw = new HashMap<String, BigDecimal>();
 		if(Loader.me.getString("Players")!=null)
-		for(String s : Loader.me.getConfigurationSection("Players").getKeys(false)) {
+		for(String s : Loader.me.getKeys("Players")) {
 			if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Weight")!=null)
 			aw.put(s, new BigDecimal(Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")));
 		}
@@ -284,7 +283,7 @@ public class gui {
 		Create.prepareInv(a);
 		String pat = path;
 		
-		for(String s:Loader.c.getConfigurationSection("Types."+path).getKeys(false)) {
+		for(String s:Loader.c.getKeys("Types."+path)) {
 			String name = s;
 			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
 			a.addItem(new ItemGUI(Create.createItem(name, i)){
@@ -404,7 +403,7 @@ public class gui {
 							list.add(s.name());
 						}
 						Loader.c.set("Types."+typ+"."+fish+".Biomes",list);
-						Configs.c.save();
+						Loader.c.save();
 						openBiomeSettting(p, fish, typ,edit);
 				}
 			});

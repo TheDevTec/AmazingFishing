@@ -7,7 +7,6 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import AmazingFishing.CEnch;
@@ -18,16 +17,17 @@ import AmazingFishing.Tournament.Type;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.APIs.EnchantmentAPI;
 import me.DevTec.TheAPI.APIs.PluginManagerAPI;
-import me.DevTec.TheAPI.ConfigAPI.ConfigAPI;
+import me.DevTec.TheAPI.ConfigAPI.Config;
 import me.DevTec.TheAPI.Scheduler.Tasker;
 import me.DevTec.TheAPI.Utils.StringUtils;
 import me.DevTec.TheAPI.Utils.TheAPIUtils.LoaderClass;
 
 public class Loader extends JavaPlugin {
-    public static FileConfiguration c;
-    public static FileConfiguration shop;
-    public static FileConfiguration TranslationsFile;
-    public static FileConfiguration me;
+    public static Config c;
+    public static Config shop;
+    public static Config TranslationsFile;
+    public static Config me;
+    
 	public static Loader plugin;
 	public static FishOfDay f = new FishOfDay();
 	private static HashMap<String, CEnch> map = new HashMap<String, CEnch>();
@@ -68,7 +68,7 @@ public class Loader extends JavaPlugin {
 		TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
 		Configs.LoadConfigs();
 		plugin=this;
-		for(String s : c.getConfigurationSection("Enchants").getKeys(false)) {
+		for(String s : c.getKeys("Enchants")) {
 			CEnch d = new CEnch(new NamespacedKey(this, s));
 			d.setName(c.getString("Enchants."+s+".Name"), s);
 			EnchantmentAPI.registerEnchantment(d);
@@ -88,7 +88,7 @@ public class Loader extends JavaPlugin {
 			public void run() {
 				Tournament.startType(Type.Random, (int)StringUtils.getTimeFromString(c.getString("Options.Tournament.Time")), true);
 			}
-		}.repeatingAsync(0, StringUtils.getTimeFromString(c.getString("Options.Tournament.Delay")));
+		}.runRepeating(0, StringUtils.getTimeFromString(c.getString("Options.Tournament.Delay")));
 		
 	}
 	private void isTest() {
@@ -135,8 +135,8 @@ public class Loader extends JavaPlugin {
 			return Color.c(TranslationsFile.getString("Editor."+path+"."+i));
 		return "";
 	}
-	public static ConfigAPI getConfig(String localization,  String name) {
-		return new ConfigAPI(localization, name);
+	public static Config getConfig(String localization,  String name) {
+		return new Config(localization+"/"+name);
 	}/*
 	static ConfigAPI a=TheAPI.getConfig("AmazingFishing", "Translations");
 	static void setupTranslations() {
@@ -759,10 +759,10 @@ public class Loader extends JavaPlugin {
 	}
 	*/
 	public static void save() {
-		Configs.c.save();
+		c.save();
 	}
 	public static void saveChatMe() {
-		Configs.me.save();
+		me.save();
 	}
 	/*static ConfigAPI shopfile;
 	
