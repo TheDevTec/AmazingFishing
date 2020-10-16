@@ -8,17 +8,15 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
 import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
+import me.DevTec.TheAPI.Utils.PercentageList;
 import me.DevTec.TheAPI.Utils.StringUtils;
-import net.minecraft.server.v1_16_R2.NBTTagCompound;
 
 public class ByBiome {
 	public static enum biomes{
@@ -76,21 +74,19 @@ public class ByBiome {
 	}
 	
 	private static String fish(String a, String type){
-		List<String> fish = new ArrayList<String>();
-		if(Loader.c.getString("Types."+type)!=null)
+		PercentageList<String> fish = new PercentageList<>();
 		for(String d:Loader.c.getKeys("Types."+type)) {
-		if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null &&!Loader.c.getStringList("Types."+type+"."+d+".Biomes").isEmpty()) {
+			if(Loader.c.getStringList("Types."+type+"."+d+".Biomes").isEmpty()) {
+				fish.add(d, Loader.c.getDouble("Types."+type+"."+d+".Chance"));
+			}else
 			for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes"))
 			if(s.toLowerCase().contains(a.toLowerCase())) {
-	for(int i = 0; i < (Loader.c.getInt("Types."+type+"."+d+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+d+".Chance") : 1); ++i)
-				fish.add(d);
-			}}else {
-	for(int i = 0; i < (Loader.c.getInt("Types."+type+"."+d+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+d+".Chance") : 1); ++i)
-				fish.add(d);
+				fish.add(d, Loader.c.getDouble("Types."+type+"."+d+".Chance"));
+			}else {
+				fish.add(d, Loader.c.getDouble("Types."+type+"."+d+".Chance"));
 			}
 		}
-		if(fish.isEmpty())return null;
-		return TheAPI.getRandomFromList(Utils.createShuffleList(fish)).toString();
+		return fish.getRandom();
 	}
 	
 	public static String getTran(biomes b) {
@@ -118,13 +114,6 @@ public class ByBiome {
 		money = money+(money%moneybonus);
 		if(pointbonus!=0.0)
 		points = points+(points%pointbonus);
-		
-		/*Bukkit.broadcastMessage("type "+type);
-		Bukkit.broadcastMessage("fish "+fish);
-		
-		Bukkit.broadcastMessage("(p/pb) "+(points%pointbonus));
-		Bukkit.broadcastMessage("pb "+pointbonus);
-		Bukkit.broadcastMessage(points+"");*/
 		
 		if(expbonus!=0)
 		exp = exp+(exp%expbonus);
@@ -215,12 +204,7 @@ public class ByBiome {
 				}
 			i.setLore(lore);
 			}
-			ItemStack bukkitstack = i.create();
-			net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(bukkitstack);
-			NBTTagCompound tag = nms.getOrCreateTag();
-			tag.setDouble("af.length", length);
-			nms.setTag(tag);
-			bukkitstack = CraftItemStack.asBukkitCopy(nms);
+			ItemStack bukkitstack = Tag.add(length, weight, type, fish, i);
 			
 				bag.addFishToBagOrInv(p,bukkitstack);
 			Loader.msgCmd(Loader.s("Prefix")+Loader.s("Caught").replace("%cm%", (new DecimalFormat("#,##0.00").format(length))
@@ -305,13 +289,13 @@ public class ByBiome {
 				}
 			i.setLore(lore);
 			}
-			ItemStack bukkitstack = i.create();
+			/*ItemStack bukkitstack = i.create();
 			net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(bukkitstack);
 			NBTTagCompound tag = nms.getOrCreateTag();
 			tag.setDouble("af.length", length);
 			nms.setTag(tag);
-			bukkitstack = CraftItemStack.asBukkitCopy(nms);
-			
+			bukkitstack = CraftItemStack.asBukkitCopy(nms);*/
+			ItemStack bukkitstack = Tag.add(length, weight, type, fish, i);
 				bag.addFishToBagOrInv(p,bukkitstack);
 				Utils.addRecord(p, fish, type, length,weight);
 				Tournament.add(p, length,weight);

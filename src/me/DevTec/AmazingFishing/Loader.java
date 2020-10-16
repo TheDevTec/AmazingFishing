@@ -26,7 +26,7 @@ public class Loader extends JavaPlugin {
     public static Config c;
     public static Config shop;
     public static Config TranslationsFile;
-    public static Config me;
+    public static Config me= new Config("AmazingFishing/Data.yml"); //kde je urèené to me?
     
 	public static Loader plugin;
 	public static FishOfDay f = new FishOfDay();
