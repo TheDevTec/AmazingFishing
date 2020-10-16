@@ -39,6 +39,7 @@ public class Configs {
 		Loader.c.addDefault("Options.SellFish.DisablePoints", false);
 		Loader.c.addDefault("Options.SellFish.ShopGiveFullPriceFish", false);
 		Loader.c.addDefault("Options.SellFish.EarnFromLength", false);
+		Loader.c.addDefault("Options.SellFish.EarnFromWeight", false);
 		
 		Loader.c.addDefault("Options.ShopGiveFullPriceFish", false);
 		Loader.c.addDefault("Options.EarnFromLength", true);
@@ -723,17 +724,11 @@ public class Configs {
 		Loader.shop.save();
 	}
 	
-	public static void loadData() {
-		Loader.me = new Config("AmazingFishing/Data.yml");
-		//me = Loader.getConfig("AmazingFishing", "Data");
-		Loader.me.save();
-	    
-	}
+	
 	public static void LoadConfigs() {
 		setupConfig();
 		setupTranslations();
 		loadShop();
-		loadData();
 	}
 	public static void reload() {
 		Loader.c.reload();

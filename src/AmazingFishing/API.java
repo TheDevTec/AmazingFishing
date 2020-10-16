@@ -2,6 +2,7 @@ package AmazingFishing;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -61,7 +62,8 @@ public class API {
 			if(b) {
 				for(int i = 0; i<Loader.c.getInt("Treasures."+type+"."+s+".Chance")+1; ++i)
 					a.add(s);
-				a=Utils.createShuffleList(a);
+				Collections.shuffle(a);
+				//a=Utils.createShuffleList(a);
 			}else
 				a.add(s);
 		}

@@ -1,6 +1,7 @@
 package AmazingFishing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -13,17 +14,6 @@ import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
 
 public class Utils {
-	
-	public static List<String> createShuffleList(List<String> input){
-		List<String> toR = new ArrayList<String>(input);
-		List<String> s = new ArrayList<String>();
-		for(int i = input.size(); i > 0; --i) {
-		String random = TheAPI.getRandomFromList(toR).toString();
-		s.add(random);
-		toR.remove(random);
-		}
-		return s;
-	}
 	
 	private static void g(Player p) {
 		List<String> legend = new ArrayList<String>();
@@ -64,8 +54,8 @@ public class Utils {
 		}
 		if(l)
 		legend.add("Legendary");
-		
-		String select = TheAPI.getRandomFromList(createShuffleList(legend)).toString();
+		Collections.shuffle(legend);
+		String select = TheAPI.getRandomFromList(legend).toString();
 			if(Loader.c.getString("Treasures."+select.toUpperCase())!=null) {
 				if(Type.valueOf(select)!=null && WG.Type.valueOf(select)!=null) {
 					if(RD.hasAccess(p, Type.valueOf(select))|| WG.hasAccess(p, AmazingFishing.WG.Type.valueOf(select))) {

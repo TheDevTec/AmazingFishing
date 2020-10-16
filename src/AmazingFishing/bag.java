@@ -1,12 +1,10 @@
 package AmazingFishing;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -23,7 +21,7 @@ public class bag {
 			
 			@Override
 			public void onClose(Player arg0) {
-				saveBag(p,p.getOpenInventory().getTopInventory());
+				saveBag(p,this);
 			}
 		};
 		Create.prepareInvBig(a);
@@ -31,7 +29,8 @@ public class bag {
 		a.setItem(49,new ItemGUI( Create.createItem(Trans.close(), Material.BARRIER)) {
 			@Override
 			public void onClick(Player p, GUI arg1, ClickType arg2) {
-				p.getOpenInventory().close();
+				arg1.close(p);
+				
 			}
 		});
 		
@@ -41,14 +40,13 @@ public class bag {
 				@Override
 				public void onClick(Player p, GUI arg1, ClickType arg2) {
 					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
-					saveBag(p,p.getOpenInventory().getTopInventory());
+					//saveBag(p,p.getOpenInventory().getTopInventory());
 				}
 			});
 			a.setItem(47,new ItemGUI(Create.createItem(Trans.sellFish(), Material.COD_BUCKET)) {
 				@Override
 				public void onClick(Player p, GUI arg1, ClickType arg2) {
 					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
-					saveBag(p,p.getOpenInventory().getTopInventory());
 				}
 			});
 		}}
@@ -68,7 +66,6 @@ public class bag {
 				});
 				
 		}}
-		if(getFish(p).isEmpty()==false)
 		for(ItemStack as : getFish(p)) {
 			ItemGUI item = new ItemGUI(as){
 				@Override
@@ -87,36 +84,36 @@ public class bag {
 					}
 				});
 	 */
-	public static void saveBag(Player p, Inventory i) {
-		Loader.me.set("Players."+p.getName()+".Bag",null);
-		Loader.me.save();
+	public static void saveBag(Player p, GUI i) {
+		Loader.me.set("Players."+p.getName()+".Bag", null);
 		for(int count = 0; count < 45; ++count) {
 			if(i.getItem(count)==null)continue;
 			addFish(p,i.getItem(count));
 		}
-		
+		Loader.me.save();
 	}
 
 	private static List<ItemStack> getFish(Player p){
-		List<ItemStack> i = new ArrayList<ItemStack>();
-		if(Loader.me.getString("Players."+p.getName()+".Bag")!=null) {
-			for(int count = 0; count < 45; ++count) {
-				if(Loader.me.getString("Players."+p.getName()+".Bag."+count)!=null)
-				i.add((ItemStack)Loader.me.get("Players."+p.getName()+".Bag."+count));
-			}
-		}
-		return i;
+		return Loader.me.getData().getListAs("Players."+p.getName()+".Bag", ItemStack.class);
 	}
 	private static boolean getFirstEmpty(Player p, ItemStack i) {
-		boolean find = false;
-		if(!isFishBag(i) || !p.hasPermission("amazingfishing.bag"))return false;
-		for(int count = 0; count < 45; ++count) {
-			if(find)break;
-			if(Loader.me.getString("Players."+p.getName()+".Bag."+count)==null) {
+		if(!isFishBag(i))return false;
+		List<ItemStack> fish = Loader.me.getData().getListAs("Players."+p.getName()+".Bag", ItemStack.class);
+		if(fish.size()<45) {
+			fish.add(i);
+			Loader.me.set("Players."+p.getName()+".Bag", fish);
+			return true;
+		}
+		return false;
+		/*for(int count = 0; count < 45; ++count) {
+			if(!Loader.me.exists("Players."+p.getName()+".Bag."+count)) { //chtìlo by to pøedìlat celý saving tohoto
+				//to asi ano 
+				//až na to bude èas :D
 				Loader.me.set("Players."+p.getName()+".Bag."+count, i);
 				Loader.me.save();
 				find=true;
-			}else {
+				break;
+			}/*else {
 				ItemStack a = ((ItemStack)Loader.me.get("Players."+p.getName()+".Bag."+count)).clone();
 				a.setAmount(1);
 				ItemStack b = i.clone();
@@ -133,14 +130,14 @@ public class bag {
 				}
 			}
 		}
-		return find;
+		return find;*/
 	}
 	public static boolean isFish(ItemStack i) {
 		Material a = i.getType();
 		if(a==Material.COD||a==Material.SALMON||a==Material.PUFFERFISH||a==Material.TROPICAL_FISH)return true;
 		return false;
 	}
-	private static boolean isFishBag(ItemStack i) {
+	public static boolean isFishBag(ItemStack i) {
 		Material a = i.getType();
 		for(String s:Loader.c.getStringList("Options.Bag.StorageItems")) {
 			if(s.equalsIgnoreCase("fishes")||s.equalsIgnoreCase("fish")) {
@@ -161,5 +158,6 @@ public class bag {
 		}
 		if(Loader.c.getBoolean("Options.Bag.StoreCaughtFish")==false)TheAPI.giveItem(p,fish);
 		else { if(!getFirstEmpty(p,fish))TheAPI.giveItem(p,fish); }
+
 	}
 }
