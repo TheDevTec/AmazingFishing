@@ -15,6 +15,9 @@ public class Configs {
 	static void setupConfig() {
 		//c = Loader.getConfig("AmazingFishing", "AmazingFishing");
 		Loader.c = new Config("AmazingFishing/AmazingFishing.yml");
+
+		Loader.c.addDefault("Options.Placeholders.Format.amazingfishing_tournament_wins_top", "&e%position%. &a%player% &fwith &f&l%wins% &fwins! &7(Total played: %total%)");
+		Loader.c.addDefault("Options.Placeholders.Format.amazingfishing_tournament_played_top", "&e%position%. &a%player% &fwith &f&l%played% tournaments played &f!");
 		
 		Loader.c.addDefault("Options.BossBar.Use", true);
 		Loader.c.addDefault("Options.BossBar.OnlyIfCatchFish", true);
@@ -386,13 +389,13 @@ public class Configs {
 	}
 	
 	static void setupTranslations() {
-		//TranslationsFile = Loader.getConfig("AmazingFishing", "Translations");
 		Loader.TranslationsFile= new Config("AmazingFishing/Translations.yml");
+		
 		Loader.TranslationsFile.addDefault("CommandIsDisabled", "&cCommand is disabled!");
 		Loader.TranslationsFile.addDefault("TopPlayers", "&6Top 3 players records on fish &a%fish%");
 		Loader.TranslationsFile.addDefault("Prefix", "&bFishing &4» &6");
 		Loader.TranslationsFile.addDefault("Stats", Arrays.asList("&6------< &b%playername% &6>------"
-				,"&b> &6Caught fish: &a%fish%","&b> &6Longest fish & name: &a%fish%: %record%"
+				,"&b> &6Caught fish: &a%amount%","&b> &6Longest fish & name: &a%fish%: %record%"
 				,"&b> &6Participating tournaments: &a%tournaments%","&b> &6Top 1 in participating tournaments: &a%top1% times"));
 		Loader.TranslationsFile.addDefault("ConfigReloaded", "&2Config reloaded!");
 		Loader.TranslationsFile.addDefault("SoldFish", "&eSold %amount% fish for %money%$, %exp%exp and %points% points");

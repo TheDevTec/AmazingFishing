@@ -15,6 +15,8 @@ import org.bukkit.util.StringUtil;
 import AmazingFishing.Tournament.Type;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.AmazingFishing.PAPIExpansion;
+import me.DevTec.AmazingFishing.Placeholders;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.Utils.StringUtils;
 
@@ -343,6 +345,10 @@ public class Fishing implements CommandExecutor, TabCompleter {
 				Loader.msgCmd(Loader.s("Prefix")+ ChatColor.YELLOW+"----------------- "+ChatColor.DARK_AQUA+"AmazingFishing Reload"+ChatColor.YELLOW+" -----------------",s);
 			    Loader.msgCmd("",s);
 				Configs.reload();
+				
+				if(Placeholders.isEnabledPlaceholderAPI()) {
+					new PAPIExpansion().register();
+				}
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ConfigReloaded"), s);
 				return true;
 			}
@@ -362,7 +368,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 					if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
 						fish=Loader.c.getString("Types."+type+"."+fish+".Name");
 					Loader.msgCmd(f
-							.replace("%fish%", Loader.me.getInt("Players."+s.getName()+".Stats.Fish")+"")
+							.replace("%amount%", Loader.me.getInt("Players."+s.getName()+".Stats.Amount")+"")
 							.replace("%record%", Loader.me.getDouble("Players."+s.getName()+".Stats.Length")+"")
 							.replace("%tournament%", Loader.me.getInt("Players."+s.getName()+".Stats.Tournaments")+"")
 							.replace("%tournaments%", Loader.me.getInt("Players."+s.getName()+".Stats.Tournaments")+"")
