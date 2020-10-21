@@ -68,6 +68,13 @@ public class Loader extends JavaPlugin {
 		TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
 		Configs.LoadConfigs();
 		plugin=this;
+		
+		if(Placeholders.isEnabledPlaceholderAPI()) {
+			Placeholders.prepareHash();
+			new PAPIExpansion().register();
+			TheAPI.getConsole().sendMessage(TheAPI.colorize("&3 &aHooked into PAPI and loaded placeholders &3."));
+			TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
+		}
 		for(String s : c.getKeys("Enchants")) {
 			CEnch d = new CEnch(new NamespacedKey(this, s));
 			d.setName(c.getString("Enchants."+s+".Name"), s);

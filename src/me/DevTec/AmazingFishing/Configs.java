@@ -18,6 +18,7 @@ public class Configs {
 
 		Loader.c.addDefault("Options.Placeholders.Format.amazingfishing_tournament_wins_top", "&e%position%. &a%player% &fwith &f&l%wins% &fwins! &7(Total played: %total%)");
 		Loader.c.addDefault("Options.Placeholders.Format.amazingfishing_tournament_played_top", "&e%position%. &a%player% &fwith &f&l%played% tournaments played &f!");
+		Loader.c.addDefault("Options.Placeholders.Format.amazingfishing_caught_top", "&e%position%. &a%player% &fwith &f&l%amount%  caught fish!");
 		
 		Loader.c.addDefault("Options.BossBar.Use", true);
 		Loader.c.addDefault("Options.BossBar.OnlyIfCatchFish", true);

@@ -3,7 +3,7 @@ main: me.DevTec.AmazingFishing.Loader
 version: 3.4
 author: Straiker123
 depend: [TheAPI]
-softdepend: [Vault, WorldGuard, WorldEdit, Residence]
+softdepend: [Vault, WorldGuard, WorldEdit, Residence, PlaceholderAPI]
 api-version: 1.13
 commands:
   Fish:
