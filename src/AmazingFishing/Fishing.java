@@ -451,7 +451,8 @@ public class Fishing implements CommandExecutor, TabCompleter {
 		if(args[0].equalsIgnoreCase("List")) {
 			if(Loader.hasPerm(s, "amazingfishing.List")) {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFish"),s);
-				if(Loader.c.getString("Types.Cod")!=null) {
+
+				if(Loader.c.exists("Types.Cod")) {
 				Loader.msgCmd(Trans.cod()+":",s);
 				for(String cod:Loader.c.getKeys("Types.Cod")) {
 					String name = cod;
@@ -459,7 +460,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 						name=Loader.c.getString("Types.Cod."+cod+".Name");
 					Loader.msgCmd("&8 - "+name,s);
 				}}
-				if(Loader.c.getString("Types.Salmon")!=null) {
+				if(Loader.c.exists("Types.Salmon")) {
 				Loader.msgCmd(Trans.sal()+":",s);
 				for(String cod:Loader.c.getKeys("Types.Salmon")) {
 					String name = cod;
@@ -467,7 +468,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 						name=Loader.c.getString("Types.Salmon."+cod+".Name");
 					Loader.msgCmd("&4 - "+name,s);
 				}}
-				if(Loader.c.getString("Types.PufferFish")!=null) {
+				if(Loader.c.exists("Types.PufferFish")) {
 				Loader.msgCmd(Trans.puf()+":",s);
 				for(String cod:Loader.c.getKeys("Types.PufferFish")) {
 					String name = cod;
@@ -475,7 +476,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 						name=Loader.c.getString("Types.PufferFish."+cod+".Name");
 					Loader.msgCmd("&e - "+name,s);
 				}}
-				if(Loader.c.getString("Types.TropicalFish")!=null) {
+				if(Loader.c.exists("Types.TropicalFish")) {
 				Loader.msgCmd(Trans.tro()+":",s);
 				for(String cod:Loader.c.getKeys("Types.TropicalFish")) {
 					String name = cod;
