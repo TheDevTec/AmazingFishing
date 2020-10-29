@@ -31,7 +31,7 @@ public class Quests {
 			selectQuest(p);
 			return;
 		}
-		if(Loader.c.getString("Quests."+quest+".Time")!=null) { //is timed quest
+		if(Loader.c.exists("Quests."+quest+".Time")) { //is timed quest
 			if(TheAPI.getCooldownAPI("amazingfishing.quests."+quest).expired(p.getName())) {
 				API.cancelQuest(p);
 				selectQuest(p);
@@ -61,15 +61,15 @@ public class Quests {
 				if(stage>=questStages) {
 					Loader.me.set("Players."+p.getName()+".Quests", null);
 					Loader.saveChatMe();
-					if(Loader.c.getString("Quests."+quest+".Rewards.Commands")!=null)
+					if(Loader.c.exists("Quests."+quest+".Rewards.Commands"))
 					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Commands")) {
 						TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(s.replace("%player%", p.getName()).replace("%quest%", quest)));
 					}
-					if(Loader.c.getString("Quests."+quest+".Rewards.Messages")!=null)
+					if(Loader.c.exists("Quests."+quest+".Rewards.Messages"))
 					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Messages")) {
 						TheAPI.msg(s.replace("%player%", p.getName()).replace("%quest%", quest),p);
 					}
-					if(Loader.c.getString("Quests."+quest+".Rewards.Items")!=null)
+					if(Loader.c.exists("Quests."+quest+".Rewards.Items"))
 					for(String s :Loader.c.getStringList("Quests."+quest+".Rewards.Items")) {
 						TheAPI.giveItem(p, (ItemStack)Loader.c.get("Quests."+quest+".Rewards.Items."+s));
 					}
@@ -115,7 +115,7 @@ public class Quests {
 		};
 		Create.prepareInv(a);
 		List<Object> list = new ArrayList<Object>();
-		if(Loader.c.getString("Quests")!=null)
+		if(Loader.c.exists("Quests"))
 		for(String s: Loader.c.getKeys("Quests"))list.add(s);
 		String q = TheAPI.getRandomFromList(list).toString();
 
@@ -128,7 +128,7 @@ public class Quests {
 				if(s==Actions.CATCH_FISH||s==Actions.SELL_FISH){
 					Loader.me.set("Players."+p.getName()+".Quests.Current", q);
 					Loader.me.set("Players."+p.getName()+".Quests.Stage", 0);
-					if(Loader.c.getString("Quests."+q+".Time")!=null)
+					if(Loader.c.exists("Quests."+q+".Time"))
 					TheAPI.getCooldownAPI("amazingfishing.quests."+q).createCooldown(p.getName(), StringUtils.getTimeFromString(Loader.c.getString("Quests."+q+".Time")));
 					}
 				Loader.saveChatMe();

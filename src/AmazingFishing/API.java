@@ -52,7 +52,7 @@ public class API {
 		for(String d:commands) {
 			TheAPI.sudoConsole(SudoType.COMMAND, Color.c(d.replace("%player%", p.getName()).replace("%treasure%", name).replace("%percentage%", per+"").replace("%chance%", per+"")));
 		}
-		if(Loader.c.getString("Treasures."+type+"."+treasure+".Contents")!=null)
+		if(Loader.c.exists("Treasures."+type+"."+treasure+".Contents"))
 		for(String i : Loader.c.getKeys("Treasures."+type+"."+treasure+".Contents"))
 		TheAPI.giveItem(p, ((ItemStack)Loader.c.get("Treasures."+type+"."+treasure+".Contents."+i)));
 	}
@@ -82,17 +82,17 @@ public class API {
 		double length = Generators.length(type, fish);
 		double weight = Generators.weight(length);
 		String name = fish;
-		if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
+		if(Loader.c.exists("Types."+type+"."+fish+".Name"))
 			name=Color.c(Loader.c.getString("Types."+type+"."+fish+".Name"));
 		a.setDisplayName(name);
-		if(Loader.c.getString("Types."+type+"."+fish+".ModelData")!=null) {
+		if(Loader.c.exists("Types."+type+"."+fish+".ModelData")) {
 		a.setCustomModelData(Loader.c.getInt("Types."+type+"."+fish+".ModelData"));
 		}
 		List<String> lore = null;
-		if(Loader.c.getString("Format.FishDescription")!=null) {
+		if(Loader.c.exists("Format.FishDescription")) {
 			lore=new ArrayList<String>();
 			List<String> biomes = new ArrayList<String>();
-			if(Loader.c.getString("Types."+type+"."+fish+".Biomes")!=null)
+			if(Loader.c.exists("Types."+type+"."+fish+".Biomes"))
 				
 				for(String g:Loader.c.getStringList("Types."+type+"."+fish+".Biomes"))
 					biomes.add(ByBiome.getTran(ByBiome.biomes.valueOf(g)));
@@ -137,17 +137,17 @@ public class API {
 		double length = Generators.length(type, fish);
 		double weight = Generators.weight(length);
 		String name = fish;
-		if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
+		if(Loader.c.exists("Types."+type+"."+fish+".Name"))
 			name=Color.c(Loader.c.getString("Types."+type+"."+fish+".Name"));
 		a.setDisplayName(name);
-		if(Loader.c.getString("Types."+type+"."+fish+".ModelData")!=null) {
+		if(Loader.c.exists("Types."+type+"."+fish+".ModelData")) {
 		a.setCustomModelData(Loader.c.getInt("Types."+type+"."+fish+".ModelData"));
 		}
 		List<String> lore = null;
-		if(Loader.c.getString("Format.FishDescription")!=null) {
+		if(Loader.c.exists("Format.FishDescription")) {
 			lore=new ArrayList<String>();
 			List<String> biomes = new ArrayList<String>();
-			if(Loader.c.getString("Types."+type+"."+fish+".Biomes")!=null)
+			if(Loader.c.exists("Types."+type+"."+fish+".Biomes"))
 				
 				for(String g:Loader.c.getStringList("Types."+type+"."+fish+".Biomes"))
 					biomes.add(ByBiome.getTran(ByBiome.biomes.valueOf(g)));
@@ -224,7 +224,7 @@ public class API {
 		
 		String f = null;
 		List<String> fish = new ArrayList<String>();
-		if(Loader.c.getString("Types."+type)!=null)
+		if(Loader.c.exists("Types."+type))
 		for(String d:Loader.c.getKeys("Types."+type)) {
 			fish.add(d);
 		}
@@ -242,9 +242,9 @@ public class API {
 				.replace("PUFFERFISH", "PufferFish");
 			String f = null;
 			List<String> fish = new ArrayList<String>();
-			if(Loader.c.getString("Types."+type)!=null)
+			if(Loader.c.exists("Types."+type))
 			for(String d:Loader.c.getKeys("Types."+type)) {
-			if(Loader.c.getString("Types."+type+"."+d+".Biomes")!=null) {
+			if(Loader.c.exists("Types."+type+"."+d+".Biomes")) {
 				for(String s:Loader.c.getStringList("Types."+type+"."+d+".Biomes")) {
 				if(s.toLowerCase().contains(biome.name().toLowerCase())) {
 					fish.add(d);

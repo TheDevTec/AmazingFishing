@@ -57,7 +57,7 @@ public class ByBiome {
 	}
 	
 	public static void addBiome(String fish, String type, biomes biom) {
-		if(Loader.c.getString("Types."+type+"."+fish+".Biomes")!=null) {
+		if(Loader.c.exists("Types."+type+"."+fish+".Biomes")) {
 			List<String> list = Loader.c.getStringList("Types."+type+"."+fish+".Biomes");
 			if(!list.contains(biom.name())) {
 			list.add(biom.name());
@@ -141,7 +141,7 @@ public class ByBiome {
 			if(!Loader.c.getBoolean("Options.UseDoubles.Weight"))
 				weight=(int)weight;
 			 
-			if(Loader.c.getBoolean("Options.Fish.EnchantsOnCustomFish")==true&&Loader.c.getString("Types."+type+"."+fish+".Enchants")!=null) {
+			if(Loader.c.getBoolean("Options.Fish.EnchantsOnCustomFish")==true&&Loader.c.exists("Types."+type+"."+fish+".Enchants")) {
 				for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Enchants")) {
 					String[] ss = s.split(":");
 					if(ss[0]==null || ss[1]==null || ss[0].isEmpty() || ss[1].isEmpty()) continue;
@@ -155,11 +155,11 @@ public class ByBiome {
 				}*/
 			}
 			
-			if(Loader.c.getString("Format.FishDescription")!=null) {
+			if(Loader.c.exists("Format.FishDescription")) {
 				List<String> lore=new ArrayList<String>();
 				
 				List<String> biomes = new ArrayList<String>();
-				if(Loader.c.getString("Types."+type+"."+fish+".Biomes")!=null)
+				if(Loader.c.exists("Types."+type+"."+fish+".Biomes"))
 					
 					for(String g:Loader.c.getStringList("Types."+type+"."+fish+".Biomes"))
 						biomes.add(getTran(ByBiome.biomes.valueOf(g)));
@@ -167,7 +167,7 @@ public class ByBiome {
 					biomes.add(getTran(null));
 				String b = StringUtils.join(biomes, ", ");
 				
-				if(Loader.c.getBoolean("Options.UseCustomFishDescription-ifItIsPossible")==true&&Loader.c.getString("Types."+type+"."+fish+".Lore")!=null) {
+				if(Loader.c.getBoolean("Options.UseCustomFishDescription-ifItIsPossible")==true&&Loader.c.exists("Types."+type+"."+fish+".Lore")) {
 					for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Lore")) {
 						lore.add(Color.c(s
 								.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))
@@ -220,7 +220,7 @@ public class ByBiome {
 			if(!Loader.c.getBoolean("Options.UseDoubles.Weight"))
 				weight=(int)weight;
 			
-			if(Loader.c.getBoolean("Options.Fish.EnchantsOnCustomFish")==true&&Loader.c.getString("Types."+type+"."+fish+".Enchants")!=null) {
+			if(Loader.c.getBoolean("Options.Fish.EnchantsOnCustomFish")==true&&Loader.c.exists("Types."+type+"."+fish+".Enchants")) {
 				for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Enchants")) {
 					String[] ss = s.split(":");
 					if(ss[0]==null || ss[1]==null || ss[0].isEmpty() || ss[1].isEmpty()) continue;
@@ -234,17 +234,17 @@ public class ByBiome {
 				}*/
 			}
 			String name = fish;
-			if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
+			if(Loader.c.exists("Types."+type+"."+fish+".Name"))
 				name=Color.c(Loader.c.getString("Types."+type+"."+fish+".Name"));
 			i.setDisplayName(name);
-			if(Loader.c.getString("Types."+type+"."+fish+".ModelData")!=null) {
+			if(Loader.c.exists("Types."+type+"."+fish+".ModelData")) {
 			i.setCustomModelData(Loader.c.getInt("Types."+type+"."+fish+".ModelData"));
 			}
-			if(Loader.c.getString("Format.FishDescription")!=null) {
+			if(Loader.c.exists("Format.FishDescription")) {
 				List<String> lore=new ArrayList<String>();
 				
 				List<String> biomes = new ArrayList<String>();
-				if(Loader.c.getString("Types."+type+"."+fish+".Biomes")!=null)
+				if(Loader.c.exists("Types."+type+"."+fish+".Biomes"))
 					
 					for(String g:Loader.c.getStringList("Types."+type+"."+fish+".Biomes"))
 						biomes.add(getTran(ByBiome.biomes.valueOf(g)));
@@ -252,7 +252,7 @@ public class ByBiome {
 					biomes.add(getTran(null));
 				String b = StringUtils.join(biomes, ", ");
 				
-				if(Loader.c.getBoolean("Options.UseCustomFishDescription-ifItIsPossible")==true&&Loader.c.getString("Types."+type+"."+fish+".Lore")!=null) {
+				if(Loader.c.getBoolean("Options.UseCustomFishDescription-ifItIsPossible")==true&&Loader.c.exists("Types."+type+"."+fish+".Lore")) {
 					for(String s:Loader.c.getStringList("Types."+type+"."+fish+".Lore")) {
 						lore.add(Color.c(s
 								.replace("%chance%", ""+(Loader.c.getInt("Types."+type+"."+fish+".Chance")>0 ? Loader.c.getInt("Types."+type+"."+fish+".Chance") : 1))

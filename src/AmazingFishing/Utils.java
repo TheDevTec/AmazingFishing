@@ -56,7 +56,7 @@ public class Utils {
 		legend.add("Legendary");
 		Collections.shuffle(legend);
 		String select = TheAPI.getRandomFromList(legend).toString();
-			if(Loader.c.getString("Treasures."+select.toUpperCase())!=null) {
+			if(Loader.c.exists("Treasures."+select.toUpperCase())) {
 				if(Type.valueOf(select)!=null && WG.Type.valueOf(select)!=null) {
 					if(RD.hasAccess(p, Type.valueOf(select))|| WG.hasAccess(p, AmazingFishing.WG.Type.valueOf(select))) {
 						API.giveTreasureByChance(p, treasureType.valueOf(select.toUpperCase()));

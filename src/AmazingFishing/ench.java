@@ -84,7 +84,7 @@ public class ench {
 		Create.prepareInv(a);
 		if(name != null) {
 			String custom = name;
-			if(Loader.c.getString("Enchants."+name+".Name")!=null)
+			if(Loader.c.exists("Enchants."+name+".Name"))
 				custom=Loader.c.getString("Enchants."+name+".Name");
 		a.setItem(13,new ItemGUI(Create.createItem(Trans.name(), Material.NAME_TAG, Arrays.asList("&b>> "+Color.c(custom)))){
 			@Override
@@ -103,7 +103,7 @@ public class ench {
 					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}});
-		if(name!=null && Loader.c.getString("Enchants."+name+".Cost") != null) {
+		if(name!=null && Loader.c.exists("Enchants."+name+".Cost")) {
 			a.setItem(22,new ItemGUI(Create.createItem(Trans.cost(), Material.SUNFLOWER, 
 					Arrays.asList("&6"+Loader.c.getDouble("Enchants."+name+".Cost")+"Points"))){
 				@Override
@@ -125,7 +125,7 @@ public class ench {
 					}
 				});
 
-		if(name!=null && Loader.c.getString("Enchants."+name+".ExpBonus") != null) {
+		if(name!=null && Loader.c.exists("Enchants."+name+".ExpBonus")) {
 			a.setItem(20,new ItemGUI(Create.createItem(Trans.expbonus(), Material.EXPERIENCE_BOTTLE, 
 					Arrays.asList("&9"+Loader.c.getDouble("Enchants."+name+".ExpBonus")+"% Bonus"))){
 				@Override
@@ -147,7 +147,7 @@ public class ench {
 			}
 		});
 		
-		if(name!=null && Loader.c.getString("Enchants."+name+".AmountBonus") != null) {
+		if(name!=null && Loader.c.exists("Enchants."+name+".AmountBonus")) {
 			a.setItem(21,new ItemGUI(Create.createItem(Trans.amountbonus(), Material.WHEAT_SEEDS, 
 					Arrays.asList("&9"+Loader.c.getDouble("Enchants."+name+".AmountBonus")+" Bonus"))){
 				@Override
@@ -171,7 +171,7 @@ public class ench {
 		
 		
 		
-		if(name!=null && Loader.c.getString("Enchants."+name+".Description")!=null) {
+		if(name!=null && Loader.c.exists("Enchants."+name+".Description")) {
 			List<String> lore = new ArrayList<String>();
 			for(String f:Loader.c.getStringList("Enchants."+name+".Description"))
 			lore.add(Color.c("&6> &a"+f));
@@ -221,7 +221,7 @@ public class ench {
 					}
 				});
 
-		if(name!=null && Loader.c.getString("Enchants."+name+".PointsBonus") != null) {
+		if(name!=null && Loader.c.exists("Enchants."+name+".PointsBonus")) {
 			a.setItem(30,new ItemGUI(Create.createItem(Trans.pointbonus(), Material.LAPIS_LAZULI, 
 					Arrays.asList("&9"+Loader.c.getDouble("Enchants."+name+".PointsBonus")+"% Bonus"))){
 				@Override
@@ -242,7 +242,7 @@ public class ench {
 						TheAPI.sendTitle(p,Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 					}
 				});
-		if(name!=null && Loader.c.getString("Enchants."+name+".MoneyBonus") != null) {
+		if(name!=null && Loader.c.exists("Enchants."+name+".MoneyBonus")) {
 			a.setItem(32, new ItemGUI(Create.createItem(Trans.moneybonus(), Material.GOLD_INGOT, 
 					Arrays.asList("&6"+Loader.c.getDouble("Enchants."+name+".MoneyBonus")+"% Bonus"))){
 				@Override
@@ -298,10 +298,10 @@ public class ench {
 			}
 		};
 		Create.prepareInv(a);
-		if(Loader.c.getString("Enchants")!=null)
+		if(Loader.c.exists("Enchants"))
 		for(String g:Loader.c.getKeys("Enchants")) {
 			String name = g;
-			if(Loader.c.getString("Enchants."+g+".Name")!=null)
+			if(Loader.c.exists("Enchants."+g+".Name"))
 				name=Loader.c.getString("Enchants."+g+".Name");
 
 			a.addItem(new ItemGUI(Create.createItem(name,Material.ENCHANTED_BOOK,Loader.c.getStringList("Enchants."+g+".Description"))){

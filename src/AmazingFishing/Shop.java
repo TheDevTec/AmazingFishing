@@ -46,7 +46,7 @@ public class Shop {
 		for(String s : Loader.shop.getStringList("GUI."+item+".Lore")) {
 			lore.add(s.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", Points.getBal(p.getName())));
 		}
-		if(Loader.shop.getString("GUI."+item+".ModelData")!=null)
+		if(Loader.shop.exists("GUI."+item+".ModelData"))
 		a.setCustomModelData(Loader.shop.getInt("GUI."+item+".ModelData"));
 		a.setLore(lore);
 		ItemGUI d = new ItemGUI(a.create()){
@@ -91,7 +91,7 @@ public class Shop {
 						.replace("%bonus%", ""+Loader.f.getBonus()));
 			ItemCreatorAPI item = new ItemCreatorAPI(Loader.f.getMaterial());
 			int mod = 0;
-			if(Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData")!=null)
+			if(Loader.c.exists("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData"))
 				mod = Loader.c.getInt("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData");
 			item.setCustomModelData(mod);
 			item.setDisplayName(Trans.fishday());
@@ -131,11 +131,11 @@ public class Shop {
 	}
 	
 	private static boolean ex(String ss) {
-		return Loader.shop.getString(ss)!=null;
+		return Loader.shop.exists(ss);
 	}
 	private  static void addItems(GUI inv) {
 		try {
-		if(Loader.shop.getString("Items")!=null)
+		if(Loader.shop.exists("Items"))
 		for(String item:Loader.shop.getKeys("Items")) {
 		int cost = Loader.shop.getInt("Items."+item+".Cost");
 				String ItemName=item;
@@ -149,7 +149,7 @@ public class Shop {
 						ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(icon));
 						a.setDisplayName(ItemName);
 						a.setLore(lore);
-						if(Loader.shop.getString("Items."+item+".ModelData")!=null)
+						if(Loader.shop.exists("Items."+item+".ModelData"))
 						a.setCustomModelData(Loader.shop.getInt("Items."+item+".ModelData"));
 					inv.addItem(new ItemGUI(a.create()){
 							@Override
@@ -199,14 +199,14 @@ public class Shop {
 						List<String> lore = new ArrayList<String>();
 						for(String w:Loader.shop.getStringList("Items."+kit+".Item."+f+".Lore"))lore.add(w.replace("%item%", kit).replace("%player%", p.getName()).replace("%cost%", cost+""));
 						a.setLore(lore);
-						if(Loader.shop.getString("Items."+kit+".Item."+f+".ModelData")!=null)
+						if(Loader.shop.exists("Items."+kit+".Item."+f+".ModelData"))
 						a.setCustomModelData(Loader.shop.getInt("Items."+kit+".Item."+f+".ModelData"));
 						a.setUnbreakable(Loader.shop.getBoolean("Items."+kit+".Item."+f+".Unbreakable"));
 						if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideEnchants"))
 							a.addItemFlag(ItemFlag.HIDE_ENCHANTS);
 						if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideAttributes"))
 							a.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
-						if(Loader.shop.getString("Items."+kit+".Item."+f+".Enchants")!=null)
+						if(Loader.shop.exists("Items."+kit+".Item."+f+".Enchants"))
 						for(String s:Loader.shop.getStringList("Items."+kit+".Item."+f+".Enchants")) {
 			            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
 			            	int num = StringUtils.getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
@@ -274,9 +274,9 @@ public class Shop {
 			if(d.getItemMeta().hasDisplayName()) {
 			path="Types."+type; 
 			String fish = data.getString("af.fish");
-			/*if(Loader.c.getString(path)!=null)
+			/*if(Loader.c.exists(path))
 			for(String s:Loader.c.getKeys(path)) {
-				if(Loader.c.getString(path+"."+s+".Name")!=null) {
+				if(Loader.c.exists(path+"."+s+".Name")) {
 					if(w.equalsIgnoreCase(Color.c(Loader.c.getString(path+"."+s+".Name"))))fish=s;
 				}
 			}*/

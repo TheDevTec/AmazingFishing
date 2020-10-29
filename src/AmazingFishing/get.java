@@ -72,7 +72,7 @@ public class get {
 	public static create typ(Player p, String path) {
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
-		if(Loader.c.getString("Creating-"+path+"."+p.getName()+".Type")!=null)
+		if(Loader.c.exists("Creating-"+path+"."+p.getName()+".Type"))
 		return create.valueOf(Loader.c.getString("Creating-"+path+"."+p.getName()+".Type"));
 		return null;
 	}
