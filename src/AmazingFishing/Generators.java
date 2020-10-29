@@ -1,7 +1,6 @@
 package AmazingFishing;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
@@ -10,7 +9,7 @@ import me.DevTec.TheAPI.Utils.StringUtils;
 public class Generators {
 	public static double length(String path, String fish) {
 		String awd = "0.0";
-		if(Loader.c.getString("Types."+path+"."+fish+".MaxCm")!=null)
+		if(Loader.c.exists("Types."+path+"."+fish+".MaxCm"))
 			awd=Loader.c.getString("Types."+path+"."+fish+".MaxCm");
 		double limit = StringUtils.getDouble(awd);
 		if(limit==0.0)limit=1000;
@@ -26,18 +25,5 @@ public class Generators {
 		length=StringUtils.getDouble(c);
 		if(length<0.1)length=0.1;
 		return length;
-	}
-	
-	public static double random(double i) {
-		double r = 0;
-			    Random object = new Random();
-			if(i > r) {
-				if((int)i != 0)
-				r = object.nextInt((int)i)+object.nextDouble();
-				else
-					r = 0+object.nextDouble();
-			}
-			if(r==0)r=1;
-		return r;
 	}
 }

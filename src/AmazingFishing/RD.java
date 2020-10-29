@@ -35,7 +35,7 @@ public class RD {
     }
     public static boolean hasAccess(Player p, Type t) {
     	if(existRD()) {
-    		if(Loader.c.getString("Options.Perms-Treasures."+t+".Residence") != null && Loader.c.getBoolean("Options.Perms-Treasures."+t+".UseResidence")) {
+    		if(Loader.c.exists("Options.Perms-Treasures."+t+".Residence") && Loader.c.getBoolean("Options.Perms-Treasures."+t+".UseResidence")) {
     			boolean bol = false;
     		for(String s:Loader.c.getStringList("Options.Perms-Treasures."+t+".Residence")) {
     			if(p.hasPermission("amazingfishing.treasures."+t.toString().toLowerCase()+"."+s))bol= true;

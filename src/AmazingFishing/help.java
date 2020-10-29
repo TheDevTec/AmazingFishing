@@ -310,35 +310,35 @@ public class help {
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.list")) {
 				Loader.msgCmd(Loader.s("Prefix")+Loader.s("ListFish"),p);
-				if(Loader.c.getString("Types.Cod")!=null) {
+				if(Loader.c.exists("Types.Cod")) {
 					Loader.msgCmd(Trans.cod()+":",p);
 				for(String cod:Loader.c.getKeys("Types.Cod")) {
 					String name = cod;
-					if(Loader.c.getString("Types.Cod."+cod+".Name")!=null)
+					if(Loader.c.exists("Types.Cod."+cod+".Name"))
 						name=Loader.c.getString("Types.Cod."+cod+".Name");
 					Loader.msgCmd("&8 - "+name,p);
 				}}
-				if(Loader.c.getString("Types.Salmon")!=null) {
+				if(Loader.c.exists("Types.Salmon")) {
 					Loader.msgCmd(Trans.sal()+":",p);
 				for(String cod:Loader.c.getKeys("Types.Salmon")) {
 					String name = cod;
-					if(Loader.c.getString("Types.Salmon."+cod+".Name")!=null)
+					if(Loader.c.exists("Types.Salmon."+cod+".Name"))
 						name=Loader.c.getString("Types.Salmon."+cod+".Name");
 					Loader.msgCmd("&4 - "+name,p);
 				}}
-				if(Loader.c.getString("Types.PufferFish")!=null) {
+				if(Loader.c.exists("Types.PufferFish")) {
 					Loader.msgCmd(Trans.puf()+":",p);
 				for(String cod:Loader.c.getKeys("Types.PufferFish")) {
 					String name = cod;
-					if(Loader.c.getString("Types.PufferFish."+cod+".Name")!=null)
+					if(Loader.c.exists("Types.PufferFish."+cod+".Name"))
 						name=Loader.c.getString("Types.PufferFish."+cod+".Name");
 					Loader.msgCmd("&e - "+name,p);
 				}}
-				if(Loader.c.getString("Types.TropicalFish")!=null) {
+				if(Loader.c.exists("Types.TropicalFish")) {
 					Loader.msgCmd(Trans.tro()+":",p);
 				for(String cod:Loader.c.getKeys("Types.TropicalFish")) {
 					String name = cod;
-					if(Loader.c.getString("Types.TropicalFish."+cod+".Name")!=null)
+					if(Loader.c.exists("Types.TropicalFish."+cod+".Name"))
 						name=Loader.c.getString("Types.TropicalFish."+cod+".Name");
 					Loader.msgCmd("&c - "+name,p);
 				}}}
@@ -618,7 +618,7 @@ public class help {
 	private static String rep(String s, String w) {
 		String type = Loader.me.getString("Players."+w+".Stats.Type");
 		String fish = Loader.me.getString("Players."+w+".Stats.Fish");
-		if(Loader.c.getString("Types."+type+"."+fish+".Name")!=null)
+		if(Loader.c.exists("Types."+type+"."+fish+".Name"))
 			fish=Loader.c.getString("Types."+type+"."+fish+".Name");
 		if(type!=null) {
 		if(type.equals("PufferFish"))type="Pufferfish";
@@ -661,10 +661,10 @@ public class help {
 			if(Material.matchMaterial(Loader.c.getString("GUI.Stats."+s+".Material"))!=null)
 				m=Material.matchMaterial(Loader.c.getString("GUI.Stats."+s+".Material"));
 			String c = " ";
-			if(Loader.c.getString("GUI.Stats."+s+".Name")!=null)
+			if(Loader.c.exists("GUI.Stats."+s+".Name"))
 			 c = Loader.c.getString("GUI.Stats."+s+".Name");
 			ArrayList<String> l = new ArrayList<String>();
-			if(Loader.c.getString("GUI.Stats."+s+".Lore")!=null)
+			if(Loader.c.exists("GUI.Stats."+s+".Lore"))
 			for(String d:Loader.c.getStringList("GUI.Stats."+s+".Lore")) {
 				l.add(Color.c(rep(d,name)));
 			}
@@ -716,7 +716,7 @@ public class help {
 		};
 		Create.prepareInvBig(a);
 		for(Player s:TheAPI.getOnlinePlayers()) {
-			if(Loader.me.getString("Players."+p.getName()+".Stats")!=null) {
+			if(Loader.me.exists("Players."+p.getName()+".Stats")) {
 				ItemCreatorAPI ss = new ItemCreatorAPI(Material.LEGACY_SKULL_ITEM);
 				ss.setOwner(s.getName());
 				ss.setSkullType(SkullType.PLAYER);

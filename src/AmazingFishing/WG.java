@@ -52,7 +52,7 @@ public class WG {
     }
     public static boolean hasAccess(Player p, Type t) {
     	if(existWG()) {
-    		if(Loader.c.getString("Options.Perms-Treasures."+t+".WorldGuard-Regions") != null && Loader.c.getBoolean("Options.Perms-Treasures."+t+".UseWorldGuard-Regions")) {
+    		if(Loader.c.exists("Options.Perms-Treasures."+t+".WorldGuard-Regions") && Loader.c.getBoolean("Options.Perms-Treasures."+t+".UseWorldGuard-Regions")) {
     			boolean bol = false;
     		for(String s:Loader.c.getStringList("Options.Perms-Treasures."+t+".WorldGuard-Regions")) {
     			if(p.hasPermission("amazingfishing.treasures."+t.toString().toLowerCase()+"."+s))bol= true;

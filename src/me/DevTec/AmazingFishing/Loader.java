@@ -26,7 +26,7 @@ public class Loader extends JavaPlugin {
     public static Config c;
     public static Config shop;
     public static Config TranslationsFile;
-    public static Config me= new Config("AmazingFishing/Data.yml"); //kde je urèené to me?
+    public static Config me= new Config("AmazingFishing/Data.yml");
     
 	public static Loader plugin;
 	public static FishOfDay f = new FishOfDay();
@@ -133,12 +133,12 @@ public class Loader extends JavaPlugin {
 		loadShop();
 		}*/
 	public static String getAFK(int i) {
-		if(TranslationsFile.getString("AFK-Title."+i)!=null)
+		if(TranslationsFile.exists("AFK-Title."+i))
 			return Color.c(TranslationsFile.getString("AFK-Title."+i));
 		return "";
 	}
 	public static String get(String path, int i) {
-		if(TranslationsFile.getString("Editor."+path+"."+i)!=null)
+		if(TranslationsFile.exists("Editor."+path+"."+i))
 			return Color.c(TranslationsFile.getString("Editor."+path+"."+i));
 		return "";
 	}

@@ -460,6 +460,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 						name=Loader.c.getString("Types.Cod."+cod+".Name");
 					Loader.msgCmd("&8 - "+name,s);
 				}}
+				
 				if(Loader.c.exists("Types.Salmon")) { 
 				Loader.msgCmd(Trans.sal()+":",s);
 				for(String cod:Loader.c.getKeys("Types.Salmon")) {

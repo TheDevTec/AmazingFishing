@@ -37,7 +37,7 @@ public class onChat implements Listener {
 			typ ="TropicalFish";
 			break;
 		}
-		if(Loader.c.getString("Edit-"+path+"."+p.getName())!=null) {
+		if(Loader.c.exists("Edit-"+path+"."+p.getName())) {
 			create c = create.valueOf(Loader.c.getString("Edit-"+path+"."+p.getName()+".Type"));
 			String id =Loader.c.getString("Edit-"+path+"."+p.getName()+".Fish");
 			
@@ -174,7 +174,7 @@ public class onChat implements Listener {
 			typ ="TropicalFish";
 			break;
 		}
-		if(Loader.c.getString("Creating-"+path+"."+p.getName())!=null) {
+		if(Loader.c.exists("Creating-"+path+"."+p.getName())) {
 			String fish =get.fish(p, path);
 			if(get.typ(p, path)==null) {
 				TheAPI_GUIs gui = new TheAPI_GUIs();
@@ -267,20 +267,20 @@ public class onChat implements Listener {
 		Player p = e.getPlayer();
 		if(ex("Creating-Pufferfish")||ex("Creating-Cod")||ex("Creating-Salmon")||ex("Creating-Tropical_Fish")) {
 		FishType type = null;
-		if(Loader.c.getString("Creating-Pufferfish."+p.getName()) != null)type=FishType.PUFFERFISH;
-		if(Loader.c.getString("Creating-Cod."+p.getName()) != null)type=FishType.COD;
-		if(Loader.c.getString("Creating-Salmon."+p.getName()) != null)type=FishType.SALMON;
-		if(Loader.c.getString("Creating-Tropical_Fish."+p.getName()) != null)type=FishType.TROPICAL_FISH;
+		if(Loader.c.exists("Creating-Pufferfish."+p.getName()))type=FishType.PUFFERFISH;
+		if(Loader.c.exists("Creating-Cod."+p.getName()))type=FishType.COD;
+		if(Loader.c.exists("Creating-Salmon."+p.getName()))type=FishType.SALMON;
+		if(Loader.c.exists("Creating-Tropical_Fish."+p.getName()))type=FishType.TROPICAL_FISH;
 		if(type!=null) {
 			e.setCancelled(true);
 			setEverything(p,e.getMessage(),type);
 		}}
 		if(ex("Edit-Pufferfish")||ex("Edit-Cod")||ex("Edit-Salmon")||ex("Edit-Tropical_Fish")) {
 		FishType w = null;
-		if(Loader.c.getString("Edit-Pufferfish."+p.getName()) != null)w=FishType.PUFFERFISH;
-		if(Loader.c.getString("Edit-Cod."+p.getName()) != null)w=FishType.COD;
-		if(Loader.c.getString("Edit-Salmon."+p.getName()) != null)w=FishType.SALMON;
-		if(Loader.c.getString("Edit-Tropical_Fish."+p.getName()) != null)w=FishType.TROPICAL_FISH;
+		if(Loader.c.exists("Edit-Pufferfish."+p.getName()))w=FishType.PUFFERFISH;
+		if(Loader.c.exists("Edit-Cod."+p.getName()))w=FishType.COD;
+		if(Loader.c.exists("Edit-Salmon."+p.getName()))w=FishType.SALMON;
+		if(Loader.c.exists("Edit-Tropical_Fish."+p.getName()))w=FishType.TROPICAL_FISH;
 		if(w!=null)
 		edit(p,e.getMessage(),e,w);
 		}
@@ -292,24 +292,24 @@ public class onChat implements Listener {
 		}
 		if(ex("Creating-Legendary")||ex("Creating-Epic")||ex("Creating-Rare")||ex("Creating-Common")) {
 			TreasureType w = null;
-		if(Loader.c.getString("Creating-Legendary."+p.getName()) != null)w=TreasureType.LEGEND;
-		if(Loader.c.getString("Creating-Epic."+p.getName()) != null)w=TreasureType.EPIC;
-		if(Loader.c.getString("Creating-Rare."+p.getName()) != null)w=TreasureType.RARE;
-		if(Loader.c.getString("Creating-Common."+p.getName()) != null)w=TreasureType.COMMON;
+		if(Loader.c.exists("Creating-Legendary."+p.getName()))w=TreasureType.LEGEND;
+		if(Loader.c.exists("Creating-Epic."+p.getName()))w=TreasureType.EPIC;
+		if(Loader.c.exists("Creating-Rare."+p.getName()))w=TreasureType.RARE;
+		if(Loader.c.exists("Creating-Common."+p.getName()))w=TreasureType.COMMON;
 		if(w!=null)
 		setEverythingTreasure(p,e.getMessage(),e,w);
 		}
 		if(ex("Edit-Legendary")||ex("Edit-Epic")||ex("Edit-Rare")||ex("Edit-Common")) {
 			TreasureType w = null;
-		if(Loader.c.getString("Edit-Legendary."+p.getName()) != null)w=TreasureType.LEGEND;
-		if(Loader.c.getString("Edit-Epic."+p.getName()) != null)w=TreasureType.EPIC;
-		if(Loader.c.getString("Edit-Rare."+p.getName()) != null)w=TreasureType.RARE;
-		if(Loader.c.getString("Edit-Common."+p.getName()) != null)w=TreasureType.COMMON;
+		if(Loader.c.exists("Edit-Legendary."+p.getName()))w=TreasureType.LEGEND;
+		if(Loader.c.exists("Edit-Epic."+p.getName()))w=TreasureType.EPIC;
+		if(Loader.c.exists("Edit-Rare."+p.getName()))w=TreasureType.RARE;
+		if(Loader.c.exists("Edit-Common."+p.getName()))w=TreasureType.COMMON;
 		if(w!=null)
 			editTreasure(p,e.getMessage(),e,w);
 		}}
 	private void editEnch(Player p, String message, PlayerChatEvent e) {
-		if(Loader.c.getString("Edit-Enchants."+p.getName())!=null) {
+		if(Loader.c.exists("Edit-Enchants."+p.getName())) {
 			String n =Loader.c.getString("Edit-Enchants."+p.getName()+".Fish");
 			enchs c = enchs.valueOf(Loader.c.getString("Edit-Enchants."+p.getName()+".Type"));
 		    String fish = n;
@@ -459,7 +459,7 @@ public class onChat implements Listener {
 				break;
 			}}}
 	private void createEnch(Player p, String message, PlayerChatEvent e) {
-		if(Loader.c.getString("Creating-Enchants."+p.getName())!=null) {
+		if(Loader.c.exists("Creating-Enchants."+p.getName())) {
 			String n =Loader.c.getString("Creating-Enchants."+p.getName()+".Fish");
 			enchs c = enchs.valueOf(Loader.c.getString("Creating-Enchants."+p.getName()+".Type"));
 			switch(c) {
@@ -651,7 +651,7 @@ public class onChat implements Listener {
 			path="Common";
 			break;
 		}
-		if(Loader.c.getString("Edit-"+path+"."+p.getName())!=null) {
+		if(Loader.c.exists("Edit-"+path+"."+p.getName())) {
 			tre c = tre.valueOf(Loader.c.getString("Edit-"+path+"."+p.getName()+".Type"));
 			String fish =Loader.c.getString("Edit-"+path+"."+p.getName()+".Crate");
 			
@@ -800,7 +800,7 @@ public class onChat implements Listener {
 			path="Common";
 			break;
 		}
-		if(Loader.c.getString("Creating-"+path+"."+p.getName())!=null) {
+		if(Loader.c.exists("Creating-"+path+"."+p.getName())) {
 			tre c = tre.valueOf(Loader.c.getString("Creating-"+path+"."+p.getName()+".Type"));
 			String fish =Loader.c.getString("Creating-"+path+"."+p.getName()+".Crate");
 
@@ -968,7 +968,7 @@ public class onChat implements Listener {
 				break;
 	}}}
 	static boolean ex(String path) {
-		return Loader.c.getString(path)!=null;
+		return Loader.c.exists(path);
 	}
 	enum create {
 		Money,

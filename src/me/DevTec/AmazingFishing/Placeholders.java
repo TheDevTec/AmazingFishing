@@ -54,11 +54,11 @@ public class Placeholders {
 			@Override
 			public void run() {
 				for(String player: Loader.me.getKeys("Players")) {
-					 if(Loader.me.getString("Players."+player+".Stats.Top.1.Tournaments")!=null)
+					 if(Loader.me.exists("Players."+player+".Stats.Top.1.Tournaments"))
 						 hash.put(player, Loader.me.getInt("Players."+player+".Stats.Top.1.Tournaments"));
-					 if(Loader.me.getString("Players."+player+".Stats.Tournaments")!=null)
+					 if(Loader.me.exists("Players."+player+".Stats.Tournaments"))
 						 hash2.put(player, Loader.me.getInt("Players."+player+".Stats.Tournaments"));
-					 if(Loader.me.getString("Players."+player+".Stats.Amount")!=null)
+					 if(Loader.me.exists("Players."+player+".Stats.Amount"))
 						 hash3.put(player, Loader.me.getInt("Players."+player+".Stats.Amount"));
 				 }
 			}

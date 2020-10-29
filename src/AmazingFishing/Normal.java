@@ -16,7 +16,6 @@ public class Normal {
 	public static ItemStack createItem(String name, int amount, Material material, List<String> lore, HashMap<Enchantment, Integer> enchs, boolean unb, boolean hide) {
 		try {
 			if(amount==0)amount=1;
-			
 			ItemStack i = new ItemStack(material, amount);
 	        ItemMeta im = i.getItemMeta();
 	        if(name != null)
@@ -44,7 +43,7 @@ public class Normal {
 	}
 	public static ItemStack getRod(Player p) {
 		String path = "Players."+p.getName()+".SavedRod";
-		if(Loader.me.getString(path)!=null)return ((ItemStack)Loader.me.get(path));
+		if(Loader.me.exists(path))return ((ItemStack)Loader.me.get(path));
 		return null;
 	}
 }

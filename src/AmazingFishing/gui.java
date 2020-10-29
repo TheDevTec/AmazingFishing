@@ -112,7 +112,7 @@ public class gui {
 			});
 		for(String s:Loader.c.getKeys("Types."+path)) {
 			String name = s;
-			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
+			if(Loader.c.exists("Types."+path+"."+s+".Name"))name=Loader.c.getString("Types."+path+"."+s+".Name");
 			a.addItem(new ItemGUI(Create.createItem(name, i)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
@@ -140,17 +140,17 @@ public class gui {
 		String name = Loader.c.getString("Types."+type+"."+fish+".Name");
 		if(name==null)name=fish;
 		HashMap<String, BigDecimal> as = new HashMap<String, BigDecimal>();
-		if(Loader.me.getString("Players")!=null)
+		if(Loader.me.exists("Players"))
 		for(String s : Loader.me.getKeys("Players")) {
-			if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Length")!=null)
+			if(Loader.me.exists("Players."+s+"."+type+"."+fish+".Length"))
 			as.put(s, new BigDecimal(Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")));
 		}
 		RankingAPI<String, BigDecimal> r = new RankingAPI<>(as);
 		
 		HashMap<String, BigDecimal> aw = new HashMap<String, BigDecimal>();
-		if(Loader.me.getString("Players")!=null)
+		if(Loader.me.exists("Players"))
 		for(String s : Loader.me.getKeys("Players")) {
-			if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Weight")!=null)
+			if(Loader.me.exists("Players."+s+"."+type+"."+fish+".Weight"))
 			aw.put(s, new BigDecimal(Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")));
 		}
 		RankingAPI<String, BigDecimal> rw = new RankingAPI<>(aw);
@@ -285,7 +285,7 @@ public class gui {
 		
 		for(String s:Loader.c.getKeys("Types."+path)) {
 			String name = s;
-			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
+			if(Loader.c.exists("Types."+path+"."+s+".Name"))name=Loader.c.getString("Types."+path+"."+s+".Name");
 			a.addItem(new ItemGUI(Create.createItem(name, i)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
@@ -376,7 +376,7 @@ public class gui {
 			String name = ByBiome.getTran(s);
 			boolean ench = false;
 			List<String> lore = new ArrayList<String>();
-			if(Loader.c.getString("Types."+typ+"."+fish+".Biomes")!=null)
+			if(Loader.c.exists("Types."+typ+"."+fish+".Biomes"))
 				if(Loader.c.getStringList("Types."+type+"."+fish+".Biomes").contains(s.name())) {
 					ench = true;
 			lore.add(Loader.TranslationsFile.getString("Biome-Added"));
@@ -395,7 +395,7 @@ public class gui {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					List<String> list = new ArrayList<String>();
-					if(Loader.c.getString("Types."+typ+"."+fish+".Biomes")!=null)
+					if(Loader.c.exists("Types."+typ+"."+fish+".Biomes"))
 					for(String s:Loader.c.getStringList("Types."+typ+"."+fish+".Biomes"))list.add(s);
 						if(list.isEmpty()==false && list.contains(s.name())) {
 							list.remove(s.name());

@@ -183,10 +183,10 @@ public class TheAPI_GUIs {
 		};
 		Create.prepareInv(a);
 		String pat=path;
-		if(Loader.c.getString("Types."+path)!=null)
+		if(Loader.c.exists("Types."+path))
 			for(String s:Loader.c.getKeys("Types."+path)) {
 				String name = s;
-				if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
+				if(Loader.c.exists("Types."+path+"."+s+".Name"))name=Loader.c.getString("Types."+path+"."+s+".Name");
 				a.addItem(new ItemGUI(Create.createItem(name, m)){
 					@Override
 					public void onClick(Player p, GUI arg, ClickType ctype) {
@@ -468,10 +468,10 @@ public class TheAPI_GUIs {
 		};
 		Create.prepareInv(a);
 		String pat = path;
-		if(Loader.c.getString("Types."+path)!=null)
+		if(Loader.c.exists("Types."+path))
 		for(String s:Loader.c.getKeys("Types."+path)) {
 			String name = s;
-			if(Loader.c.getString("Types."+path+"."+s+".Name")!=null)name=Loader.c.getString("Types."+path+"."+s+".Name");
+			if(Loader.c.exists("Types."+path+"."+s+".Name"))name=Loader.c.getString("Types."+path+"."+s+".Name");
 			a.addItem(new ItemGUI(Create.createItem(name, i)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
@@ -694,7 +694,7 @@ public class TheAPI_GUIs {
 			a.setItem(22, new ItemGUI(Create.createItem("&2Retrive Rod", Material.FISHING_ROD)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
-					if(Loader.me.getString("Players."+p.getName()+".SavedRod")!=null) {
+					if(Loader.me.exists("Players."+p.getName()+".SavedRod")) {
 					ItemStack i = ((ItemStack)Loader.me.get("Players."+p.getName()+".SavedRod"));
 					TheAPI.giveItem(p, i);
 					Loader.me.set("Players."+p.getName()+".SavedRod",null);
@@ -754,7 +754,7 @@ public class TheAPI_GUIs {
 			
 			@Override
 			public void onClose(Player arg0) {
-				if(Loader.me.getString("Players."+p.getName()+".SavedRod")!=null) {
+				if(Loader.me.exists("Players."+p.getName()+".SavedRod")) {
 					TheAPI.giveItem(p, Normal.getRod(p));
 					Loader.me.set("Players."+p.getName()+".SavedRod",null);
 					Loader.saveChatMe();
@@ -814,11 +814,11 @@ public class TheAPI_GUIs {
 				openEnchantTable(p);
 			}
 		});
-			if(Loader.c.getString("Enchants")!=null)
+			if(Loader.c.exists("Enchants"))
 		for(String s:Loader.c.getKeys("Enchants")) {
 			CEnch c = Loader.getEnchantment(s);
 			String name = s;
-			if(Loader.c.getString("Enchants."+s+".Name")!=null)name=Loader.c.getString("Enchants."+s+".Name");
+			if(Loader.c.exists("Enchants."+s+".Name"))name=Loader.c.getString("Enchants."+s+".Name");
 			 double cs= Loader.c.getDouble("Enchants."+s+".Cost");
 			 boolean has = false;
 			 int level = 0;
@@ -1114,7 +1114,7 @@ public class TheAPI_GUIs {
 		String c = ac;
 		if(f != null) {
 			String custom = f;
-			if(Loader.c.getString("Treasures."+d+"."+f+".Name")!=null)
+			if(Loader.c.exists("Treasures."+d+"."+f+".Name"))
 				custom=Loader.c.getString("Treasures."+d+"."+f+".Name");
 		a.setItem(13, new ItemGUI(Create.createItem(Trans.name(), Material.NAME_TAG, Arrays.asList("&b>> "+Color.c(custom)))){
 			@Override
@@ -1137,7 +1137,7 @@ public class TheAPI_GUIs {
 					TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}
 			});		
-		if(f!=null && Loader.c.getString("Treasures."+d+"."+f+".Commands")!=null) {
+		if(f!=null && Loader.c.exists("Treasures."+d+"."+f+".Commands")) {
 			List<String> lore = new ArrayList<String>();
 			for(String ff:Loader.c.getStringList("Treasures."+d+"."+f+".Commands"))
 			lore.add("&6> &a"+ff);
@@ -1184,7 +1184,7 @@ public class TheAPI_GUIs {
 						}
 					}
 				});
-		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Messages")!=null) {
+		if(f!=null && Loader.c.exists("Treasures."+path+"."+f+".Messages")) {
 			List<String> lore = new ArrayList<String>();
 			for(String ff:Loader.c.getStringList("Treasures."+path+"."+f+".Messages"))
 			lore.add("&6> &a"+ff);
@@ -1231,7 +1231,7 @@ public class TheAPI_GUIs {
 						}
 					}
 				});
-		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Money") != null) {
+		if(f!=null && Loader.c.exists("Treasures."+path+"."+f+".Money")) {
 			a.setItem(22,new ItemGUI(Create.createItem(Trans.money(), Material.GOLD_INGOT,
 					Arrays.asList("&6"+Loader.c.getDouble("Treasures."+path+"."+f+".Money")+"$"))){
 				@Override
@@ -1254,7 +1254,7 @@ public class TheAPI_GUIs {
 						TheAPI.sendTitle(p,Loader.get("WriteMoney", 1), Loader.get("WriteMoney", 2));
 					}
 				});;
-		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Points") != null) {
+		if(f!=null && Loader.c.exists("Treasures."+path+"."+f+".Points")) {
 			List<String> lore = new ArrayList<String>();
 			lore.add(Color.c("&9"+Loader.c.getDouble("Treasures."+path+"."+f+".Points")+"Points"));
 			a.setItem(30,new ItemGUI(Create.createItem(Trans.point(), Material.LAPIS_LAZULI,
@@ -1279,7 +1279,7 @@ public class TheAPI_GUIs {
 						TheAPI.sendTitle(p,Loader.get("WritePoint", 1), Loader.get("WritePoint", 2));
 					}
 				});
-		if(f!=null && Loader.c.getString("Treasures."+path+"."+f+".Chance") != null) {
+		if(f!=null && Loader.c.exists("Treasures."+path+"."+f+".Chance")) {
 			a.setItem(32,new ItemGUI(Create.createItem(Trans.chance(), Material.EXPERIENCE_BOTTLE, 
 					Arrays.asList("&b"+getChance(Loader.c.getDouble("Treasures."+path+"."+f+".Chance"))))){
 				@Override
@@ -1429,10 +1429,10 @@ public class TheAPI_GUIs {
 		};
 		Create.prepareInv(a);
 		
-		if(Loader.c.getString("Treasures."+path)!=null)
+		if(Loader.c.exists("Treasures."+path))
 		for(String g:Loader.c.getKeys("Treasures."+path)) {
 			String name = g;
-			if(Loader.c.getString("Treasures."+path+"."+g+".Name")!=null)
+			if(Loader.c.exists("Treasures."+path+"."+g+".Name"))
 				name=Loader.c.getString("Treasures."+path+"."+g+".Name");
 			String pat = path;
 			a.addItem(new ItemGUI(Create.createItem(name,material)){
