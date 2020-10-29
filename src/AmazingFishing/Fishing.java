@@ -358,7 +358,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 			if(Loader.hasPerm(s, "amazingfishing.stats")) {
 				if(args.length==1) {
 				if(s instanceof Player) {
-					if(Loader.me.getString("Players."+s.getName()+".Stats.Type")==null) {
+					if(!Loader.me.exists("Players."+s.getName()+".Stats.Type")) {
 						Loader.msgCmd(Loader.s("Prefix")+Loader.s("MissingData"),s);
 						return true;
 					}
@@ -387,7 +387,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 				}
 				if(args.length==2) {
 					if(Loader.hasPerm(s, "amazingfishing.stats.Other")) {
-					if(Loader.me.getString("Players."+args[1]+".Stats.Type")==null) {
+					if(!Loader.me.exists("Players."+args[1]+".Stats.Type")) {
 						Loader.msgCmd(Loader.PlayerNotEx(args[1]),s);
 						return true;
 					}

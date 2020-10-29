@@ -778,7 +778,7 @@ public class onChat implements Listener {
 		String name = null;
 		for(int s = 0; s>-1;++s) {
 			if(name!=null)break;
-		if(Loader.c.getString(path+"."+s)==null) {
+		if(!Loader.c.exists(path+"."+s)) {
 			name=s+"";
 		}
 		}
