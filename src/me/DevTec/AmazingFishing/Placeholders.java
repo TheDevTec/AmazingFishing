@@ -2,6 +2,7 @@ package me.DevTec.AmazingFishing;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.DevTec.TheAPI.APIs.PluginManagerAPI;
@@ -103,6 +104,7 @@ public class Placeholders {
 				return "&c&lError. Please use amazingfishing_caught_top<position>";
 			String ide = identifier.replaceAll("[^0-9+-]", "");
 			int top = StringUtils.getInt(ide);
+			Bukkit.broadcastMessage(ide+" ; "+top);
 			if(top==0)return "&c&lError. Please start from 1!";
 			
 			new Tasker() {

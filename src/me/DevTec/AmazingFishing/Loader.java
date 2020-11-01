@@ -20,7 +20,6 @@ import me.DevTec.TheAPI.APIs.PluginManagerAPI;
 import me.DevTec.TheAPI.ConfigAPI.Config;
 import me.DevTec.TheAPI.Scheduler.Tasker;
 import me.DevTec.TheAPI.Utils.StringUtils;
-import me.DevTec.TheAPI.Utils.TheAPIUtils.LoaderClass;
 
 public class Loader extends JavaPlugin {
     public static Config c;
@@ -42,10 +41,10 @@ public class Loader extends JavaPlugin {
 	}
 	@Override
 	public void onEnable() {
-		int count = 0;
+		/*int count = 0;
 		for(String s : LoaderClass.plugin.getDescription().getVersion().split("\\."))
-			count+=Integer.valueOf(s);
-		if(count < 9) {
+			count+=Integer.valueOf(s);*/
+		if(Integer.valueOf(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion().split("\\.")[0])<=4) {
 			disabling = true;
 			TheAPI.msg("&0[&bAmazingFishing&0] &7You are using old version of TheAPI", TheAPI.getConsole());
 			TheAPI.msg("&0[&bAmazingFishing&0] &7Please update TheAPI to newest version!", TheAPI.getConsole());

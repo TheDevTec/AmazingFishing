@@ -1,6 +1,6 @@
 name: AmazingFishing
 main: me.DevTec.AmazingFishing.Loader
-version: 3.4
+version: 3.5
 author: Straiker123
 depend: [TheAPI]
 softdepend: [Vault, WorldGuard, WorldEdit, Residence, PlaceholderAPI]

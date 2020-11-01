@@ -70,7 +70,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
         		amount=0;
             return amount+"";
         }
-        if(identifier.startsWith("player_tournaments")){
+        if(identifier.startsWith("player_tournaments_top")){
             return Placeholders.getPlayerTournamentsTop(player, identifier.toLowerCase());
         }
         if(identifier.equalsIgnoreCase("name")){
