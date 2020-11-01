@@ -104,7 +104,7 @@ public class get {
 		String name = null;
 		for(int s = 0; s>-1;++s) {
 			if(name!=null)break;
-		if(Loader.c.getString("Types."+path+"."+s)==null) {
+		if(!Loader.c.exists("Types."+path+"."+s)) {
 			name=s+"";
 		}
 		}

@@ -314,7 +314,7 @@ public class gui {
 		Create.prepareInv(a);
 		String s = p.getName();
 		String i = Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Length")+"";
-		if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Length")==null)i="-";
+		if(!Loader.me.exists("Players."+s+"."+type+"."+fish+".Length"))i="-";
 		a.setItem(20, new ItemGUI(createHead(p.getDisplayName(),s, Arrays.asList("&7Length:","&7 - "+i+"Cm"))){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
@@ -322,7 +322,7 @@ public class gui {
 		});
 
 		i = Loader.me.getDouble("Players."+s+"."+type+"."+fish+".Weight")+"";
-		if(Loader.me.getString("Players."+s+"."+type+"."+fish+".Weight")==null)i="-";
+		if(!Loader.me.exists("Players."+s+"."+type+"."+fish+".Weight"))i="-";
 		a.setItem(24, new ItemGUI(createHead(p.getDisplayName(), s, Arrays.asList("&7Weight:","&7 - "+i+"Kg"))){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {

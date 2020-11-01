@@ -34,8 +34,8 @@ public class Placeholders {
 			public void run() {
 
 				 for(String player: Loader.me.getKeys("Players")) {
-					 if(Loader.me.getString("Players."+player+".Stats.Top.1.Tournaments")==null)continue;
-					 if(Loader.me.getString("Players."+player+".Stats.Tournaments")==null)continue;
+					 if(!Loader.me.exists("Players."+player+".Stats.Top.1.Tournaments"))continue;
+					 if(!Loader.me.exists("Players."+player+".Stats.Tournaments"))continue;
 					 hash.put(player, Loader.me.getInt("Players."+player+".Stats.Top.1.Tournaments"));
 				 }
 			}
@@ -81,7 +81,7 @@ public class Placeholders {
 				public void run() {
 
 					 for(String player: Loader.me.getKeys("Players")) {
-						 if(Loader.me.getString("Players."+player+".Stats.Tournaments")==null)continue;
+						 if(!Loader.me.exists("Players."+player+".Stats.Tournaments"))continue;
 						 hash2.put(player, Loader.me.getInt("Players."+player+".Stats.Tournaments"));
 					 }
 				}
@@ -111,7 +111,7 @@ public class Placeholders {
 				@Override
 				public void run() {
 					 for(String player: Loader.me.getKeys("Players")) {
-						 if(Loader.me.getString("Players."+player+".Stats.Amount")==null)continue;
+						 if(!Loader.me.exists("Players."+player+".Stats.Amount"))continue;
 						 hash3.put(player, Loader.me.getInt("Players."+player+".Stats.Amount"));
 					 }
 				}
@@ -133,7 +133,7 @@ public class Placeholders {
 		String ide = identifier.replaceAll("[^0-9+-]", "");
 		int top = StringUtils.getInt(ide);
 		if(top==0||top>4)return "&c&lError. Please use numbers from 1-4!";
-		if(Loader.me.getString("Players."+player.getName()+".Stats.Top."+top+".Tournaments")==null) return "-";
+		if(!Loader.me.exists("Players."+player.getName()+".Stats.Top."+top+".Tournaments")) return "-";
 		int wins = Loader.me.getInt("Players."+player.getName()+".Stats.Top."+top+".Tournaments");
 		
 		if(wins==0) return "-";

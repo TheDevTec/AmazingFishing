@@ -27,7 +27,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
     public String onPlaceholderRequest(Player player, String identifier) {
         /*
-         %amazingfishing_<nìco>%
+         %amazingfishing_<nï¿½co>%
          Returns the number of online players
           */
     	
@@ -60,13 +60,13 @@ public class PAPIExpansion extends PlaceholderExpansion {
         }
         if(identifier.equalsIgnoreCase("player_caught")){
         	int amount = Loader.me.getInt("Players."+player.getName()+".Stats.Amount");
-        	if(Loader.me.getString("Players."+player.getName()+".Stats.Amount")==null)
+        	if(!Loader.me.exists("Players."+player.getName()+".Stats.Amount"))
         		amount=0;
             return amount+"";
         }
         if(identifier.equalsIgnoreCase("player_tournaments_played")){
         	int amount = Loader.me.getInt("Players."+player.getName()+".Stats.Tournaments");
-        	if(Loader.me.getString("Players."+player.getName()+".Stats.Tournaments")==null)
+        	if(!Loader.me.exists("Players."+player.getName()+".Stats.Tournaments"))
         		amount=0;
             return amount+"";
         }

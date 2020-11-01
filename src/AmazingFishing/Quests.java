@@ -170,7 +170,7 @@ public class Quests {
 			Actions s = Actions.valueOf(Loader.c.getString("Quests."+q+".Stage."+(next-1)+".Action").toUpperCase());
 				if(type.equals(Loader.c.getString("Quests."+q+".Stage."+(next-1)+".Type")) && fish.equals(Loader.c.getString("Quests."+q+".Stage."+(next-1)+".Fish"))) {
 					
-					if(Loader.c.getString("Quests."+q+".Stage."+next)==null)return;
+					if(!Loader.c.exists("Quests."+q+".Stage."+next))return;
 					int amount = Loader.c.getInt("Quests."+q+".Stage."+(next-1)+".Amount")+1;
 					Loader.me.set("Players."+p.getName()+".Quests.Amount", amount);
 					if(amount>=Loader.c.getInt("Quests."+q+".Stage."+next+".Amount")) {
