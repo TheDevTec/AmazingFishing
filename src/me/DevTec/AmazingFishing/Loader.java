@@ -14,6 +14,8 @@ import AmazingFishing.Color;
 import AmazingFishing.FishOfDay;
 import AmazingFishing.Tournament;
 import AmazingFishing.Tournament.Type;
+import me.DevTec.AmazingFishing.Placeholders.PAPIExpansion;
+import me.DevTec.AmazingFishing.Placeholders.Placeholders;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.APIs.EnchantmentAPI;
 import me.DevTec.TheAPI.APIs.PluginManagerAPI;

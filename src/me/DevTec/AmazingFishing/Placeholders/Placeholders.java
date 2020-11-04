@@ -1,9 +1,10 @@
-package me.DevTec.AmazingFishing;
+package me.DevTec.AmazingFishing.Placeholders;
 
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
+import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.APIs.PluginManagerAPI;
 import me.DevTec.TheAPI.Scheduler.Tasker;
 import me.DevTec.TheAPI.SortedMap.RankingAPI;

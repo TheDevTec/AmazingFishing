@@ -1,7 +1,8 @@
-package me.DevTec.AmazingFishing;
+package me.DevTec.AmazingFishing.Placeholders;
 
 import org.bukkit.entity.Player;
 
+import me.DevTec.AmazingFishing.Loader;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class PAPIExpansion extends PlaceholderExpansion {
