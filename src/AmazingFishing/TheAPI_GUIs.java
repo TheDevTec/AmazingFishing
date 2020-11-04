@@ -10,8 +10,9 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import AmazingFishing.gui.FishType;
-import AmazingFishing.help.Type;
+import AmazingFishing.APIs.Enums.FishType;
+import AmazingFishing.APIs.Enums.PlayerType;
+import AmazingFishing.APIs.Enums.TreasureType;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.GUIAPI.GUI;
@@ -33,7 +34,7 @@ public class TheAPI_GUIs {
 			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					help.open(p, Type.Admin);
+					help.open(p, PlayerType.Admin);
 				}
 			});
 		}else {
@@ -386,8 +387,8 @@ public class TheAPI_GUIs {
 		a.setItem(40,new ItemGUI(Create.createItem(Trans.save(), Material.EMERALD_BLOCK)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				Loader.c.set("Edit-"+pats+"."+p.getName(), null);
-				Loader.c.set("Creating-"+pats+"."+p.getName(), null);
+				Loader.c.remove("Edit-"+pats+"."+p.getName());
+				Loader.c.remove("Creating-"+pats+"."+p.getName());
 				Loader.save();
 				openFishEditSelect(p, type);
 			}
@@ -475,7 +476,7 @@ public class TheAPI_GUIs {
 			a.addItem(new ItemGUI(Create.createItem(name, i)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					Loader.c.set("Types."+pat+"."+s, null);
+					Loader.c.remove("Types."+pat+"."+s);
 					Loader.save();
 					openFishDeleteType(p, type);
 				}
@@ -643,8 +644,8 @@ public class TheAPI_GUIs {
 		a.setItem(40,new ItemGUI(Create.createItem(Trans.cancel(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
-				Loader.c.set("Edit-"+wd+"."+p.getName(), null);
-				Loader.c.set("Creating-"+wd+"."+p.getName(), null);
+				Loader.c.remove("Edit-"+wd+"."+p.getName());
+				Loader.c.remove("Creating-"+wd+"."+p.getName());
 				Loader.save();
 				openFishCreate(p);
 			}
@@ -662,14 +663,14 @@ public class TheAPI_GUIs {
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
 				get.finish(p, pat, false);
-			Loader.c.set("Edit-"+wd+"."+p.getName(), null);
-			Loader.c.set("Creating-"+wd+"."+p.getName(), null);
+			Loader.c.remove("Edit-"+wd+"."+p.getName());
+			Loader.c.remove("Creating-"+wd+"."+p.getName());
 			Loader.save();
 			openFishCreate(p);
 			}
 		});
 	}
-	
+
  	public void openEnchantTable(Player p) {
 		GUI a = new GUI("&5Enchant Table",54,p) {
 			
@@ -681,7 +682,7 @@ public class TheAPI_GUIs {
 			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
-					help.open(p, Type.Player);
+					help.open(p, PlayerType.Player);
 				}
 			});
 			a.setItem(20,new ItemGUI(Create.createItem("&aAdd Enchant", Material.CRAFTING_TABLE)){
@@ -1060,12 +1061,6 @@ public class TheAPI_GUIs {
 		DELETE,
 		EDIT;
 	}
-	public enum TreasureType{
-		COMMON,
-		RARE,
-		EPIC,
-		LEGEND;
-	}
 
 	public String getChance(double chance) {
 		if(chance < 15 && chance > 0)return Color.c("&a&lLOW");
@@ -1306,8 +1301,8 @@ public class TheAPI_GUIs {
 			@Override
 			public void onClick(Player p, GUI arg, ClickType typee) {
 				openSelected(p, type, t);
-				Loader.c.set("Creating-"+d+"."+p.getName(), null);
-				Loader.c.set("Edit-"+d+"."+p.getName(), null);
+				Loader.c.remove("Creating-"+d+"."+p.getName());
+				Loader.c.remove("Edit-"+d+"."+p.getName());
 				Loader.save();
 			}
 		});
@@ -1441,7 +1436,7 @@ public class TheAPI_GUIs {
 					if(select.DELETE!=type)
 					openEditor(p, g, type, f);
 					else {
-						Loader.c.set("Treasures."+pat+"."+g, null);
+						Loader.c.remove("Treasures."+pat+"."+g);
 						Loader.save();
 						openSelected(p, type, f);
 					}

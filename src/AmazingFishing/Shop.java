@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
-import AmazingFishing.help.Type;
+import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.TheAPI.SudoType;
@@ -122,7 +122,7 @@ public class Shop {
 		a.setItem(53,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
-				help.open(p, Type.Player);
+				help.open(p, PlayerType.Player);
 			}
 		});
 		}

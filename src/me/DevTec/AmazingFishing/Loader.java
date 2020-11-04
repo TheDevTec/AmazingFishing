@@ -85,7 +85,7 @@ public class Loader extends JavaPlugin {
 		
 		f.startRunnable();
 		if(getDescription().getVersion().contains("TESTING"))isTest();
-		Bukkit.getPluginManager().registerEvents(new AmazingFishing.onChat(), this);
+		Bukkit.getPluginManager().registerEvents(new AmazingFishing.Events.onChat2(), this);
 		Bukkit.getPluginManager().registerEvents(new AmazingFishing. AFK(), this);
 		Bukkit.getPluginManager().registerEvents(new AmazingFishing.onFish(), this);
 		Bukkit.getPluginManager().registerEvents(new AmazingFishing.AnvilPrepare(), this);

@@ -103,7 +103,7 @@ public class Trans {
 		return get("SelectTreasures");
 	}
 	public static String fishs() {
-		return get("Fish");
+		return get("SelectFish");
 	}
 
 	public static String amountbonus() {
@@ -213,7 +213,7 @@ public class Trans {
 		return get("Bag");
 	}
 	public static String shoplogsell() {
-		return get("Shop_Sell_Title");
+		return get("ShopSellTitle");
 	}
 	public static String perbiome() {
 		return get("PerBiome");

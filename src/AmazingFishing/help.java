@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
 import AmazingFishing.Shop.ShopType;
+import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
@@ -19,10 +20,7 @@ import me.DevTec.TheAPI.Utils.StringUtils;
 
 @SuppressWarnings("deprecation")
 public class help {
-	public static enum Type{
-		Player,
-		Admin
-	}
+
 	
 	public static void pointsManager(Player p,String name) {
 		GUI a = new GUI("&9Points Manager",18,p) {
@@ -36,7 +34,7 @@ public class help {
 		a.setItem(9, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				help.open(p, Type.Admin);
+				help.open(p, PlayerType.Admin);
 			}
 		});
 		a.setItem(0, new ItemGUI(Create.createItem("&9Amount of Points", Material.LAPIS_LAZULI,Arrays.asList("&3> &9"+Points.getBal(name)+"Points"))){
@@ -244,14 +242,14 @@ public class help {
 		a.setItem(53, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				open(p,Type.Admin);
+				open(p,PlayerType.Admin);
 			}
 		});
 	}
 	
-	public static void open(Player p, Type type) {
+	public static void open(Player p, PlayerType type) {
 		String typ = "Player";
-		if(type==Type.Admin)typ="Admin";
+		if(type==PlayerType.Admin)typ="Admin";
 
 		GUI a = new GUI("&5Help &7- &4"+typ,18,p) {
 			
@@ -260,7 +258,7 @@ public class help {
 			}
 		};
 		Create.prepareInvSmall(a);
-		if(type==Type.Player) {
+		if(type==PlayerType.Player) {
 
 			if(p.hasPermission("amazingfishing.top"))
 		a.addItem(new ItemGUI(Create.createItem(Trans.help_top(), Material.DIAMOND)){
@@ -390,7 +388,7 @@ public class help {
 		a.setItem(9, new ItemGUI(Create.createItem(Trans.help_admin(), Material.CHEST)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				open(p, Type.Admin);
+				open(p, PlayerType.Admin);
 			}}
 		);
 		}
@@ -442,7 +440,7 @@ public class help {
 			a.setItem(9, new ItemGUI(Create.createItem(Trans.help_player(), Material.CHEST)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					open(p,Type.Player);
+					open(p,PlayerType.Player);
 				}}
 			);
 		}
@@ -459,7 +457,7 @@ public class help {
 		a.setItem(49, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				open(p,Type.Player);
+				open(p,PlayerType.Player);
 			}
 		});
 		a.setItem(20,new ItemGUI(Create.createItem(Loader.s("HelpGUI.Record.Want"), Material.GREEN_WOOL)){
@@ -499,7 +497,7 @@ public class help {
 		a.setItem(49, new ItemGUI(Create.createItem(Trans.cancel(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				open(p,Type.Admin);
+				open(p,PlayerType.Admin);
 			}
 		});
 		a.setItem(40,new ItemGUI(Create.createItem(Loader.c.getString(Trans.tour_stop()), Material.RED_WOOL,Arrays.asList(
@@ -651,9 +649,9 @@ public class help {
 		a.setItem(9, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				if(admin)open(p,Type.Admin);
+				if(admin)open(p,PlayerType.Admin);
 				else
-				open(p,Type.Player);
+				open(p,PlayerType.Player);
 			}
 		});
 		for(String s:Loader.c.getKeys("GUI.Stats")) {
@@ -731,7 +729,7 @@ public class help {
 		a.setItem(53, new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				open(p, Type.Admin);
+				open(p, PlayerType.Admin);
 			}
 		});
 	}

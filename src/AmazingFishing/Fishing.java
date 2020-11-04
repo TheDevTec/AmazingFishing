@@ -13,10 +13,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import AmazingFishing.Tournament.Type;
+import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.AmazingFishing.PAPIExpansion;
-import me.DevTec.AmazingFishing.Placeholders;
+import me.DevTec.AmazingFishing.Placeholders.PAPIExpansion;
+import me.DevTec.AmazingFishing.Placeholders.Placeholders;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.Utils.StringUtils;
 
@@ -27,7 +28,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 
 		if(args.length==0) {
 			if(s instanceof Player && Loader.c.getBoolean("Options.UseGUI")) {
-				help.open((Player)s, help.Type.Player);
+				help.open((Player)s, PlayerType.Player);
 				return true;
 			}
 			if(s.hasPermission("amazingfishing.top"))

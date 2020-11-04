@@ -15,7 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.ByBiome.biomes;
-import AmazingFishing.help.Type;
+import AmazingFishing.APIs.Enums.FishType;
+import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
@@ -24,9 +25,9 @@ import me.DevTec.TheAPI.GUIAPI.ItemGUI;
 import me.DevTec.TheAPI.SortedMap.RankingAPI;
 
 public class gui {
-	public static enum FishType {
+	/*public static enum FishType {
 		PUFFERFISH,TROPICAL_FISH,COD,SALMON
-	}
+	}*/
 	public static void openGlobal(Player p) {
 		GUI a = new GUI("&6Select fish type",54,p) {
 			
@@ -40,7 +41,7 @@ public class gui {
 			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					help.open(p, Type.Player);
+					help.open(p, PlayerType.Player);
 				}
 			});
 		}
@@ -217,7 +218,7 @@ public class gui {
 			a.setItem(49,new ItemGUI(Create.createItem(Trans.back(), Material.BARRIER)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					help.open(p, Type.Player);
+					help.open(p, PlayerType.Player);
 				}
 			});
 		}

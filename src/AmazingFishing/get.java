@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import AmazingFishing.gui.FishType;
 import AmazingFishing.onChat.create;
+import AmazingFishing.APIs.Enums.FishType;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.Scheduler.Tasker;
@@ -79,7 +79,11 @@ public class get {
 	public static boolean ready(Player p,String path) {
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
-		if(fish(p,path) != null && onChat.ex("Creating-"+path+"."+p.getName()+".Xp") && onChat.ex("Creating-"+path+"."+p.getName()+".Chance") && onChat.ex("Creating-"+path+"."+p.getName()+".Money") && onChat.ex("Creating-"+path+"."+p.getName()+".MaxCm") && onChat.ex("Creating-"+path+"."+p.getName()+".Points"))return true;
+		if(fish(p,path) != null && onChat.ex("Creating-"+path+"."+p.getName()+".Xp") 
+				&& onChat.ex("Creating-"+path+"."+p.getName()+".Chance") 
+				&& onChat.ex("Creating-"+path+"."+p.getName()+".Money") 
+				&& onChat.ex("Creating-"+path+"."+p.getName()+".MaxCm") 
+				&& onChat.ex("Creating-"+path+"."+p.getName()+".Points"))return true;
 		return false;
 	}
 	@SuppressWarnings("deprecation")
@@ -124,8 +128,8 @@ public class get {
 		Loader.c.set("Types."+path+"."+f+".ModelData", StringUtils.getInt(f));
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
-		Loader.c.set("Creating-"+path+"."+p.getName(), null);
-		Loader.c.set("Edit-"+path+"."+p.getName(), null);
+		Loader.c.remove("Creating-"+path+"."+p.getName());
+		Loader.c.remove("Edit-"+path+"."+p.getName());
 		Loader.c.save();
 		if(path.equals("Pufferfish"))path="PufferFish";
 		if(path.equals("Tropical_Fish"))path="TropicalFish";

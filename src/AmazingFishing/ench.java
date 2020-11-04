@@ -83,6 +83,7 @@ public class ench {
 
 		Create.prepareInv(a);
 		if(name != null) {
+			
 			String custom = name;
 			if(Loader.c.exists("Enchants."+name+".Name"))
 				custom=Loader.c.getString("Enchants."+name+".Name");
@@ -271,8 +272,8 @@ public class ench {
 				ench.openSelected(p, type);
 				}else
 					openEnchanter(p);
-				Loader.c.set("Creating-Enchants."+p.getName(), null);
-				Loader.c.set("Edit-Enchants."+p.getName(), null);
+				Loader.c.remove("Creating-Enchants."+p.getName());
+				Loader.c.remove("Edit-Enchants."+p.getName());
 				Loader.c.save();
 			}
 		});
@@ -307,12 +308,14 @@ public class ench {
 			a.addItem(new ItemGUI(Create.createItem(name,Material.ENCHANTED_BOOK,Loader.c.getStringList("Enchants."+g+".Description"))){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					if(type==select.DELETE) {;
-					Loader.c.set("Enchants."+g, null);
+					if(type==select.DELETE) {
+					Loader.c.remove("Enchants."+g);
 					Loader.c.save();
 					openSelected(p, type);
 						return;
 					}
+					Loader.c.set("Edit-Enchants."+p.getName()+".Fish", g);
+					Loader.c.save();
 					openEditor(p, type, g);
 				}
 			});

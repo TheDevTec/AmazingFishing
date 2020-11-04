@@ -623,7 +623,7 @@ public class Configs {
 		Loader.TranslationsFile.addDefault("Words.Close", "&cClose");
 		Loader.TranslationsFile.addDefault("Words.Save", "&2Save");
 		Loader.TranslationsFile.addDefault("Words.ShopLogo", "&6Fishing Shop");
-		Loader.TranslationsFile.addDefault("Words.Shop_Sell_Title", "&6Fishing Shop Sell Section");
+		Loader.TranslationsFile.addDefault("Words.ShopSellTitle", "&6Fishing Shop Sell Section");
 		
 		Loader.TranslationsFile.addDefault("Words.EverythingByCm", "&6Earnings from fish length");
 		Loader.TranslationsFile.addDefault("Words.Enabled", "&aEnabled");
