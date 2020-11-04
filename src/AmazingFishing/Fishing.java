@@ -397,7 +397,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 						if(Loader.c.exists("Types."+type+"."+fish+".Name"))
 							fish=Loader.c.getString("Types."+type+"."+fish+".Name");
 						Loader.msgCmd(f
-								.replace("%fish%", Loader.me.getInt("Players."+args[1]+".Stats.Fish")+"")
+								.replace("%amount%", Loader.me.getInt("Players."+args[1]+".Stats.Amount")+"")
 								.replace("%record%", Loader.me.getDouble("Players."+args[1]+".Stats.Length")+"")
 								.replace("%tournament%", Loader.me.getInt("Players."+args[1]+".Stats.Tournaments")+"")
 								.replace("%tournaments%", Loader.me.getInt("Players."+args[1]+".Stats.Tournaments")+"")
