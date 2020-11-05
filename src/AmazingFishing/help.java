@@ -18,10 +18,7 @@ import me.DevTec.TheAPI.GUIAPI.GUI;
 import me.DevTec.TheAPI.GUIAPI.ItemGUI;
 import me.DevTec.TheAPI.Utils.StringUtils;
 
-@SuppressWarnings("deprecation")
 public class help {
-
-	
 	public static void pointsManager(Player p,String name) {
 		GUI a = new GUI("&9Points Manager",18,p) {
 			

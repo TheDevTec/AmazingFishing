@@ -14,7 +14,6 @@ import me.DevTec.TheAPI.Utils.TheAPIUtils.LoaderClass;
 
 public class AFK implements Listener {
 	static HashMap<String, Long> a = new HashMap<>();
-	@SuppressWarnings("deprecation")
 	public static boolean isAFK(Player p) {
 		if(LoaderClass.data.getBoolean("Options.AFK.Enabled")) {
 		int afk = 300; //5min

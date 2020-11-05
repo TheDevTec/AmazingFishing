@@ -14,7 +14,6 @@ import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.Scheduler.Tasker;
 import me.DevTec.TheAPI.Utils.StringUtils;
 
-@SuppressWarnings("deprecation")
 public class onChat implements Listener {
 	private void edit(Player p ,String message,PlayerChatEvent e, FishType type) {
 		String path = "";

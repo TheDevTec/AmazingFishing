@@ -15,8 +15,6 @@ import me.DevTec.TheAPI.TheAPI;
 
 public class AnvilPrepare implements Listener {
 
-	
-	@SuppressWarnings("deprecation")
 	@EventHandler
     public void onPrepareAnvil(PrepareAnvilEvent e) {
         if(e.getInventory().getItem(0) != null && e.getInventory().getItem(1) != null 

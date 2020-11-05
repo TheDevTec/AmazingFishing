@@ -86,7 +86,6 @@ public class get {
 				&& onChat.ex("Creating-"+path+"."+p.getName()+".Points"))return true;
 		return false;
 	}
-	@SuppressWarnings("deprecation")
 	public static void warn(Player p, String path, FishType type) {
 		p.sendTitle(Color.c(Loader.s("Editor.MissingFishName.1")), Color.c(Loader.s("Editor.MissingFishName.2")));
 		if(!Loader.c.getBoolean("Creating-"+path+"."+p.getName()+".Warned")) {
