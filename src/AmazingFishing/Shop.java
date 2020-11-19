@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
+import AmazingFishing.APIs.Enums.BackButton;
 import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
@@ -110,7 +111,7 @@ public class Shop {
 			a.setItem(26,c(p,"Bag",new Runnable() {
 				@Override
 				public void run() {
-					bag.openBag(p);
+					bag.openBag(p, BackButton.Shop);
 				}}));
 			a.setItem(49,c(p,"Sell",new Runnable() {
 				@Override

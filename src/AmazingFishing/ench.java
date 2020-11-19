@@ -8,7 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 
-import AmazingFishing.onChat.enchs;
+import AmazingFishing.APIs.Enums.EnchantEditorSelect;
+import AmazingFishing.APIs.Enums.EnchsCreate;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.GUIAPI.GUI;
@@ -35,30 +36,25 @@ public class ench {
 		a.setItem(20,new ItemGUI(Create.createItem(Trans.cre(), Material.GREEN_DYE)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
-				openEditor(p, select.CREATE, null);
+				openEditor(p, EnchantEditorSelect.CREATE, null);
 			}
 		});
 
 		a.setItem(24,new ItemGUI(Create.createItem(Trans.del(), Material.RED_DYE)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
-				openSelected(p,select.DELETE);
+				openSelected(p,EnchantEditorSelect.DELETE);
 			}
 		});
 		a.setItem(31,new ItemGUI(Create.createItem(Trans.edit(), Material.ORANGE_DYE)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
-				openSelected(p,select.EDIT);
+				openSelected(p,EnchantEditorSelect.EDIT);
 			}
 		});
 		
 	}
-	public static enum select{
-		CREATE,
-		DELETE,
-		EDIT;
-	}
-	public static void openEditor(Player p, select type, String name) {
+	public static void openEditor(Player p, EnchantEditorSelect type, String name) {
 		String s = null;
 		String what = "";
 		switch(type) {
@@ -91,7 +87,7 @@ public class ench {
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
-				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
+				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.Name);
 				Loader.c.save();
 				TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 			}});
@@ -100,7 +96,7 @@ public class ench {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
-					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Name);
+					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.Name);
 					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteName", 1), Loader.get("WriteName", 2));
 				}});
@@ -110,7 +106,7 @@ public class ench {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
-					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
+					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.Cost);
 					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
 				}
@@ -120,7 +116,7 @@ public class ench {
 					@Override
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
-						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.Cost);
+						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.Cost);
 						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WriteCost", 1), Loader.get("WriteCost", 2));
 					}
@@ -132,7 +128,7 @@ public class ench {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
-					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
+					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.ExpBonus);
 					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
 				}
@@ -142,7 +138,7 @@ public class ench {
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {
 				p.getOpenInventory().close();
-				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.ExpBonus);
+				Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.ExpBonus);
 				Loader.c.save();
 				TheAPI.sendTitle(p,Loader.get("WriteExpBonus", 1), Loader.get("WriteExpBonus", 2));
 			}
@@ -154,7 +150,7 @@ public class ench {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
-					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
+					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.AmountBonus);
 					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
 				}
@@ -164,7 +160,7 @@ public class ench {
 					@Override
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
-						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.AmountBonus);
+						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.AmountBonus);
 						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WriteAmount", 1), Loader.get("WriteAmount", 2));
 					}
@@ -192,7 +188,7 @@ public class ench {
 					}
 					if(typee.isLeftClick()) {
 						p.getOpenInventory().close();
-						Loader.c.set(wa+"-Enchants."+p.getName()+".Type",enchs.Description); 
+						Loader.c.set(wa+"-Enchants."+p.getName()+".Type",EnchsCreate.Description); 
 						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
 					}
@@ -215,7 +211,7 @@ public class ench {
 						}
 						if(typee.isLeftClick()) {
 							p.getOpenInventory().close();
-							Loader.c.set(wa+"-Enchants."+p.getName()+".Type",enchs.Description); 
+							Loader.c.set(wa+"-Enchants."+p.getName()+".Type",EnchsCreate.Description); 
 							Loader.c.save();
 							TheAPI.sendTitle(p,Loader.get("NewDescription", 1), Loader.get("NewDescription", 2));
 						}
@@ -228,7 +224,7 @@ public class ench {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
-					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
+					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.PointsBonus);
 					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 				}
@@ -238,7 +234,7 @@ public class ench {
 					@Override
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
-						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.PointsBonus);
+						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.PointsBonus);
 						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WritePointsBonus", 1), Loader.get("WritePointsBonus", 2));
 					}
@@ -249,7 +245,7 @@ public class ench {
 				@Override
 				public void onClick(Player p, GUI arg, ClickType type) {
 					p.getOpenInventory().close();
-					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
+					Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.MoneyBonus);
 					Loader.c.save();
 					TheAPI.sendTitle(p,Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
 				}
@@ -259,7 +255,7 @@ public class ench {
 					@Override
 					public void onClick(Player p, GUI arg, ClickType type) {
 						p.getOpenInventory().close();
-						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", enchs.MoneyBonus);
+						Loader.c.set(wa+"-Enchants."+p.getName()+".Type", EnchsCreate.MoneyBonus);
 						Loader.c.save();
 						TheAPI.sendTitle(p,Loader.get("WriteMoneyBonus", 1), Loader.get("WriteMoneyBonus", 2));
 					}
@@ -268,7 +264,7 @@ public class ench {
 		a.setItem(49,new ItemGUI(Create.createItem(Trans.save(), Material.EMERALD_BLOCK)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
-				if(type==select.EDIT) {
+				if(type==EnchantEditorSelect.EDIT) {
 				ench.openSelected(p, type);
 				}else
 					openEnchanter(p);
@@ -279,7 +275,7 @@ public class ench {
 		});
 	}
 
-	public static void openSelected(Player p, select type) {
+	public static void openSelected(Player p, EnchantEditorSelect type) {
 		String s = null;
 		switch(type) {
 		case CREATE:
@@ -308,7 +304,7 @@ public class ench {
 			a.addItem(new ItemGUI(Create.createItem(name,Material.ENCHANTED_BOOK,Loader.c.getStringList("Enchants."+g+".Description"))){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					if(type==select.DELETE) {
+					if(type==EnchantEditorSelect.DELETE) {
 					Loader.c.remove("Enchants."+g);
 					Loader.c.save();
 					openSelected(p, type);
@@ -327,5 +323,4 @@ public class ench {
 			}
 		});
 	}
-
 }

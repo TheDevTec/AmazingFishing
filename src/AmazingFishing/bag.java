@@ -10,13 +10,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import AmazingFishing.Shop.ShopType;
+import AmazingFishing.APIs.Enums.BackButton;
+import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.GUIAPI.GUI;
 import me.DevTec.TheAPI.GUIAPI.ItemGUI;
 
 public class bag {
-	public static void openBag(Player p) {
+	public static void openBag(Player p, BackButton BackButton) {
 		GUI a = new GUI("&b"+Trans.bag_title(),54,p) {
 			
 			@Override
@@ -25,14 +27,38 @@ public class bag {
 			}
 		};
 		Create.prepareInvBig(a);
-
-		a.setItem(49,new ItemGUI( Create.createItem(Trans.close(), Material.BARRIER)) {
-			@Override
-			public void onClick(Player p, GUI arg1, ClickType arg2) {
-				arg1.close(p);
-				
-			}
-		});
+		
+		if(BackButton.equals(AmazingFishing.APIs.Enums.BackButton.Close)) {
+			a.setItem(49,new ItemGUI( Create.createItem(Trans.close(), Material.BARRIER)) {
+				@Override
+				public void onClick(Player p, GUI arg1, ClickType arg2) {
+					arg1.close(p);
+					
+				}
+			});
+		} else {
+			a.setItem(49,new ItemGUI( Create.createItem(Trans.back(), Material.BARRIER)) {
+				@Override
+				public void onClick(Player p, GUI menu, ClickType arg2) {
+					switch(BackButton) {
+						case FishAdmin:
+							help.open(p, PlayerType.Admin);
+							break;
+						case FishPlayer:
+							help.open(p, PlayerType.Player);
+							break;
+						case Shop:
+							Shop.openShop(p, ShopType.Sell);
+							break;
+						default:
+							menu.close(p);
+							break;
+					}
+						
+					
+				}
+			});
+		}
 		
 		if(Loader.c.getBoolean("Options.ShopSellFish")) {
 			if(Loader.c.getBoolean("Options.Bag.ButtonsToSellFish")) {

@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import AmazingFishing.APIs.Enums.FishType;
 import AmazingFishing.APIs.Enums.PlayerType;
 import AmazingFishing.APIs.Enums.TreasureType;
+import AmazingFishing.APIs.Enums.select;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.GUIAPI.GUI;
@@ -964,7 +965,6 @@ public class TheAPI_GUIs {
 			}
 		});
 		}
-
 		a.setItem(24,new ItemGUI(Loader.c.getBoolean("Options.Shop")?Create.createItem(Trans.shop(), Material.EMERALD,Arrays.asList(Trans.enabled())):
 				Create.createItem(Trans.shop(), Material.EMERALD,Arrays.asList(Trans.disabled()))){
 				@Override
@@ -1056,12 +1056,7 @@ public class TheAPI_GUIs {
 			}
 		});
 	}
-	public enum select{
-		CREATE,
-		DELETE,
-		EDIT;
-	}
-
+	
 	public String getChance(double chance) {
 		if(chance < 15 && chance > 0)return Color.c("&a&lLOW");
 		if(chance < 70 && chance > 15)return Color.c("&6&lMEDIUM");

@@ -2,6 +2,7 @@ package me.DevTec.AmazingFishing.Placeholders;
 
 import org.bukkit.entity.Player;
 
+import AmazingFishing.APIs.PlayerManager;
 import me.DevTec.AmazingFishing.Loader;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
@@ -60,9 +61,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
             return "";
         }
         if(identifier.equalsIgnoreCase("player_caught")){
-        	int amount = Loader.me.getInt("Players."+player.getName()+".Stats.Amount");
-        	if(!Loader.me.exists("Players."+player.getName()+".Stats.Amount"))
-        		amount=0;
+        	int amount = new PlayerManager(player).getCaught();
             return amount+"";
         }
         if(identifier.equalsIgnoreCase("player_tournaments_played")){

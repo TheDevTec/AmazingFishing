@@ -1,21 +1,9 @@
 package AmazingFishing;
 
-import java.util.List;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
-
-import AmazingFishing.TheAPI_GUIs.select;
-import AmazingFishing.APIs.Enums.FishType;
-import AmazingFishing.APIs.Enums.TreasureType;
-import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.Scheduler.Tasker;
-import me.DevTec.TheAPI.Utils.StringUtils;
 
 public class onChat implements Listener {
-	private void edit(Player p ,String message,PlayerChatEvent e, FishType type) {
+/*	private void edit(Player p ,String message,PlayerChatEvent e, FishType type) {
 		String path = "";
 		String typ = "";
 		switch(type) {
@@ -993,5 +981,5 @@ public class onChat implements Listener {
 		Chance,
 		Message,
 		Command;
-	}
+	}*/
 }

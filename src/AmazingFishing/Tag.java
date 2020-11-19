@@ -26,6 +26,10 @@ public class Tag {
 	}
 	
 	public static void setData(ItemStack item, Data data) {
+		/*Data d = new Data();
+		TheAPI.bcMsg(data.toString(DataType.YAML));
+		d.reload(data.toString(DataType.BYTE));
+		TheAPI.bcMsg(d.toString(DataType.YAML));*/
 		Object itemstack = Ref.invokeNulled(Ref.method(Ref.craft("inventory.CraftItemStack"), "asNMSCopy", ItemStack.class), item);
 		Ref.invoke(Ref.invoke(itemstack,"getOrCreateTag"),
 		    Ref.method(Ref.nms("NBTTagCompound"), "setString", String.class, String.class), "thedata", data.toString(DataType.BYTE));

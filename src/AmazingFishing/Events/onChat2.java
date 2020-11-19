@@ -9,13 +9,14 @@ import org.bukkit.event.player.PlayerChatEvent;
 
 import AmazingFishing.Color;
 import AmazingFishing.TheAPI_GUIs;
-import AmazingFishing.TheAPI_GUIs.select;
 import AmazingFishing.ench;
 import AmazingFishing.get;
 import AmazingFishing.APIs.EditorManager;
 import AmazingFishing.APIs.Enums.EditType;
+import AmazingFishing.APIs.Enums.EnchantEditorSelect;
 import AmazingFishing.APIs.Enums.FishType;
 import AmazingFishing.APIs.Enums.TreasureType;
+import AmazingFishing.APIs.Enums.select;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.Scheduler.Tasker;
 import me.DevTec.TheAPI.Utils.StringUtils;
@@ -43,6 +44,7 @@ public class onChat2 implements Listener {
 			break;
 		}
 		if(Loader.c.exists("Edit-"+path+"."+p.getName())) {
+			if(!Loader.c.exists("Edit-"+path+"."+p.getName()+".Type"))return;
 			create c = create.valueOf(Loader.c.getString("Edit-"+path+"."+p.getName()+".Type"));
 			String id =Loader.c.getString("Edit-"+path+"."+p.getName()+".Fish");
 			
@@ -159,26 +161,9 @@ public class onChat2 implements Listener {
 				break;
 			}}}
 	private void setEverything(Player p, String msg, FishType type) {
-		String path = null;
-		String typ = null;
-		switch(type) {
-		case COD:
-			path="Cod";
-			typ ="Cod";
-			break;
-		case SALMON:
-			path="Salmon";
-			typ ="Salmon";
-			break;
-		case PUFFERFISH:
-			path="Pufferfish";
-			typ ="PufferFish";
-			break;
-		case TROPICAL_FISH:
-			path="Tropical_Fish";
-			typ ="TropicalFish";
-			break;
-		}
+		String path = EditorManager.e.getStringFromFishType(type, true);
+		String typ = EditorManager.e.getStringFromFishType(type, false);
+		
 		if(Loader.c.exists("Creating-"+path+"."+p.getName())) {
 			String fish =get.fish(p, path);
 			if(get.typ(p, path)==null) {
@@ -186,82 +171,67 @@ public class onChat2 implements Listener {
 				gui.openFishCreatorType(p, fish, type);
 				return;
 			}
+			if(fish == null) {
+				get.warn(p, path, type);
+				return;
+			}
 			switch(get.typ(p, path)) {
 			case Points:
-				if(fish == null)
-					get.warn(p, path, type);
-					else {
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Points", StringUtils.getDouble(msg.replace(" ", "")));
-				Loader.c.set("Creating-"+path+"."+p.getName(), null);
+				Loader.c.remove("Creating-"+path+"."+p.getName()+".Type");
 				Loader.save();
 				if(get.ready(p, path)) {
 					get.finish(p, typ,true);
 			}else {
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishCreatorType(p, fish, type);}
-				}
 			break;
 			case Cm:
-				if(fish == null)
-					get.warn(p, path, type);
-					else {
 				Loader.c.set("Creating-"+path+"."+p.getName()+".MaxCm", StringUtils.getDouble(msg.replace(" ", "")));
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
+				Loader.c.remove("Creating-"+path+"."+p.getName()+".Type");
 				Loader.save();
 				if(get.ready(p, path)) {
 					get.finish(p, typ,true);
 			}else{
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishCreatorType(p, fish, type);}
-				}
 			break;
 			case Money:
-				if(fish == null)
-					get.warn(p, path, type);
-					else {
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Money", StringUtils.getDouble(msg.replace(" ", "")));
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
+				Loader.c.remove("Creating-"+path+"."+p.getName()+".Type");
 				Loader.save();
 				if(get.ready(p, path)) {
 					get.finish(p, typ,true);
 			}else {
 				TheAPI_GUIs gui = new TheAPI_GUIs();
-				gui.openFishCreatorType(p, fish, type);}}
+				gui.openFishCreatorType(p, fish, type);
+			}
 			break;
 			case Chance:
-				if(fish == null)
-					get.warn(p, path, type);
-					else {
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Chance", StringUtils.getDouble(msg.replace(" ", "")));
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
+				Loader.c.remove("Creating-"+path+"."+p.getName()+".Type");
 				Loader.save();
 				if(get.ready(p, path)) {
 					get.finish(p, typ,true);
 			}else {
 				TheAPI_GUIs gui = new TheAPI_GUIs();
-				gui.openFishCreatorType(p, fish, type);}}
+				gui.openFishCreatorType(p, fish, type);
+			}
 			break;
 			case Exp:
-				if(fish == null)
-					get.warn(p, path, type);
-					else {
 						Loader.c.set("Creating-"+path+"."+p.getName()+".Xp", StringUtils.getInt(msg.replace(" ", "")));
-						Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
+						Loader.c.remove("Creating-"+path+"."+p.getName()+".Type");
 				Loader.save();
 				if(get.ready(p, path)) 
 				get.finish(p, typ,true);
 			else {
 				TheAPI_GUIs gui = new TheAPI_GUIs();
-				gui.openFishCreatorType(p, fish, type);}}
+				gui.openFishCreatorType(p, fish, type);
+			}
 			break;
 			case Name:
-				if(fish==null) {
-				get.setfish(p, path, typ);
-				}
-				fish=get.fish(p, path);
-				
 				Loader.c.set("Creating-"+path+"."+p.getName()+".Name", msg);
-				Loader.c.set("Creating-"+path+"."+p.getName()+".Type", null);
+				Loader.c.remove("Creating-"+path+"."+p.getName()+".Type");
 				Loader.save();
 				TheAPI_GUIs gui = new TheAPI_GUIs();
 				gui.openFishCreatorType(p, fish, type);
@@ -269,31 +239,35 @@ public class onChat2 implements Listener {
 			}}}
 	@EventHandler
 	public void onSendMessage(PlayerChatEvent e) {
+		/* TODO
+		 * Predelavani vseho zde!
+		 * postupne predelat vsechny metody
+		 */
 		Player p = e.getPlayer();
-		if(EditorManager.isCreatingFish(p)) {
-			FishType type = EditorManager.getFishTypeByEdit(p, EditType.Fish_Create);
+		if(EditorManager.e.isCreatingFish(p)) { // TODO : in progress
+			FishType type = EditorManager.e.getFishTypeByEdit(p, EditType.Fish_Create);
 			if(type!=null) {
 			e.setCancelled(true);
 			setEverything(p,e.getMessage(),type);
 		}}
-		if(EditorManager.isEditingFish(p)) {
-			FishType w = EditorManager.getFishTypeByEdit(p, EditType.Fish_Edit);
+		if(EditorManager.e.isEditingFish(p)) {// TODO : no done
+			FishType w = EditorManager.e.getFishTypeByEdit(p, EditType.Fish_Edit);
 			if(w!=null)
 				edit(p,e.getMessage(),e,w);
 		}
-		if(ex("Edit-Enchants")) {
+		if(ex("Edit-Enchants")) {// TODO : no done
 			editEnch(p,e.getMessage(),e);
 		}
-		if(ex("Creating-Enchants")) {
+		if(ex("Creating-Enchants")) {// TODO : no done
 			createEnch(p,e.getMessage(),e);
 		}
-		if(EditorManager.isCreatingTreasure(p)) {
-			TreasureType w = EditorManager.getTreasureTypeByEdit(p, EditType.Treasure_Create);
+		if(EditorManager.e.isCreatingTreasure(p)) {// TODO : no done
+			TreasureType w = EditorManager.e.getTreasureTypeByEdit(p, EditType.Treasure_Create);
 			if(w!=null)
 				setEverythingTreasure(p,e.getMessage(),e,w);
 		}
-		if(EditorManager.isEditingTreasure(p)) {
-			TreasureType w = EditorManager.getTreasureTypeByEdit(p, EditType.Treasure_Edit);
+		if(EditorManager.e.isEditingTreasure(p)) {
+			TreasureType w = EditorManager.e.getTreasureTypeByEdit(p, EditType.Treasure_Edit);
 			if(w!=null)
 				editTreasure(p,e.getMessage(),e,w);
 		}}
@@ -312,7 +286,7 @@ public class onChat2 implements Listener {
 					Loader.save();
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, null);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, null);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -327,7 +301,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+fish+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+fish+".Name")));
 			}else
-				ench.openEditor(p, ench.select.EDIT, fish);
+				ench.openEditor(p, EnchantEditorSelect.EDIT, fish);
 				}
 				break;
 			case MoneyBonus:
@@ -339,7 +313,7 @@ public class onChat2 implements Listener {
 					Loader.save();
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, null);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, null);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -354,7 +328,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+fish+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+fish+".Name")));
 			}else
-				ench.openEditor(p, ench.select.EDIT, fish);
+				ench.openEditor(p, EnchantEditorSelect.EDIT, fish);
 				}
 				break;
 			case Cost:
@@ -366,7 +340,7 @@ public class onChat2 implements Listener {
 					Loader.save();
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, null);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, null);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -381,7 +355,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+fish+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+fish+".Name")));
 			}else
-				ench.openEditor(p, ench.select.EDIT, fish);
+				ench.openEditor(p, EnchantEditorSelect.EDIT, fish);
 				}
 				break;
 			case Description:
@@ -393,7 +367,7 @@ public class onChat2 implements Listener {
 					Loader.save();
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, null);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, null);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -401,14 +375,14 @@ public class onChat2 implements Listener {
 							list.add(message);
 				Loader.c.set("Enchants."+fish+".Description", list);
 				Loader.save();
-				ench.openEditor(p, ench.select.EDIT, fish);
+				ench.openEditor(p, EnchantEditorSelect.EDIT, fish);
 				}
 				break;
 			case Name:
 				Loader.c.set("Enchants."+fish+".Name",message);
 				Loader.save();
 				e.setCancelled(true);
-				ench.openEditor(p, ench.select.EDIT, fish);
+				ench.openEditor(p, EnchantEditorSelect.EDIT, fish);
 				break;
 			case ExpBonus:
 				e.setCancelled(true);
@@ -419,13 +393,13 @@ public class onChat2 implements Listener {
 					Loader.save();
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, null);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, null);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+fish+".ExpBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
-				ench.openEditor(p, ench.select.EDIT, fish);
+				ench.openEditor(p, EnchantEditorSelect.EDIT, fish);
 				}
 				break;
 			case AmountBonus:
@@ -437,13 +411,13 @@ public class onChat2 implements Listener {
 					Loader.save();
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, null);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, null);
 						Loader.c.set("Edit-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
 				Loader.c.set("Enchants."+fish+".AmountBonus", StringUtils.getDouble(message.replace(" ", "")));
 				Loader.save();
-				ench.openEditor(p, ench.select.EDIT, fish);
+				ench.openEditor(p, EnchantEditorSelect.EDIT, fish);
 				}
 				break;
 			}}}
@@ -462,7 +436,7 @@ public class onChat2 implements Listener {
 					String ed = n;
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, ed);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -477,7 +451,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")));
 			}else
-				ench.openEditor(p, ench.select.CREATE, n);
+				ench.openEditor(p, EnchantEditorSelect.CREATE, n);
 				}
 				break;
 			case MoneyBonus:
@@ -490,7 +464,7 @@ public class onChat2 implements Listener {
 					String ed = n;
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, ed);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -505,7 +479,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")));
 			}else
-				ench.openEditor(p, ench.select.CREATE, n);
+				ench.openEditor(p, EnchantEditorSelect.CREATE, n);
 				}
 				break;
 			case Cost:
@@ -518,7 +492,7 @@ public class onChat2 implements Listener {
 					String ed = n;
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, ed);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -533,7 +507,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")));
 			}else
-				ench.openEditor(p, ench.select.CREATE, n);
+				ench.openEditor(p, EnchantEditorSelect.CREATE, n);
 				}
 				break;
 			case Description:
@@ -546,7 +520,7 @@ public class onChat2 implements Listener {
 					String ed = n;
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, ed);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -554,7 +528,7 @@ public class onChat2 implements Listener {
 							list.add(e.getMessage());
 				Loader.c.set("Enchants."+n+".Description", list);
 				Loader.save();
-				ench.openEditor(p, ench.select.CREATE, n);
+				ench.openEditor(p, EnchantEditorSelect.CREATE, n);
 				}
 				break;
 			case Name:
@@ -567,7 +541,7 @@ public class onChat2 implements Listener {
 				Loader.c.set("Enchants."+n+".Name",message);
 				Loader.save();
 				e.setCancelled(true);
-				ench.openEditor(p, ench.select.CREATE, n);
+				ench.openEditor(p, EnchantEditorSelect.CREATE, n);
 				break;
 			case ExpBonus:
 				e.setCancelled(true);
@@ -579,7 +553,7 @@ public class onChat2 implements Listener {
 					String ed = n;
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, ed);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -593,7 +567,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")));
 			}else
-				ench.openEditor(p, ench.select.CREATE, n);
+				ench.openEditor(p, EnchantEditorSelect.CREATE, n);
 				}
 				break;
 			case AmountBonus:
@@ -606,7 +580,7 @@ public class onChat2 implements Listener {
 					String ed = n;
 					new Tasker() {
 						public void run() {
-							ench.openEditor(p, ench.select.CREATE, ed);
+							ench.openEditor(p, EnchantEditorSelect.CREATE, ed);
 						Loader.c.set("Creating-Enchants."+p.getName()+".Warned", false);
 						Loader.save();
 						}}.runLater(40);}}else {
@@ -620,7 +594,7 @@ public class onChat2 implements Listener {
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")),Loader.get("SuccefullyCreatedEnchant",2)
 						.replace("%enchant%", Loader.c.getString("Enchants."+n+".Name")));
 			}else
-				ench.openEditor(p, ench.select.CREATE, n);
+				ench.openEditor(p, EnchantEditorSelect.CREATE, n);
 				}
 				break;
 			}}}
@@ -956,7 +930,7 @@ public class onChat2 implements Listener {
 				}
 				break;
 	}}}
-	static boolean ex(String path) {
+	public static boolean ex(String path) {
 		return Loader.c.exists(path);
 	}
 	public enum create {

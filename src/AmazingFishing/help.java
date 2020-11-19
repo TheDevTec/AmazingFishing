@@ -7,8 +7,11 @@ import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Shop.ShopType;
+import AmazingFishing.APIs.Manager;
+import AmazingFishing.APIs.Enums.BackButton;
 import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
@@ -248,17 +251,27 @@ public class help {
 		String typ = "Player";
 		if(type==PlayerType.Admin)typ="Admin";
 
-		GUI a = new GUI("&5Help &7- &4"+typ,18,p) {
+		GUI a = new GUI("&5Help &7- &4"+typ,54,p) {
 			
 			@Override
 			public void onClose(Player arg0) {
 			}
 		};
-		Create.prepareInvSmall(a);
+		if(type==PlayerType.Player)
+			Create.prepareNewBig(a, Material.BLUE_STAINED_GLASS_PANE);
+		else
+			Create.prepareNewBig(a, Material.ORANGE_STAINED_GLASS_PANE);
+		
 		if(type==PlayerType.Player) {
-
+			
+			a.setItem(4, new ItemGUI(Create.createItem(Manager.getPluginName(), Material.KNOWLEDGE_BOOK, Manager.getPluginInfoIntoLore(type))) {
+				@Override
+				public void onClick(Player p, GUI arg, ClickType ctype) {
+				}
+			});
+			
 			if(p.hasPermission("amazingfishing.top"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_top(), Material.DIAMOND)){
+		a.setItem(20, new ItemGUI(Create.createItem(Trans.help_top(), Material.DIAMOND)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.top"))
@@ -266,7 +279,7 @@ public class help {
 			}
 		});
 		if(p.hasPermission("amazingfishing.record"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_rec(), Material.GOLD_INGOT)){
+		a.setItem(29,new ItemGUI(Create.createItem(Trans.help_rec(), Material.GOLD_INGOT)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.record"))
@@ -275,23 +288,40 @@ public class help {
 		);
 
 		if(p.hasPermission("amazingfishing.shop") && Loader.c.getBoolean("Options.Shop"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_shop(), Material.EMERALD)){
+		a.setItem(22,new ItemGUI(Create.createItem(Trans.help_shop(), Material.EMERALD)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.shop") && Loader.c.getBoolean("Options.Shop"))
 				Shop.openShop(p, ShopType.Buy);
 			}}
 		);
-		if(p.hasPermission("amazingfishing.stats"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_stats_my(), Material.WRITTEN_BOOK)){
-			@Override
-			public void onClick(Player p, GUI arg, ClickType ctype) {
-				if(p.hasPermission("amazingfishing.stats"))
-					stats(p,p.getName(),false);
-			}}
-		);
+		if(p.hasPermission("amazingfishing.stats")) {
+
+			ArrayList<String> l = new ArrayList<String>();
+			for(String d:Loader.c.getStringList("GUI.Stats.1.Lore")) {
+				l.add(Color.c(rep(d,p.getDisplayName())));
+			}
+			ItemStack houska = ItemCreatorAPI.createHead(1, Trans.help_stats_my(), p.getName(), 
+					l);		
+			a.setItem(18,new ItemGUI(houska){
+				@Override
+				public void onClick(Player p, GUI arg, ClickType ctype) {
+					if(p.hasPermission("amazingfishing.stats"))
+						stats(p,p.getName(),false);
+				}}
+			);
+			/*
+			 a.setItem(18,new ItemGUI(Create.createItem(Trans.help_stats_my(), Material.WRITTEN_BOOK)){
+				@Override
+				public void onClick(Player p, GUI arg, ClickType ctype) {
+					if(p.hasPermission("amazingfishing.stats"))
+						stats(p,p.getName(),false);
+				}}
+			);
+			 */
+		}
 		if(p.hasPermission("amazingfishing.toggle"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_tog(), Material.REDSTONE_TORCH)){
+		a.setItem(26,new ItemGUI(Create.createItem(Trans.help_tog(), Material.REDSTONE_TORCH)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.toggle"))
@@ -300,7 +330,7 @@ public class help {
 		);
 		
 		if(p.hasPermission("amazingfishing.list"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_list(), Material.PAPER)){
+		a.setItem(33,new ItemGUI(Create.createItem(Trans.help_list(), Material.PAPER)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.list")) {
@@ -342,7 +372,7 @@ public class help {
 		);
 
 		if(p.hasPermission("amazingfishing.enchant") && Loader.c.getBoolean("Options.Enchants"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_ench(), Material.matchMaterial("ENCHANTING_TABLE"))){
+		a.setItem(31,new ItemGUI(Create.createItem(Trans.help_ench(), Material.matchMaterial("ENCHANTING_TABLE"))){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				TheAPI_GUIs g = new TheAPI_GUIs();
@@ -351,17 +381,17 @@ public class help {
 			}}
 		);
 		if(p.hasPermission("amazingfishing.bag"))
-		a.addItem(new ItemGUI(Create.createItem(Trans.help_bag(), Material.CHEST)){
+		a.setItem(27,new ItemGUI(Create.createItem(Trans.help_bag(), Material.CHEST)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.bag"))
-					bag.openBag(p);
+					bag.openBag(p, BackButton.FishPlayer);
 			}
 		}
 		);
 
 		if(p.hasPermission("amazingfishing.quests"))
-		a.addItem(new ItemGUI(Create.createItem("&6Quests", Material.BOOK)){
+		a.setItem(24,new ItemGUI(Create.createItem("&6Quests", Material.BOOK)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.quests")) {
@@ -382,7 +412,7 @@ public class help {
 			p.hasPermission("amazingfishing.stats.other")||
 			p.hasPermission("amazingfishing.tournament")) {
 
-		a.setItem(9, new ItemGUI(Create.createItem(Trans.help_admin(), Material.CHEST)){
+		a.setItem(35, new ItemGUI(Create.createItem(Trans.help_admin(), Material.COMPASS)){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				open(p, PlayerType.Admin);
@@ -390,8 +420,19 @@ public class help {
 		);
 		}
 		}else {
+			/*
+			 * Admin Section
+			 *   20,29 | 22, 31 | 24, 33
+			 */
+			a.setItem(4, new ItemGUI(Create.createItem(Manager.getPluginName(), Material.KNOWLEDGE_BOOK, Manager.getPluginInfoIntoLore(type))) {
+				@Override
+				public void onClick(Player p, GUI arg, ClickType ctype) {
+					Loader.msgCmd(Loader.s("Prefix")+" &fJoin our Discord: &b"+Manager.getDiscordLink(), p);
+				}
+			});
+			
 			if(p.hasPermission("amazingfishing.tournament"))
-			a.addItem(new ItemGUI(Create.createItem(Trans.help_tour(), Material.CLOCK)){
+			a.setItem(20, new ItemGUI(Create.createItem(Trans.help_tour(), Material.CLOCK)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.tournament"))
@@ -400,7 +441,7 @@ public class help {
 			);
 
 			if(p.hasPermission("amazingfishing.editor"))
-			a.addItem(new ItemGUI(Create.createItem(Trans.help_edit(), Material.WRITABLE_BOOK)){
+			a.setItem(22,new ItemGUI(Create.createItem(Trans.help_edit(), Material.WRITABLE_BOOK)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					TheAPI_GUIs g = new TheAPI_GUIs();
@@ -410,7 +451,7 @@ public class help {
 			);
 
 			if(p.hasPermission("amazingfishing.stats.other"))
-			a.addItem(new ItemGUI(Create.createItem(Trans.help_stats_other(), Material.WRITTEN_BOOK)){
+			a.setItem(29,new ItemGUI(Create.createItem(Trans.help_stats_other(), Material.WRITTEN_BOOK)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.stats.other"))
@@ -418,7 +459,7 @@ public class help {
 				}}
 			);
 			if(p.hasPermission("amazingfishing.reload"))
-			a.addItem(new ItemGUI(Create.createItem(Trans.help_reload(), Material.FIREWORK_STAR)){
+			a.setItem(31,new ItemGUI(Create.createItem(Trans.help_reload(), Material.FIREWORK_STAR)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.reload")) {
@@ -427,14 +468,14 @@ public class help {
 				}}
 			);
 			if(p.hasPermission("amazingfishing.points"))
-			a.addItem(new ItemGUI(Create.createItem(Trans.help_points(), Material.LAPIS_LAZULI)){
+			a.setItem(24,new ItemGUI(Create.createItem(Trans.help_points(), Material.LAPIS_LAZULI)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.points"))
 					selectPlayerPointsManager(p);
 				}}
 			);
-			a.setItem(9, new ItemGUI(Create.createItem(Trans.help_player(), Material.CHEST)){
+			a.setItem(35, new ItemGUI(Create.createItem(Trans.help_player(), Material.COMPASS)){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
 					open(p,PlayerType.Player);

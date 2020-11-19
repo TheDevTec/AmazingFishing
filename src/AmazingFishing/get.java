@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-import AmazingFishing.onChat.create;
 import AmazingFishing.APIs.Enums.FishType;
+import AmazingFishing.Events.onChat2;
+import AmazingFishing.Events.onChat2.create;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
 import me.DevTec.TheAPI.Scheduler.Tasker;
@@ -79,11 +80,11 @@ public class get {
 	public static boolean ready(Player p,String path) {
 		if(path.equals("PufferFish"))path="Pufferfish";
 		if(path.equals("TropicalFish"))path="Tropical_Fish";
-		if(fish(p,path) != null && onChat.ex("Creating-"+path+"."+p.getName()+".Xp") 
-				&& onChat.ex("Creating-"+path+"."+p.getName()+".Chance") 
-				&& onChat.ex("Creating-"+path+"."+p.getName()+".Money") 
-				&& onChat.ex("Creating-"+path+"."+p.getName()+".MaxCm") 
-				&& onChat.ex("Creating-"+path+"."+p.getName()+".Points"))return true;
+		if(fish(p,path) != null && onChat2.ex("Creating-"+path+"."+p.getName()+".Xp") 
+				&& onChat2.ex("Creating-"+path+"."+p.getName()+".Chance") 
+				&& onChat2.ex("Creating-"+path+"."+p.getName()+".Money") 
+				&& onChat2.ex("Creating-"+path+"."+p.getName()+".MaxCm") 
+				&& onChat2.ex("Creating-"+path+"."+p.getName()+".Points"))return true;
 		return false;
 	}
 	public static void warn(Player p, String path, FishType type) {
@@ -96,7 +97,7 @@ public class get {
 		String s = path;
 		new Tasker() {
 			public void run() {
-			Loader.c.set("Creating-"+s+"."+p.getName()+".Warned", null);
+			Loader.c.remove("Creating-"+s+"."+p.getName()+".Warned");
 			Loader.c.save();
 			TheAPI_GUIs g = new TheAPI_GUIs();
 			g.openFishCreatorType(p, fish(p,s), type);

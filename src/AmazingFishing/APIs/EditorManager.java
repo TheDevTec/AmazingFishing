@@ -9,10 +9,12 @@ import me.DevTec.AmazingFishing.Loader;
 
 public class EditorManager {
 
+	public static  EditorManager e = new EditorManager();
+	
 	/*
 	 *   Fish Edit/Create
 	 */
-	public static boolean isCreatingFish(Player p) {
+	public boolean isCreatingFish(Player p) {
 		if(Loader.c.exists("Creating-Pufferfish."+p.getName())) return true;
 		if(Loader.c.exists("Creating-Cod."+p.getName())) return true;
 		if(Loader.c.exists("Creating-Salmon."+p.getName())) return true;
@@ -20,14 +22,14 @@ public class EditorManager {
 		return false;
 		
 	}
-	public static boolean isEditingFish(Player p) {
+	public boolean isEditingFish(Player p) {
 		if(Loader.c.exists("Edit-Pufferfish."+p.getName())) return true;
 		if(Loader.c.exists("Edit-Cod."+p.getName())) return true;
 		if(Loader.c.exists("Edit-Salmon."+p.getName())) return true;
 		if(Loader.c.exists("Edit-Tropical_Fish."+p.getName())) return true;
 		return false;
 	}
-	public static FishType getFishTypeByEdit(Player p, EditType EditType) {
+	public FishType getFishTypeByEdit(Player p, EditType EditType) {
 		switch(EditType) {
 		case Fish_Create:
 			if(Loader.c.exists("Creating-Pufferfish."+p.getName()))return FishType.PUFFERFISH;
@@ -49,21 +51,21 @@ public class EditorManager {
 	/*
 	 *   Treasure Edit/Create
 	 */
-	public static boolean isCreatingTreasure(Player p) {
+	public boolean isCreatingTreasure(Player p) {
 		if(Loader.c.exists("Creating-Legendary."+p.getName()))return true;
 		if(Loader.c.exists("Creating-Epic."+p.getName()))return true;
 		if(Loader.c.exists("Creating-Rare."+p.getName()))return true;
 		if(Loader.c.exists("Creating-Common."+p.getName()))return true;
 		return false;
 	}
-	public static boolean isEditingTreasure(Player p) {
+	public boolean isEditingTreasure(Player p) {
 		if(Loader.c.exists("Edit-Legendary."+p.getName()))return true;
 		if(Loader.c.exists("Edit-Epic."+p.getName()))return true;
 		if(Loader.c.exists("Edit-Rare."+p.getName()))return true;
 		if(Loader.c.exists("Edit-Common."+p.getName()))return true;
 		return false;
 	}
-	public static TreasureType getTreasureTypeByEdit(Player p, EditType EditType) {
+	public TreasureType getTreasureTypeByEdit(Player p, EditType EditType) {
 		switch(EditType) {
 		case Treasure_Create:
 			if(Loader.c.exists("Creating-Legendary."+p.getName()))return TreasureType.LEGEND;
@@ -79,6 +81,24 @@ public class EditorManager {
 			break;
 		default:
 			break;
+		}
+		return null;
+	}
+	
+	public String getStringFromFishType(FishType type, boolean path) {
+		switch(type) {
+		case COD:
+			if(path) return "Cod";
+			else return "Cod";
+		case SALMON:
+			if(path) return "Salmon";
+			else return "Salmon";
+		case PUFFERFISH:
+			if(path) return "Pufferfish";
+			else return "PufferFish";
+		case TROPICAL_FISH:
+			if(path)return "Tropical_Fish";
+			else return "TropicalFish";
 		}
 		return null;
 	}

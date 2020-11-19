@@ -13,7 +13,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import AmazingFishing.Tournament.Type;
+import AmazingFishing.APIs.Enums.BackButton;
 import AmazingFishing.APIs.Enums.PlayerType;
+import AmazingFishing.APIs.PlayerManager;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.AmazingFishing.Placeholders.PAPIExpansion;
@@ -368,14 +370,15 @@ public class Fishing implements CommandExecutor, TabCompleter {
 					String fish = Loader.me.getString("Players."+s.getName()+".Stats.Fish");
 					if(Loader.c.exists("Types."+type+"."+fish+".Name"))
 						fish=Loader.c.getString("Types."+type+"."+fish+".Name");
+					PlayerManager player = new PlayerManager(((Player) s).getPlayer());
 					Loader.msgCmd(f
-							.replace("%amount%", Loader.me.getInt("Players."+s.getName()+".Stats.Amount")+"")
+							.replace("%amount%", player.getCaught()+"")
 							.replace("%record%", Loader.me.getDouble("Players."+s.getName()+".Stats.Length")+"")
-							.replace("%tournament%", Loader.me.getInt("Players."+s.getName()+".Stats.Tournaments")+"")
-							.replace("%tournaments%", Loader.me.getInt("Players."+s.getName()+".Stats.Tournaments")+"")
-							.replace("%top1%", Loader.me.getInt("Players."+s.getName()+".Stats.Top.1.Tournaments")+"")
-							.replace("%top2%", Loader.me.getInt("Players."+s.getName()+".Stats.Top.2.Tournaments")+"")
-							.replace("%top3%", Loader.me.getInt("Players."+s.getName()+".Stats.Top.3.Tournaments")+"")
+							.replace("%tournament%", player.getPlayedTournaments()+"")
+							.replace("%tournaments%", player.getPlayedTournaments()+"")
+							.replace("%top1%", player.getPlayedTournamentPosition(1)+"")
+							.replace("%top2%", player.getPlayedTournamentPosition(2)+"")
+							.replace("%top3%", player.getPlayedTournamentPosition(3)+"")
 							.replace("%fish%", fish+"")
 							.replace("%player%", s.getName())
 							.replace("%playername%", getName(s.getName()))
@@ -429,7 +432,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 		if(args[0].equalsIgnoreCase("bag")) {
 			if(Loader.hasPerm(s, "amazingfishing.bag")) {
 				if(s instanceof Player) {
-				bag.openBag((Player)s);
+				bag.openBag((Player)s, BackButton.Close);
 				return true;
 				}
 				Loader.msgCmd(Loader.s("ConsoleErrorMessage"), s);

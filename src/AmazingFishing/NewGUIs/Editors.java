@@ -1,8 +1,25 @@
 package AmazingFishing.NewGUIs;
 
+import java.util.Arrays;
+
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+
+import AmazingFishing.Create;
+import AmazingFishing.TheAPI_GUIs;
+import AmazingFishing.Trans;
+import AmazingFishing.get;
+import AmazingFishing.gui;
+import AmazingFishing.APIs.Enums.FishType;
+import me.DevTec.AmazingFishing.Loader;
+import me.DevTec.TheAPI.TheAPI;
+import me.DevTec.TheAPI.GUIAPI.GUI;
+import me.DevTec.TheAPI.GUIAPI.ItemGUI;
+
 public class Editors {
 
-	/*public static void openFishCreatorType(Player p, String fish,FishType type) {
+	public static void openFishCreatorType(Player p, String fish,FishType type) {
 		String title = "";
 		String path = "";
 		String where = "";
@@ -118,7 +135,7 @@ public class Editors {
 				Loader.c.remove("Edit-"+wd+"."+p.getName());
 				Loader.c.remove("Creating-"+wd+"."+p.getName());
 				Loader.save();
-				TheAPI_GUIs.openFishCreate(p);
+				new TheAPI_GUIs().openFishCreate(p);
 			}
 		});
 		String pat = path;
@@ -137,8 +154,8 @@ public class Editors {
 			Loader.c.set("Edit-"+wd+"."+p.getName(), null);
 			Loader.c.set("Creating-"+wd+"."+p.getName(), null);
 			Loader.save();
-			TheAPI_GUIs.openFishCreate(p);
+			new TheAPI_GUIs().openFishCreate(p);
 			}
 		});
-	}*/
+	}
 }

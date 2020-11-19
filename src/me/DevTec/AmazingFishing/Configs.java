@@ -424,6 +424,7 @@ public class Configs {
 		Loader.TranslationsFile.addDefault("Help.Top", "&5Top 3 players of specified fish");
 		Loader.TranslationsFile.addDefault("Help.Bag", "&5Open your fish bag");
 		Loader.TranslationsFile.addDefault("Help.Shop", "&5Open shop");
+		Loader.TranslationsFile.addDefault("Help.Quests", "&5Fishing quests");
 		
 		Loader.TranslationsFile.addDefault("Help.Enchants", "&5Open enchant table for your fishing rod");
 		Loader.TranslationsFile.addDefault("Help.Reload", "&5Reload config");

@@ -19,7 +19,6 @@ public class AnvilPrepare implements Listener {
     public void onPrepareAnvil(PrepareAnvilEvent e) {
         if(e.getInventory().getItem(0) != null && e.getInventory().getItem(1) != null 
         		&& e.getInventory().getItem(0).getType() == Material.FISHING_ROD) {
-        	
             ItemStack result = new ItemStack(e.getInventory().getItem(0));
             if(e.getInventory().getItem(1).getType() == Material.ENCHANTED_BOOK) {
                 EnchantmentStorageMeta bookmeta = (EnchantmentStorageMeta) e.getInventory().getItem(1).getItemMeta();
