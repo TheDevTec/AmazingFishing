@@ -10,9 +10,9 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Shop.ShopType;
-import AmazingFishing.APIs.Manager;
 import AmazingFishing.APIs.Enums.BackButton;
 import AmazingFishing.APIs.Enums.PlayerType;
+import AmazingFishing.APIs.Manager;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.TheAPI.TheAPI;
