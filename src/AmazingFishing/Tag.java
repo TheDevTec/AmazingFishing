@@ -3,10 +3,10 @@ package AmazingFishing;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
-import me.DevTec.TheAPI.Utils.DataKeeper.Data;
-import me.DevTec.TheAPI.Utils.DataKeeper.DataType;
-import me.DevTec.TheAPI.Utils.Reflections.Ref;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.datakeeper.DataType;
+import me.devtec.theapi.utils.reflections.Ref;
 
 public class Tag {
 	

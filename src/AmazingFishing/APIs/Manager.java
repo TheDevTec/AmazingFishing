@@ -3,12 +3,17 @@ package AmazingFishing.APIs;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.entity.Player;
+
 import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
 
 public class Manager {
 
 	public static  EditorManager getInGameEditor = new EditorManager();
+	public static  PlayerManager getPlayer(Player p) {
+		return new PlayerManager(p);
+	}
 	
 	public static String getPluginName() {
 		return "&b&lAmazing &f&lFishing";

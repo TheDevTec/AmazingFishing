@@ -13,9 +13,9 @@ import AmazingFishing.get;
 import AmazingFishing.gui;
 import AmazingFishing.APIs.Enums.FishType;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.GUIAPI.GUI;
-import me.DevTec.TheAPI.GUIAPI.ItemGUI;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Editors {
 

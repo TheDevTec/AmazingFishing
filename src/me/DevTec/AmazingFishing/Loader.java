@@ -16,12 +16,12 @@ import AmazingFishing.Tournament;
 import AmazingFishing.Tournament.Type;
 import me.DevTec.AmazingFishing.Placeholders.PAPIExpansion;
 import me.DevTec.AmazingFishing.Placeholders.Placeholders;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.APIs.EnchantmentAPI;
-import me.DevTec.TheAPI.APIs.PluginManagerAPI;
-import me.DevTec.TheAPI.ConfigAPI.Config;
-import me.DevTec.TheAPI.Scheduler.Tasker;
-import me.DevTec.TheAPI.Utils.StringUtils;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.EnchantmentAPI;
+import me.devtec.theapi.apis.PluginManagerAPI;
+import me.devtec.theapi.configapi.Config;
+import me.devtec.theapi.scheduler.Tasker;
+import me.devtec.theapi.utils.StringUtils;
 
 public class Loader extends JavaPlugin {
     public static Config c;

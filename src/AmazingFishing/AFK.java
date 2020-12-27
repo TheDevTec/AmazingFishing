@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.Utils.TheAPIUtils.LoaderClass;
+import me.devtec.theapi.utils.thapiutils.LoaderClass;
 
 public class AFK implements Listener {
 	static HashMap<String, Long> a = new HashMap<>();

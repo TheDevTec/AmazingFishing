@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.DevTec.TheAPI.TheAPI;
+import me.devtec.theapi.TheAPI;
 
 public class AnvilPrepare implements Listener {
 

@@ -15,11 +15,11 @@ import AmazingFishing.APIs.Enums.PlayerType;
 import AmazingFishing.APIs.Manager;
 import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
-import me.DevTec.TheAPI.GUIAPI.GUI;
-import me.DevTec.TheAPI.GUIAPI.ItemGUI;
-import me.DevTec.TheAPI.Utils.StringUtils;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.utils.StringUtils;
 
 public class help {
 	public static void pointsManager(Player p,String name) {

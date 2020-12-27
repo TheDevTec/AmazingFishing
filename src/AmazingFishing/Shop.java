@@ -16,15 +16,15 @@ import AmazingFishing.Quests.Actions;
 import AmazingFishing.APIs.Enums.BackButton;
 import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.TheAPI.SudoType;
-import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
-import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
-import me.DevTec.TheAPI.GUIAPI.GUI;
-import me.DevTec.TheAPI.GUIAPI.ItemGUI;
-import me.DevTec.TheAPI.Scheduler.Tasker;
-import me.DevTec.TheAPI.Utils.StringUtils;
-import me.DevTec.TheAPI.Utils.DataKeeper.Data;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.TheAPI.SudoType;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.economyapi.EconomyAPI;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.scheduler.Tasker;
+import me.devtec.theapi.utils.StringUtils;
+import me.devtec.theapi.utils.datakeeper.Data;
 
 public class Shop {
 	public Shop(CommandSender s) {
@@ -155,7 +155,7 @@ public class Shop {
 					inv.addItem(new ItemGUI(a.create()){
 							@Override
 							public void onClick(Player p, GUI arg, ClickType type) {
-								giveItem(inv.getPlayers().get(0), item);
+								giveItem(p, item);
 							}
 						});
 			 

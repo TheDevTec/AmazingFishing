@@ -20,8 +20,8 @@ import me.DevTec.AmazingFishing.Configs;
 import me.DevTec.AmazingFishing.Loader;
 import me.DevTec.AmazingFishing.Placeholders.PAPIExpansion;
 import me.DevTec.AmazingFishing.Placeholders.Placeholders;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.Utils.StringUtils;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.utils.StringUtils;
 
 public class Fishing implements CommandExecutor, TabCompleter {
 
@@ -361,16 +361,16 @@ public class Fishing implements CommandExecutor, TabCompleter {
 			if(Loader.hasPerm(s, "amazingfishing.stats")) {
 				if(args.length==1) {
 				if(s instanceof Player) {
-					if(!Loader.me.exists("Players."+s.getName()+".Stats.Type")) {
+					if(!new PlayerManager(((Player) s).getPlayer()).meExists() ) {
 						Loader.msgCmd(Loader.s("Prefix")+Loader.s("MissingData"),s);
 						return true;
 					}
+					PlayerManager player = new PlayerManager(((Player) s).getPlayer());
 				for(String f:Loader.TranslationsFile.getStringList("Stats")) {
 					String type = Loader.me.getString("Players."+s.getName()+".Stats.Type");
 					String fish = Loader.me.getString("Players."+s.getName()+".Stats.Fish");
 					if(Loader.c.exists("Types."+type+"."+fish+".Name"))
 						fish=Loader.c.getString("Types."+type+"."+fish+".Name");
-					PlayerManager player = new PlayerManager(((Player) s).getPlayer());
 					Loader.msgCmd(f
 							.replace("%amount%", player.getCaught()+"")
 							.replace("%record%", Loader.me.getDouble("Players."+s.getName()+".Stats.Length")+"")
@@ -391,15 +391,30 @@ public class Fishing implements CommandExecutor, TabCompleter {
 				}
 				if(args.length==2) {
 					if(Loader.hasPerm(s, "amazingfishing.stats.Other")) {
-					if(!Loader.me.exists("Players."+args[1]+".Stats.Type")) {
+					if(!new PlayerManager((args[1])).meExists()) {
 						Loader.msgCmd(Loader.PlayerNotEx(args[1]),s);
 						return true;
 					}
+					PlayerManager data = new PlayerManager((args[1]));
 					for(String f:Loader.TranslationsFile.getStringList("Stats")) {
-						String type = Loader.me.getString("Players."+args[1]+".Stats.Type");
-						String fish = Loader.me.getString("Players."+args[1]+".Stats.Fish");
+						String type = Loader.me.getString("Players."+args[1]+".Stats.Type"); //Cod,Pufferfish
+						String fish = Loader.me.getString("Players."+args[1]+".Stats.Fish"); //0,1,2..
 						if(Loader.c.exists("Types."+type+"."+fish+".Name"))
-							fish=Loader.c.getString("Types."+type+"."+fish+".Name");
+							fish=Loader.c.getString("Types."+type+"."+fish+".Name"); //Custom jméno ryby
+						Loader.msgCmd(f
+								.replace("%amount%", data.getCaught()+"")
+								.replace("%record%", Loader.me.getDouble("Players."+args[1]+".Stats.Length")+"")
+								.replace("%tournament%", data.getPlayedTournaments()+"")
+								.replace("%tournaments%", data.getPlayedTournaments()+"")
+								.replace("%top1%", data.getPlayedTournamentPosition(1)+"")
+								.replace("%top2%", data.getPlayedTournamentPosition(2)+"")
+								.replace("%top3%", data.getPlayedTournamentPosition(3)+"")
+								.replace("%fish%", fish+"")
+								.replace("%player%", args[1])
+								.replace("%playername%", getName(args[1]))
+								,s);
+						/*
+						 	fish=Loader.c.getString("Types."+type+"."+fish+".Name");
 						Loader.msgCmd(f
 								.replace("%amount%", Loader.me.getInt("Players."+args[1]+".Stats.Amount")+"")
 								.replace("%record%", Loader.me.getDouble("Players."+args[1]+".Stats.Length")+"")
@@ -412,6 +427,7 @@ public class Fishing implements CommandExecutor, TabCompleter {
 								.replace("%player%", args[1])
 								.replace("%playername%", getName(args[1]))
 								,s);
+						 */
 					}}return true;
 				}
 			}

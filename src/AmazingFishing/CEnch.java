@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
+import me.devtec.theapi.TheAPI;
 
 public class CEnch extends Enchantment {
 	private String n,r;

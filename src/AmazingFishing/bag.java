@@ -13,9 +13,9 @@ import AmazingFishing.Shop.ShopType;
 import AmazingFishing.APIs.Enums.BackButton;
 import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.GUIAPI.GUI;
-import me.DevTec.TheAPI.GUIAPI.ItemGUI;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.ItemGUI;
 
 public class bag {
 	public static void openBag(Player p, BackButton BackButton) {

@@ -13,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 import AmazingFishing.Quests.Actions;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
-import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
-import me.DevTec.TheAPI.Utils.PercentageList;
-import me.DevTec.TheAPI.Utils.StringUtils;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.economyapi.EconomyAPI;
+import me.devtec.theapi.utils.PercentageList;
+import me.devtec.theapi.utils.StringUtils;
 
 public class ByBiome {
 	public static enum biomes{

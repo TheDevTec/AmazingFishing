@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
-import me.DevTec.TheAPI.GUIAPI.GUI;
-import me.DevTec.TheAPI.GUIAPI.ItemGUI;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Create {
     public static ItemStack createItem(String name, Material material) {

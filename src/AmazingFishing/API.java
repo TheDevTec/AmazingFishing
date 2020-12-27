@@ -14,10 +14,10 @@ import org.bukkit.inventory.ItemStack;
 import org.sqlite.util.StringUtils;
 
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.TheAPI.SudoType;
-import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
-import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.TheAPI.SudoType;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.economyapi.EconomyAPI;
 
 
 public class API {

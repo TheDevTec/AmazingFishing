@@ -10,11 +10,11 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.TheAPI.SudoType;
-import me.DevTec.TheAPI.GUIAPI.GUI;
-import me.DevTec.TheAPI.GUIAPI.ItemGUI;
-import me.DevTec.TheAPI.Utils.StringUtils;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.TheAPI.SudoType;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.utils.StringUtils;
 
 public class Quests {
 	public static void openQuestMenu(Player p) {

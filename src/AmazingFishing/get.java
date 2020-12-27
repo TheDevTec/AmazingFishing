@@ -8,9 +8,9 @@ import AmazingFishing.APIs.Enums.FishType;
 import AmazingFishing.Events.onChat2;
 import AmazingFishing.Events.onChat2.create;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.Scheduler.Tasker;
-import me.DevTec.TheAPI.Utils.StringUtils;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.scheduler.Tasker;
+import me.devtec.theapi.utils.StringUtils;
 
 public class get {
 	public static String fish(Player p, String path) {

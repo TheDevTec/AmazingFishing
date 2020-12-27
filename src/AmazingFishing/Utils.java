@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import AmazingFishing.API.treasureType;
 import AmazingFishing.RD.Type;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.EconomyAPI.EconomyAPI;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.economyapi.EconomyAPI;
 
 public class Utils {
 	
@@ -113,7 +113,7 @@ public class Utils {
 				Loader.saveChatMe();
 			}
 			if(Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Weight")<weight) {
-				Loader.me.set("Players."+p.getName()+"."+type+"."+fish+".Length", weight);
+				Loader.me.set("Players."+p.getName()+"."+type+"."+fish+".Weight", weight);
 				Loader.saveChatMe();
 			}
 			if(Loader.me.getDouble("Players."+p.getName()+"."+type+"."+fish+".Length")<record) {

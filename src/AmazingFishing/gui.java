@@ -18,11 +18,11 @@ import AmazingFishing.ByBiome.biomes;
 import AmazingFishing.APIs.Enums.FishType;
 import AmazingFishing.APIs.Enums.PlayerType;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.APIs.ItemCreatorAPI;
-import me.DevTec.TheAPI.GUIAPI.GUI;
-import me.DevTec.TheAPI.GUIAPI.ItemGUI;
-import me.DevTec.TheAPI.SortedMap.RankingAPI;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.sortedmap.RankingAPI;
 
 public class gui {
 	/*public static enum FishType {

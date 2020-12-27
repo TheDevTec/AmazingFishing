@@ -2,7 +2,7 @@ package me.DevTec.AmazingFishing;
 
 import java.util.Arrays;
 
-import me.DevTec.TheAPI.ConfigAPI.Config;
+import me.devtec.theapi.configapi.Config;
 
 public class Configs {
 	

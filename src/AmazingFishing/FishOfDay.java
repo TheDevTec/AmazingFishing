@@ -7,9 +7,9 @@ import java.util.List;
 import org.bukkit.Material;
 
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.TheAPI;
-import me.DevTec.TheAPI.Scheduler.Scheduler;
-import me.DevTec.TheAPI.Scheduler.Tasker;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.scheduler.Scheduler;
+import me.devtec.theapi.scheduler.Tasker;
 
 public class FishOfDay {
 	int run;

@@ -18,8 +18,8 @@ import AmazingFishing.APIs.Enums.FishType;
 import AmazingFishing.APIs.Enums.TreasureType;
 import AmazingFishing.APIs.Enums.select;
 import me.DevTec.AmazingFishing.Loader;
-import me.DevTec.TheAPI.Scheduler.Tasker;
-import me.DevTec.TheAPI.Utils.StringUtils;
+import me.devtec.theapi.scheduler.Tasker;
+import me.devtec.theapi.utils.StringUtils;
 
 public class onChat2 implements Listener {
 	private void edit(Player p ,String message,PlayerChatEvent e, FishType type) {
