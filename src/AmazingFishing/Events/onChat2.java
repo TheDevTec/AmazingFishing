@@ -274,7 +274,16 @@ public class onChat2 implements Listener {
 	private void editEnch(Player p, String message, PlayerChatEvent e) {
 		if(Loader.c.exists("Edit-Enchants."+p.getName())) {
 			String n =Loader.c.getString("Edit-Enchants."+p.getName()+".Fish");
-			enchs c = enchs.valueOf(Loader.c.getString("Edit-Enchants."+p.getName()+".Type"));
+			enchs c;
+			try {
+				c = enchs.valueOf(Loader.c.getString("Edit-Enchants."+p.getName()+".Type"));
+			} catch (Exception error) {
+				Loader.c.remove("Edit-Enchants");
+				Loader.c.save();
+				
+				return;
+			}
+			//enchs c = enchs.valueOf(Loader.c.getString("Edit-Enchants."+p.getName()+".Type"));
 		    String fish = n;
 			switch(c) {
 			case PointsBonus:
