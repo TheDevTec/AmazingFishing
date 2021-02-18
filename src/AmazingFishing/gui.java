@@ -33,6 +33,7 @@ public class gui {
 			
 			
 			@Override
+			
 			public void onClose(Player arg0) {
 			}
 		};
