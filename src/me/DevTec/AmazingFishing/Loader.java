@@ -24,8 +24,6 @@ import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
 
 public class Loader extends JavaPlugin {
-    public static Config c;
-    public static Config shop;
     public static Config TranslationsFile;
     public static Config me= new Config("AmazingFishing/Data.yml");
     

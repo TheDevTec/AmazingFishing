@@ -1,54 +1,5 @@
 name: AmazingFishing
-main: me.DevTec.AmazingFishing.Loader
-version: 3.5
-author: Straiker123
+main: me.devtec.amazingfishing.Loader
+version: 3.6
+author: DevTec
 depend: [TheAPI]
-softdepend: [Vault, WorldGuard, WorldEdit, Residence, PlaceholderAPI]
-api-version: 1.13
-commands:
-  Fish:
-    description: Main command of plugin
-    usage: /<command>
-    aliases: [amazingfishing]
-permissions:
-  amazingfishing.*:
-    children:
-      amazingfishing.reload: true
-      amazingfishing.editor.enchants: true
-      amazingfishing.editor.treasures: true
-      amazingfishing.editor.settings: true
-      amazingfishing.editor.fish: true
-      amazingfishing.tournament: true
-      amazingfishing.editor: true
-      amazingfishing.afkbypass: true
-      amazingfishing.user: true
-      amazingfishing.stats.other: true
-      amazingfishing.points.*: true
-      amazingfishing.treasures.*: true
-    default: op
-  amazingfishing.user:
-    children:
-      amazingfishing.use: true
-      amazingfishing.toggle: true
-      amazingfishing.record: true
-      amazingfishing.top: true
-      amazingfishing.Shop: true
-      amazingfishing.list: true
-      amazingfishing.enchant: true
-      amazingfishing.bag: true
-      amazingfishing.stats: true
-    default: true
-  amazingfishing.treasures.*:
-    children:
-      amazingfishing.treasures.legendary.*: true
-      amazingfishing.treasures.epic.*: true
-      amazingfishing.treasures.rare.*: true
-      amazingfishing.treasures.common.*: true
-  amazingfishing.points.*:
-    children:
-      amazingfishing.points: true
-      amazingfishing.points.balance: true
-      amazingfishing.points.give: true
-      amazingfishing.points.set: true
-      amazingfishing.points.take: true
-    default: false
