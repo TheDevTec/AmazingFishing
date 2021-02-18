@@ -31,6 +31,7 @@ public class gui {
 	public static void openGlobal(Player p) {
 		GUI a = new GUI("&6Select fish type",54,p) {
 			
+			
 			@Override
 			public void onClose(Player arg0) {
 			}
