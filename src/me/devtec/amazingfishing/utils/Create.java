@@ -26,10 +26,6 @@ public class Create {
     	a.setLore(lore);
     	return a.create();
     }
-	public static ItemStack createItem(String item) {
-		
-		return null;
-	}
 	
 	public static void prepareInv(GUI inv) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
@@ -81,6 +77,14 @@ public class Create {
 	public static void prepareInvSmall(GUI inv) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
 		for(int i = 9; i<18; ++i)
+		inv.setItem(i, new ItemGUI(item){
+			@Override
+			public void onClick(Player p, GUI arg, ClickType type) {}
+		});
+	}
+	public static void prepareInvCount(GUI inv, int slots) {
+		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
+		for(int i = 0; i<slots; ++i)
 		inv.setItem(i, new ItemGUI(item){
 			@Override
 			public void onClick(Player p, GUI arg, ClickType type) {}

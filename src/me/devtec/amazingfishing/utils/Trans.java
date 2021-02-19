@@ -1,7 +1,12 @@
 package me.devtec.amazingfishing.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.gui.Shop.ShopType;
+import me.devtec.amazingfishing.utils.tournament.TournamentType;
+import me.devtec.theapi.utils.StringUtils;
 
 public class Trans {
 	public static String s(String s) {
@@ -83,6 +88,41 @@ public class Trans {
 		return Loader.gui.getString("GUI.Enchant.Upgrade_Enchant_Title");
 	}
 	
+	public static String tournaments_title() {
+		return Loader.gui.getString("GUI.Tournaments.Title");
+	}
+	public static String tournaments_stop_title() {
+		return Loader.gui.getString("GUI.Tournaments.Stop.Title");
+	}
+	public static String tournaments_stop_one_name() {
+		return Loader.gui.getString("GUI.Tournaments.Stop.StopOne.Name");
+	}
+	public static List<String> tournaments_stop_one_description() {
+		return Loader.gui.getStringList("GUI.Tournaments.Stop.StopOne.Description");
+	}
+	public static String tournaments_stop_all_name() {
+		return Loader.gui.getString("GUI.Tournaments.Stop.StopAll.Name");
+	}
+	public static List<String> tournaments_stop_all_description() {
+		return Loader.gui.getStringList("GUI.Tournaments.Stop.StopAll.Description");
+	}
+	public static String tournaments_stop_item() {
+		return Loader.gui.getString("GUI.Tournaments.Stop.Item");
+	}
+	public static String tournaments_start_title() {
+		return Loader.gui.getString("GUI.Tournaments.Start.Title");
+	}
+	public static String tournaments_start_start() {
+		return Loader.gui.getString("GUI.Tournaments.Start.Start");
+	}
+	public static List<String> tournaments_start_description(TournamentType type, long time) {
+		List<String> list = new ArrayList<String>();
+		for(String s:  Loader.gui.getStringList("GUI.Tournaments.Start.Description"))
+		list.add(s.replace("%time%", StringUtils.setTimeToString(time))
+				.replace("%type%", type.formatted()) );
+			return list;
+	}
+	
 	
 	public static String words_cod() {
 		return Loader.trans.getString("Words.Cod");
@@ -110,5 +150,8 @@ public class Trans {
 	}
 	public static String words_points() {
 		return Loader.trans.getString("Words.Sell");
+	}
+	public static String words_tournament(TournamentType TournamentType) {
+		return Loader.config.getString("Tournament.Type."+TournamentType.formatted()+".Name");
 	}
 }

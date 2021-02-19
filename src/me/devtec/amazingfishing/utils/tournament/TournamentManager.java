@@ -19,4 +19,7 @@ public class TournamentManager {
 	public static Tournament get(World w) {
 		return t.getOrDefault(w, null);
 	}
+	public static Map<World, Tournament> getAll() {
+		return t;
+	}
 }

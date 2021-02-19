@@ -221,7 +221,7 @@ public class Help {
 			@Override
 			public void onClick(Player p, GUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.tournament"))
-				tour(p);
+				Tournament.open(p);
 			}}
 		);
 

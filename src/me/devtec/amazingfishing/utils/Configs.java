@@ -25,6 +25,16 @@ public class Configs {
 		
 		Loader.config.addDefault("Options.Enchant.Enabled", true); //todo - uplatnit
 		
+		
+
+		Loader.config.addDefault("Tournament.Type.Amount.Name", "&bAmount");
+		Loader.config.addDefault("Tournament.Type.Length.Name", "&bLength");
+		Loader.config.addDefault("Tournament.Type.Weight.Name", "&9Weight");
+		Loader.config.addDefault("Tournament.Type.TotalLength.Name", "&3TotalLength");
+		Loader.config.addDefault("Tournament.Type.TotalWeight.Name", "&3TotalWeight");
+		Loader.config.addDefault("Tournament.Type.Random.Name", "&6Random");
+		
+		
 		Loader.config.save();
 	}
 	public static void loadTranslation(){
@@ -38,6 +48,10 @@ public class Configs {
 		Loader.trans.addDefault("FishList.Format", "&7&l- %fish%");
 		
 		Loader.trans.addDefault("Points.Lack", "%prefix% &cYou have lack of points!");
+		
+		Loader.trans.addDefault("Tournaments.Stop.NoRunning", "%prefix% &cThere is no running tournament!");
+		Loader.trans.addDefault("Tournaments.Stop.One", "%prefix% &aYou have stopped current tournament!");
+		Loader.trans.addDefault("Tournaments.Stop.All", "%prefix% &aYou have stopped all current tournaments!");
 		
 		Loader.trans.addDefault("Words.Cod", "&7Cod");
 		Loader.trans.addDefault("Words.Salmon", "&7Salmon");
@@ -84,6 +98,21 @@ public class Configs {
 		Loader.gui.addDefault("GUI.Enchant.Add_Enchant_Title", "&bEnchant Table &7&l- &9Add Enchant");
 		Loader.gui.addDefault("GUI.Enchant.Upgrade_Enchant_Title", "&bEnchant Table &7&l- &9Add Enchant");
 		
+		Loader.gui.addDefault("GUI.Tournaments.Title", "&2Tournaments");
+		Loader.gui.addDefault("GUI.Tournaments.Stop.Title", "&4Stop &2Tournaments");
+		Loader.gui.addDefault("GUI.Tournaments.Stop.Item", "&4Stop tournaments");
+		Loader.gui.addDefault("GUI.Tournaments.Stop.StopOne.Name", "&4Stop one tournament");
+		Loader.gui.addDefault("GUI.Tournaments.Stop.StopOne.Description", Arrays.asList(
+				"&7 - Left click to stop tournament with prizes (in your world)",
+				"&7 - Right click to stop tournament without prizes (in your world)"));
+		Loader.gui.addDefault("GUI.Tournaments.Stop.StopAll.Name", "&4Stop one tournament");
+		Loader.gui.addDefault("GUI.Tournaments.Stop.StopAll.Description", Arrays.asList(
+				"&7 - Left click to stop all tournaments with prizes",
+				"&7 - Right click to stop all tournaments without prizes"));
+		Loader.gui.addDefault("GUI.Tournaments.Start.Title", "&2Tournaments &7- &a %type%");
+		Loader.gui.addDefault("GUI.Tournaments.Start.Start", "&6Click to start new tournament");
+		Loader.gui.addDefault("GUI.Tournaments.Start.Description", Arrays.asList(
+				"&3> &5Type: %type%","&3> &5Time: %time%"));
 		
 		Loader.gui.save();
 	}
