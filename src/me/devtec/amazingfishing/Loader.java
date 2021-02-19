@@ -183,8 +183,13 @@ public class Loader extends JavaPlugin {
 		
 		//REGISTER-NOT-LOADED
 		for(String s : toReg)
-			new CustomEnchantment(s, data.getString("enchantments."+s+".name"), data.getInt("enchantments."+s+".maxlevel"), 
-					data.getDouble("enchantments."+s+".bonus.chance"), data.getDouble("enchantments."+s+".bonus.amount"));
+			new CustomEnchantment(s, 
+					data.getString("enchantments."+s+".name"),
+					data.getInt("enchantments."+s+".maxlevel"), 
+					data.getDouble("enchantments."+s+".bonus.chance"),
+					data.getDouble("enchantments."+s+".bonus.amount"),
+					data.getStringList("enchantments."+s+".description"),
+					data.getDouble("enchantments."+s+".cost"));
 		
 		//CLEAR-CACHE
 		TheAPI.msg(prefix+" Enchantments registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);

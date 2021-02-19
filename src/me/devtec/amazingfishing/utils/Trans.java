@@ -53,6 +53,37 @@ public class Trans {
 			return Loader.gui.getString("GUI.BuyShop.Title");
 	}
 	
+	public static String bag_title() {
+			return Loader.gui.getString("GUI.Bag.Title");
+	}
+
+	public static String bag_toShop() {
+			return Loader.gui.getString("GUI.Bag.Shop");
+	}
+	
+	public static String enchant_title() {
+		return Loader.gui.getString("GUI.Enchant.Title");
+	}
+	public static String enchant_add() {
+		return Loader.gui.getString("GUI.Enchant.Add");
+	}
+	public static String enchant_upgrade() {
+		return Loader.gui.getString("GUI.Enchant.Upgrade");
+	}
+	public static String enchant_retrive() {
+		return Loader.gui.getString("GUI.Enchant.Retriver_rod");
+	}
+	public static String enchant_selectRod_title() {
+		return Loader.gui.getString("GUI.Enchant.SelectRod_Title");
+	}
+	public static String enchant_add_title() {
+		return Loader.gui.getString("GUI.Enchant.Add_Enchant_Title");
+	}
+	public static String enchant_upgrade_title() {
+		return Loader.gui.getString("GUI.Enchant.Upgrade_Enchant_Title");
+	}
+	
+	
 	public static String words_cod() {
 		return Loader.trans.getString("Words.Cod");
 	}
@@ -66,6 +97,18 @@ public class Trans {
 		return Loader.trans.getString("Words.TropicalFish");
 	}
 	public static String words_back() {
-		return Loader.trans.getString("Words.TropicalFish");
+		return Loader.trans.getString("Words.Back");
+	}
+	public static String words_close() {
+		return Loader.trans.getString("Words.Close");
+	}
+	public static String words_cancel() {
+		return Loader.trans.getString("Words.Cancel");
+	}
+	public static String words_sell() {
+		return Loader.trans.getString("Words.Sell");
+	}
+	public static String words_points() {
+		return Loader.trans.getString("Words.Sell");
 	}
 }

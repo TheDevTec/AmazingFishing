@@ -33,5 +33,7 @@ public class Manager {
 				"&9Created by &bStraiker123",
 				"&9Developed by &bHouska02");
 	}
-
+	public static String getDataLocation() {
+		return "AmazingFishing";
+	}
 }

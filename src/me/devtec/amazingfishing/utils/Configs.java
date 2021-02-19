@@ -18,7 +18,12 @@ public class Configs {
 		Loader.config.addDefault("Options.Shop.SellFish", true);
 		Loader.config.addDefault("Options.Shop.Sounds.Shop-BuyItem", true);
 		Loader.config.addDefault("Options.Shop.Enabled", true);
+
+		Loader.config.addDefault("Options.Bag.Button.SellFish", true);
+		Loader.config.addDefault("Options.Bag.Button.OpenShop", true);
+		Loader.config.addDefault("Options.Bag.Enabled", true);
 		
+		Loader.config.addDefault("Options.Enchant.Enabled", true); //todo - uplatnit
 		
 		Loader.config.save();
 	}
@@ -32,12 +37,17 @@ public class Configs {
 		Loader.trans.addDefault("FishList.Topic", "&eList of fishes:");
 		Loader.trans.addDefault("FishList.Format", "&7&l- %fish%");
 		
+		Loader.trans.addDefault("Points.Lack", "%prefix% &cYou have lack of points!");
+		
 		Loader.trans.addDefault("Words.Cod", "&7Cod");
 		Loader.trans.addDefault("Words.Salmon", "&7Salmon");
 		Loader.trans.addDefault("Words.PufferFish", "&7PufferFish");
 		Loader.trans.addDefault("Words.TropicalFish", "&7TropicalFish");
 		Loader.trans.addDefault("Words.Back", "&4Back");
-		
+		Loader.trans.addDefault("Words.Close", "&cClose");
+		Loader.trans.addDefault("Words.Cancel", "&cCancel");
+		Loader.trans.addDefault("Words.Sell", "&eSell fish");
+		Loader.trans.addDefault("Words.Points", "&9%value% Points");
 		
 		Loader.trans.save();
 	}
@@ -62,6 +72,18 @@ public class Configs {
 
 		Loader.gui.addDefault("GUI.SellShop.Title", "&eSell Shop");
 		Loader.gui.addDefault("GUI.BuyShop.Title", "&eSell Shop");
+		
+		Loader.gui.addDefault("GUI.Bag.Title", "&eBag");
+		Loader.gui.addDefault("GUI.Bag.Shop", "&aGo to shop");
+		
+		Loader.gui.addDefault("GUI.Enchant.Title", "&bEnchant Table");
+		Loader.gui.addDefault("GUI.Enchant.Add", "&9Add Enchant");
+		Loader.gui.addDefault("GUI.Enchant.Upgrade", "&9Retrive Rod");
+		Loader.gui.addDefault("GUI.Enchant.Retriver_rod", "&2Retrive Rod");
+		Loader.gui.addDefault("GUI.Enchant.SelectRod_Title", "&bEnchant Table &7&l- &9Select fishing rod");
+		Loader.gui.addDefault("GUI.Enchant.Add_Enchant_Title", "&bEnchant Table &7&l- &9Add Enchant");
+		Loader.gui.addDefault("GUI.Enchant.Upgrade_Enchant_Title", "&bEnchant Table &7&l- &9Add Enchant");
+		
 		
 		Loader.gui.save();
 	}

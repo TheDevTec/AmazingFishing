@@ -31,8 +31,12 @@ public abstract class Enchant {
 	}
 	
 	public abstract String getDisplayName();
+	
+	public abstract List<String> getDescription();
 
 	public abstract int getMaxLevel();
+	
+	public abstract double getCost();
 	
 	public abstract FishCatchList onCatch(Player player, int level, FishCatchList catchList);
 	
@@ -83,5 +87,13 @@ public abstract class Enchant {
 			return " X";
 		}
 		return " "+i;
+	}
+	public boolean containsEnchant(ItemStack rod) {
+		Object r = Utils.asNMS(rod);
+		Object n = Utils.getNBT(r);
+		Data data = Utils.getString(n);
+		if(data.exists("enchant."+name.toLowerCase()))
+			return true;
+		return false;
 	}
 }

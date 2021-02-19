@@ -35,7 +35,6 @@ public class CatchFish implements Listener {
 						e.getHook().getWorld().hasStorm(), e.getHook().getWorld().getTime());
 				if(ff.isEmpty())return;
 				FishCatchList list = new FishCatchList();
-				@SuppressWarnings("deprecation")
 				Data data = Utils.getString(Utils.getNBT(Utils.asNMS(e.getPlayer().getItemInHand())));
 				for(String s : data.getKeys("enchants"))
 					if(Enchant.enchants.containsKey(s))

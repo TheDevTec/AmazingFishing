@@ -8,6 +8,7 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishType;
+import me.devtec.amazingfishing.gui.EnchantTable.EnchantGUI;
 import me.devtec.amazingfishing.gui.Shop.ShopType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Manager;
@@ -21,6 +22,12 @@ public class Help {
 	public static enum PlayerType{
 		Player,
 		Admin
+	}
+	public static enum BackButton{
+		Close,
+		FishPlayer,
+		FishAdmin,
+		Shop;
 	}
 	public static void open(Player p, PlayerType type) {
 		if(type==PlayerType.Admin) openAdmin(p);
@@ -143,9 +150,8 @@ public class Help {
 	a.setItem(31,new ItemGUI(Create.createItem(Trans.help_player_enchants(), Material.matchMaterial("ENCHANTING_TABLE"))){
 		@Override
 		public void onClick(Player p, GUI arg, ClickType ctype) {
-			TheAPI_GUIs g = new TheAPI_GUIs();
 			if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants"))
-				g.openEnchantTable(p);
+				EnchantTable.open(p, EnchantGUI.Main);
 		}}
 	);
 	
@@ -154,13 +160,13 @@ public class Help {
 		@Override
 		public void onClick(Player p, GUI arg, ClickType ctype) {
 			if(p.hasPermission("amazingfishing.bag"))
-				bag.openBag(p, BackButton.FishPlayer);
+				Bag.openBag(p, BackButton.FishPlayer);
 		}
 	}
 	);
 
 	if(p.hasPermission("amazingfishing.quests"))
-	a.setItem(24,new ItemGUI(Create.createItem(Trans.help_player_quests(), Material.BOOK)){
+	/*a.setItem(24,new ItemGUI(Create.createItem(Trans.help_player_quests(), Material.BOOK)){
 		@Override
 		public void onClick(Player p, GUI arg, ClickType ctype) {
 			if(p.hasPermission("amazingfishing.quests")) {
@@ -172,7 +178,7 @@ public class Help {
 				}
 			}
 		}
-	);
+	);*/ //TODO - později dodělat questy a udělat achievmenty!
 	if(p.hasPermission("amazingfishing.reload")||
 			p.hasPermission("amazingfishing.points.give")||
 			p.hasPermission("amazingfishing.points.take")||
