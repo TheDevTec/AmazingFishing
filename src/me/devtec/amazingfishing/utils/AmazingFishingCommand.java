@@ -7,17 +7,19 @@ import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
+import me.devtec.amazingfishing.gui.Help;
+import me.devtec.amazingfishing.gui.Help.PlayerType;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.StringUtils;
 
 public class AmazingFishingCommand implements CommandExecutor {
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender s, Command var2, String var3, String[] args) {
 		if(args.length==0) {
-			TheAPI.msg("/FishMenu Enchant <enchant> <level>", s);
-			TheAPI.msg("/FishMenu Reload", s);
+			Help.open( (Player)s,PlayerType.Player);
+			//TheAPI.msg("/FishMenu Enchant <enchant> <level>", s);
+			//TheAPI.msg("/FishMenu Reload", s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("enchant")) {

@@ -36,7 +36,7 @@ public class Bag {
 			if(i.getItem(slot)==null)continue;
 			Fish fish = API.getFish(i.getItem(slot));
 			if(fish==null)  returnItem(i.getItem(slot));
-			list.add(i.getItem(slot));
+			else list.add(i.getItem(slot));
 		}
 		setItems(list);
 	}

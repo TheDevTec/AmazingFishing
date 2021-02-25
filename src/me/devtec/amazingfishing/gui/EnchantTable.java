@@ -85,14 +85,14 @@ public class EnchantTable {
 		};
 		Create.prepareInv(a);
 		if(p.getInventory().getContents()!=null)
-		for(ItemStack i : p.getInventory().getContents()) {
-			if(i==null)continue;
-			if(i.getType()!=Material.FISHING_ROD)continue;
-			a.addItem(new ItemGUI(i){
+		for(ItemStack item : p.getInventory().getContents()) {
+			if(item==null)continue;
+			if(item.getType()!=Material.FISHING_ROD)continue;
+			a.addItem(new ItemGUI(item){
 				@Override
 				public void onClick(Player p, GUI arg, ClickType ctype) {
-					Rod.saveRod(p, i);
-					p.getInventory().removeItem(i);
+					Rod.saveRod(p,item);
+					p.getInventory().removeItem(item);
 					if(type== EnchantGUI.Rod_Upgrade)
 						open(p, EnchantGUI.Upgrade);
 					else
