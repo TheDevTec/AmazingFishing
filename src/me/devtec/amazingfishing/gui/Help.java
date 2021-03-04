@@ -2,7 +2,6 @@ package me.devtec.amazingfishing.gui;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
@@ -15,6 +14,8 @@ import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.GUI.ClickType;
+import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Help {
@@ -46,7 +47,7 @@ public class Help {
 		
 	a.setItem(4, new ItemGUI(Create.createItem(Manager.getPluginName(), Material.KNOWLEDGE_BOOK, Manager.getPluginInfoIntoLore(PlayerType.Player))) {
 		@Override
-		public void onClick(Player p, GUI arg, ClickType ctype) {
+		public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 		}
 	});
 		
@@ -70,7 +71,7 @@ public class Help {
 	if(p.hasPermission("amazingfishing.shop") && Loader.config.getBoolean("Options.Shop.Enabled"))
 		a.setItem(22,new ItemGUI(Create.createItem(Trans.help_player_shop(), Material.EMERALD)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType ctype) {
+			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.shop") && Loader.config.getBoolean("Options.Shop.Enabled"))
 				Shop.openShop(p, ShopType.Buy);
 			}}
@@ -113,7 +114,7 @@ public class Help {
 	if(p.hasPermission("amazingfishing.list"))
 	a.setItem(33,new ItemGUI(Create.createItem(Trans.help_player_list(), Material.PAPER)){
 		@Override
-		public void onClick(Player p, GUI arg, ClickType ctype) {
+		public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 			if(p.hasPermission("amazingfishing.list")) {
 				Loader.msg(Trans.s("List.FishList"), p);
 
@@ -149,7 +150,7 @@ public class Help {
 	if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants"))
 	a.setItem(31,new ItemGUI(Create.createItem(Trans.help_player_enchants(), Material.matchMaterial("ENCHANTING_TABLE"))){
 		@Override
-		public void onClick(Player p, GUI arg, ClickType ctype) {
+		public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 			if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants"))
 				EnchantTable.open(p, EnchantGUI.Main);
 		}}
@@ -158,7 +159,7 @@ public class Help {
 	if(p.hasPermission("amazingfishing.bag"))
 	a.setItem(27,new ItemGUI(Create.createItem(Trans.help_player_bag(), Material.CHEST)){
 		@Override
-		public void onClick(Player p, GUI arg, ClickType ctype) {
+		public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 			if(p.hasPermission("amazingfishing.bag"))
 				Bag.openBag(p, BackButton.FishPlayer);
 		}
@@ -189,7 +190,7 @@ public class Help {
 
 	a.setItem(35, new ItemGUI(Create.createItem(Trans.help_admin_info(), Material.COMPASS)){
 		@Override
-		public void onClick(Player p, GUI arg, ClickType ctype) {
+		public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 			open(p, PlayerType.Admin);
 		}}
 	);
@@ -211,7 +212,7 @@ public class Help {
 		 */
 		a.setItem(4, new ItemGUI(Create.createItem(Manager.getPluginName(), Material.KNOWLEDGE_BOOK, Manager.getPluginInfoIntoLore(PlayerType.Admin))) {
 			@Override
-			public void onClick(Player p, GUI arg, ClickType ctype) {
+			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				TheAPI.msg(Loader.trans.getString("Prefi")+" &fJoin our Discord: &b"+Manager.getDiscordLink(), p);
 			}
 		});
@@ -219,7 +220,7 @@ public class Help {
 		if(p.hasPermission("amazingfishing.tournament"))
 		a.setItem(20, new ItemGUI(Create.createItem(Trans.help_admin_tournament(), Material.CLOCK)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType ctype) {
+			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.tournament"))
 				Tournament.open(p);
 			}}
@@ -246,7 +247,7 @@ public class Help {
 		if(p.hasPermission("amazingfishing.reload"))
 		a.setItem(31,new ItemGUI(Create.createItem(Trans.help_admin_reload(), Material.FIREWORK_STAR)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType ctype) {
+			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.reload")) {
 					Loader.reload(p, true);
 					TheAPI.msg(Trans.s("Prefix")+Trans.s("Admin.ConfigReloaded"), p);
@@ -263,7 +264,7 @@ public class Help {
 		);*/
 		a.setItem(35, new ItemGUI(Create.createItem(Trans.help_player_info(), Material.COMPASS)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType ctype) {
+			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				open(p,PlayerType.Player);
 			}}
 		);

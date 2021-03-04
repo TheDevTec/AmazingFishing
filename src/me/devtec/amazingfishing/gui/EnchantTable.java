@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.API;
@@ -17,6 +16,8 @@ import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.GUI.ClickType;
+import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 
 public class EnchantTable {
@@ -45,13 +46,13 @@ public class EnchantTable {
 		Create.prepareInv(a);
 			a.setItem(49,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
 				@Override
-				public void onClick(Player p, GUI arg, ClickType type) {
+				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					Help.open(p, PlayerType.Player);
 				}
 			});
 			a.setItem(20,new ItemGUI(Create.createItem(Trans.enchant_add(), Material.CRAFTING_TABLE)){
 				@Override
-				public void onClick(Player p, GUI arg, ClickType type) {
+				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					open(p, EnchantGUI.Rod_Add);
 					//openEnchanterPlace(p,"add");
 				}
@@ -59,7 +60,7 @@ public class EnchantTable {
 
 			a.setItem(22, new ItemGUI(Create.createItem(Trans.enchant_retrive(), Material.FISHING_ROD)){
 				@Override
-				public void onClick(Player p, GUI arg, ClickType type) {
+				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if(Rod.saved(p)) {
 						ItemStack rod = Rod.getRod(p);
 						TheAPI.giveItem(p, rod);
@@ -69,7 +70,7 @@ public class EnchantTable {
 			});
 			a.setItem(24,new ItemGUI(Create.createItem(Trans.enchant_upgrade(), Material.ANVIL)){
 				@Override
-				public void onClick(Player p, GUI arg, ClickType type) {
+				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					open(p, EnchantGUI.Rod_Upgrade);
 					//openEnchanterPlace(p,"up");
 				}
@@ -90,7 +91,7 @@ public class EnchantTable {
 			if(item.getType()!=Material.FISHING_ROD)continue;
 			a.addItem(new ItemGUI(item){
 				@Override
-				public void onClick(Player p, GUI arg, ClickType ctype) {
+				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					Rod.saveRod(p,item);
 					p.getInventory().removeItem(item);
 					if(type== EnchantGUI.Rod_Upgrade)
@@ -102,7 +103,7 @@ public class EnchantTable {
 		}
 		a.setItem(49,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType type) {
+			public void onClick(Player p, HolderGUI arg, ClickType type) {
 				open(p, EnchantGUI.Main);
 			}
 		});
@@ -124,7 +125,7 @@ public class EnchantTable {
 				new ItemGUI(Create.createItem(Trans.words_points()
 						.replace("%value%", ""+API.getPoints().get(p.getName())), Material.LAPIS_LAZULI)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType type) {
+			public void onClick(Player p, HolderGUI arg, ClickType type) {
 			}
 		});
 		if(Rod.saved(p)) {
@@ -132,7 +133,7 @@ public class EnchantTable {
 			for(int slot: slots) {
 				a.setItem(slot,new ItemGUI(Rod.getRod(p)){
 					@Override
-					public void onClick(Player p, GUI arg, ClickType type) {
+					public void onClick(Player p, HolderGUI arg, ClickType type) {
 						Rod.retriveRod(p);
 						a.close();
 					}
@@ -142,7 +143,7 @@ public class EnchantTable {
 
 		a.setItem(49,new ItemGUI(Create.createItem(Trans.words_cancel(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType type) {
+			public void onClick(Player p, HolderGUI arg, ClickType type) {
 				open(p, EnchantGUI.Main);
 			}
 		});
@@ -157,7 +158,7 @@ public class EnchantTable {
 						
 						a.addItem(new ItemGUI(Create.createItem(name, mat,lore)){
 							@Override
-							public void onClick(Player p, GUI arg, ClickType type) {
+							public void onClick(Player p, HolderGUI arg, ClickType type) {
 
 								if(API.getPoints().has(p.getName(), cost)) {
 									API.getPoints().remove(p.getName(), cost);
@@ -197,7 +198,7 @@ public class EnchantTable {
 				new ItemGUI(Create.createItem(Trans.words_points()
 						.replace("%value%", ""+API.getPoints().get(p.getName())), Material.LAPIS_LAZULI)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType type) {
+			public void onClick(Player p, HolderGUI arg, ClickType type) {
 			}
 		});
 		if(Rod.saved(p)) {
@@ -205,7 +206,7 @@ public class EnchantTable {
 			for(int slot: slots) {
 				a.setItem(slot,new ItemGUI(Rod.getRod(p)){
 					@Override
-					public void onClick(Player p, GUI arg, ClickType type) {
+					public void onClick(Player p, HolderGUI arg, ClickType type) {
 						Rod.retriveRod(p);
 						a.close();
 					}
@@ -215,7 +216,7 @@ public class EnchantTable {
 
 		a.setItem(49,new ItemGUI(Create.createItem(Trans.words_cancel(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType type) {
+			public void onClick(Player p, HolderGUI arg, ClickType type) {
 				open(p, EnchantGUI.Main);
 			}
 		});
@@ -230,7 +231,7 @@ public class EnchantTable {
 						
 						a.addItem(new ItemGUI(Create.createItem(name, mat,lore)){
 							@Override
-							public void onClick(Player p, GUI arg, ClickType type) {
+							public void onClick(Player p, HolderGUI arg, ClickType type) {
 
 								if(API.getPoints().has(p.getName(), cost)) {
 									API.getPoints().remove(p.getName(), cost);

@@ -6,28 +6,23 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
-import AmazingFishing.Color;
-import AmazingFishing.Points;
-import AmazingFishing.Quests;
-import AmazingFishing.Sounds;
-import AmazingFishing.Tag;
-import AmazingFishing.Quests.Actions;
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
+import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.gui.Help.PlayerType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Trans;
-import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.TheAPI.SudoType;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.economyapi.EconomyAPI;
 import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.GUI.ClickType;
+import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
@@ -78,7 +73,7 @@ public class Shop {
 			item.setLore(s);
 			a.setItem(35,new ItemGUI(item.create()){
 				@Override
-				public void onClick(Player p, GUI arg, ClickType type) {
+				public void onClick(Player p, HolderGUI arg, ClickType type) {
 				}
 			});
 			
@@ -100,7 +95,7 @@ public class Shop {
 		}
 		a.setItem(53,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType type) {
+			public void onClick(Player p, HolderGUI arg, ClickType type) {
 				Help.open(p, PlayerType.Player);
 			}
 		});
@@ -129,7 +124,7 @@ public class Shop {
 						a.setCustomModelData(Loader.shop.getInt("Items."+item+".ModelData"));
 					inv.addItem(new ItemGUI(a.create()){
 							@Override
-							public void onClick(Player p, GUI arg, ClickType type) {
+							public void onClick(Player p, HolderGUI arg, ClickType type) {
 								giveItem(p, item);
 							}
 						});
@@ -369,7 +364,7 @@ public class Shop {
 		//a.setLore(lore);
 		ItemGUI d = new ItemGUI(a.create()){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType type) {
+			public void onClick(Player p, HolderGUI arg, ClickType type) {
 				if(r!=null)
 					r.run();
 			}
