@@ -46,10 +46,10 @@ public class CatchFish implements Listener {
 				if(am==0)am=1;
 				for(int a = 0; a < am; ++a) {
 					Fish f = ff.getRandom();
-					double weight = f.getWeigth(), length = f.getLength();
+					double weight = 0, length = 0;
 
-					weight=random.nextInt((int)weight)+random.nextDouble();
-					length=random.nextInt((int)length)+random.nextDouble();
+					weight=random.nextInt((int)f.getWeigth())+random.nextDouble();
+					length=random.nextInt((int)f.getLength())+random.nextDouble();
 					if(weight>f.getWeigth())weight=f.getWeigth();
 					if(length>f.getLength())length=f.getLength();
 					if(weight<f.getMinWeigth())weight=f.getMinWeigth();

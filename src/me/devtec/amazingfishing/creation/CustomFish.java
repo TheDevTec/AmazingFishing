@@ -121,8 +121,7 @@ public class CustomFish implements Fish {
 		Utils.setString(Utils.getNBT(r), createData(weight, length));
 		return Utils.asBukkit(r);
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	private static ItemStack find(String name, int id) {
 		if(Material.getMaterial(name)!=null)return new ItemStack(Material.getMaterial(name));
 		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id);

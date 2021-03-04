@@ -39,8 +39,7 @@ public class Utils {
 		data.reload((String)Ref.invoke(nbt, getString, "af_data"));
 		return data;
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public static ItemStack setModel(ItemStack s, int model) {
 		try {
 			ItemMeta meta = s.getItemMeta();

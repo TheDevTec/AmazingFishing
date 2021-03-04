@@ -63,7 +63,6 @@ public class API {
 	}
 	
 	//UTILITY
-	@SuppressWarnings("deprecation")
 	private static Material find(String name, int id) {
 		if(Material.getMaterial(name)!=null)return Material.getMaterial(name);
 		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id).getType();
