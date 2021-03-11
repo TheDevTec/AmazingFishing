@@ -59,7 +59,7 @@ public class Shop {
 				}}));
 		addItems(a);
 		}else {
-			List<String> s = new ArrayList<String>(); //TODO - Fish OF Day
+			/*List<String> s = new ArrayList<String>(); //TODO - Fish OF Day
 			for(String d : Loader.c.getStringList("Format.FishOfDay"))
 				s.add(d
 						.replace("%fish_name%", Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".Name"))
@@ -77,7 +77,7 @@ public class Shop {
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 				}
-			});
+			});*/
 			
 			 a.setItem(45, c(p,"BuyShop",new Runnable() {
 					@Override
@@ -141,8 +141,8 @@ public class Shop {
 		int cost = Loader.shop.getInt("Items."+kit+".Cost");
 		if(API.getPoints().has(p.getName(), cost)) {
 
-			if(Loader.config.getBoolean("Options.Sounds.Shop-BuyItem"))
-				Sounds.play(p);
+			/*if(Loader.config.getBoolean("Options.Sounds.Shop-BuyItem")) //TODO - sounds
+				Sounds.play(p);*/
 			API.getPoints().remove(p.getName(), cost);
 			List<String> cmds=null;
 			if(Loader.shop.exists("Items."+kit+".Commands"))
@@ -262,8 +262,8 @@ public class Shop {
 			path=path+"."+fish;
 			
 			int bonus=1; //TODO - Fish Of Day
-			if(Loader.f.getFish().equals(fish) && Loader.f.getType().equals(type))
-				bonus=Loader.me.getInt("FishOfDay.Bonus");
+			/*if(Loader.f.getFish().equals(fish) && Loader.f.getType().equals(type)) //TODO -fishofday
+				bonus=Loader.me.getInt("FishOfDay.Bonus");*/
 			
 			sel=sel+d.getAmount();
 			amount=amount+d.getAmount();
@@ -322,12 +322,12 @@ public class Shop {
 		}
 		if(sell && sel != 0) {
 			if(!expand) {
-			if(Loader.c.getBoolean("Options.Sounds.Shop-SellFish"))
+			/*if(Loader.c.getBoolean("Options.Sounds.Shop-SellFish")) //TODO - sounds
 				Sounds.play(p);
 			}else {
 				if(Loader.c.getBoolean("Options.Sounds.Bag-SellFish"))
 					Sounds.play(p);
-			}
+			}*/
 			
 			if(Loader.config.getBoolean("Options.SellFish.DisableMoney")==true) sold=0.0;
 			if(Loader.config.getBoolean("Options.SellFish.DisableXP")==true) exp=0;
