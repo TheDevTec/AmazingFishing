@@ -19,7 +19,7 @@ public class Trans {
 		return Loader.gui.getString("GUI.Help.Player.Info");
 	}
 	public static String help_player_shop() {
-		return Loader.gui.getString("GUI.Help.Player.Title");
+		return Loader.gui.getString("GUI.Help.Player.Shop");
 	}	
 	public static String help_player_stats() {
 		return Loader.gui.getString("GUI.Help.Player.Stats");
