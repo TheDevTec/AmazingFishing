@@ -103,7 +103,7 @@ public class Shop {
 		});
 			}
 		}.runTask();
-	}
+	}//fuck off houska
 	
 	private  static void addItems(GUI inv) {
 		try {
