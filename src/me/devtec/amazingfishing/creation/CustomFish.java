@@ -40,6 +40,41 @@ public class CustomFish implements Fish {
 		return type;
 	}
 
+	/*
+	 
+	 fish:
+	 	<type>:
+	 		<name>:
+	 			name: ""
+	 			messages:
+	 				CATCH:
+	 				 - ""
+					EAT:
+					 - ""
+				commands:
+	 				CATCH:
+	 				 - ""
+					EAT:
+					 - ""
+				biomes:
+				 - 
+				chance: 50.5
+				permission: ""
+				catch:
+					time: DAY | NIGHT | EVERY
+					weather: SUN | RAIN | EVERY
+				model: 1
+				lore:
+				 - ''
+				weight: 50.5
+				length: 45.5
+				minweigth: 4.5
+				minlength: 5.5
+				money: 50.5
+				points: 1.5
+				xp: 5.1
+				
+	 */
 	@Override
 	public String getDisplayName() {
 		return data.getString("fish."+path+"."+name+".name");

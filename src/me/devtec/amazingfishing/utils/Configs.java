@@ -19,6 +19,13 @@ public class Configs {
 		Loader.config.addDefault("Options.Shop.Sounds.Shop-BuyItem", true);
 		Loader.config.addDefault("Options.Shop.Enabled", true);
 
+		Loader.config.addDefault("Options.Sell.EarnFromLength", true);
+		Loader.config.addDefault("Options.Sell.EarnFromWeight", true);
+		Loader.config.addDefault("Options.Sell.GiveFullPriceFish", true);
+		Loader.config.addDefault("Options.Sell.DisableMoney", false);
+		Loader.config.addDefault("Options.Sell.DisableXP", false);
+		Loader.config.addDefault("Options.Sell.DisablePoints", false);
+
 		Loader.config.addDefault("Options.Bag.Button.SellFish", true);
 		Loader.config.addDefault("Options.Bag.Button.OpenShop", true);
 		Loader.config.addDefault("Options.Bag.Enabled", true);
@@ -62,6 +69,7 @@ public class Configs {
 		Loader.trans.addDefault("Words.Cancel", "&cCancel");
 		Loader.trans.addDefault("Words.Sell", "&eSell fish");
 		Loader.trans.addDefault("Words.Points", "&9%value% Points");
+		Loader.trans.addDefault("Words.Bag", "&9%value% Points");
 		
 		Loader.trans.save();
 	}
@@ -85,7 +93,7 @@ public class Configs {
 		
 
 		Loader.gui.addDefault("GUI.SellShop.Title", "&eSell Shop");
-		Loader.gui.addDefault("GUI.BuyShop.Title", "&eSell Shop");
+		Loader.gui.addDefault("GUI.BuyShop.Title", "&aBuy Shop");
 		
 		Loader.gui.addDefault("GUI.Bag.Title", "&eBag");
 		Loader.gui.addDefault("GUI.Bag.Shop", "&aGo to shop");
@@ -114,15 +122,37 @@ public class Configs {
 		Loader.gui.addDefault("GUI.Tournaments.Start.Description", Arrays.asList(
 				"&3> &5Type: %type%","&3> &5Time: %time%"));
 		
+		
 		Loader.gui.save();
 	}
 	public static void loadShop(){
 		Loader.shop=new Config("AmazingFishing/Config.yml");
+		
+		Loader.shop.addDefault("GUI.Bag.Icon", "CHEST");
+		Loader.shop.addDefault("GUI.Bag.ModelData", "1");
+		Loader.shop.addDefault("GUI.Bag.Name", "&6Bag");
+		Loader.shop.addDefault("GUI.Bag.Lore", Arrays.asList("&7Click to open bag"));
 
-		Loader.shop.addDefault("GUI.SellShop.Name", "&7TestingItem");
-		Loader.shop.addDefault("GUI.SellShop.Icon", "STONE");
-		Loader.shop.addDefault("GUI.SellShop.Lore", Arrays.asList("Fantastic lore!"));
+		Loader.shop.addDefault("GUI.Points.Icon", "LAPIS_LAZULI");
+		Loader.shop.addDefault("GUI.Points.ModelData", "1");
+		Loader.shop.addDefault("GUI.Points.Name", "&9Points");
+		Loader.shop.addDefault("GUI.Points.Lore", Arrays.asList("&7Currently you have %points% points"));
+		
+		Loader.shop.addDefault("GUI.BuyShop.Icon", "EMERALD");
+		Loader.shop.addDefault("GUI.BuyShop.ModelData", "1");
+		Loader.shop.addDefault("GUI.BuyShop.Name", "&eBuy shop");
+		Loader.shop.addDefault("GUI.BuyShop.Lore", Arrays.asList("&7Open shop in which you can buy items"));
 
+		Loader.shop.addDefault("GUI.SellShop.Icon", "COD_BUCKET");
+		Loader.shop.addDefault("GUI.SellShop.ModelData", "1");
+		Loader.shop.addDefault("GUI.SellShop.Name", "&eSell Shop");
+		Loader.shop.addDefault("GUI.SellShop.Lore", Arrays.asList("&7Open shop in which you can sell fish"));
+		
+		Loader.shop.addDefault("GUI.Sell.Icon", "GOLD_INGOT");
+		Loader.shop.addDefault("GUI.Sell.ModelData", "1");
+		Loader.shop.addDefault("GUI.Sell.Name", "&eSell fish");
+		Loader.shop.addDefault("GUI.Sell.Lore", Arrays.asList("&7Sell fish in shop"));
+	
 		
 		Loader.shop.addDefault("Items.1.Name", "&7TestingItem &e| %cost%");
 		Loader.shop.addDefault("Items.1.Icon", "STONE");

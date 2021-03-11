@@ -16,6 +16,7 @@ import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.gui.Help.PlayerType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Trans;
+import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.TheAPI.SudoType;
 import me.devtec.theapi.apis.ItemCreatorAPI;
@@ -48,6 +49,7 @@ public class Shop {
 			public void run() {
 		Create.prepareInv(a);
 		a.setItem(4,c(p,"Points",null));
+		
 		if(t==ShopType.Buy) {
 		if(Loader.config.getBoolean("Options.Shop.SellFish"))
 			a.setItem(45,c(p,"SellShop",new Runnable() {
@@ -57,7 +59,7 @@ public class Shop {
 				}}));
 		addItems(a);
 		}else {
-			List<String> s = new ArrayList<String>();
+			List<String> s = new ArrayList<String>(); //TODO - Fish OF Day
 			for(String d : Loader.c.getStringList("Format.FishOfDay"))
 				s.add(d
 						.replace("%fish_name%", Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".Name"))
@@ -85,7 +87,7 @@ public class Shop {
 			a.setItem(26,c(p,"Bag",new Runnable() {
 				@Override
 				public void run() {
-					bag.openBag(p, BackButton.Shop);
+					Bag.openBag(p, BackButton.Shop);
 				}}));
 			a.setItem(49,c(p,"Sell",new Runnable() {
 				@Override
@@ -194,6 +196,7 @@ public class Shop {
 				}}}}
 		}
 
+	static Data data = new Data("plugins/AmazingFishing/Data.yml");
 	public static void sellAll(Player p, Inventory i, boolean sell, boolean expand) {
 		ArrayList<ItemStack> a = new ArrayList<ItemStack>();
 		if(!expand) {
@@ -223,25 +226,28 @@ public class Shop {
 		for(ItemStack d:a) {
 			if(d==null)continue;
 			if(sell) {
-			Material m = d.getType();
+			Material mat = d.getType();
 			//String w = d.getItemMeta().getDisplayName();
 			
 			String path = null;
 			String type = null;
-			if(m==Material.SALMON)type="Salmon";
-			if(m==Material.PUFFERFISH)type="PufferFish";
-			if(m==Material.TROPICAL_FISH)type="TropicalFish";
-			if(m==Material.COD)type="Cod";
+			if(mat==Material.SALMON)type="Salmon";
+			if(mat==Material.PUFFERFISH)type="PufferFish";
+			if(mat==Material.TROPICAL_FISH)type="TropicalFish";
+			if(mat==Material.COD)type="Cod";
 			
 
 			ItemStack bukkitstack = d;
 			double length = 0.0;
 			double weight = 0.0;
-			Data data = Tag.getData(bukkitstack);
-			if(Loader.c.getBoolean("Options.SellFish.EarnFromLength")==true) 
-				length=data.getDouble("af.length");
-			if(Loader.c.getBoolean("Options.SellFish.EarnFromWeight")==true)
-				weight=data.getDouble("af.weight");
+			Object r = Utils.asNMS(bukkitstack);
+			Data data = Utils.getString(Utils.getNBT(r));
+			
+			//Data data = Tag.getData(bukkitstack);
+			if(Loader.config.getBoolean("Options.Sell.EarnFromLength")==true) 
+				length=data.getDouble("length");
+			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight")==true)
+				weight=data.getDouble("weigth");
 			
 			if(d.getItemMeta().hasDisplayName()) {
 			path="Types."+type; 
@@ -255,7 +261,7 @@ public class Shop {
 			if(fish!=null) {
 			path=path+"."+fish;
 			
-			int bonus=1;
+			int bonus=1; //TODO - Fish Of Day
 			if(Loader.f.getFish().equals(fish) && Loader.f.getType().equals(type))
 				bonus=Loader.me.getInt("FishOfDay.Bonus");
 			
@@ -264,19 +270,20 @@ public class Shop {
 			
 			//sold=sold+(( (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
 			double money = 0;
-			if(Loader.c.getBoolean("Options.SellFish.EarnFromLength"))
-				money = ((length*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus);
-			if(Loader.c.getBoolean("Options.SellFish.EarnFromWeight"))
-				money = money+((weight*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus);
-			if(Loader.c.getBoolean("Options.SellFish.EarnFromLength")==false&&Loader.c.getBoolean("Options.SellFish.EarnFromWeight")==false)
-				money = (((Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
+			double m = data.getDouble(path+".money");
+			if(Loader.config.getBoolean("Options.Sell.EarnFromLength"))
+				money = ((length*(Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")?m :m/4))*bonus);
+			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight"))
+				money = money+((weight*(Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")?m :m/4))*bonus);
+			if(Loader.config.getBoolean("Options.Sell.EarnFromLength")==false&&Loader.config.getBoolean("Options.Sell.EarnFromWeight")==false)
+				money = ( ( ( Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? m : m*d.getAmount() )*bonus) );
 			sold = sold+money;
 			/*sold=sold+( 
-					(Loader.c.getBoolean("Options.SellFish.EarnFromLength")? 
+					(Loader.c.getBoolean("Options.Sell.EarnFromLength")? 
 					(length*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus :
 					((Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus
 					)+(
-					Loader.c.getBoolean("Options.SellFish.EarnFromWeight")? 
+					Loader.c.getBoolean("Options.Sell.EarnFromWeight")? 
 					(weight*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus :
 					((Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus
 					)
@@ -284,17 +291,17 @@ public class Shop {
 			// if("Options.EarnFromLength") +length*money :
 			//if(length!=0.0) sold=sold+(length*fishMoney);
 			
-			points=points+(( (Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Points") : Loader.c.getDouble(path+".Points")/2)*d.getAmount())*bonus);
-			exp=exp+(int)(( (Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Xp") : Loader.c.getDouble(path+".Xp")/2)*d.getAmount())*bonus);
+			points=points+(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? data.getDouble(path+".points") : data.getDouble(path+".points")/2)*d.getAmount())*bonus);
+			exp=exp+(int)(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? data.getDouble(path+".xp") : data.getDouble(path+".xp")/2)*d.getAmount())*bonus);
 			
-			Quests.addProgress(p,path,fish,Actions.SELL_FISH);
+			//Quests.addProgress(p,path,fish,Actions.SELL_FISH); //TODO - QUESTS
 			i.remove(d);
 		}else {
 			TheAPI.giveItem(p, d);
 			i.remove(d);
 		}}else {
 				Material fish = null;
-				if(m==Material.SALMON || m==Material.COD || m==Material.TROPICAL_FISH||m==Material.PUFFERFISH)fish=Material.STONE;
+				if(mat==Material.SALMON || mat==Material.COD || mat==Material.TROPICAL_FISH||mat==Material.PUFFERFISH)fish=Material.STONE;
 				
 				if(fish!=null) {
 					sel=sel+d.getAmount();
@@ -322,11 +329,11 @@ public class Shop {
 					Sounds.play(p);
 			}
 			
-			if(Loader.c.getBoolean("Options.SellFish.DisableMoney")==true) sold=0.0;
-			if(Loader.c.getBoolean("Options.SellFish.DisableXP")==true) exp=0;
-			if(Loader.c.getBoolean("Options.SellFish.DisablePoints")==true) points=0.0;
+			if(Loader.config.getBoolean("Options.SellFish.DisableMoney")==true) sold=0.0;
+			if(Loader.config.getBoolean("Options.SellFish.DisableXP")==true) exp=0;
+			if(Loader.config.getBoolean("Options.SellFish.DisablePoints")==true) points=0.0;
 			EconomyAPI.depositPlayer(p.getName(), sold);
-			Points.give(p.getName(), points);
+			API.getPoints().add(p.getName(), points);
 			p.giveExp(exp);
 			
 		Loader.msgCmd(Loader.s("Prefix")+Loader.s("SoldFish")
