@@ -32,7 +32,7 @@ public class CatchFish implements Listener {
 			Item item = (Item)e.getCaught();
 			if(API.isFishItem(item.getItemStack())) {
 				PercentageList<Fish> ff = generateRandom(e.getPlayer(), e.getHook().getLocation().getBlock().getBiome(),
-						e.getHook().getWorld().hasStorm(), e.getHook().getWorld().getTime());
+						e.getHook().getWorld().hasStorm(), e.getHook().getWorld().isThundering(), e.getHook().getWorld().getTime());
 				if(ff.isEmpty())return;
 				FishCatchList list = new FishCatchList();
 				Data data = Utils.getString(Utils.getNBT(Utils.asNMS(e.getPlayer().getItemInHand())));
@@ -66,7 +66,7 @@ public class CatchFish implements Listener {
 			}else {
 				if(generateChance()) {
 					Treasure treas = generateTreasure(e.getPlayer(), e.getHook().getLocation().getBlock().getBiome(),
-					e.getHook().getWorld().hasStorm(), e.getHook().getWorld().getTime());
+					e.getHook().getWorld().hasStorm(), e.getHook().getWorld().isThundering(), e.getHook().getWorld().getTime());
 					if(treas != null) {
 						item.remove();
 						for(String s : treas.getMessages())
@@ -85,37 +85,37 @@ public class CatchFish implements Listener {
 		return random.nextInt(5)==4;
 	}
 	
-	public static PercentageList<Fish> generateRandom(Player player, Biome biome, boolean hasStorm, long time) {
+	public static PercentageList<Fish> generateRandom(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Fish> fish = new PercentageList<>();
 		if(time <= 12000) { //day
 			for(Fish f : API.getRegisteredFish().values())
 				if((f.getPermission()==null || f.getPermission()!=null && player.hasPermission(f.getPermission())) &&(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
 						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
+						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					fish.add(f, f.getChance());
 		}else { //night
 			for(Fish f : API.getRegisteredFish().values())
 				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && (f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
 						(f.getCatchTime()==FishTime.NIGHT || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
+						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					fish.add(f, f.getChance());
 		}
 		return fish;
 	}
 
-	public static Treasure generateTreasure(Player player, Biome biome, boolean hasStorm, long time) {
+	public static Treasure generateTreasure(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Treasure> treas = new PercentageList<>();
 		if(time <= 12000) { //day
 			for(Treasure f : API.getRegisteredTreasures().values())
 				if((f.getPermission()==null || player.hasPermission(f.getPermission())) &&(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
 						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
+						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					treas.add(f, f.getChance());
 		}else { //night
 			for(Treasure f : API.getRegisteredTreasures().values())
 				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && (f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
 						(f.getCatchTime()==FishTime.NIGHT || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
+						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					treas.add(f, f.getChance());
 		}
 		return treas.getRandom();
