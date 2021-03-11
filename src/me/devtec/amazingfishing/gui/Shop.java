@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
+import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Trans;
@@ -197,6 +198,7 @@ public class Shop {
 
 	static Data data = new Data("plugins/AmazingFishing/Data.yml");
 	public static void sellAll(Player p, Inventory i, boolean sell, boolean expand) {
+		Bukkit.broadcastMessage("wuaaaa, shop selling fishies");
 		ArrayList<ItemStack> a = new ArrayList<ItemStack>();
 		if(!expand) {
 
@@ -224,16 +226,19 @@ public class Shop {
 		int sel = 0;
 		for(ItemStack d:a) {
 			if(d==null)continue;
+			Fish f = API.getFish(d);
+			if(f==null)continue;
 			if(sell) {
+				Bukkit.broadcastMessage("1");
 			Material mat = d.getType();
 			//String w = d.getItemMeta().getDisplayName();
 			
 			String path = null;
 			String type = null;
-			if(mat==Material.SALMON)type="Salmon";
-			if(mat==Material.PUFFERFISH)type="PufferFish";
-			if(mat==Material.TROPICAL_FISH)type="TropicalFish";
-			if(mat==Material.COD)type="Cod";
+			if(mat==Material.SALMON)type="salmon";
+			if(mat==Material.PUFFERFISH)type="pufferfish";
+			if(mat==Material.TROPICAL_FISH)type="tropical_fish";
+			if(mat==Material.COD)type="cod";
 			
 
 			ItemStack bukkitstack = d;
@@ -243,14 +248,14 @@ public class Shop {
 			Data data = Utils.getString(Utils.getNBT(r));
 			
 			//Data data = Tag.getData(bukkitstack);
-			if(Loader.config.getBoolean("Options.Sell.EarnFromLength")==true) 
+			if(Loader.config.getBoolean("Options.Sell.EarnFromLength")==true)
 				length=data.getDouble("length");
 			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight")==true)
 				weight=data.getDouble("weigth");
 			
 			if(d.getItemMeta().hasDisplayName()) {
-			path="Types."+type; 
-			String fish = data.getString("af.fish");
+			path="fish."+type; 
+			String fish = data.getString("fish");
 			/*if(Loader.c.exists(path))
 			for(String s:Loader.c.getKeys(path)) {
 				if(Loader.c.exists(path+"."+s+".Name")) {
@@ -268,10 +273,15 @@ public class Shop {
 			amount=amount+d.getAmount();
 			
 			//sold=sold+(( (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
+			Bukkit.broadcastMessage("path: "+path);
 			double money = 0;
-			double m = data.getDouble(path+".money");
+			//double m = Loader.data.getDouble(path+".money");
+			double m = f.getMoney();
+			String calculate_money = Loader.config.getString("Options.Shop.Calculator.Money");
+			//StringUtils.calculate(calculate_money.replace("%length%", ""+length).replace("%weight%", ""+weight)
+				//	.replace("%money%", ""+m).replace("%bonus%", ""+bonus) ); //TODO
 			if(Loader.config.getBoolean("Options.Sell.EarnFromLength"))
-				money = ((length*(Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")?m :m/4))*bonus);
+				money = ( (length*(Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")?m :m/4)) *bonus);
 			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight"))
 				money = money+((weight*(Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")?m :m/4))*bonus);
 			if(Loader.config.getBoolean("Options.Sell.EarnFromLength")==false&&Loader.config.getBoolean("Options.Sell.EarnFromWeight")==false)
@@ -290,8 +300,8 @@ public class Shop {
 			// if("Options.EarnFromLength") +length*money :
 			//if(length!=0.0) sold=sold+(length*fishMoney);
 			
-			points=points+(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? data.getDouble(path+".points") : data.getDouble(path+".points")/2)*d.getAmount())*bonus);
-			exp=exp+(int)(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? data.getDouble(path+".xp") : data.getDouble(path+".xp")/2)*d.getAmount())*bonus);
+			points=points+(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? f.getPoints() : f.getPoints()/2)*d.getAmount())*bonus);
+			exp=exp+(int)(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? f.getXp() : f.getXp()/2)*d.getAmount())*bonus);
 			
 			//Quests.addProgress(p,path,fish,Actions.SELL_FISH); //TODO - QUESTS
 			i.remove(d);
@@ -319,15 +329,17 @@ public class Shop {
 				i.remove(d);
 			}
 		}
+		Bukkit.broadcastMessage(sell+" ; "+sel);
 		if(sell && sel != 0) {
-			if(!expand) {
+			Bukkit.broadcastMessage("2");
+			//if(!expand) {
 			/*if(Loader.c.getBoolean("Options.Sounds.Shop-SellFish")) //TODO - sounds
 				Sounds.play(p);
 			}else {
 				if(Loader.c.getBoolean("Options.Sounds.Bag-SellFish"))
 					Sounds.play(p);
 			}*/
-			
+			Bukkit.broadcastMessage(sold+" ; "+exp+" ; "+points);
 			if(Loader.config.getBoolean("Options.SellFish.DisableMoney")==true) sold=0.0;
 			if(Loader.config.getBoolean("Options.SellFish.DisableXP")==true) exp=0;
 			if(Loader.config.getBoolean("Options.SellFish.DisablePoints")==true) points=0.0;
@@ -340,8 +352,8 @@ public class Shop {
 		.replace("%exp%", exp+"")
 				.replace("%money%", String.format("%2.02f",sold).replace(",", ".")+"")
 				.replace("%points%", String.format("%2.02f",points).replace(",", ".")+""), p);
+		//}
 		}
-	}
 	}
 
 	private static ItemGUI c(Player p, String item, Runnable r) {

@@ -43,4 +43,10 @@ public interface Fish {
 	public double getMinWeigth();
 
 	public double getMinLength();
+	
+	public double getMoney();
+
+	public double getPoints();
+	
+	public double getXp();
 }

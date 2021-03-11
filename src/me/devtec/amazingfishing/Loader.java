@@ -40,7 +40,7 @@ import me.devtec.theapi.utils.reflections.Ref;
 public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
-	static Data data = new Data("plugins/AmazingFishing/Data.yml");
+	public static Data data = new Data("plugins/AmazingFishing/Data.yml");
 	public static PointsManager manager;
 	public static Config trans /*= new Config("AmazingFishing/Translations.yml")*/,
 			config /*= new Config("AmazingFishing/Config.yml")*/,

@@ -181,4 +181,17 @@ public class CustomFish implements Fish {
 	public double getMinLength() {
 		return data.getDouble("fish."+path+"."+name+".minlength");
 	}
+	
+	@Override
+	public double getMoney() {
+		return data.getDouble("fish."+path+"."+name+".money");
+	}
+	@Override
+	public double getPoints() {
+		return data.getDouble("fish."+path+"."+name+".points");
+	}
+	@Override
+	public double getXp() {
+		return data.getDouble("fish."+path+"."+name+".xp");
+	}
 }

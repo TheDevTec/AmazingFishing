@@ -12,6 +12,7 @@ import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
+import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 
@@ -65,14 +66,29 @@ public class Bag {
 			a.setItem(51,new ItemGUI(Create.createItem(Trans.words_sell(), Material.COD_BUCKET)) {
 				@Override
 				public void onClick(Player p, HolderGUI arg1, ClickType arg2) {
-					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
-					//saveBag(p,p.getOpenInventory().getTopInventory());
+					new Tasker() {
+						
+						@Override
+						public void run() {
+							Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
+							new me.devtec.amazingfishing.other.Bag(p).saveBag(a);
+							
+						}
+					}.runTaskSync();
 				}
 			});
 			a.setItem(47,new ItemGUI(Create.createItem(Trans.words_sell(), Material.COD_BUCKET)) {
 				@Override
 				public void onClick(Player p, HolderGUI arg1, ClickType arg2) {
-					Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
+					new Tasker() {
+						
+						@Override
+						public void run() {
+							Shop.sellAll(p, p.getOpenInventory().getTopInventory(), true, true);
+							new me.devtec.amazingfishing.other.Bag(p).saveBag(a);
+							
+						}
+					}.runTaskSync();
 				}
 			});
 		}}
