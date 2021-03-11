@@ -18,9 +18,9 @@ public class Configs {
 		Loader.config.addDefault("Options.Shop.SellFish", true);
 		Loader.config.addDefault("Options.Shop.Sounds.Shop-BuyItem", true);
 		Loader.config.addDefault("Options.Shop.Enabled", true);
-		Loader.config.addDefault("Options.Shop.Calculator.Money", "(%length% / 4 +%weight% / 4) * %bonus%");
-		Loader.config.addDefault("Options.Shop.Calculator.Xp", "(%length% / 4 +%weight% / 4) * %bonus%");
-		Loader.config.addDefault("Options.Shop.Calculator.Points", "(%length% / 5 +%weight% / 5) * %bonus%");
+		Loader.config.addDefault("Options.Shop.Calculator.Money", "(%length% / 4 +%weight% / 4 + %money%) * %bonus%");
+		Loader.config.addDefault("Options.Shop.Calculator.Xp", "(%length% / 4 +%weight% / 4 + %xp%) * %bonus%");
+		Loader.config.addDefault("Options.Shop.Calculator.Points", "(%length% / 5 +%weight% / 5 + %points%) * %bonus%");
 
 		Loader.config.addDefault("Options.Sell.EarnFromLength", true);
 		Loader.config.addDefault("Options.Sell.EarnFromWeight", true);
