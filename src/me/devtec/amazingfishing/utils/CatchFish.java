@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
-import org.bukkit.util.Vector;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.construct.Enchant;
@@ -47,7 +46,6 @@ public class CatchFish implements Listener {
 				for(int a = 0; a < am; ++a) {
 					Fish f = ff.getRandom();
 					double weight = 0, length = 0;
-
 					weight=random.nextInt((int)f.getWeigth())+random.nextDouble();
 					length=random.nextInt((int)f.getLength())+random.nextDouble();
 					if(weight>f.getWeigth())weight=f.getWeigth();
@@ -56,8 +54,7 @@ public class CatchFish implements Listener {
 					if(length<f.getMinLength())length=f.getMinLength();
 					
 					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length));
-					Vector vec = (new Vector(e.getPlayer().getLocation().getX() - item.getLocation().getX(), e.getPlayer().getLocation().getY() - item.getLocation().getY()+1, e.getPlayer().getLocation().getZ() - item.getLocation().getZ())).multiply(0.1);
-				    item.setVelocity(vec);
+					item.setVelocity(e.getPlayer().getLocation().toVector().subtract(item.getLocation().toVector()).normalize().multiply(0.07));
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s), e.getPlayer());
 					for(String s : f.getCommands(FishAction.CATCH))
