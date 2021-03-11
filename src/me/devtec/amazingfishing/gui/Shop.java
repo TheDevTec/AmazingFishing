@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.gui.Help.BackButton;
-import me.devtec.amazingfishing.gui.Help.PlayerType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.Utils;
@@ -36,7 +35,7 @@ public class Shop {
 	}
 	
 	public static void openShop(Player p, ShopType t) {
-		GUI a = new GUI( Trans.shop_title(t) ,54,p) {
+		GUI a = new GUI(Trans.shop_title(t) ,54,p) {
 			@Override
 			public void onClose(Player arg0) {
 			}
@@ -95,15 +94,15 @@ public class Shop {
 					sellAll(p, p.getOpenInventory().getTopInventory(), true, false);
 				}}));
 		}
-		a.setItem(53,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
+		/*a.setItem(53,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {
 				Help.open(p, PlayerType.Player);
 			}
-		});
+		}));*/
 			}
-		}.runTask();
-	}//fuck off houska
+		}.runTaskSync();
+	}
 	
 	private  static void addItems(GUI inv) {
 		try {
@@ -336,12 +335,13 @@ public class Shop {
 			API.getPoints().add(p.getName(), points);
 			p.giveExp(exp);
 			
-		Loader.msgCmd(Loader.s("Prefix")+Loader.s("SoldFish")
+		Loader.msg(Trans.s("Prefix")+Trans.s("SoldFish")
 		.replace("%amount%", sel+"")
 		.replace("%exp%", exp+"")
 				.replace("%money%", String.format("%2.02f",sold).replace(",", ".")+"")
 				.replace("%points%", String.format("%2.02f",points).replace(",", ".")+""), p);
 		}
+	}
 	}
 
 	private static ItemGUI c(Player p, String item, Runnable r) {
