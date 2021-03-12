@@ -215,10 +215,16 @@ public class Shop {
 			EconomyAPI.depositPlayer(p, totalMoney);
 			p.giveExp((int)totalExp);
 			
-		Loader.msg(Trans.s("Prefix")+Trans.s("SoldFish")
+			for(String msg: Loader.trans.getStringList("SoldFish")) {
+				Loader.msg(msg.replace("%amount%", sel+"").replace("%exp%", String.format("%2.02f",totalExp).replace(",", ".")+"")
+				.replace("%money%", String.format("%2.02f",totalMoney).replace(",", ".")+"")
+				.replace("%points%", String.format("%2.02f",totalPoints).replace(",", ".")+"")
+				.replace("%prefix%", Trans.s("Prefix")),p);
+			}
+		/*Loader.msg(Trans.s("Prefix")+Trans.s("SoldFish")
 			.replace("%amount%", sel+"").replace("%exp%", String.format("%2.02f",totalExp).replace(",", ".")+"")
 				.replace("%money%", String.format("%2.02f",totalMoney).replace(",", ".")+"")
-				.replace("%points%", String.format("%2.02f",totalPoints).replace(",", ".")+""), p);
+				.replace("%points%", String.format("%2.02f",totalPoints).replace(",", ".")+""), p);*/
 		}
 	}
 

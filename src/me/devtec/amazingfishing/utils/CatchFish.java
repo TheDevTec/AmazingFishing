@@ -65,6 +65,7 @@ public class CatchFish implements Listener {
 					if(length<f.getMinLength())length=f.getMinLength();
 					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length));
 			        item.setVelocity(vec);
+			        Statistics.addFish(e.getPlayer(), f.getType());
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s), e.getPlayer());
 					for(String s : f.getCommands(FishAction.CATCH))

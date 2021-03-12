@@ -54,11 +54,14 @@ public class Configs {
 		Loader.trans.addDefault("Admin.ConfigReloaded", "&aReloaded configs");
 		
 
-		Loader.trans.addDefault("FishList.Topic", "&eList of fish:");
+		Loader.trans.addDefault("FishList.Topic", "&eFish list:");
 		Loader.trans.addDefault("FishList.Format", "&7&l- %fish%");
 		
 		Loader.trans.addDefault("Points.Lack", "%prefix% &cYou have lack of points!");
-		
+
+		Loader.trans.addDefault("SoldFish", Arrays.asList("&7&l-----------------------","&eYou sold:","&7Amount: &f%amount%",
+				"&7Money &7%money%$","&7Exp: &f%exp%","&7Points: &f%points%","&7&l-----------------------") );
+			
 		Loader.trans.addDefault("Tournaments.Stop.NoRunning", "%prefix% &cThere is no running tournament!");
 		Loader.trans.addDefault("Tournaments.Stop.One", "%prefix% &aYou have stopped current tournament!");
 		Loader.trans.addDefault("Tournaments.Stop.All", "%prefix% &aYou have stopped all current tournaments!");
@@ -130,7 +133,7 @@ public class Configs {
 		Loader.gui.save();
 	}
 	public static void loadShop(){
-		Loader.shop=new Config("AmazingFishing/Config.yml");
+		Loader.shop=new Config("AmazingFishing/Shop.yml");
 		
 		Loader.shop.addDefault("GUI.Bag.Icon", "CHEST");
 		Loader.shop.addDefault("GUI.Bag.ModelData", "1");

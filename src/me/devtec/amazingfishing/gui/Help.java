@@ -2,7 +2,6 @@ package me.devtec.amazingfishing.gui;
 
 import java.util.Arrays;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -18,9 +17,9 @@ import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.scheduler.Tasker;
 
 public class Help {
 	
@@ -51,7 +50,6 @@ public class Help {
 					
 					@Override
 					public void run() {
-						Bukkit.broadcastMessage("1");
 						Loader.msg(Trans.s("FishList.Topic"), p);
 						
 						Loader.msg(Trans.words_cod(), p);
