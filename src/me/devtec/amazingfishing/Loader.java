@@ -29,10 +29,12 @@ import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.PluginManagerAPI;
 import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
+import me.devtec.theapi.utils.VersionChecker;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.reflections.Ref;
 
@@ -45,15 +47,22 @@ public class Loader extends JavaPlugin {
 			gui, shop;
 	static {
 		Configs.load();
-		//trans.addDefault("Prefix", "&bAmazingFishing &8&l» &7");
-		//config.addDefault("Options.PointsManager", "USER");
-		//config.setComments("Options.PointsManager", Arrays.asList("# PointsManager types: VAULT, USER"));
 		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
 		prefix = trans.getString("Prefix");
 	}
 	static String prefix = trans.getString("Prefix");
 
 	public void onEnable() {
+		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "4.9.4")==VersionChecker.Version.NEW) {
+			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
+			TheAPI.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", TheAPI.getConsole());
+			TheAPI.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", TheAPI.getConsole());
+			TheAPI.msg(prefix+"        &6https://www.spigotmc.org/resources/72679/", TheAPI.getConsole());
+			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		new me.devtec.theapi.utils.theapiutils.metrics.Metrics(this, 10630);
 		reload(TheAPI.getConsole(),false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
