@@ -90,7 +90,7 @@ public class Shop {
 	
 	private  static void addItems(GUI inv) {
 		for(String item:Loader.shop.getKeys("Items")) {
-			int cost = Loader.shop.getInt("Items."+item+".Cost");
+			double cost = Loader.shop.getDouble("Items."+item+".Cost");
 			String ItemName=Loader.shop.exists("Items."+item+".Name")?Loader.shop.getString("Items."+item+".Name")
 					.replace("%item%", item).replace("%cost%", cost+""):item;
 			Material icon = null;
