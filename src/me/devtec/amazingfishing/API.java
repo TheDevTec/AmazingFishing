@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.Utils;
@@ -56,9 +57,19 @@ public class API {
 	}
 	
 	public static Fish getFish(ItemStack stack) {
+		if(!isFishItem(stack))return null;
 		Data data = Utils.getString(Utils.getNBT(Utils.asNMS(stack)));
 		for(Fish f : fish.values())
 			if(f.isInstance(data))return f;
+		return null;
+	}
+	
+	public static CatchFish getCatchFish(ItemStack stack) {
+		if(!isFishItem(stack))return null;
+		Data data = Utils.getString(Utils.getNBT(Utils.asNMS(stack)));
+		for(Fish f : fish.values())
+			if(f.isInstance(data))
+				return f.createCatchFish(data);
 		return null;
 	}
 	

@@ -19,7 +19,7 @@ public class Configs {
 		Loader.config.addDefault("Options.Shop.Sounds.Shop-BuyItem", true);
 		Loader.config.addDefault("Options.Shop.Enabled", true);
 		Loader.config.addDefault("Options.Shop.Calculator.Money", "(%length% / 4 +%weight% / 4 + %money%) * %bonus%");
-		Loader.config.addDefault("Options.Shop.Calculator.Xp", "(%length% / 4 +%weight% / 4 + %xp%) * %bonus%");
+		Loader.config.addDefault("Options.Shop.Calculator.Exps", "(%length% / 4 +%weight% / 4 + %xp%) * %bonus%");
 		Loader.config.addDefault("Options.Shop.Calculator.Points", "(%length% / 5 +%weight% / 5 + %points%) * %bonus%");
 
 		Loader.config.addDefault("Options.Sell.EarnFromLength", true);
@@ -33,7 +33,7 @@ public class Configs {
 		Loader.config.addDefault("Options.Bag.Button.OpenShop", true);
 		Loader.config.addDefault("Options.Bag.Enabled", true);
 		
-		Loader.config.addDefault("Options.Enchant.Enabled", true); //todo - uplatnit
+		Loader.config.addDefault("Options.Enchants.Enabled", true); //todo - uplatnit
 		
 		
 

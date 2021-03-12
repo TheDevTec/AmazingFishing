@@ -14,6 +14,8 @@ public interface Fish {
 
 	public String getDisplayName();
 
+	public String getCalculator(Calculator type);
+
 	public List<String> getMessages(FishAction action);
 
 	public List<String> getCommands(FishAction action);
@@ -49,4 +51,6 @@ public interface Fish {
 	public double getPoints();
 	
 	public double getXp();
+	
+	public CatchFish createCatchFish(Data data);
 }

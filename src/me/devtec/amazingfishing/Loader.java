@@ -24,7 +24,6 @@ import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.EatFish;
 import me.devtec.amazingfishing.utils.Trans;
-import me.devtec.amazingfishing.utils.points.PointsManager;
 import me.devtec.amazingfishing.utils.points.UserPoints;
 import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
@@ -41,7 +40,6 @@ public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
 	public static Data data = new Data("plugins/AmazingFishing/Data.yml");
-	public static PointsManager manager;
 	public static Config trans /*= new Config("AmazingFishing/Translations.yml")*/,
 			config /*= new Config("AmazingFishing/Config.yml")*/,
 			gui, shop;
@@ -50,7 +48,7 @@ public class Loader extends JavaPlugin {
 		//trans.addDefault("Prefix", "&bAmazingFishing &8&l» &7");
 		//config.addDefault("Options.PointsManager", "USER");
 		//config.setComments("Options.PointsManager", Arrays.asList("# PointsManager types: VAULT, USER"));
-		manager=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
+		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
 		prefix = trans.getString("Prefix");
 	}
 	static String prefix = trans.getString("Prefix");
@@ -105,7 +103,7 @@ public class Loader extends JavaPlugin {
 		config.reload();
 		trans.reload();
 		prefix = trans.getString("Prefix");
-		manager=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
+		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
 		TheAPI.msg(prefix+" Configurations reloaded.", ss);
 		}
 		

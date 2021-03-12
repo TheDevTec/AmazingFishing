@@ -3,7 +3,6 @@ package me.devtec.amazingfishing.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -12,7 +11,8 @@ import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
-import me.devtec.amazingfishing.construct.Fish;
+import me.devtec.amazingfishing.construct.Calculator;
+import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Trans;
@@ -36,323 +36,189 @@ public class Shop {
 	}
 	
 	public static void openShop(Player p, ShopType t) {
-		GUI a = new GUI(Trans.shop_title(t) ,54,p) {
+		GUI a = new GUI(Trans.shop_title(t) ,54) {
 			@Override
-			public void onClose(Player arg0) {
+			public void onClose(Player player) {
+				if(t==ShopType.Sell) {
+					for(int count =10; count < 17; ++count)
+						TheAPI.giveItem(p, getItem(count));
+					for(int count =19; count < 26; ++count)
+						TheAPI.giveItem(p, getItem(count));
+					for(int count =28; count < 34; ++count)
+						TheAPI.giveItem(p, getItem(count));
+					for(int count =37; count < 44; ++count)
+						TheAPI.giveItem(p, getItem(count));
+				}
 			}
 		};
 		if(t==ShopType.Sell)
 			a.setInsertable(true);
 		new Tasker() {
-			
-			@Override
 			public void run() {
-		Create.prepareInv(a);
-		a.setItem(4,c(p,"Points",null));
-		
-		if(t==ShopType.Buy) {
-		if(Loader.config.getBoolean("Options.Shop.SellFish"))
-			a.setItem(45,c(p,"SellShop",new Runnable() {
-				@Override
-				public void run() {
-					openShop(p, ShopType.Sell);
-				}}));
-		addItems(a);
-		}else {
-			/*List<String> s = new ArrayList<String>(); //TODO - Fish OF Day
-			for(String d : Loader.c.getStringList("Format.FishOfDay"))
-				s.add(d
-						.replace("%fish_name%", Loader.c.getString("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".Name"))
-						.replace("%fish%", Loader.f.getFish())
-						.replace("%fish_type%", Loader.f.getType())
-						.replace("%bonus%", ""+Loader.f.getBonus()));
-			ItemCreatorAPI item = new ItemCreatorAPI(Loader.f.getMaterial());
-			int mod = 0;
-			if(Loader.c.exists("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData"))
-				mod = Loader.c.getInt("Types."+Loader.f.getType()+"."+Loader.f.getFish()+".ModelData");
-			item.setCustomModelData(mod);
-			item.setDisplayName(Trans.fishday());
-			item.setLore(s);
-			a.setItem(35,new ItemGUI(item.create()){
-				@Override
-				public void onClick(Player p, HolderGUI arg, ClickType type) {
+				Create.prepareInv(a);
+				a.setItem(4,c(p,"Points",null));
+				if(t==ShopType.Buy) {
+				if(Loader.config.getBoolean("Options.Shop.SellFish"))
+					a.setItem(45,c(p,"SellShop",new Runnable() {
+						@Override
+						public void run() {
+							openShop(p, ShopType.Sell);
+						}}));
+				addItems(a);
+				}else {
+					//TODO - Fish OF Day
+					 a.setItem(45, c(p,"BuyShop",new Runnable() {
+							@Override
+							public void run() {
+								openShop(p, ShopType.Buy);
+							}}));
+					a.setItem(26,c(p,"Bag",new Runnable() {
+						@Override
+						public void run() {
+							Bag.openBag(p, BackButton.Shop);
+						}}));
+					a.setItem(49,c(p,"Sell",new Runnable() {
+						@Override
+						public void run() {
+							sellAll(p, p.getOpenInventory().getTopInventory(), false);
+						}}));
 				}
-			});*/
-			
-			 a.setItem(45, c(p,"BuyShop",new Runnable() {
-					@Override
-					public void run() {
-						openShop(p, ShopType.Buy);
-					}}));
-			a.setItem(26,c(p,"Bag",new Runnable() {
-				@Override
-				public void run() {
-					Bag.openBag(p, BackButton.Shop);
-				}}));
-			a.setItem(49,c(p,"Sell",new Runnable() {
-				@Override
-				public void run() {
-					sellAll(p, p.getOpenInventory().getTopInventory(), true, false);
-				}}));
-		}
-		/*a.setItem(53,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				Help.open(p, PlayerType.Player);
+				a.open(p);
 			}
-		}));*/
-			}
-		}.runTaskSync();
+		}.runTask();
 	}
 	
 	private  static void addItems(GUI inv) {
-		try {
-		if(Loader.shop.exists("Items"))
 		for(String item:Loader.shop.getKeys("Items")) {
-		int cost = Loader.shop.getInt("Items."+item+".Cost");
-				String ItemName=item;
-				if(Loader.shop.exists("Items."+item+".Name"))
-					ItemName=Loader.shop.getString("Items."+item+".Name")
-					.replace("%item%", item).replace("%cost%", cost+"");
-				Material icon = Material.matchMaterial(Loader.shop.getString("Items."+item+".Icon").toUpperCase());
-				if(icon==null)icon=Material.STONE;
-				List<String> lore= new ArrayList<String>();
-					if(Loader.shop.exists("Items."+item+".Description") && Loader.shop.getStringList("Items."+item+".Description").isEmpty()==false)
-					for(String ss:Loader.shop.getStringList("Items."+item+".Description"))lore.add(ss.replace("%item%", item).replace("%cost%", cost+""));
-						ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(icon));
-						a.setDisplayName(ItemName);
-						a.setLore(lore);
-						if(Loader.shop.exists("Items."+item+".ModelData"))
-						a.setCustomModelData(Loader.shop.getInt("Items."+item+".ModelData"));
-					inv.addItem(new ItemGUI(a.create()){
-							@Override
-							public void onClick(Player p, HolderGUI arg, ClickType type) {
-								giveItem(p, item);
-							}
-						});
-			 
+			int cost = Loader.shop.getInt("Items."+item+".Cost");
+			String ItemName=Loader.shop.exists("Items."+item+".Name")?Loader.shop.getString("Items."+item+".Name")
+					.replace("%item%", item).replace("%cost%", cost+""):item;
+			Material icon = null;
+			try{
+				Material.matchMaterial(Loader.shop.getString("Items."+item+".Icon").toUpperCase());
+			}catch(Exception | NoSuchFieldError err) {}
+			if(icon==null)icon=Material.STONE;
+			List<String> lore= Loader.shop.getStringList("Items."+item+".Description");
+			if(lore!=null)lore.replaceAll(ss -> ss.replace("%item%", item).replace("%cost%", cost+""));
+			ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(icon));
+			a.setDisplayName(ItemName);
+			a.setLore(lore);
+			inv.addItem(new ItemGUI(Loader.shop.exists("Items."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("Items."+item+".ModelData")):a.create()){
+				public void onClick(Player p, HolderGUI arg, ClickType type) {
+					giveItem(p, item);
+				}
+			});
 		}
-		}catch(Exception e) {
-			Bukkit.getLogger().severe("Error when adding items to Amazing Fishing Shop");	
-			}
-		}
+	}
 	
 	public static void giveItem(Player p,String kit) {
 		int cost = Loader.shop.getInt("Items."+kit+".Cost");
 		if(API.getPoints().has(p.getName(), cost)) {
-
-			/*if(Loader.config.getBoolean("Options.Sounds.Shop-BuyItem")) //TODO - sounds
-				Sounds.play(p);*/
+			//TODO sounds
 			API.getPoints().remove(p.getName(), cost);
-			List<String> cmds=null;
-			if(Loader.shop.exists("Items."+kit+".Commands"))
-				cmds=Loader.shop.getStringList("Items."+kit+".Commands");
-			if(cmds != null)
-				for(String f:cmds) {
-					TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+"") ));
+			for(String f:Loader.shop.getStringList("Items."+kit+".Commands"))
+				TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+"") ));
+			for(String f:Loader.shop.getStringList("Items."+kit+".Messages"))
+				TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
+			for(String f:Loader.shop.getKeys("Items."+kit+".Item")) {
+				try {
+				ItemCreatorAPI a = new ItemCreatorAPI(Material.matchMaterial(Loader.shop.getString("Items."+kit+".Item."+f+".Material")));
+				a.setAmount(Loader.shop.getInt("Items."+kit+".Item."+f+".Amount")>0?Loader.shop.getInt("Items."+kit+".Item."+f+".Amount"):1);
+				a.setDisplayName(Loader.shop.getString("Items."+kit+".Item."+f+".Name").replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""));
+				List<String> lore = Loader.shop.getStringList("Items."+kit+".Item."+f+".Lore");
+				lore.replaceAll(w-> w.replace("%item%", kit).replace("%player%", p.getName()).replace("%cost%", cost+""));
+				a.setLore(lore);
+				a.setUnbreakable(Loader.shop.getBoolean("Items."+kit+".Item."+f+".Unbreakable"));
+				if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideEnchants"))
+					a.addItemFlag(ItemFlag.HIDE_ENCHANTS);
+				if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideAttributes"))
+					a.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
+				for(String s:Loader.shop.getStringList("Items."+kit+".Item."+f+".Enchants")) {
+	            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
+	            	int num = StringUtils.getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
+	            	if(num==0)num=1;
+	            	try {
+	            		a.addEnchantment(ench, num);
+	            	}catch(Exception e) {
+	            		
+	            	}
 				}
-			
-			List<String> msgs=null;
-			if(Loader.shop.exists("Items."+kit+".Messages"))
-				msgs=Loader.shop.getStringList("Items."+kit+".Messages");
-			
-			if(msgs != null)
-				for(String f:msgs) {
-					TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
-				}
-			if(Loader.shop.exists("Items."+kit+".Item")) {
-				for(String f:Loader.shop.getKeys("Items."+kit+".Item")) {
-					try {
-						ItemCreatorAPI a = new ItemCreatorAPI(Material.matchMaterial(Loader.shop.getString("Items."+kit+".Item."+f+".Material")));
-						int amount = 1;
-						if(Loader.shop.getInt("Items."+kit+".Item."+f+".Amount")>0)
-							amount=Loader.shop.getInt("Items."+kit+".Item."+f+".Amount");
-					a.setAmount(amount);
-					a.setDisplayName(Loader.shop.getString("Items."+kit+".Item."+f+".Name").replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""));
-					List<String> lore = new ArrayList<String>();
-					for(String w:Loader.shop.getStringList("Items."+kit+".Item."+f+".Lore"))lore.add(w.replace("%item%", kit).replace("%player%", p.getName()).replace("%cost%", cost+""));
-					a.setLore(lore);
-					if(Loader.shop.exists("Items."+kit+".Item."+f+".ModelData"))
-					a.setCustomModelData(Loader.shop.getInt("Items."+kit+".Item."+f+".ModelData"));
-					a.setUnbreakable(Loader.shop.getBoolean("Items."+kit+".Item."+f+".Unbreakable"));
-					if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideEnchants"))
-						a.addItemFlag(ItemFlag.HIDE_ENCHANTS);
-					if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideAttributes"))
-						a.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
-					if(Loader.shop.exists("Items."+kit+".Item."+f+".Enchants"))
-					for(String s:Loader.shop.getStringList("Items."+kit+".Item."+f+".Enchants")) {
-		            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
-		            	int num = StringUtils.getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
-		            	if(num==0)num=1;
-		            	try {
-		            		a.addEnchantment(ench, num);
-		            	}catch(Exception e) {
-		            		
-		            	}
-					}
-					TheAPI.giveItem(p,a.create());
-				}catch(Exception e) {
-				Bukkit.getLogger().warning("Error when giving item from AmazingFishing Shop to player "+p.getName()+", ShopItem: "+kit+", Item: "+f);	
-				}}}}
+				TheAPI.giveItem(p,Loader.shop.exists("Items."+kit+".Item."+f+".Model")?Utils.setModel(a.create(), Loader.shop.getInt("Items."+kit+".Item."+f+".Model")):a.create());
+				}catch(Exception | NoSuchFieldError e) {}
+			}
 		}
+	}
 
 	static Data data = new Data("plugins/AmazingFishing/Data.yml");
-	public static void sellAll(Player p, Inventory i, boolean sell, boolean expand) {
-		Bukkit.broadcastMessage("wuaaaa, shop selling fishies");
-		ArrayList<ItemStack> a = new ArrayList<ItemStack>();
+	public static void sellAll(Player p, Inventory i, boolean expand) {
+		List<ItemStack> a = new ArrayList<>();
 		if(!expand) {
-
-			for(int count =10; count < 17; ++count) {
+			for(int count =10; count < 17; ++count)
 				a.add(i.getItem(count));
-				}
-			for(int count =19; count < 26; ++count) {
+			for(int count =19; count < 26; ++count)
 				a.add(i.getItem(count));
-				}
-			for(int count =28; count < 34; ++count) {
+			for(int count =28; count < 34; ++count)
 				a.add(i.getItem(count));
-				}
-			for(int count =37; count < 44; ++count) {
+			for(int count =37; count < 44; ++count)
 				a.add(i.getItem(count));
-				}
 		}else {
-			for(int count = 0; count < 45; ++count) {
+			for(int count = 0; count < 45; ++count)
 				a.add(i.getItem(count));
-				}
 		}
-		double sold = 0.0;
-		int amount = 0;
-		int exp =0;
-		double points = 0.0;
 		int sel = 0;
+		double totalExp=0, totalPoints=0, totalMoney=0;
 		for(ItemStack d:a) {
 			if(d==null)continue;
-			Fish f = API.getFish(d);
+			CatchFish f = API.getCatchFish(d);
 			if(f==null)continue;
-			if(sell) {
-				Bukkit.broadcastMessage("1");
-			Material mat = d.getType();
-			//String w = d.getItemMeta().getDisplayName();
-			
-			String path = null;
-			String type = null;
-			if(mat==Material.SALMON)type="salmon";
-			if(mat==Material.PUFFERFISH)type="pufferfish";
-			if(mat==Material.TROPICAL_FISH)type="tropical_fish";
-			if(mat==Material.COD)type="cod";
-			
-
-			ItemStack bukkitstack = d;
-			double length = 0.0;
-			double weight = 0.0;
-			Object r = Utils.asNMS(bukkitstack);
-			Data data = Utils.getString(Utils.getNBT(r));
-			
-			//Data data = Tag.getData(bukkitstack);
-			if(Loader.config.getBoolean("Options.Sell.EarnFromLength")==true)
-				length=data.getDouble("length");
-			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight")==true)
-				weight=data.getDouble("weigth");
-			
-			if(d.getItemMeta().hasDisplayName()) {
-			path="fish."+type; 
-			String fish = data.getString("fish");
-			/*if(Loader.c.exists(path))
-			for(String s:Loader.c.getKeys(path)) {
-				if(Loader.c.exists(path+"."+s+".Name")) {
-					if(w.equalsIgnoreCase(Color.c(Loader.c.getString(path+"."+s+".Name"))))fish=s;
-				}
-			}*/
-			if(fish!=null) {
-			path=path+"."+fish;
-			
+			double length = 0, weight = 0;
 			int bonus=1; //TODO - Fish Of Day
-			/*if(Loader.f.getFish().equals(fish) && Loader.f.getType().equals(type)) //TODO -fishofday
-				bonus=Loader.me.getInt("FishOfDay.Bonus");*/
+			
+			//MONEY & POINTS
+			if(Loader.config.getBoolean("Options.Sell.EarnFromLength"))
+				length=f.getLength();
+			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight"))
+				weight=f.getWeigth();
 			
 			sel=sel+d.getAmount();
-			amount=amount+d.getAmount();
-			
-			//sold=sold+(( (Loader.c.getBoolean("Options.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus);
-			Bukkit.broadcastMessage("path: "+path);
-			double money = 0;
-			//double m = Loader.data.getDouble(path+".money");
-			double m = f.getMoney();
-			String calculate_money = Loader.config.getString("Options.Shop.Calculator.Money");
-			//StringUtils.calculate(calculate_money.replace("%length%", ""+length).replace("%weight%", ""+weight)
-				//	.replace("%money%", ""+m).replace("%bonus%", ""+bonus) ); //TODO
-			if(Loader.config.getBoolean("Options.Sell.EarnFromLength"))
-				money = ( (length*(Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")?m :m/4)) *bonus);
-			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight"))
-				money = money+((weight*(Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")?m :m/4))*bonus);
-			if(Loader.config.getBoolean("Options.Sell.EarnFromLength")==false&&Loader.config.getBoolean("Options.Sell.EarnFromWeight")==false)
-				money = ( ( ( Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? m : m*d.getAmount() )*bonus) );
-			sold = sold+money;
-			/*sold=sold+( 
-					(Loader.c.getBoolean("Options.Sell.EarnFromLength")? 
-					(length*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus :
-					((Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus
-					)+(
-					Loader.c.getBoolean("Options.Sell.EarnFromWeight")? 
-					(weight*(Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")?Loader.c.getDouble(path+".Money") :Loader.c.getDouble(path+".Money")/4))*bonus :
-					((Loader.c.getBoolean("Options.SellFish.ShopGiveFullPriceFish")? Loader.c.getDouble(path+".Money") : Loader.c.getDouble(path+".Money")/4)*d.getAmount())*bonus
-					)
-					);*/
-			// if("Options.EarnFromLength") +length*money :
-			//if(length!=0.0) sold=sold+(length*fishMoney);
-			
-			points=points+(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? f.getPoints() : f.getPoints()/2)*d.getAmount())*bonus);
-			exp=exp+(int)(( (Loader.config.getBoolean("Options.Sell.GiveFullPriceFish")? f.getXp() : f.getXp()/2)*d.getAmount())*bonus);
-			
-			//Quests.addProgress(p,path,fish,Actions.SELL_FISH); //TODO - QUESTS
+
+			String moneyPath=Loader.config.getString("Options.Shop.Calculator.Money");
+			String pointsPath=Loader.config.getString("Options.Shop.Calculator.Points");
+			String expsPath=Loader.config.getString("Options.Shop.Calculator.Exps");
+			if(f.getFish().getCalculator(Calculator.MONEY)!=null)
+				moneyPath=f.getFish().getCalculator(Calculator.MONEY);
+			if(f.getFish().getCalculator(Calculator.EXPS)!=null)
+				expsPath=f.getFish().getCalculator(Calculator.EXPS);
+			if(f.getFish().getCalculator(Calculator.POINTS)!=null)
+				pointsPath=f.getFish().getCalculator(Calculator.POINTS);
+			//CALCULATE
+			totalMoney += StringUtils.calculate(moneyPath.replace("%length%", ""+length).replace("%weight%", ""+weight)
+					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
+					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
+
+			totalExp += StringUtils.calculate(expsPath.replace("%length%", ""+length).replace("%weight%", ""+weight)
+						.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
+						.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
+
+			totalPoints += StringUtils.calculate(pointsPath.replace("%length%", ""+length).replace("%weight%", ""+weight)
+					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
+					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
+			//TODO - QUESTS
 			i.remove(d);
-		}else {
-			TheAPI.giveItem(p, d);
-			i.remove(d);
-		}}else {
-				Material fish = null;
-				if(mat==Material.SALMON || mat==Material.COD || mat==Material.TROPICAL_FISH||mat==Material.PUFFERFISH)fish=Material.STONE;
-				
-				if(fish!=null) {
-					sel=sel+d.getAmount();
-					amount=amount+d.getAmount();
-					sold=sold+(0.1*d.getAmount());
-					points=points+(0.1*d.getAmount());
-					exp=exp+(1*d.getAmount());
-				i.remove(d);
-			}else{
-				TheAPI.giveItem(p, d);
-				i.remove(d);
-				}
-			}
-			}else {
-				TheAPI.giveItem(p, d);
-				i.remove(d);
-			}
 		}
-		Bukkit.broadcastMessage(sell+" ; "+sel);
-		if(sell && sel != 0) {
-			Bukkit.broadcastMessage("2");
-			//if(!expand) {
-			/*if(Loader.c.getBoolean("Options.Sounds.Shop-SellFish")) //TODO - sounds
-				Sounds.play(p);
-			}else {
-				if(Loader.c.getBoolean("Options.Sounds.Bag-SellFish"))
-					Sounds.play(p);
-			}*/
-			Bukkit.broadcastMessage(sold+" ; "+exp+" ; "+points);
-			if(Loader.config.getBoolean("Options.SellFish.DisableMoney")==true) sold=0.0;
-			if(Loader.config.getBoolean("Options.SellFish.DisableXP")==true) exp=0;
-			if(Loader.config.getBoolean("Options.SellFish.DisablePoints")==true) points=0.0;
-			EconomyAPI.depositPlayer(p.getName(), sold);
-			API.getPoints().add(p.getName(), points);
-			p.giveExp(exp);
+		if(sel != 0) {
+			//TODO sounds
+			if(Loader.config.getBoolean("Options.SellFish.DisableMoney")) totalMoney=0;
+			if(Loader.config.getBoolean("Options.SellFish.DisableXP")) totalExp=0;
+			if(Loader.config.getBoolean("Options.SellFish.DisablePoints")) totalPoints=0;
+			API.getPoints().add(p.getName(), totalPoints);
+			EconomyAPI.depositPlayer(p, totalMoney);
+			p.giveExp((int)totalExp);
 			
 		Loader.msg(Trans.s("Prefix")+Trans.s("SoldFish")
-		.replace("%amount%", sel+"")
-		.replace("%exp%", exp+"")
-				.replace("%money%", String.format("%2.02f",sold).replace(",", ".")+"")
-				.replace("%points%", String.format("%2.02f",points).replace(",", ".")+""), p);
-		//}
+			.replace("%amount%", sel+"").replace("%exp%", String.format("%2.02f",totalExp).replace(",", ".")+"")
+				.replace("%money%", String.format("%2.02f",totalMoney).replace(",", ".")+"")
+				.replace("%points%", String.format("%2.02f",totalPoints).replace(",", ".")+""), p);
 		}
 	}
 
@@ -361,33 +227,17 @@ public class Shop {
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%points%", ""+API.getPoints().get(p.getName() ) );
-		List<String> lore =new ArrayList<String>();
-		for(String s : Loader.shop.getStringList("GUI."+item+".Lore")) {
-			lore.add(s.replace("%player%", p.getName())
+		List<String> lore = Loader.shop.getStringList("GUI."+item+".Lore");
+		lore.replaceAll(s->s.replace("%player%", p.getName())
 					.replace("%playername%", p.getDisplayName())
-					.replace("%points%", ""+API.getPoints().get(p.getName() ) ) );
-		}
-
-		ItemCreatorAPI a= new ItemCreatorAPI(Create.createItem(name, Material.valueOf(Loader.shop.getString("GUI."+item+".Icon").toUpperCase()), lore));
-		//ItemCreatorAPI a= new ItemCreatorAPI(new ItemStack(Material.matchMaterial(Loader.shop.getString("GUI."+item+".Icon").toUpperCase())));
-		/*a.setDisplayName(Loader.shop.getString("GUI."+item+".Name")
-				.replace("%player%", p.getName())
-				.replace("%playername%", p.getDisplayName())
-				.replace("%points%", API.getPoints().get(p.getName()) )));*/
-		/*List<String> lore =new ArrayList<String>();
-		for(String s : Loader.shop.getStringList("GUI."+item+".Lore")) {
-			lore.add(s.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", Points.getBal(p.getName())));
-		}*/
-		if(Loader.shop.exists("GUI."+item+".ModelData"))
-		a.setCustomModelData(Loader.shop.getInt("GUI."+item+".ModelData"));
-		//a.setLore(lore);
-		ItemGUI d = new ItemGUI(a.create()){
+					.replace("%points%", ""+API.getPoints().get(p.getName())));
+		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Material.valueOf(Loader.shop.getString("GUI."+item+".Icon").toUpperCase()), lore));
+		ItemGUI d = new ItemGUI(Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create()){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {
 				if(r!=null)
 					r.run();
-			}
-		};
+		}};
 		return d;
 	}
 }

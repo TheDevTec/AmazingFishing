@@ -7,14 +7,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Create {
-	// Toto je class na itemy z GUIček :D
-
 	public static ItemStack createItem(String name, Material material) {
     	ItemCreatorAPI a = new ItemCreatorAPI(material);
     	a.setDisplayName(name);
@@ -28,160 +27,67 @@ public class Create {
     	return a.create();
     }
 	
-	public static void prepareInv(GUI inv) {
-		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
+	public static GUI prepareInv(GUI inv) {
+		ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Material.BLACK_STAINED_GLASS_PANE, 1, "&c"));
 		for(int i = 0; i<10; ++i)
-		inv.setItem(i, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
+		inv.setItem(i, item);
 
-		inv.setItem(17, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(18, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(26, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(27, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(35, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(36, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
+		inv.setItem(17, item);
+		inv.setItem(18, item);
+		inv.setItem(26, item);
+		inv.setItem(27, item);
+		inv.setItem(35, item);
+		inv.setItem(36, item);
 		for(int i = 44; i<54; ++i)
-		inv.setItem(i,  new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
+		inv.setItem(i,  item);
+		return inv;
 	}
-	public static void prepareInvBig(GUI inv) {
+	public static GUI prepareInvBig(GUI inv) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
 		for(int i = 45; i<54; ++i)
 		inv.setItem(i, new ItemGUI(item){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {}
 		});
-
+		return inv;
 	}
-	public static void prepareInvSmall(GUI inv) {
+	public static GUI prepareInvSmall(GUI inv) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
 		for(int i = 9; i<18; ++i)
 		inv.setItem(i, new ItemGUI(item){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {}
 		});
+		return inv;
 	}
-	public static void prepareInvCount(GUI inv, int slots) {
+	public static GUI prepareInvCount(GUI inv, int slots) {
 		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
 		for(int i = 0; i<slots; ++i)
 		inv.setItem(i, new ItemGUI(item){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {}
 		});
+		return inv;
 	}
 	
-	public static void prepareNewBig(GUI inv, Material okraje) {
-		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
-		ItemStack blue = createItem(" ", okraje);
+	public static GUI prepareNewBig(GUI inv, Material okraje) {
+		ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Material.BLACK_STAINED_GLASS_PANE, 1, "&c"));
+		ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(okraje, 1, "&c"));
+		inv.setItem(0, blue);
+		inv.setItem(1, blue);
+		inv.setItem(7, blue);
+		inv.setItem(8, blue);
+		inv.setItem(9, blue);
+		inv.setItem(17, blue);
 		
-		inv.setItem(0, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(1, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(7, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(8, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(9, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(17, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		
-		inv.setItem(36, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(44, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(45, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(46, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(52, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(53, new ItemGUI(blue){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		
-		for(int i = 0; i<54; ++i)
-			if(inv.getFirstEmpty() == -1)break;
-			else
-				inv.addItem(new ItemGUI(item){
-					@Override
-					public void onClick(Player p, HolderGUI arg, ClickType type) {}
-				});
-
-		/*inv.setItem(17, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(18, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(26, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(27, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(35, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
-		inv.setItem(36, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});*/
-		/*for(int i = 44; i<54; ++i)
-		inv.setItem(i,  new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});*/
+		inv.setItem(36, blue);
+		inv.setItem(44, blue);
+		inv.setItem(45, blue);
+		inv.setItem(46, blue);
+		inv.setItem(52, blue);
+		inv.setItem(53, blue);
+		while(inv.getFirstEmpty() != -1)
+			inv.addItem(item);
+		return inv;
 	}
 }

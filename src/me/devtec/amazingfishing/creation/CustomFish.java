@@ -8,6 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.construct.Calculator;
+import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.FishTime;
@@ -33,48 +35,12 @@ public class CustomFish implements Fish {
 	public String getName() {
 		return name;
 	}
-
 	
 	@Override
 	public FishType getType() {
 		return type;
 	}
 
-	/*
-	 
-	 fish:
-	 	<type>:
-	 		<name>:
-	 			name: ""
-	 			messages:
-	 				CATCH:
-	 				 - ""
-					EAT:
-					 - ""
-				commands:
-	 				CATCH:
-	 				 - ""
-					EAT:
-					 - ""
-				biomes:
-				 - 
-				chance: 50.5
-				permission: ""
-				catch:
-					time: DAY | NIGHT | EVERY
-					weather: SUN | RAIN | EVERY
-				model: 1
-				lore:
-				 - ''
-				weight: 50.5
-				length: 45.5
-				minweigth: 4.5
-				minlength: 5.5
-				money: 50.5
-				points: 1.5
-				xp: 5.1
-				
-	 */
 	@Override
 	public String getDisplayName() {
 		return data.getString("fish."+path+"."+name+".name");
@@ -127,12 +93,10 @@ public class CustomFish implements Fish {
 		}catch(Exception | NoSuchFieldError e) {}
 		return FishWeather.EVERY;
 	}
-
 	
 	public Data createData(double weight, double length) {
 		return new Data().set("fish", name).set("type", type.name()).set("weigth", length).set("length", length);
 	}
-
 	
 	public boolean isInstance(Data data) {
 		return data.exists("fish") && data.exists("type") && data.getString("fish").equals(name) && data.getString("type").equals(type.name());
@@ -186,12 +150,50 @@ public class CustomFish implements Fish {
 	public double getMoney() {
 		return data.getDouble("fish."+path+"."+name+".money");
 	}
+
 	@Override
 	public double getPoints() {
 		return data.getDouble("fish."+path+"."+name+".points");
 	}
+
 	@Override
 	public double getXp() {
 		return data.getDouble("fish."+path+"."+name+".xp");
+	}
+
+	@Override
+	public CatchFish createCatchFish(Data data) {
+		return new CatchFish() {
+			
+			@Override
+			public double getWeigth() {
+				return data.getDouble("weigth");
+			}
+			
+			@Override
+			public FishType getType() {
+				return CustomFish.this.getType();
+			}
+			
+			@Override
+			public String getName() {
+				return CustomFish.this.getName();
+			}
+			
+			@Override
+			public double getLength() {
+				return data.getDouble("length");
+			}
+			
+			@Override
+			public Fish getFish() {
+				return CustomFish.this;
+			}
+		};
+	}
+
+	@Override
+	public String getCalculator(Calculator type) {
+		return data.getString("fish."+path+"."+name+".calculator."+type.name().toLowerCase());
 	}
 }

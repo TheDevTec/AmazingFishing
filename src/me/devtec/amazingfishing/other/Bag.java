@@ -28,22 +28,16 @@ public class Bag {
 	public List<ItemStack> getBag(){
 		return u.getData().getListAs(Manager.getDataLocation()+".Bag", ItemStack.class);
 	}
+	
 	public void saveBag(GUI i) {
 		u.remove(Manager.getDataLocation()+".Bag");
-		List<ItemStack> list = new ArrayList<ItemStack>();
-		
+		List<ItemStack> list = new ArrayList<>();
 		for(int slot = 0; slot < 45; ++slot) {
 			if(i.getItem(slot)==null)continue;
 			Fish fish = API.getFish(i.getItem(slot));
-			if(fish==null)  returnItem(i.getItem(slot));
+			if(fish==null)TheAPI.giveItem(player, i.getItem(slot));
 			else list.add(i.getItem(slot));
 		}
-		setItems(list);
-	}
-	private void returnItem(ItemStack item) {
-		TheAPI.giveItem(player, item);
-	}
-	private void setItems(List<ItemStack> list) {
 		u.set(Manager.getDataLocation()+".Bag", list);
 		u.save();
 	}
