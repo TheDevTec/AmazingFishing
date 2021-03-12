@@ -1,7 +1,9 @@
 package me.devtec.amazingfishing.creation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.block.Biome;
 
@@ -9,6 +11,7 @@ import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.json.Writer;
 
 public class CustomTreasure implements Treasure {
 	final String name;
@@ -17,6 +20,29 @@ public class CustomTreasure implements Treasure {
 	public CustomTreasure(String name, Data data) {
 		this.name=name;
 		this.data=data;
+	}
+	
+	public String toString() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("type", "Treasure");
+		map.put("name", getName());
+		map.put("chance", getChance());
+		if(getPermission()!=null)
+		map.put("permission", getPermission());
+		map.put("catch_time", getCatchTime().name().toLowerCase());
+		map.put("catch_weather", getCatchWeather().name().toLowerCase());
+		return Writer.write(map);
+	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof Treasure) {
+			if(o instanceof CustomTreasure) {
+				return ((CustomTreasure) o).data.equals(data) && name.equals(((CustomTreasure) o).name);
+			}else {
+				return ((Treasure) o).getName().equals(name);
+			}
+		}
+		return false;
 	}
 	
 	@Override

@@ -171,7 +171,7 @@ public class Loader extends JavaPlugin {
 		//REMOVE-NOT-LOADED
 		List<String> removeE = new ArrayList<>();
 		for(Entry<String, Enchant> fish : Enchant.enchants.entrySet())
-			if(fish.getValue() instanceof CustomEnchantment && Ref.get(fish.getValue(), "data").equals(data))
+			if(fish.getValue() !=null && fish.getValue() instanceof CustomEnchantment)
 				if(toReg.contains(fish.getValue().getName()))
 					toReg.remove(fish.getValue().getName());
 				else
@@ -193,6 +193,7 @@ public class Loader extends JavaPlugin {
 		TheAPI.msg(prefix+" Enchantments registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();
 		removeE.clear();
+		API.onReload.forEach(a->a.run());
 	}
 	public static void msg(String msg, CommandSender s) {
 		TheAPI.msg(msg.replace("%prefix%", Trans.s("Prefix")), s);

@@ -2,7 +2,9 @@ package me.devtec.amazingfishing.creation;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -18,6 +20,7 @@ import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.json.Writer;
 
 public class CustomFish implements Fish {
 	final String name, path;
@@ -29,6 +32,38 @@ public class CustomFish implements Fish {
 		this.type=type;
 		this.path=path;
 		this.data=data;
+	}
+	
+	public String toString() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("type", "Fish");
+		map.put("name", getName());
+		map.put("chance", getChance());
+		map.put("fish", getType().name().toLowerCase());
+		if(getPermission()!=null)
+		map.put("permission", getPermission());
+		map.put("catch_time", getCatchTime().name().toLowerCase());
+		map.put("catch_weather", getCatchWeather().name().toLowerCase());
+		map.put("weigth", getWeigth());
+		map.put("min_weigth", getMinWeigth());
+		map.put("length", getLength());
+		map.put("min_length", getMinLength());
+		map.put("money", getMoney());
+		map.put("exp", getXp());
+		map.put("points", getPoints());
+		map.put("model", getModel());
+		return Writer.write(map);
+	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof Fish) {
+			if(o instanceof CustomFish) {
+				return ((CustomFish) o).data.equals(data) && type.equals(((CustomFish) o).type) && name.equals(((CustomFish) o).name);
+			}else {
+				return ((Fish) o).getName().equals(name) && getType().equals(((Fish) o).getType());
+			}
+		}
+		return false;
 	}
 	
 	@Override
