@@ -74,7 +74,7 @@ public class EnchantTable {
 			a.open(p);
 		}
 	
-	private static void openEnchanterPlace(Player p, EnchantGUI type) {
+	private static boolean openEnchanterPlace(Player p, EnchantGUI type) {
 		GUI a = new GUI(Trans.enchant_selectRod_title(),54);
 		Create.prepareInv(a);
 		int slot = -1;
@@ -107,6 +107,8 @@ public class EnchantTable {
 		});
 		if(add)
 		a.open(p);
+		else a.clear();
+		return add;
 	}
 
 	private static boolean canAdd(ItemStack item) {
@@ -171,7 +173,9 @@ public class EnchantTable {
 							enchant.enchant(rod, 1);
 							TheAPI.giveItem(p, rod);
 							Rod.deleteRod(p);
-							openEnchanterPlace(p, EnchantGUI.Main);
+							if(!openEnchanterPlace(p, EnchantGUI.Rod_Add))
+								openMain(p);
+							return;
 						}
 						Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
 						return;
@@ -225,7 +229,9 @@ public class EnchantTable {
 							enchant.enchant(rod, 1);
 							TheAPI.giveItem(p, rod);
 							Rod.deleteRod(p);
-							open(p, EnchantGUI.Main );
+							if(!openEnchanterPlace(p, EnchantGUI.Rod_Upgrade))
+								openMain(p);
+							return;
 					}
 					Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
 					return;
