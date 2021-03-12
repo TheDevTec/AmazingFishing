@@ -156,6 +156,7 @@ public class Trans {
 	}
 	public static String words_points() {
 		return Loader.trans.getString("Words.Points");
+		
 	}
 	public static String words_tournament(TournamentType TournamentType) {
 		return Loader.config.getString("Tournament.Type."+TournamentType.formatted()+".Name");
