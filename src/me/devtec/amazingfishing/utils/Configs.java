@@ -47,6 +47,7 @@ public class Configs {
 	    		c=Loader.trans;
 	    		break;
 	    	}
+	    	if(s.equals("Data.yml"))continue;
 	    	if(c!=null) {
 	    		c.reload();
 	    	}else c=new Config("AmazingFishing/"+s);

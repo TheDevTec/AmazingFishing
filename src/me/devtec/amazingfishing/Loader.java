@@ -45,7 +45,8 @@ public class Loader extends JavaPlugin {
 	public static Config trans /*= new Config("AmazingFishing/Translations.yml")*/,
 			config /*= new Config("AmazingFishing/Config.yml")*/,
 			gui, shop;
-	static {
+	public void onLoad() {
+		plugin=this;
 		Configs.load();
 		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
 		prefix = trans.getString("Prefix");
