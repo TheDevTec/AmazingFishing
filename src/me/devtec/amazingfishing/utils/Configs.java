@@ -11,7 +11,7 @@ import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
 
 public class Configs {
-	static List<String> datas = Arrays.asList("Config.yml","Rules.txt","Colors.txt","Scoreboard.yml","Placeholders.yml","Tablist.yml","BossBar.yml","ActionBar.yml", "Animations.yml","Kits.yml","MultiWorlds.yml","Events.yml","Commands.yml","Translations/translation-en.yml","Translations/translation-cz.yml","Translations/translation-sk.yml");
+	static List<String> datas = Arrays.asList("Config.yml","Data.yml","GUI.yml","Shop.yml","Translations.yml");
 	
 	public static void load() {
 		Data data = new Data();
