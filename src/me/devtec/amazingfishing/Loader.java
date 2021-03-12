@@ -41,17 +41,11 @@ import me.devtec.theapi.utils.reflections.Ref;
 public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
-	public static Data data = new Data("plugins/AmazingFishing/Data.yml");
+	public static Data data;
 	public static Config trans /*= new Config("AmazingFishing/Translations.yml")*/,
 			config /*= new Config("AmazingFishing/Config.yml")*/,
 			gui, shop;
-	public void onLoad() {
-		plugin=this;
-		Configs.load();
-		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
-		prefix = trans.getString("Prefix");
-	}
-	static String prefix = trans.getString("Prefix");
+	static String prefix;
 
 	public void onEnable() {
 		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "4.9.4")==VersionChecker.Version.NEW) {
@@ -63,6 +57,10 @@ public class Loader extends JavaPlugin {
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
+		plugin=this;
+		Configs.load();
+		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
+		prefix = trans.getString("Prefix");
 		new me.devtec.theapi.utils.theapiutils.metrics.Metrics(this, 10630);
 		reload(TheAPI.getConsole(),false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
