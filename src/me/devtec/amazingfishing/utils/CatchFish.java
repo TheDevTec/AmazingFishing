@@ -43,16 +43,22 @@ public class CatchFish implements Listener {
 				if(am>list.max_amount)am=(int) list.max_amount;
 				item.remove();
 		          double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
-		          double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY();
+		          double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
 		          double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();
 				Vector vec = new Vector(d0 * 0.1D, d1 * 0.1D + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08D, d2 * 0.1D);
+				try {
 				am=random.nextInt(am);
-				if(am==0)am=1;
+				}catch(Exception er) {}
+				if(am<=0)am=1;
 				for(int a = 0; a < am; ++a) {
 					Fish f = ff.getRandom();
 					double weight = 0, length = 0;
-					weight=random.nextInt((int)f.getWeigth())+random.nextDouble();
-					length=random.nextInt((int)f.getLength())+random.nextDouble();
+					try {
+						weight=random.nextInt((int)f.getWeigth())+random.nextDouble();
+					}catch(Exception er) {}
+					try {
+						length=random.nextInt((int)f.getLength())+random.nextDouble();
+					}catch(Exception er) {}
 					if(weight>f.getWeigth())weight=f.getWeigth();
 					if(length>f.getLength())length=f.getLength();
 					if(weight<f.getMinWeigth())weight=f.getMinWeigth();
