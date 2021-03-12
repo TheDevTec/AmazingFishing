@@ -19,7 +19,7 @@ fish:
       messages:
         catch:
         - "&eYou catch %name% fish!"
-        - "&eFish is &6%lenght% cm&e long and weighs &6%weight% kg"
+        - "&eFish is &6%length% cm&e long and weighs &6%weight% kg"
         eat:
         - "&eYou ate %name% fish!"
       # commands:

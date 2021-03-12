@@ -56,6 +56,7 @@ GUI:
       - "&3> &5Time: %time%"
       
   Settings:
+    Title: "&3Settings"
     SendRecords:
       on:
         Name: "&3Send records"

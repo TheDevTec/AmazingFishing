@@ -18,14 +18,13 @@ import me.devtec.theapi.utils.datakeeper.User;
 public class Settings {
 
 	public static void open(Player p) {
-		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Help.Player.Title"),54), Material.PURPLE_STAINED_GLASS_PANE);
+		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Settings.Title"),54), Material.PURPLE_STAINED_GLASS_PANE);
 		
 		User u = TheAPI.getUser(p);
 		String records = "on";
 		if(u.exist(Manager.getDataLocation()+".Settings.SendRecords") && 
 				!u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords"))
 			records = "off";
-		
 		Material item = Material.valueOf( Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item") );
 		String name =  Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name");
 		List<String> lore = Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore");
@@ -44,5 +43,6 @@ public class Settings {
 			}
 		});
 		
+		a.open(p);
 	}
 }
