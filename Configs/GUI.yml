@@ -9,6 +9,7 @@ GUI:
        Bag: "&bBackPack"
        Quests: "&bQuests"
        Info: "&ePlayer section"
+       Settings: "&bSettings"
     Admin:
       Title: "&5Help &7- &4 Admin"
       Info: "&cAdmin section"
@@ -53,3 +54,20 @@ GUI:
       Description:
       - "&3> &5Type: %type%"
       - "&3> &5Time: %time%"
+      
+  Settings:
+    SendRecords:
+      on:
+        Name: "&3Send records"
+        Item: "GREEN_CONCRETE"
+        Lore:
+        - "&aYou are receiving new fish record messages"
+        - "&7"
+        - "&7Click to turn it off"
+      off:
+        Name: "&3Send records"
+        Item: "RED_CONCRETE"
+        Lore:
+        - "&aYou are not receiving new fish record messages"
+        - "&7"
+        - "&7Click to turn it back on"

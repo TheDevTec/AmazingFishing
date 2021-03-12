@@ -99,10 +99,18 @@ public class Help {
 		}
 		);
 	
-		if(p.hasPermission("amazingfishing.quests"))
-		/*a.setItem(24,new ItemGUI(Create.createItem(Trans.help_player_quests(), Material.BOOK)){
+		if(p.hasPermission("amazingfishing.settings"))
+			a.setItem(24,new ItemGUI(Create.createItem(Trans.help_player_settings(), Material.LECTERN)){
+				@Override
+				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
+					if(p.hasPermission("amazingfishing.settings")) {
+						Settings.open(p);
+					}
+				}
+			});
+		/*a.setItem(--,new ItemGUI(Create.createItem(Trans.help_player_quests(), Material.BOOK)){
 			@Override
-			public void onClick(Player p, GUI arg, ClickType ctype) {
+			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.quests")) {
 					if(API.getQuest(p)==null) {
 						Quests.selectQuest(p);

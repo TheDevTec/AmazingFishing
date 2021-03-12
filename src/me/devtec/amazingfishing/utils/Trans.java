@@ -42,6 +42,9 @@ public class Trans {
 	public static String help_player_quests() {
 		return Loader.gui.getString("GUI.Help.Player.Quests");
 	}
+	public static String help_player_settings() {
+		return Loader.gui.getString("GUI.Help.Player.Settings");
+	}
 	
 	
 	public static String help_admin_info() {

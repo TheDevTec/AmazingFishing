@@ -93,26 +93,32 @@ public class Statistics {
 	
 	public static void addRecord(Player p, Fish f, double length, double weight) {
 		User user = TheAPI.getUser(p);
+		boolean cansend;
+		if(!user.exist(Manager.getDataLocation()+".Settings.SendRecords") )
+			cansend =true;
+		else cansend = user.getBoolean(Manager.getDataLocation()+".Settings.SendRecords");
 		double old;
 		if(f!=null) {
 			if(length!=0) {
 				old = getRecord(p, f, RecordType.LENGTH);
 				if(length > old) {
 					setNewRecord(user, f, RecordType.LENGTH, length);
-				for(String msg : Loader.trans.getStringList("NewRecord"))
-					Loader.msg(msg
-							.replace("%type%", "Length")
-							.replace("%new%", ""+length)
-							.replace("%old%", ""+old)
-							, p);
+					if(cansend)
+						for(String msg : Loader.trans.getStringList("NewRecord"))
+							Loader.msg(msg
+									.replace("%type%", "Length")
+									.replace("%new%", ""+length)
+									.replace("%old%", ""+old)
+									, p);
 				}
 			}
 			if(weight!=0) {
 				old = getRecord(p, f, RecordType.WEIGHT);
 				if(weight > old) {
 					setNewRecord(user, f, RecordType.WEIGHT, weight);
-					for(String msg : Loader.trans.getStringList("NewRecord"))
-						Loader.msg(msg
+					if(cansend)
+						for(String msg : Loader.trans.getStringList("NewRecord"))
+							Loader.msg(msg
 								.replace("%type%", "Weight")
 								.replace("%new%", ""+weight)
 								.replace("%old%", ""+old)
