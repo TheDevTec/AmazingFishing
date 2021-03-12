@@ -54,7 +54,7 @@ public class Configs {
 		Loader.trans.addDefault("Admin.ConfigReloaded", "&aReloaded configs");
 		
 
-		Loader.trans.addDefault("FishList.Topic", "&eList of fishes:");
+		Loader.trans.addDefault("FishList.Topic", "&eList of fish:");
 		Loader.trans.addDefault("FishList.Format", "&7&l- %fish%");
 		
 		Loader.trans.addDefault("Points.Lack", "%prefix% &cYou have lack of points!");

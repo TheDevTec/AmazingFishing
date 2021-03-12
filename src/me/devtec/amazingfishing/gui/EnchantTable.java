@@ -173,6 +173,7 @@ public class EnchantTable {
 							Rod.deleteRod(p);
 							openEnchanterPlace(p, EnchantGUI.Main);
 						}
+						else
 						Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
 						return;
 					}
@@ -227,7 +228,7 @@ public class EnchantTable {
 							Rod.deleteRod(p);
 							open(p, EnchantGUI.Main );
 					}
-					Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
+					else Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
 					return;
 					}
 				});
