@@ -2,6 +2,8 @@ package me.devtec.amazingfishing.utils;
 
 import org.bukkit.entity.Player;
 
+import me.devtec.amazingfishing.Loader;
+import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
@@ -87,5 +89,53 @@ public class Statistics {
 		}
 		u.set(Manager.getDataLocation()+".Statistics.Tournament.Played", getTournamentPlayed(p, null)+1);
 		u.save();
+	}
+	
+	public static void addRecord(Player p, Fish f, double length, double weight) {
+		User user = TheAPI.getUser(p);
+		double old;
+		if(f!=null) {
+			if(length!=0) {
+				old = getRecord(p, f, RecordType.LENGTH);
+				if(length > old) {
+					setNewRecord(user, f, RecordType.LENGTH, length);
+				for(String msg : Loader.trans.getStringList("NewRecord"))
+					Loader.msg(msg
+							.replace("%type%", "Length")
+							.replace("%new%", ""+length)
+							.replace("%old%", ""+old)
+							, p);
+				}
+			}
+			if(weight!=0) {
+				old = getRecord(p, f, RecordType.WEIGHT);
+				if(weight > old) {
+					setNewRecord(user, f, RecordType.WEIGHT, weight);
+					for(String msg : Loader.trans.getStringList("NewRecord"))
+						Loader.msg(msg
+								.replace("%type%", "Weight")
+								.replace("%new%", ""+weight)
+								.replace("%old%", ""+old)
+								, p);
+				}
+			}
+		}
+		if(!Loader.cache.exists("Unused."+p.getName())) {
+			Loader.cache.set("Unused."+p.getName(), true);
+			Loader.cache.save();
+		}
+	}
+	private static void setNewRecord(User u, Fish f, RecordType type, double record) {
+		u.setAndSave( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() , record);
+	}
+	public static double getRecord(Player p, Fish f, RecordType type) {
+		User u = TheAPI.getUser(p);
+		if(u.exist(Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() ))
+			return u.getDouble( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() );
+		return 0;
+	}
+	public enum RecordType{
+		LENGTH,
+		WEIGHT;
 	}
 }

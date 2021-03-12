@@ -66,6 +66,7 @@ public class CatchFish implements Listener {
 					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, e.getPlayer(), e.getHook().getLocation()) );
 			        item.setVelocity(vec);
 			        Statistics.addFish(e.getPlayer(), f.getType());
+			        Statistics.addRecord(e.getPlayer(), f, length, weight);
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
 								.replace("%weight%", (""+weight).replace(",", ".").replaceAll("[^0-9.]+", ","))

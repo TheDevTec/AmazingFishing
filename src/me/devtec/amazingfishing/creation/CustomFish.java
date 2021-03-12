@@ -21,6 +21,7 @@ import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.json.Writer;
 
@@ -176,9 +177,9 @@ public class CustomFish implements Fish {
 				.replace("%displayname%", p.getDisplayName())
 				.replace("%biomes%", getBiomes().toString().replace("[", "").replace("]", "") )
 				.replace("%biome%", hook.getBlock().getBiome().name())
-				.replace("%x%", ""+hook.getX())
-				.replace("%y%", ""+hook.getY())
-				.replace("%z%", ""+hook.getZ())
+				.replace("%x%", ""+StringUtils.getInt(""+hook.getX()) )
+				.replace("%y%", ""+StringUtils.getInt(""+hook.getY()) )
+				.replace("%z%", ""+StringUtils.getInt(""+hook.getZ()) )
 				.replace("%world%", hook.getWorld().getName())
 				);
 		c.setLore(l);

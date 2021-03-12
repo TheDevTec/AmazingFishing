@@ -13,9 +13,9 @@ fish:
       - "&7Weight: &f%weight%"
       - "&7Length: &f%length%"
       - "&7Chance: &f%chance%"
-      - "&Caught by: &f%displayname%"
-      - "&Caught in biome: &f%biome%"
-      - "&Caught on location: &f%x% %y% %z% %world%"
+      - "&7Caught by: &f%displayname%"
+      - "&7Caught in biome: &f%biome%"
+      - "&7Caught on location: &f%x% %y% %z% %world%"
       messages:
         catch:
         - "&eYou catch %name% fish!"

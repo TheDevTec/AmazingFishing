@@ -20,10 +20,16 @@ SoldFish:
 
 Tournaments:
   Stop:
-    All: "%prefix% &aYou have stopped all current tournaments!"
-    One: "%prefix% &aYou have stopped current tournament!"
+    All: "%prefix% &9You have stopped all current tournaments!"
+    One: "%prefix% &9You have stopped current tournament!"
     NoRunning: "%prefix% &cThere is no running tournament!"
     
+NewRecord:
+- "&7&l-----------------------"
+- "&9You set a new record! &3Record type: %type%"
+- "&3New record: %new% &8&l| &7Old record: %old%"
+- "&7&l-----------------------"
+
 Words:
   Cod: "&7Cod"
   Salmon: "&7Salmon"
