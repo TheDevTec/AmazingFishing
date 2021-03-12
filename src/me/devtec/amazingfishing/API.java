@@ -1,6 +1,8 @@
 package me.devtec.amazingfishing;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Material;
@@ -19,6 +21,11 @@ public class API {
 	protected static Material cod = find("COD",0), salmon = find("SALMON",1)
 			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3);
 	protected static PointsManager points;
+	protected static List<Runnable> onReload = new ArrayList<>();
+	
+	public static void addRunnableOnReload(Runnable r) {
+		onReload.add(r);
+	}
 	
 	public static void register(Fish fish) {
 		API.fish.put(fish.getName()+fish.getType().ordinal(), fish);

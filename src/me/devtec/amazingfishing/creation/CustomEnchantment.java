@@ -1,11 +1,14 @@
 package me.devtec.amazingfishing.creation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.construct.Enchant;
+import me.devtec.theapi.utils.json.Writer;
 
 public class CustomEnchantment extends Enchant {
 	final int level;
@@ -30,6 +33,37 @@ public class CustomEnchantment extends Enchant {
 	@Override
 	public int getMaxLevel() {
 		return level;
+	}
+	
+	public String toString() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("type", "Enchantment");
+		map.put("name", getName());
+		map.put("cost", getCost());
+		map.put("bonus_chance", getChance());
+		map.put("bonus_amount", getAmount());
+		return Writer.write(map);
+	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof Enchant) {
+			if(o instanceof CustomEnchantment) {
+				return ((CustomEnchantment) o).getName().equals(getName()) && getChance()==((CustomEnchantment) o).getChance()
+						 && getAmount()==((CustomEnchantment) o).getAmount() && getCost()==((CustomEnchantment) o).getCost();
+			}else {
+				return ((Enchant) o).getName().equals(getName()) && getCost()==((Enchant) o).getCost()
+						 && getMaxLevel()==((Enchant) o).getMaxLevel();
+			}
+		}
+		return false;
+	}
+	
+	public double getAmount() {
+		return amount;
+	}
+	
+	public double getChance() {
+		return chance;
 	}
 
 	@Override
