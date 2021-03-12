@@ -54,7 +54,7 @@ public class Configs {
 		Loader.trans.addDefault("Admin.ConfigReloaded", "&aReloaded configs");
 		
 
-		Loader.trans.addDefault("FishList.Topic", "&eList of fishes:");
+		Loader.trans.addDefault("FishList.Topic", "&eList of fish:");
 		Loader.trans.addDefault("FishList.Format", "&7&l- %fish%");
 		
 		Loader.trans.addDefault("Points.Lack", "%prefix% &cYou have lack of points!");
@@ -68,6 +68,7 @@ public class Configs {
 		Loader.trans.addDefault("Words.PufferFish", "&7PufferFish");
 		Loader.trans.addDefault("Words.TropicalFish", "&7TropicalFish");
 		Loader.trans.addDefault("Words.Back", "&4Back");
+		
 		Loader.trans.addDefault("Words.Close", "&cClose");
 		Loader.trans.addDefault("Words.Cancel", "&cCancel");
 		Loader.trans.addDefault("Words.Sell", "&eSell fish");

@@ -177,6 +177,7 @@ public class EnchantTable {
 								openMain(p);
 							return;
 						}
+						else
 						Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
 						return;
 					}
@@ -233,7 +234,7 @@ public class EnchantTable {
 								openMain(p);
 							return;
 					}
-					Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
+					else Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
 					return;
 					}
 				});

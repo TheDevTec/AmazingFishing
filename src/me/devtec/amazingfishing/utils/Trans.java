@@ -6,11 +6,17 @@ import java.util.List;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.gui.Shop.ShopType;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
+import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.StringUtils;
 
 public class Trans {
 	public static String s(String s) {
-		return Loader.trans.getString(s);
+		if(Loader.trans.exists(s))
+			return Loader.trans.getString(s);
+		else {
+			TheAPI.getConsole().sendMessage("&4ERROR: This path doesn't exist in Translation file! &f'"+s+"'");
+			return null;
+		}
 	}
 	public static String help_player_title() {
 		return Loader.gui.getString("GUI.Help.Player.Title");
@@ -149,7 +155,8 @@ public class Trans {
 		return Loader.trans.getString("Words.Sell");
 	}
 	public static String words_points() {
-		return Loader.trans.getString("Words.Sell");
+		return Loader.trans.getString("Words.Points");
+		
 	}
 	public static String words_tournament(TournamentType TournamentType) {
 		return Loader.config.getString("Tournament.Type."+TournamentType.formatted()+".Name");
