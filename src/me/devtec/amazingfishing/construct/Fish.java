@@ -2,7 +2,9 @@ package me.devtec.amazingfishing.construct;
 
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -38,6 +40,8 @@ public interface Fish {
 
 	public ItemStack createItem(double height, double length);
 
+	public ItemStack createItem(double weight, double length, Player p, Location hook);
+	
 	public double getWeigth();
 
 	public double getLength();
@@ -53,4 +57,5 @@ public interface Fish {
 	public double getXp();
 	
 	public CatchFish createCatchFish(Data data);
+
 }

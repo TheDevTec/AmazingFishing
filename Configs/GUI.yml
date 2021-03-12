@@ -1,0 +1,55 @@
+GUI:
+  Help:
+    Player:
+       Title: "&5Help &7- &4 Player"
+       Shop: "&bShop"
+       Stats: "&bStats"
+       List: "&bFish list"
+       Enchant: "&bEnchant table"
+       Bag: "&bBackPack"
+       Quests: "&bQuests"
+       Info: "&ePlayer section"
+    Admin:
+      Title: "&5Help &7- &4 Admin"
+      Info: "&cAdmin section"
+      Reload: "&6Reload"
+      Tournament: "&6Tournament"
+    
+  SellShop:
+    Title: "&eSell Shop"
+  BuyShop:
+    Title: "&aBuy Shop"
+  Bag:
+    Title: "&eBag"
+    Shop: "&aGo to shop"
+
+  Enchant:
+    Title: "&bEnchant Table"
+    Add: "&9Add Enchant"
+    Upgrade: "&9Upgrade"
+    Retriver_rod: "&2Retrive Rod"
+    SelectRod_Title: "&bEnchant Table &7&l- &9Select fishing rod"
+    Upgrade_Enchant_Title: "&bEnchant Table &7&l- &9Add Enchant"
+    Add_Enchant_Title: "&bEnchant Table &7&l- &9Add Enchant"
+  
+  Tournaments:
+    Title: "&2Tournaments"
+    Stop:
+      Title: "&4Stop &2Tournaments"
+      Item: "&4Stop tournaments"
+      StopOne:
+        Name: "&4Stop one tournament"
+        Description:
+        - "&7 - Left click to stop tournament with prizes (in your world)"
+        - "&7 - Right click to stop tournament without prizes (in your world)"
+      StopAll:
+        Name: "&4Stop all tournaments"
+        Description:
+        - "&7 - Left click to stop all tournaments with prizes"
+        - "&7 - Right click to stop all tournaments without prizes"
+    Start:
+      Title: "&2Tournaments &7- &a %type%"
+      Start: "&6Click to start new tournament"
+      Description:
+      - "&3> &5Type: %type%"
+      - "&3> &5Time: %time%"

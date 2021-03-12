@@ -83,7 +83,8 @@ public class CustomEnchantment extends Enchant {
 					.replace("%maxlevel%", getMaxLevel()+"")
 					.replace("%name%", getName())
 					.replace("%displayname%", getDisplayName())
-					.replace("%chance%", chance+"") );
+					.replace("%chance%", chance+"")
+					.replace("%chance%", amount+""));
 		return list;
 	}
 

@@ -1,0 +1,57 @@
+# ░█████╗░██████╗░███████╗░█████╗░████████╗███████╗██████╗░  ██████╗░██╗░░░██╗  ██████╗░███████╗██╗░░░██╗████████╗███████╗░█████╗░
+# ██╔══██╗██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝██╔══██╗  ██╔══██╗╚██╗░██╔╝  ██╔══██╗██╔════╝██║░░░██║╚══██╔══╝██╔════╝██╔══██╗
+# ██║░░╚═╝██████╔╝█████╗░░███████║░░░██║░░░█████╗░░██║░░██║  ██████╦╝░╚████╔╝░  ██║░░██║█████╗░░╚██╗░██╔╝░░░██║░░░█████╗░░██║░░╚═╝
+# ██║░░██╗██╔══██╗██╔══╝░░██╔══██║░░░██║░░░██╔══╝░░██║░░██║  ██╔══██╗░░╚██╔╝░░  ██║░░██║██╔══╝░░░╚████╔╝░░░░██║░░░██╔══╝░░██║░░██╗
+# ╚█████╔╝██║░░██║███████╗██║░░██║░░░██║░░░███████╗██████╔╝  ██████╦╝░░░██║░░░  ██████╔╝███████╗░░╚██╔╝░░░░░██║░░░███████╗╚█████╔╝
+# ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═════╝░  ╚═════╝░░░░╚═╝░░░  ╚═════╝░╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚══════╝░╚════╝░
+#
+# Links:
+#  Github: https://github.com/TheDevTec/AmazingFishing
+#  Discord: https://discord.io/spigotdevtec
+
+Options:
+  # PointsManager types: VAULT, USER
+  PointsManager: "User"
+  Enchants: true
+  Shop:
+    Enabled: true
+    SellFish: true
+    Sounds:
+      Shop-BuyItem: true
+    Calculator:
+      # Default money calculation: (%length% / 4 +%weight% / 4 + %money%) * %bonus%
+      # Default points calculation: (%length% / 4 +%weight% / 4 + %points%) * %bonus%
+      # Default xp calculation: (%length% / 4 +%weight% / 4 + %xp%) * %bonus%
+      Money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
+      Exps: "(%length% / 4 +%weight% / 4 + %xp%) * %bonus%"
+      Points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+
+  Sell:
+    DisableMoney: false
+    DisableXP: false
+    DisablePoints: false
+
+  Bag:
+    Enabled: true
+    OpenShop: true
+    # If you want to be able to sell fish from your bag you need to set 'SellFish' to true
+    SellFish: true
+    
+  Enchants:
+    Enabled: true
+
+# Tournaments:
+Tournament:
+  Type:
+    Amount:
+      Name: "&bAmount"
+    Length:
+      Name: "&bLength"
+    Weight:
+      Name: "&9Weight"
+    TotalLength:
+      Name: "&3TotalLength"
+    TotalWeight:
+      Name: "&3TotalWeight"
+    Random:
+      Name: "&6Random"

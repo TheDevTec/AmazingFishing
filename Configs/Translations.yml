@@ -1,0 +1,37 @@
+Prefix: "&bAmazingFishing &8&l» &7"
+Admin:
+  ConfigReloaded: "&aReloaded configs"
+  
+FishList:
+  Topic: "&eFish list:"
+  Format: "&7&l- %fish%"
+  
+Points:
+  Lack: "%prefix% &cYou have lack of points!"
+
+SoldFish:
+- "&7&l-----------------------"
+- "&eYou sold:"
+- "&7Amount: &f%amount%"
+- "&7Money &7%money%$"
+- "&7Exp: &f%exp%"
+- "&7Points: &f%points%"
+- "&7&l-----------------------"
+
+Tournaments:
+  Stop:
+    All: "%prefix% &aYou have stopped all current tournaments!"
+    One: "%prefix% &aYou have stopped current tournament!"
+    NoRunning: "%prefix% &cThere is no running tournament!"
+    
+Words:
+  Cod: "&7Cod"
+  Salmon: "&7Salmon"
+  PufferFish: "&7PufferFish"
+  TropicalFish: "&7TropicalFish"
+  Back: "&4Back"
+  Close: "&cClose"
+  Cancel: "&cCancel"
+  Sell: "&eSell fish"
+  Points: "&9%value% Points"
+  Bag: "&7Bag"

@@ -63,13 +63,39 @@ public class CatchFish implements Listener {
 					if(length>f.getLength())length=f.getLength();
 					if(weight<f.getMinWeigth())weight=f.getMinWeigth();
 					if(length<f.getMinLength())length=f.getMinLength();
-					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length));
+					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, e.getPlayer(), e.getHook().getLocation()) );
 			        item.setVelocity(vec);
 			        Statistics.addFish(e.getPlayer(), f.getType());
 					for(String s : f.getMessages(FishAction.CATCH))
-						TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s), e.getPlayer());
+						TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
+								.replace("%weight%", (""+weight).replace(",", ".").replaceAll("[^0-9.]+", ","))
+								.replace("%length%", (""+length).replace(",", ".").replaceAll("[^0-9.]+", ","))
+								.replace("%chance%", (""+f.getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+								.replace("%name%", f.getDisplayName())
+								.replace("%player%", e.getPlayer().getName())
+								.replace("%displayname%", e.getPlayer().getDisplayName())
+								.replace("%biomes%", f.getBiomes().toString().replace("[", "").replace("]", "") )
+								.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
+								.replace("%x%", ""+e.getHook().getLocation().getX())
+								.replace("%y%", ""+e.getHook().getLocation().getY())
+								.replace("%z%", ""+e.getHook().getLocation().getZ())
+								.replace("%world%", e.getHook().getLocation().getWorld().getName())
+								), e.getPlayer());
 					for(String s : f.getCommands(FishAction.CATCH))
-						TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(e.getPlayer(), s));
+						TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
+								.replace("%weight%", (""+weight).replace(",", ".").replaceAll("[^0-9.]+", ","))
+								.replace("%length%", (""+length).replace(",", ".").replaceAll("[^0-9.]+", ","))
+								.replace("%chance%", (""+f.getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+								.replace("%name%", f.getDisplayName())
+								.replace("%player%", e.getPlayer().getName())
+								.replace("%displayname%", e.getPlayer().getDisplayName())
+								.replace("%biomes%", f.getBiomes().toString().replace("[", "").replace("]", "") )
+								.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
+								.replace("%x%", ""+e.getHook().getLocation().getX())
+								.replace("%y%", ""+e.getHook().getLocation().getY())
+								.replace("%z%", ""+e.getHook().getLocation().getZ())
+								.replace("%world%", e.getHook().getLocation().getWorld().getName())
+								));
 				}
 			}else {
 				if(generateChance()) {
@@ -78,9 +104,30 @@ public class CatchFish implements Listener {
 					if(treas != null) {
 						item.remove();
 						for(String s : treas.getMessages())
-							TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s), e.getPlayer());
+							TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
+									.replace("%player%", e.getPlayer().getName())
+									.replace("%chance%", (""+treas.getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+									.replace("%name%", treas.getName())
+									.replace("%displayname%", treas.getDisplayName())
+									.replace("%biomes%", treas.getBiomes().toString().replace("[", "").replace("]", "") )
+									.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
+									.replace("%x%", ""+e.getHook().getLocation().getX())
+									.replace("%y%", ""+e.getHook().getLocation().getY())
+									.replace("%z%", ""+e.getHook().getLocation().getZ())
+									.replace("%world%", e.getHook().getLocation().getWorld().getName())
+									), e.getPlayer());
 						for(String s : treas.getCommands())
-							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(e.getPlayer(), s));
+							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
+									.replace("%player%", e.getPlayer().getName())
+									.replace("%chance%", (""+treas.getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+									.replace("%name%", treas.getName())
+									.replace("%displayname%", treas.getDisplayName())
+									.replace("%biomes%", treas.getBiomes().toString().replace("[", "").replace("]", "") )
+									.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
+									.replace("%x%", ""+e.getHook().getLocation().getX())
+									.replace("%y%", ""+e.getHook().getLocation().getY())
+									.replace("%z%", ""+e.getHook().getLocation().getZ())
+									.replace("%world%", e.getHook().getLocation().getWorld().getName())));
 					}
 				}
 			}

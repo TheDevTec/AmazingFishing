@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.construct.Calculator;
@@ -148,7 +150,12 @@ public class CustomFish implements Fish {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
 		c.setDisplayName(getDisplayName());
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
-		l.replaceAll(a -> a.replace("%weight%", ff.format(weight).replace(",", ".").replaceAll("[^0-9.]+", ",")).replace("%length%", ff.format(length).replace(",", ".").replaceAll("[^0-9.]+", ",")));
+		l.replaceAll(a -> a.replace("%weight%", ff.format(weight).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%length%", ff.format(length).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%chance%", (""+getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%name%", getDisplayName())
+				.replace("%biomes%", getBiomes().toString().replace("[", "").replace("]", "") )
+				);
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
@@ -156,6 +163,31 @@ public class CustomFish implements Fish {
 		return Utils.asBukkit(r);
 	}
 
+	@Override
+	public ItemStack createItem(double weight, double length, Player p, Location hook) {
+		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		c.setDisplayName(getDisplayName());
+		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
+		l.replaceAll(a -> a.replace("%weight%", ff.format(weight).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%length%", ff.format(length).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%chance%", (""+getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%name%", getDisplayName())
+				.replace("%player%", p.getName())
+				.replace("%displayname%", p.getDisplayName())
+				.replace("%biomes%", getBiomes().toString().replace("[", "").replace("]", "") )
+				.replace("%biome%", hook.getBlock().getBiome().name())
+				.replace("%x%", ""+hook.getX())
+				.replace("%y%", ""+hook.getY())
+				.replace("%z%", ""+hook.getZ())
+				.replace("%world%", hook.getWorld().getName())
+				);
+		c.setLore(l);
+		ItemStack stack = Utils.setModel(c.create(), getModel());
+		Object r = Utils.asNMS(stack);
+		Utils.setString(Utils.getNBT(r), createData(weight, length));
+		return Utils.asBukkit(r);
+	}
+	
 	private static ItemStack find(String name, int id) {
 		if(Material.getMaterial(name)!=null)return new ItemStack(Material.getMaterial(name));
 		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id);

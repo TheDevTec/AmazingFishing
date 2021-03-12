@@ -175,10 +175,8 @@ public class Shop {
 			int bonus=1; //TODO - Fish Of Day
 			
 			//MONEY & POINTS
-			if(Loader.config.getBoolean("Options.Sell.EarnFromLength"))
-				length=f.getLength();
-			if(Loader.config.getBoolean("Options.Sell.EarnFromWeight"))
-				weight=f.getWeigth();
+			length=f.getLength();
+			weight=f.getWeigth();
 			
 			sel=sel+d.getAmount();
 

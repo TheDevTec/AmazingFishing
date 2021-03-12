@@ -1,0 +1,77 @@
+  # FISH
+fish:
+  # cod, tropical_fish, pufferfish, salmon
+  cod:
+    1:
+      name: "&eCarp"
+      # model: 1
+      chance: 50.0
+      # permission: String
+      # Lore placeholders: %length%, %weight%, %chance%, %name%, %biomes%, %biome%, %x%, %y%, %z%, %world%
+      # Other placeholders: %player% - just players name, %displayname% - Players display name
+      lore:
+      - "&7Weight: &f%weight%"
+      - "&7Length: &f%length%"
+      - "&7Chance: &f%chance%"
+      - "&Caught by: &f%displayname%"
+      - "&Caught in biome: &f%biome%"
+      - "&Caught on location: &f%x% %y% %z% %world%"
+      messages:
+        catch:
+        - "&eYou catch %name% fish!"
+        - "&eFish is &6%lenght% cm&e long and weighs &6%weight% kg"
+        eat:
+        - "&eYou ate %name% fish!"
+      # commands:
+        # catch: List
+        # eat: List
+      # biomes:
+      # - <biome name>
+      catch:
+        # Types: DAY | NIGHT | EVERY
+        time: EVERY
+        # Types: SUN | RAIN | THUNDER | EVERY
+        weather: EVERY
+      weight: 45.5
+      length: 80.7
+      minweigth: 5.5
+      minlength: 8.7
+      money: 5.5
+      points: 5.5
+      xp: 10.5
+      
+  # ENCHANTMENTS
+enchantments:
+  example:
+    name: "&eGreat enchant!"
+    maxlevel: 10
+    cost: 5
+    bonus:
+      chance: 5
+      amount: 2
+    # Description placeholders: %cost%, %maxlevel%, %name%, %displayname% - custom name with colors, %chance%, %amount%
+    description:
+    - "&eGreat enchant is great!"
+    - "&7Bonus chance: %chance%"
+    - "&7Bonus amount: %amount%"
+    - "&7"
+    - "&3Cost: &b%cost% points"
+
+  # TREASURES
+treasures:
+  common:
+    name: "&7Common treasure"
+    # Placeholders: %player%, %chance%, %name% - 'common', %displayname% - custom treasure name, %biomes%, %biome%, %x%, %y%, %z%, %world%
+    messages:
+    - "&3You found &7Common treasure on &b%x% %y% %z% %world%&3!!"
+    commands:
+    - "eco give %player% 500"
+    chance: 70.5
+    # permission: String
+    # biomes:
+    # - <biome_name>
+    catch:
+      # Types: DAY | NIGHT | EVERY
+      time: EVERY
+      # Types: SUN | RAIN | THUNDER | EVERY
+      weather: EVERY

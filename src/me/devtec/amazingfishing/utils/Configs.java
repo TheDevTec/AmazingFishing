@@ -22,9 +22,6 @@ public class Configs {
 		Loader.config.addDefault("Options.Shop.Calculator.Exps", "(%length% / 4 +%weight% / 4 + %xp%) * %bonus%");
 		Loader.config.addDefault("Options.Shop.Calculator.Points", "(%length% / 5 +%weight% / 5 + %points%) * %bonus%");
 
-		Loader.config.addDefault("Options.Sell.EarnFromLength", true);
-		Loader.config.addDefault("Options.Sell.EarnFromWeight", true);
-		Loader.config.addDefault("Options.Sell.GiveFullPriceFish", true);
 		Loader.config.addDefault("Options.Sell.DisableMoney", false);
 		Loader.config.addDefault("Options.Sell.DisableXP", false);
 		Loader.config.addDefault("Options.Sell.DisablePoints", false);
@@ -55,7 +52,7 @@ public class Configs {
 		
 
 		Loader.trans.addDefault("FishList.Topic", "&eFish list:");
-		Loader.trans.addDefault("FishList.Format", "&7&l- %fish%");
+		Loader.trans.addDefault("FishList.Format", "&7&l- &7%fish%");
 		
 		Loader.trans.addDefault("Points.Lack", "%prefix% &cYou have lack of points!");
 
@@ -76,7 +73,7 @@ public class Configs {
 		Loader.trans.addDefault("Words.Cancel", "&cCancel");
 		Loader.trans.addDefault("Words.Sell", "&eSell fish");
 		Loader.trans.addDefault("Words.Points", "&9%value% Points");
-		Loader.trans.addDefault("Words.Bag", "&9%value% Points");
+		Loader.trans.addDefault("Words.Bag", "&7Bag");
 		
 		Loader.trans.save();
 	}
@@ -120,10 +117,11 @@ public class Configs {
 		Loader.gui.addDefault("GUI.Tournaments.Stop.StopOne.Description", Arrays.asList(
 				"&7 - Left click to stop tournament with prizes (in your world)",
 				"&7 - Right click to stop tournament without prizes (in your world)"));
-		Loader.gui.addDefault("GUI.Tournaments.Stop.StopAll.Name", "&4Stop one tournament");
+		Loader.gui.addDefault("GUI.Tournaments.Stop.StopAll.Name", "&4Stop all tournament");
 		Loader.gui.addDefault("GUI.Tournaments.Stop.StopAll.Description", Arrays.asList(
 				"&7 - Left click to stop all tournaments with prizes",
 				"&7 - Right click to stop all tournaments without prizes"));
+		
 		Loader.gui.addDefault("GUI.Tournaments.Start.Title", "&2Tournaments &7- &a %type%");
 		Loader.gui.addDefault("GUI.Tournaments.Start.Start", "&6Click to start new tournament");
 		Loader.gui.addDefault("GUI.Tournaments.Start.Description", Arrays.asList(
@@ -169,7 +167,7 @@ public class Configs {
 		Loader.shop.addDefault("Items.1.Description", Arrays.asList("Fantastic lore!"));
 		Loader.shop.addDefault("Items.1.Item.block.Material", "STONE");
 		Loader.shop.addDefault("Items.1.Item.block.Amount", 5);
-		Loader.shop.addDefault("Items.1.Item.block.Name", 5);
+		Loader.shop.addDefault("Items.1.Item.block.Name", "&eHoly stone");
 		Loader.shop.addDefault("Items.1.Item.block.Lore", 5);
 		Loader.shop.addDefault("Items.1.Item.block.Unbreakable", true);
 		Loader.shop.addDefault("Items.1.Item.block.HideEnchants", true);
@@ -177,6 +175,9 @@ public class Configs {
 		Loader.shop.addDefault("Items.1.Item.block.Enchants", Arrays.asList("LURE:1"));
 		
 		Loader.shop.save();
+	}
+	
+	public static void loadData() {
 	}
 	public static void load(){
 		loadConfig();
