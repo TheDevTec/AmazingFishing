@@ -36,15 +36,15 @@ import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.VersionChecker;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.reflections.Ref;
 
 public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
 	public static Data data;
-	public static Config trans /*= new Config("AmazingFishing/Translations.yml")*/,
-			config /*= new Config("AmazingFishing/Config.yml")*/,
-			gui, shop;
+	public static Config trans, config,
+			gui, shop, cache = new Config("AmazingFishing/Cache.dat", DataType.BYTE);
 	static String prefix;
 
 	public void onEnable() {
