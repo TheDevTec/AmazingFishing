@@ -30,7 +30,7 @@ public class Help {
 	}
 	
 	public static void open(Player p) {
-		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Help.Player.Title"),54), Material.BLUE_STAINED_GLASS_PANE);
+		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Help.Player.Title"),54),0);
 		a.setItem(4, new EmptyItemGUI(Create.createItem(Manager.getPluginName(), Material.KNOWLEDGE_BOOK, Arrays.asList(
 				"&9Version &bV"+Loader.plugin.getDescription().getVersion(),
 				"&9Created by &bStraikerinaCZ",
@@ -100,7 +100,7 @@ public class Help {
 		);
 	
 		if(p.hasPermission("amazingfishing.settings"))
-			a.setItem(24,new ItemGUI(Create.createItem(Trans.help_player_settings(), Material.LECTERN)){
+			a.setItem(24,new ItemGUI(Create.createItem(Trans.help_player_settings(), Material.REDSTONE)){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.settings")) {

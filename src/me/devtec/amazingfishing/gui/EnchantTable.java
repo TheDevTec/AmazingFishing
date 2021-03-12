@@ -48,7 +48,7 @@ public class EnchantTable {
 					Help.open(p);
 				}
 			});
-			a.setItem(20,new ItemGUI(Create.createItem(Trans.enchant_add(), Material.CRAFTING_TABLE)){
+			a.setItem(20,new ItemGUI(Create.createItem(Trans.enchant_add(), Utils.getCachedMaterial("CRAFTING_TABLE"))){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					open(p, EnchantGUI.Rod_Add);
@@ -141,7 +141,7 @@ public class EnchantTable {
 		};
 		Create.prepareInv(a);
 		a.setItem(4,new EmptyItemGUI(Create.createItem(Trans.words_points()
-						.replace("%value%", ""+API.getPoints().get(p.getName())), Material.LAPIS_LAZULI)));
+						.replace("%value%", ""+API.getPoints().get(p.getName())), Utils.getCachedMaterial("LAPIS_LAZULI"))));
 		ItemGUI getRod = new ItemGUI(Rod.getRod(p)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {
@@ -198,7 +198,7 @@ public class EnchantTable {
 		};
 		Create.prepareInv(a);
 		a.setItem(4, new EmptyItemGUI(Create.createItem(Trans.words_points()
-						.replace("%value%", ""+API.getPoints().get(p.getName())), Material.LAPIS_LAZULI)));
+						.replace("%value%", ""+API.getPoints().get(p.getName())), Utils.getCachedMaterial("LAPIS_LAZULI"))));
 		ItemGUI getRod = new ItemGUI(Rod.getRod(p)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {

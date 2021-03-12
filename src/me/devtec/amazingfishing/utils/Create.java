@@ -3,14 +3,11 @@ package me.devtec.amazingfishing.utils;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Create {
@@ -27,8 +24,11 @@ public class Create {
     	return a.create();
     }
 	
+	static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE"), 1, "&c"));
+	static ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE"), 1, "&c"));
+	static ItemGUI purple = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("PURPLE_STAINED_GLASS_PANE"), 1, "&c"));
+	
 	public static GUI prepareInv(GUI inv) {
-		ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Material.BLACK_STAINED_GLASS_PANE, 1, "&c"));
 		for(int i = 0; i<10; ++i)
 		inv.setItem(i, item);
 
@@ -43,36 +43,23 @@ public class Create {
 		return inv;
 	}
 	public static GUI prepareInvBig(GUI inv) {
-		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
 		for(int i = 45; i<54; ++i)
-		inv.setItem(i, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
+		inv.setItem(i, item);
 		return inv;
 	}
 	public static GUI prepareInvSmall(GUI inv) {
-		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
 		for(int i = 9; i<18; ++i)
-		inv.setItem(i, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
+		inv.setItem(i, item);
 		return inv;
 	}
 	public static GUI prepareInvCount(GUI inv, int slots) {
-		ItemStack item = createItem(" ", Material.BLACK_STAINED_GLASS_PANE);
 		for(int i = 0; i<slots; ++i)
-		inv.setItem(i, new ItemGUI(item){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {}
-		});
+		inv.setItem(i, item);
 		return inv;
 	}
 	
-	public static GUI prepareNewBig(GUI inv, Material okraje) {
-		ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Material.BLACK_STAINED_GLASS_PANE, 1, "&c"));
-		ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(okraje, 1, "&c"));
+	public static GUI prepareNewBig(GUI inv, int type) {
+		ItemGUI blue = type==0?Create.blue:Create.purple;
 		inv.setItem(0, blue);
 		inv.setItem(1, blue);
 		inv.setItem(7, blue);

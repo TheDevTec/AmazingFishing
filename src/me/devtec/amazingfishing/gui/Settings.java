@@ -18,7 +18,7 @@ import me.devtec.theapi.utils.datakeeper.User;
 public class Settings {
 
 	public static void open(Player p) {
-		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Settings.Title"),54), Material.PURPLE_STAINED_GLASS_PANE);
+		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Settings.Title"),54), 1);
 		
 		User u = TheAPI.getUser(p);
 		String records = "on";
