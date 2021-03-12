@@ -112,7 +112,7 @@ public class Shop {
 	}
 	
 	public static void giveItem(Player p,String kit) {
-		int cost = Loader.shop.getInt("Items."+kit+".Cost");
+		double cost = Loader.shop.getDouble("Items."+kit+".Cost");
 		if(API.getPoints().has(p.getName(), cost)) {
 			//TODO sounds
 			API.getPoints().remove(p.getName(), cost);
