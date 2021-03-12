@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.devtec.amazingfishing.utils.Utils;
+import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 
 public abstract class Enchant {
@@ -45,8 +46,8 @@ public abstract class Enchant {
 		Object n = Utils.getNBT(r);
 		Data data = Utils.getString(n);
 		String remove = data.getString("enchant."+name.toLowerCase());
-		data.set("enchant."+name.toLowerCase(), getDisplayName()+style(data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
-						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount));
+		data.set("enchant."+name.toLowerCase(), StringUtils.colorize(getDisplayName()+style(data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
+						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount)));
 		data.set("enchants."+name.toLowerCase(), 
 				data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
 						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount);
