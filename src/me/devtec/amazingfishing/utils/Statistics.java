@@ -107,8 +107,8 @@ public class Statistics {
 						for(String msg : Loader.trans.getStringList("NewRecord"))
 							Loader.msg(msg
 									.replace("%type%", "Length")
-									.replace("%new%", ""+length)
-									.replace("%old%", ""+old)
+									.replace("%new%", String.format("%.2f",length))
+									.replace("%old%", String.format("%.2f",old))
 									, p);
 				}
 			}
@@ -120,8 +120,8 @@ public class Statistics {
 						for(String msg : Loader.trans.getStringList("NewRecord"))
 							Loader.msg(msg
 								.replace("%type%", "Weight")
-								.replace("%new%", ""+weight)
-								.replace("%old%", ""+old)
+								.replace("%new%", String.format("%.2f",weight))
+								.replace("%old%", String.format("%.2f",old))
 								, p);
 				}
 			}

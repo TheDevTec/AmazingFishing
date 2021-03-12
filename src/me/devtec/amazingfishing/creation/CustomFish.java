@@ -151,9 +151,9 @@ public class CustomFish implements Fish {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
 		c.setDisplayName(getDisplayName());
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
-		l.replaceAll(a -> a.replace("%weight%", ff.format(weight).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%length%", ff.format(length).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%chance%", (""+getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+		l.replaceAll(a -> a.replace("%weight%", ff.format(StringUtils.getDouble(String.format("%.2f",weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%length%", ff.format(StringUtils.getDouble(String.format("%.2f",length))).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%chance%", String.format("%.2f",getChance()))
 				.replace("%name%", getDisplayName())
 				.replace("%biomes%", getBiomes().toString().replace("[", "").replace("]", "") )
 				);
@@ -169,17 +169,17 @@ public class CustomFish implements Fish {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
 		c.setDisplayName(getDisplayName());
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
-		l.replaceAll(a -> a.replace("%weight%", ff.format(weight).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%length%", ff.format(length).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%chance%", (""+getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
+		l.replaceAll(a -> a.replace("%weight%", ff.format(StringUtils.getDouble(String.format("%.2f",weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%length%", ff.format(StringUtils.getDouble(String.format("%.2f",length))))
+				.replace("%chance%", String.format("%.2f",getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
 				.replace("%name%", getDisplayName())
 				.replace("%player%", p.getName())
 				.replace("%displayname%", p.getDisplayName())
 				.replace("%biomes%", getBiomes().toString().replace("[", "").replace("]", "") )
 				.replace("%biome%", hook.getBlock().getBiome().name())
-				.replace("%x%", ""+StringUtils.getInt(""+hook.getX()) )
-				.replace("%y%", ""+StringUtils.getInt(""+hook.getY()) )
-				.replace("%z%", ""+StringUtils.getInt(""+hook.getZ()) )
+				.replace("%x%", ""+hook.getBlockX())
+				.replace("%y%", ""+hook.getBlockY())
+				.replace("%z%", ""+hook.getBlockZ())
 				.replace("%world%", hook.getWorld().getName())
 				);
 		c.setLore(l);

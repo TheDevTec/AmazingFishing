@@ -79,12 +79,12 @@ public class CustomEnchantment extends Enchant {
 		List<String> list = new ArrayList<String>();
 		for(String line:description) 
 			list.add(line
-					.replace("%cost%", String.format("%2.02f",1).replace(",", "."))
+					.replace("%cost%", String.format("%.2f",getCost()))
 					.replace("%maxlevel%", getMaxLevel()+"")
 					.replace("%name%", getName())
 					.replace("%displayname%", getDisplayName())
-					.replace("%chance%", chance+"")
-					.replace("%chance%", amount+""));
+					.replace("%chance%", String.format("%.2f",chance))
+					.replace("%amount%", String.format("%.2f",amount)));
 		return list;
 	}
 
