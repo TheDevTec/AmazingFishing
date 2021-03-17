@@ -24,34 +24,22 @@ public class Bag {
 			}
 		};
 		Create.prepareInvBig(a);
-		
-		if(BackButton == me.devtec.amazingfishing.gui.Help.BackButton.Close) {
-			a.setItem(49,new ItemGUI( Create.createItem(Trans.words_close(), Material.BARRIER)) {
-				@Override
-				public void onClick(Player p, HolderGUI arg1, ClickType arg2) {
-					arg1.close(p);
-					
+		a.setItem(49,new ItemGUI( Create.createItem(Trans.words_back(), Material.BARRIER)) {
+			@Override
+			public void onClick(Player p, HolderGUI menu, ClickType arg2) {
+				switch(BackButton) {
+					case Help:
+						Help.open(p);
+						break;
+					case Shop:
+						Shop.openShop(p, ShopType.Sell);
+						break;
+					default:
+						menu.close(p);
+						break;
 				}
-			});
-		} else {
-			a.setItem(49,new ItemGUI( Create.createItem(Trans.words_back(), Material.BARRIER)) {
-				@Override
-				public void onClick(Player p, HolderGUI menu, ClickType arg2) {
-					switch(BackButton) {
-						case Help:
-							Help.open(p);
-							break;
-						case Shop:
-							Shop.openShop(p, ShopType.Sell);
-							break;
-						default:
-							menu.close(p);
-							break;
-					}
-				}
-			});
-		}
-		
+			}
+		});
 		if(Loader.config.getBoolean("Options.Shop.SellFish")) {
 			if(Loader.config.getBoolean("Options.Bag.Button.SellFish")) {
 			a.setItem(51,new ItemGUI(Create.createItem(Trans.words_sell(), Utils.getCachedMaterial("COD_BUCKET"))) {
@@ -86,6 +74,7 @@ public class Bag {
 				
 		}}
 		for(ItemStack as : new me.devtec.amazingfishing.other.Bag(p).getBag()) {
+			if(as==null||as.getType()==Material.AIR)continue;
 			ItemGUI item = new ItemGUI(as){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
