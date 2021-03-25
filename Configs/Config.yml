@@ -21,7 +21,7 @@ Options:
     Calculator:
       # Default money calculation: (%length% / 4 +%weight% / 4 + %money%) * %bonus%
       # Default points calculation: (%length% / 4 +%weight% / 4 + %points%) * %bonus%
-      # Default xp calculation: (%length% / 4 +%weight% / 4 + %xp%) * %bonus%
+      # Default xp calculation: (%length% / 5 +%weight% / 5 + %xp%) * %bonus%
       Money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
       Exps: "(%length% / 4 +%weight% / 4 + %xp%) * %bonus%"
       Points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
@@ -33,6 +33,13 @@ Options:
 
   Bag:
     Enabled: true
+    # Locations: DATA, SQL
+    SaveLocation: "DATA"
+    MySQL:
+      Host: "localhost"
+      Database: "global"
+      Username: "admin"
+      Password: "admin"
     OpenShop: true
     # If you want to be able to sell fish from your bag you need to set 'SellFish' to true
     SellFish: true
