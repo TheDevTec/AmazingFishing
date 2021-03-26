@@ -2,6 +2,7 @@ package me.devtec.amazingfishing.gui;
 
 import java.util.Arrays;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -108,19 +109,15 @@ public class Help {
 					}
 				}
 			});
-		/*a.setItem(--,new ItemGUI(Create.createItem(Trans.help_player_quests(), Material.BOOK)){
+		a.setItem(20,new ItemGUI(Create.createItem(Trans.help_player_quests(), Material.BOOK)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.quests")) {
-					if(API.getQuest(p)==null) {
-						Quests.selectQuest(p);
-					}
-					}else {
-						Quests.openQuestMenu(p);
-					}
+					QuestGUI.open(p);
 				}
 			}
-		);*/ //TODO - později dodělat questy a udělat achievmenty!
+		});
+		//TODO - později dodělat questy a udělat achievmenty!
 		a.open(p);
 	
 	}

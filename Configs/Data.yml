@@ -83,6 +83,18 @@ treasures:
 quests:
   common:
     name: "&6&lSuperQuest"
+    icon: "STONE"
+    description:
+    - "&6Great super duper quest"
+    - "&7"
+    - "&7Left click to accept quest"
+    - "&7Right click to cancel quest (if it is in progress)"
+    start:
+      # commands:
+      # - "say You are the best hero!"
+      messages:
+      - "&6You have started quest %questname%"
+      - "&6Now you need to catch &e3x &eCarp"
     stages:
       1:
       # Placeholders: %player%, %quest% (common), %questname% (&6&lSuperQuest)
@@ -105,7 +117,7 @@ quests:
         count: 2
       3:
         commands:
-        - "say Congratulation %player%!!"
+        - "say Congrats %player%!!"
         messages:
         - "%prefix% &6You have finished quest %questname%"
         action: "sell_fish"

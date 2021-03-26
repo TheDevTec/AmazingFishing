@@ -41,3 +41,8 @@ Words:
   Sell: "&eSell fish"
   Points: "&9%value% Points"
   Bag: "&7Bag"
+  
+Quests:
+  Cancel: "%prefix% &9You have canceled quest %questname%"
+  CannotStart: "%prefix% &9You can't start this quest!"
+  CannotCancel: "%prefix% &9You can't cancel this quest!"

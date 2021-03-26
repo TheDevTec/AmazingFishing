@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.devtec.theapi.TheAPI;
@@ -32,6 +34,22 @@ public class Quests {
 		public String getDisplayName() {
 			return d.getString("quests."+name+".name");
 		}
+		public Material getDisplayIcon() {
+			if(d.exists("quests."+name+".icon"))
+				return Material.valueOf(d.getString("quests."+name+".icon"));
+			else return Material.SUNFLOWER;
+		}
+		
+		public List<String> getDescription() {
+			List<String> list = new ArrayList<String>();
+			for(String s: d.getStringList("quests."+name+".description"))
+				list.add(s.replace("%name%", getName())
+						.replace("%questname%", getDisplayName())
+						.replace("%icon%", getDisplayIcon().name())
+						.replace("%stages%", ""+getStages())
+						);
+			return list;
+		}
 		
 		public int getStages() {
 			return d.getKeys("quests."+name+".stages").size();
@@ -43,6 +61,13 @@ public class Quests {
 		
 		public List<String> getMessages(int stage) {
 			return d.getStringList("quests."+name+".stages."+stage+".messages");
+		}
+		
+		public List<String> getStartCommands() {
+			return d.getStringList("quests."+name+".start.commands");
+		}
+		public List<String> getStartMessages() {
+			return d.getStringList("quests."+name+".start.messages");
 		}
 
 		//action = catch_fish, eat_fish, sell_fish
@@ -98,7 +123,7 @@ public class Quests {
 			a[2]=(int)a[2]+1;
 			Bukkit.broadcastMessage(c+" ; "+a[2]);
 			if(c<=(int)a[2]) {
-				Bukkit.broadcastMessage("něco ; "+a[1]);
+				Bukkit.broadcastMessage("a");
 				NMSAPI.postToMainThread(new Runnable() {
 					public void run() {
 						for(String cmd : q.getCommands((int)a[1]))
@@ -114,9 +139,10 @@ public class Quests {
 				}else { // PREPARE FOR NEXT STAGE
 					a[1]=(int)a[1]+1;
 					a[2]=0;
+					save(player.getName());
 				}
-			}else
-				Bukkit.broadcastMessage("nic");
+			}else 
+				save(player.getName());
 		}
 	}
 
@@ -130,10 +156,13 @@ public class Quests {
 	public static void save(String name) {
 		User a = TheAPI.getUser(name);
 		Iterator<Object[]> it = progress.get(name).iterator();
-		a.remove("af-quests");
+		//a.remove("af-quests");
 		while(it.hasNext()) {
 			Object[] o = it.next();
-			a.set("af-quests."+o[0], o[1]);
+			//a.set("af-quests."+o[0], o[1]);
+			a.set("af-quests."+o[0]+".stage", o[1]);
+			a.set("af-quests."+o[0]+".count", o[2]);
+			a.save();
 		}
 		a.save();
 	}
@@ -163,19 +192,74 @@ public class Quests {
 		progress.remove(name);
 	}
 	
-	public static void start(String name, Quest quest) {
-		User a = TheAPI.getUser(name);
+	public static void start(Player player, Quest quest) {
+		User a = TheAPI.getUser(player);
 		a.set("af-quests."+quest.getName()+".finished", false);
+		int i = 0;
+		if(quest.getAction(0)==null || quest.getAction(0).equalsIgnoreCase("")) i =1;
+		a.set("af-quests."+quest.getName()+".stage", i);
+		a.set("af-quests."+quest.getName()+".count", 0);
 		a.save();
-		load(name);
+		load(player.getName());
+		
+		NMSAPI.postToMainThread(new Runnable() {
+			public void run() {
+				for(String cmd : quest.getStartCommands() )
+					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName())
+							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Trans.prefix()) ) );
+				for(String cmd : quest.getStartMessages())
+					TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName())
+							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Trans.prefix()) ),player);
+			}
+		});
 	}
 	public static void finish(String name, String quest) {
 		User a = TheAPI.getUser(name);
 		a.set("af-quests."+quest+".finished", true);
 		a.save();
 	}
+	public static void cancel(String name, String quest) {
+		User a = TheAPI.getUser(name);
+		a.remove("af-quests."+quest );
+		a.save();
+	}
 	public static boolean haveQuest(String name) {
 		if (progress.containsKey(name))return true;
 		return false;
+	}
+	public static boolean isFinished(String player, String quest) {
+		return TheAPI.getUser(player).getBoolean("af-quests."+quest+".finished");
+	}	
+	public static boolean isInPorgress(String player, String quest) {
+		User u = TheAPI.getUser(player);
+		if(u.exist("af-quests."+quest) ) return true;
+		return false;
+	}	
+	public static boolean canStartNew(String player) {
+		Bukkit.broadcastMessage(getActiveQuests(player).size()+" :size");
+		if(getActiveQuests(player).size()>=3) return false;
+		return true;
+	}	
+	public static boolean canCancel(String player, Quest quest) {
+		if( !TheAPI.getUser(player).exist("af-quests."+quest.getName()) ) return false;
+		if(isFinished(player, quest.getName())) return false;
+		else return true;
+	}
+	public static Map<String, Quest> getQuests(String player) {
+		Map<String, Quest> q = new HashMap<>();
+		for(Quest quest: quests.values()) {
+			if(!isFinished(player, quest.getName()))
+				q.put(quest.getName(), quest);
+		}
+		return q;
+	}
+	public static Map<String, Quest> getActiveQuests(String player) {
+		Map<String, Quest> q = new HashMap<>();
+		User u = TheAPI.getUser(player);
+		for(String quest: u.getKeys("af-quests")) {
+			if(!isFinished(player, quest))
+				q.put(quest, quests.get(quest));
+		}
+		return q;
 	}
 }

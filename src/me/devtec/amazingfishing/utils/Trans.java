@@ -135,6 +135,13 @@ public class Trans {
 			return list;
 	}
 	
+	public static String quests_title_all() {
+		return Loader.gui.getString("GUI.Quests.Title.All");
+	}
+	public static String quests_title_my() {
+		return Loader.gui.getString("GUI.Quests.Title.MyQuests");
+	}
+	
 	
 	public static String words_cod() {
 		return Loader.trans.getString("Words.Cod");

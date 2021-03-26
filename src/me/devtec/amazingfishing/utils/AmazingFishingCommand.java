@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,12 +21,12 @@ public class AmazingFishingCommand implements CommandExecutor {
 			//TheAPI.msg("/FishMenu Reload", s);
 			return true;
 		}
-		if(args[0].equalsIgnoreCase("test")) {
+		/*if(args[0].equalsIgnoreCase("test")) {
 			Player p = ((Player)s);
 			Quests.start(p.getName(), Quests.quests.get("common"));;
 			Bukkit.broadcastMessage("Loaded");
 			return true;
-		}
+		}*/
 		if(args[0].equalsIgnoreCase("enchant")) {
 			if(args.length==1) {
 				TheAPI.msg("/FishMenu Enchant <enchant>", s);

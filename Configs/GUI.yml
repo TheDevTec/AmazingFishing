@@ -72,3 +72,19 @@ GUI:
         - "&aYou are not receiving new fish record messages"
         - "&7"
         - "&7Click to turn it back on"
+        
+  Quests:
+    Title:
+      All: "&3All quests"
+      MyQuests: "&3My quests"
+    MyQuests: "&bGo to my quests"
+    Quest_progress:
+    - "&7Quest progress:"
+    - "&7   Stage: %stage%"
+    - "&7   %action%: %now%&8/&7%total%"
+    - "&7   Fish: %fish%"
+    - "&7   Fish type: %type%"
+    - "&7 "
+    - "&7 Total stages: %stages_total%"
+    Quest_finished:
+    - "&aQuest FINISHED"

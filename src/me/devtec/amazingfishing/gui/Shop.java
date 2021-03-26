@@ -29,6 +29,7 @@ import me.devtec.theapi.guiapi.ItemGUI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Shop {
 	public static enum ShopType {
@@ -203,7 +204,10 @@ public class Shop {
 					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
 			i.remove(d);
-	        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName());
+			NMSAPI.postToMainThread(new Runnable() {
+				public void run() {
+			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName());
+				}});
 		}
 		if(sel != 0) {
 			//TODO sounds
