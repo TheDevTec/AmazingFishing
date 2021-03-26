@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.devtec.theapi.TheAPI;
@@ -28,35 +29,37 @@ public class Quests {
 		}
 		
 		public String getDisplayName() {
-			return d.getString("Quests."+name+".Name");
+			return d.getString("quests."+name+".name");
 		}
 		
 		public int getStages() {
-			return d.getKeys("Quests."+name+".Stages").size();
+			return d.getKeys("quests."+name+".stages").size();
 		}
 		
 		public List<String> getCommands(int stage) {
-			return d.getStringList("Quests."+name+".Stages."+stage+".Commands");
+			return d.getStringList("quests."+name+".stages."+stage+".commands");
 		}
 		
 		public List<String> getMessages(int stage) {
-			return d.getStringList("Quests."+name+".Stages."+stage+".Messages");
+			return d.getStringList("quests."+name+".stages."+stage+".messages");
 		}
-		
+
+		//action = catch_fish, eat_fish, sell_fish
 		public String getAction(int stage) {
-			return d.getString("Quests."+name+".Stages."+stage+".Action");
+			return d.getString("quests."+name+".stages."+stage+".action");
 		}
-		
+
+		//value = type_of_fish.name_of_fish -> cod.nazev
 		public String getValue(int stage) {
-			return d.getString("Quests."+name+".Stages."+stage+".Value");
+			return d.getString("quests."+name+".stages."+stage+".value");
 		}
 		
 		public int getCount(int stage) {
-			return d.getInt("Quests."+name+".Stages."+stage+".Count");
+			return d.getInt("quests."+name+".stages."+stage+".count");
 		}
 	}
 	
-	private static Map<String, Quest> quests = new HashMap<>();
+	public static Map<String, Quest> quests = new HashMap<>();
 	
 	public static void register(Quest quest) {
 		quests.put(quest.getName(), quest);
@@ -76,11 +79,15 @@ public class Quests {
 	//action = catch_fish, eat_fish, sell_fish
 	//value = type_of_fish.name_of_fish -> cod.nazev
 	public static void addProgress(Player player, String action, String value) {
+		Bukkit.broadcastMessage(progress.toString());
 		if(!progress.containsKey(player.getName()))return;
 		check(player.getName());
 		Iterator<Object[]> it = progress.get(player.getName()).iterator();
 		while(it.hasNext()) {
 			Object[] a = it.next();
+			// a[0] - Quest name
+			// a[1] - Quest stage
+			// a[2] - Progress - chyceno ryb třeba
 			Quest q = quests.get(a[0]);
 			String ac = q.getAction((int)a[1]);
 			if(!action.equalsIgnoreCase(ac))continue;
@@ -88,17 +95,23 @@ public class Quests {
 			if(!value.equalsIgnoreCase(v))continue;
 			int c = q.getCount((int)a[1]);
 			a[2]=(int)a[2]+1;
+			Bukkit.broadcastMessage(c+" ; "+a[2]);
 			if(c<=(int)a[2]) {
+				Bukkit.broadcastMessage("něco ; "+a[1]);
 				for(String cmd : q.getCommands((int)a[1]))
-					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName())));
+					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ) );
 				for(String cmd : q.getMessages((int)a[1]))
-					TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName())),player);
-				if(q.getStages()<=((int)a[1]+1)) {
+					TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ),player);
+				if(q.getStages()<((int)a[1]+1)) { //END OF QUEST
+					finish(player.getName(), q.getName());
 					it.remove();
-				}else {
+					progress.remove(player.getName());
+				}else { // PREPARE FOR NEXT STAGE
 					a[1]=(int)a[1]+1;
+					a[2]=0;
 				}
-			}
+			}else
+				Bukkit.broadcastMessage("nic");
 		}
 	}
 
@@ -124,8 +137,8 @@ public class Quests {
 		User a = TheAPI.getUser(name);
 		Set<Object[]> set = new HashSet<>();
 		for(String s : a.getKeys("af-quests"))
-			if(!quests.containsKey(s))
-				set.add(new Object[] {s,a.getInt("af-quests."+s+".stage"),a.getInt("af-quests."+s+".count")});
+			if(quests.containsKey(s))
+				set.add(new Object[] {s, a.getInt("af-quests."+s+".stage"), a.getInt("af-quests."+s+".count") });
 		progress.put(name, set);
 	}
 	
@@ -143,5 +156,21 @@ public class Quests {
 
 	public static void remove(String name) {
 		progress.remove(name);
+	}
+	
+	public static void start(String name, Quest quest) {
+		User a = TheAPI.getUser(name);
+		a.set("af-quests."+quest.getName()+".finished", false);
+		a.save();
+		load(name);
+	}
+	public static void finish(String name, String quest) {
+		User a = TheAPI.getUser(name);
+		a.set("af-quests."+quest+".finished", true);
+		a.save();
+	}
+	public static boolean haveQuest(String name) {
+		if (progress.containsKey(name))return true;
+		return false;
 	}
 }

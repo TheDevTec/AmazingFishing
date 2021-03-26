@@ -67,6 +67,7 @@ public class CatchFish implements Listener {
 			        item.setVelocity(vec);
 			        Statistics.addFish(e.getPlayer(), f.getType());
 			        Statistics.addRecord(e.getPlayer(), f, length, weight);
+			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName());
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
 								.replace("%weight%", String.format("%.2f",weight))

@@ -15,6 +15,7 @@ import me.devtec.amazingfishing.construct.Calculator;
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
@@ -201,8 +202,8 @@ public class Shop {
 			totalPoints += StringUtils.calculate(pointsPath.replace("%length%", ""+length).replace("%weight%", ""+weight)
 					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
-			//TODO - QUESTS
 			i.remove(d);
+	        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName());
 		}
 		if(sel != 0) {
 			//TODO sounds
@@ -212,6 +213,7 @@ public class Shop {
 			API.getPoints().add(p.getName(), totalPoints);
 			EconomyAPI.depositPlayer(p, totalMoney);
 			p.giveExp((int)totalExp);
+
 			
 			for(String msg: Loader.trans.getStringList("SoldFish")) {
 				Loader.msg(msg.replace("%amount%", sel+"").replace("%exp%", String.format("%2.02f",totalExp).replace(",", ".")+"")

@@ -18,6 +18,9 @@ public class Trans {
 			return null;
 		}
 	}
+	public static String prefix() {
+		return Loader.trans.getString("Prefix");
+	}
 	public static String help_player_title() {
 		return Loader.gui.getString("GUI.Help.Player.Title");
 	}

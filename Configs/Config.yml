@@ -21,9 +21,9 @@ Options:
     Calculator:
       # Default money calculation: (%length% / 4 +%weight% / 4 + %money%) * %bonus%
       # Default points calculation: (%length% / 4 +%weight% / 4 + %points%) * %bonus%
-      # Default xp calculation: (%length% / 5 +%weight% / 5 + %xp%) * %bonus%
+      # Default xp calculation: (%length% / 5 +%weight% / 5 + %experiences%) * %bonus%
       Money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
-      Exps: "(%length% / 4 +%weight% / 4 + %xp%) * %bonus%"
+      Exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
       Points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
 
   Sell:

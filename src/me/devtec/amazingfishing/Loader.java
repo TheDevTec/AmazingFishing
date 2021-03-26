@@ -23,6 +23,8 @@ import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.EatFish;
+import me.devtec.amazingfishing.utils.Quests;
+import me.devtec.amazingfishing.utils.Quests.Quest;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.points.UserPoints;
 import me.devtec.amazingfishing.utils.points.VaultPoints;
@@ -201,6 +203,20 @@ public class Loader extends JavaPlugin {
 		TheAPI.msg(prefix+" Enchantments registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();
 		removeE.clear();
+		
+		//QUESTS
+		
+			//PRE-LOAD
+			toReg = new ArrayList<>(data.getKeys("quests"));
+				
+			//REGISTER-NOT-LOADED
+			for(String s : toReg)
+				Quests.register(new Quest(s, data));
+				
+			//CLEAR-CACHE
+			TheAPI.msg(prefix+" Quests registered ("+toReg.size()+")", ss);
+			toReg.clear();
+				
 		API.onReload.forEach(a->a.run());
 	}
 	public static void msg(String msg, CommandSender s) {

@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.gui.Help;
-import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.StringUtils;
 
@@ -25,14 +24,8 @@ public class AmazingFishingCommand implements CommandExecutor {
 		}
 		if(args[0].equalsIgnoreCase("test")) {
 			Player p = ((Player)s);
-			Statistics.addTournamentData(p, TournamentType.LENGTH, 1);
-			Statistics.addTournamentData(p, TournamentType.LENGTH, 2);
-			Statistics.addTournamentData(p, TournamentType.TOTAL_LENGTH, 3);
-			Statistics.addTournamentData(p, TournamentType.TOTAL_WEIGHT, 4);
-			Statistics.addTournamentData(p, TournamentType.WEIGHT, 5);
-			Statistics.addTournamentData(p, TournamentType.AMOUNT, 0);
-			Statistics.addTournamentData(p, null, 1);
-			Bukkit.broadcastMessage("Statistiky přidány, mrkni se do dat hlupáku");
+			Quests.start(p.getName(), Quests.quests.get("common"));;
+			Bukkit.broadcastMessage("Loaded");
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("enchant")) {
