@@ -14,6 +14,7 @@ import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.User;
+import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Quests {
 	public static class Quest {
@@ -98,10 +99,14 @@ public class Quests {
 			Bukkit.broadcastMessage(c+" ; "+a[2]);
 			if(c<=(int)a[2]) {
 				Bukkit.broadcastMessage("něco ; "+a[1]);
-				for(String cmd : q.getCommands((int)a[1]))
-					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ) );
-				for(String cmd : q.getMessages((int)a[1]))
-					TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ),player);
+				NMSAPI.postToMainThread(new Runnable() {
+					public void run() {
+						for(String cmd : q.getCommands((int)a[1]))
+							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ) );
+						for(String cmd : q.getMessages((int)a[1]))
+							TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ),player);
+					}
+				});
 				if(q.getStages()<((int)a[1]+1)) { //END OF QUEST
 					finish(player.getName(), q.getName());
 					it.remove();
