@@ -105,8 +105,12 @@ public class Quests {
 	//action = catch_fish, eat_fish, sell_fish
 	//value = type_of_fish.name_of_fish -> cod.nazev
 	public static void addProgress(Player player, String action, String value) {
+
 		Bukkit.broadcastMessage(progress.toString());
-		if(!progress.containsKey(player.getName()))return;
+		if(!progress.containsKey(player.getName())) {
+			loadNew(player.getName());
+			return;
+		}
 		check(player.getName());
 		Iterator<Object[]> it = progress.get(player.getName()).iterator();
 		while(it.hasNext()) {
@@ -166,12 +170,18 @@ public class Quests {
 		}
 		a.save();
 	}
+
+	public static void loadNew(String name) {
+		if( !progress.containsKey(name) ) {
+			load(name);
+		}
+	}
 	
 	public static void load(String name) {
 		User a = TheAPI.getUser(name);
 		Set<Object[]> set = new HashSet<>();
 		for(String s : a.getKeys("af-quests"))
-			if(quests.containsKey(s))
+			if(quests.containsKey(s) && !isFinished(name, s))
 				set.add(new Object[] {s, a.getInt("af-quests."+s+".stage"), a.getInt("af-quests."+s+".count") });
 		progress.put(name, set);
 	}

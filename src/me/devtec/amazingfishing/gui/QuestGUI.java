@@ -3,7 +3,6 @@ package me.devtec.amazingfishing.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -71,7 +70,6 @@ public class QuestGUI {
 			
 		}
 
-		Bukkit.broadcastMessage(p.totalPages()+" ; "+page);
 		if(p.totalPages()>page+1) {
 			a.setItem(52, new ItemGUI( Create.createItem("&bNext page", Material.ARROW)) {
 				

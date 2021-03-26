@@ -2,7 +2,6 @@ package me.devtec.amazingfishing.gui;
 
 import java.util.Arrays;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
