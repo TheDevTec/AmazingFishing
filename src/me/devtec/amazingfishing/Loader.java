@@ -206,16 +206,25 @@ public class Loader extends JavaPlugin {
 		
 		//QUESTS
 		
-			//PRE-LOAD
-			toReg = new ArrayList<>(data.getKeys("quests"));
-				
-			//REGISTER-NOT-LOADED
-			for(String s : toReg)
-				Quests.register(new Quest(s, data));
-				
-			//CLEAR-CACHE
-			TheAPI.msg(prefix+" Quests registered ("+toReg.size()+")", ss);
-			toReg.clear();
+		//PRE-LOAD
+		toReg = new ArrayList<>(data.getKeys("quests"));
+			
+		//REMOVE-NOT-LOADED
+		for(Entry<String, Quest> quest : Quests.quests.entrySet())
+			if(quest.getValue().getClass()==Quest.class)
+				if(!toReg.contains(quest.getKey()))
+					removeE.add(quest.getKey());
+		for(String s : removeE)
+			Quests.quests.remove(s);
+
+		//REGISTER-NOT-LOADED
+		for(String s : toReg)
+			Quests.register(new Quest(s, data));
+			
+		//CLEAR-CACHE
+		TheAPI.msg(prefix+" Quests registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+		toReg.clear();
+		removeE.clear();
 				
 		API.onReload.forEach(a->a.run());
 	}
