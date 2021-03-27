@@ -1,11 +1,16 @@
 package me.devtec.amazingfishing.utils;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
@@ -14,7 +19,7 @@ import me.devtec.amazingfishing.gui.Help;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.StringUtils;
 
-public class AmazingFishingCommand implements CommandExecutor {
+public class AmazingFishingCommand implements CommandExecutor, TabCompleter {
 
 	private static DecimalFormat ff = new DecimalFormat("###,###.#");
 	
@@ -45,7 +50,13 @@ public class AmazingFishingCommand implements CommandExecutor {
 			return true;
 		}
 
-		if(args[0].equalsIgnoreCase("points")) {
+		if(args[0].equalsIgnoreCase("points") && Loader.has(s, "amazingfishing.points.manager")) {
+			if(args.length==1) {
+				TheAPI.msg("/Fish Points Add <player> <points>", s);
+				TheAPI.msg("/Fish Points Get <player> ", s);
+				TheAPI.msg("/Fish Points Set <player> <points>", s);
+				return true;
+			}
 			if(args[1].equalsIgnoreCase("add")) {
 				if(args.length==4) {
 					double points = StringUtils.getDouble(args[3]);
@@ -54,6 +65,8 @@ public class AmazingFishingCommand implements CommandExecutor {
 							.replace("%points%", ff.format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(args[2]) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") ), s);
 					return true;
 				}
+				TheAPI.msg("/Fish Points Add <player> <points>", s);
+				return true;
 			}
 			if(args[1].equalsIgnoreCase("get")) {
 				if(args.length==3) {
@@ -61,6 +74,8 @@ public class AmazingFishingCommand implements CommandExecutor {
 							.replace("%points%", ff.format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(args[2]) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") ), s);
 					return true;
 				}
+				TheAPI.msg("/Fish Points Get <player> ", s);
+				return true;
 			}
 			if(args[1].equalsIgnoreCase("set")) {
 				if(args.length==4) {
@@ -70,8 +85,14 @@ public class AmazingFishingCommand implements CommandExecutor {
 							.replace("%points%", ""+points) , s);
 					return true;
 				}
+				TheAPI.msg("/Fish Points Set <player> <points>", s);
+				return true;
 			}
-			
+
+			TheAPI.msg("/Fish Points Add <player> <points>", s);
+			TheAPI.msg("/Fish Points Get <player> ", s);
+			TheAPI.msg("/Fish Points Set <player> <points>", s);
+			return true;
 		}
 		if(args[0].equalsIgnoreCase("reload")) {
 			Loader.reload(s, true);
@@ -80,4 +101,17 @@ public class AmazingFishingCommand implements CommandExecutor {
 		return true;
 	}
 
+	@Override
+	public List<String> onTabComplete(CommandSender s, Command arg1,
+			String arg2, String[] args) {
+		List<String> c = new ArrayList<>();
+		if (s.hasPermission("amazingfishing.points.manager")) {
+			if(args.length==1)
+				c.addAll( StringUtil.copyPartialMatches(args[0], Arrays.asList("Points"), new ArrayList<>()) );
+			if(args.length==2)
+				c.addAll( StringUtil.copyPartialMatches(args[1], Arrays.asList("Add", "Get", "Set"), new ArrayList<>()) );
+			if(args.length==3) return null;
+		}
+		return c;
+	}
 }

@@ -231,4 +231,10 @@ public class Loader extends JavaPlugin {
 	public static void msg(String msg, CommandSender s) {
 		TheAPI.msg(msg.replace("%prefix%", Trans.s("Prefix")), s);
 	}
+
+	public static boolean has(CommandSender s, String permission) {
+		if(s.hasPermission(permission)) return true;
+		msg(Trans.noPerms().replace("%permission%", permission), s);
+		return false;
+	}
 }
