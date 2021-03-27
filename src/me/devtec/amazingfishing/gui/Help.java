@@ -81,14 +81,15 @@ public class Help {
 				}.runTaskSync();
 			}
 		});
-		if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants"))
-		a.setItem(31,new ItemGUI(Create.createItem(Trans.help_player_enchants(), Material.matchMaterial("ENCHANTING_TABLE"))){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-				if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants"))
-					EnchantTable.open(p, EnchantGUI.Main);
-			}}
-		);
+		if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled")) {
+			a.setItem(31,new ItemGUI(Create.createItem(Trans.help_player_enchants(), Material.matchMaterial("ENCHANTING_TABLE"))){
+				@Override
+				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
+					if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled"))
+						EnchantTable.open(p, EnchantGUI.Main);
+				}}
+			);
+		}
 		if(p.hasPermission("amazingfishing.bag"))
 		a.setItem(27,new ItemGUI(Create.createItem(Trans.help_player_bag(), Material.CHEST)){
 			@Override
@@ -116,7 +117,7 @@ public class Help {
 				}
 			}
 		});
-		//TODO - později dodělat questy a udělat achievmenty!
+		//TODO - udělat achievmenty!
 		a.open(p);
 	
 	}

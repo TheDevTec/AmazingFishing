@@ -177,7 +177,7 @@ public class Loader extends JavaPlugin {
 		
 		//PRE-LOAD
 		toReg = new ArrayList<>(data.getKeys("enchantments"));
-		
+		Bukkit.broadcastMessage(toReg.toString());
 		//REMOVE-NOT-LOADED
 		List<String> removeE = new ArrayList<>();
 		for(Entry<String, Enchant> fish : Enchant.enchants.entrySet())
@@ -190,7 +190,8 @@ public class Loader extends JavaPlugin {
 			Enchant.enchants.remove(s);
 		
 		//REGISTER-NOT-LOADED
-		for(String s : toReg)
+		for(String s : toReg) {
+			Bukkit.broadcastMessage("- "+s);
 			new CustomEnchantment(s, 
 					data.getString("enchantments."+s+".name"),
 					data.getInt("enchantments."+s+".maxlevel"), 
@@ -199,6 +200,7 @@ public class Loader extends JavaPlugin {
 					data.getStringList("enchantments."+s+".description"),
 					data.getDouble("enchantments."+s+".cost"));
 		
+		}
 		//CLEAR-CACHE
 		TheAPI.msg(prefix+" Enchantments registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();

@@ -1,11 +1,11 @@
 package me.devtec.amazingfishing.other;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.utils.datakeeper.User;
 
 public class Rod {
 
@@ -33,28 +33,34 @@ public class Rod {
 			return null;
 		} 
 	}*/ //Není třeba
+	private static HashMap<Player, ItemStack> rod = new HashMap<Player, ItemStack>();
 	
 	public static void saveRod(Player p, ItemStack i) {
-		User u = TheAPI.getUser(p);
+		rod.put(p, i);
+		/*User u = TheAPI.getUser(p);
 		u.set(Manager.getDataLocation()+".SavedRod",i);
-		u.save();
+		u.save();*/
 	}
 	public static ItemStack getRod(Player p) {
-		User u = TheAPI.getUser(p);
+		return rod.get(p);
+		/*User u = TheAPI.getUser(p);
 		if(u.exists(Manager.getDataLocation()+".SavedRod"))
-			return ((ItemStack)u.get(Manager.getDataLocation()+".SavedRod"));
-		return null;
+			return ((ItemStack)u.getItemStack(Manager.getDataLocation()+".SavedRod"));
+		return null;*/
 	}
 	public static boolean saved(Player p) {
-		User u = TheAPI.getUser(p);
+		if(rod.containsKey(p)) return true;
+		return false;
+		/*User u = TheAPI.getUser(p);
 		if(u.exist(Manager.getDataLocation()+".SavedRod")) 
 			return true;
-		else return false;
+		else return false;*/
 	}
 	public static void deleteRod(Player p) {
-		User u = TheAPI.getUser(p);
+		rod.remove(p);
+		/*User u = TheAPI.getUser(p);
 		u.remove(Manager.getDataLocation()+".SavedRod");
-		u.save();
+		u.save();*/
 	}
 	public static void retriveRod(Player p) {
 	ItemStack rod = Rod.getRod(p);

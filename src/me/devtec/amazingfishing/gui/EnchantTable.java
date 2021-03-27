@@ -140,8 +140,14 @@ public class EnchantTable {
 			}
 		};
 		Create.prepareInv(a);
-		a.setItem(4,new EmptyItemGUI(Create.createItem(Trans.words_points()
-						.replace("%value%", ""+API.getPoints().get(p.getName())), Utils.getCachedMaterial("LAPIS_LAZULI"))));
+		a.setItem(4,new ItemGUI( Create.createItem(Trans.words_points()
+				.replace("%value%", ""+API.getPoints().get(p.getName())), Utils.getCachedMaterial("LAPIS_LAZULI")) ) {
+			
+			@Override
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				
+			}
+		});
 		ItemGUI getRod = new ItemGUI(Rod.getRod(p)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {

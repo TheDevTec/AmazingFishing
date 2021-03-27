@@ -12,7 +12,6 @@
 Options:
   # PointsManager types: VAULT, USER
   PointsManager: "User"
-  Enchants: true
   Shop:
     Enabled: true
     SellFish: true
@@ -43,7 +42,6 @@ Options:
     OpenShop: true
     # If you want to be able to sell fish from your bag you need to set 'SellFish' to true
     SellFish: true
-    
   Enchants:
     Enabled: true
 
