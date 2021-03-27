@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -111,6 +110,9 @@ public class Quests {
 		}
 		check(player.getName());
 		Iterator<Object[]> it = progress.get(player.getName()).iterator();
+		if(it==null)
+			progress.remove(player.getName());
+		else
 		while(it.hasNext()) {
 			Object[] a = it.next();
 			// a[0] - Quest name
@@ -123,9 +125,7 @@ public class Quests {
 			if(!value.equalsIgnoreCase(v))continue;
 			int c = q.getCount((int)a[1]);
 			a[2]=(int)a[2]+1;
-			Bukkit.broadcastMessage(c+" ; "+a[2]);
 			if(c<=(int)a[2]) {
-				Bukkit.broadcastMessage("a");
 				NMSAPI.postToMainThread(new Runnable() {
 					public void run() {
 						for(String cmd : q.getCommands((int)a[1]))
@@ -137,7 +137,8 @@ public class Quests {
 				if(q.getStages()<((int)a[1]+1)) { //END OF QUEST
 					finish(player.getName(), q.getName());
 					it.remove();
-					progress.remove(player.getName());
+					//if(!it.hasNext())
+					//progress.remove(player.getName());
 				}else { // PREPARE FOR NEXT STAGE
 					a[1]=(int)a[1]+1;
 					a[2]=0;
@@ -180,7 +181,8 @@ public class Quests {
 		for(String s : a.getKeys("af-quests"))
 			if(quests.containsKey(s) && !isFinished(name, s))
 				set.add(new Object[] {s, a.getInt("af-quests."+s+".stage"), a.getInt("af-quests."+s+".count") });
-		progress.put(name, set);
+		if(set!=null || !set.isEmpty())
+			progress.put(name, set);
 	}
 	
 	public static void unload(String name) {
@@ -243,7 +245,6 @@ public class Quests {
 		return false;
 	}	
 	public static boolean canStartNew(String player) {
-		Bukkit.broadcastMessage(getActiveQuests(player).size()+" :size");
 		if(getActiveQuests(player).size()>=3) return false;
 		return true;
 	}	
