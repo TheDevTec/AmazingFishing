@@ -177,7 +177,6 @@ public class Loader extends JavaPlugin {
 		
 		//PRE-LOAD
 		toReg = new ArrayList<>(data.getKeys("enchantments"));
-		Bukkit.broadcastMessage(toReg.toString());
 		//REMOVE-NOT-LOADED
 		List<String> removeE = new ArrayList<>();
 		for(Entry<String, Enchant> fish : Enchant.enchants.entrySet())
@@ -191,7 +190,6 @@ public class Loader extends JavaPlugin {
 		
 		//REGISTER-NOT-LOADED
 		for(String s : toReg) {
-			Bukkit.broadcastMessage("- "+s);
 			new CustomEnchantment(s, 
 					data.getString("enchantments."+s+".name"),
 					data.getInt("enchantments."+s+".maxlevel"), 
