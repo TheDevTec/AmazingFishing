@@ -41,7 +41,7 @@ public class Bag {
 			}
 		});
 		if(Loader.config.getBoolean("Options.Shop.SellFish")) {
-			if(Loader.config.getBoolean("Options.Bag.Button.SellFish")) {
+			if(Loader.config.getBoolean("Options.Bag.SellFish")) {
 			a.setItem(51,new ItemGUI(Create.createItem(Trans.words_sell(), Utils.getCachedMaterial("COD_BUCKET"))) {
 				@Override
 				public void onClick(Player p, HolderGUI arg1, ClickType arg2) {
@@ -58,7 +58,7 @@ public class Bag {
 			});
 		}}
 		if(Loader.config.getBoolean("Options.Shop.Enabled")) {
-			if(Loader.config.getBoolean("Options.Bag.Button.OpenShop")) {
+			if(Loader.config.getBoolean("Options.Bag.OpenShop")) {
 				a.setItem(45, new ItemGUI(Create.createItem(Trans.bag_toShop(), Material.EMERALD)){
 					@Override
 					public void onClick(Player p, HolderGUI arg1, ClickType arg2) {

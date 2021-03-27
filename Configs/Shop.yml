@@ -11,25 +11,29 @@ GUI:
     Icon: "LAPIS_LAZULI"
     # ModelData: "1"
     Name: "&9Points"
-    Lore: "&7Currently you have %points% points"
+    Lore: 
+    - "&7Currently you have %points% points"
 
   BuyShop:
     Icon: "EMERALD"
     # ModelData: "1"
     Name: "&eBuy shop"
-    Lore: "&7Open shop in which you can buy items"
+    Lore: 
+    - "&7Open shop in which you can buy items"
 
   SellShop:
     Icon: "COD_BUCKET"
     # ModelData: "1"
     Name: "&eSell shop"
-    Lore: "&7Open shop in which you can sell fish"
+    Lore: 
+    - "&7Open shop in which you can sell fish"
 
   Sell:
     Icon: "GOLD_INGOT"
     # ModelData: "1"
     Name: "&eSell fish"
-    Lore: "&7Sell fish in shop"
+    Lore: 
+    - "&7Sell fish in shop"
 
 # Here you can edit items in shop
 Items:
@@ -55,3 +59,14 @@ Items:
         # HideAttributes: true
         Enchants:
         - "LURE:1"
+      # item02:
+        # Material: "COBBLESTONE"
+        # Amount: 5
+        # Name: "&eBad stone"
+        # Lore:
+        # - "&3Great lore"
+        # Unbreakable: true
+        # HideEnchants: false
+        # HideAttributes: true
+        # Enchants:
+        # - "LURE:1"

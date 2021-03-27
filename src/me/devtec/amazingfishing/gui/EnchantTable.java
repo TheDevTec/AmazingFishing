@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.gui;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 
 public class EnchantTable {
@@ -141,7 +143,9 @@ public class EnchantTable {
 		};
 		Create.prepareInv(a);
 		a.setItem(4,new ItemGUI( Create.createItem(Trans.words_points()
-				.replace("%value%", ""+API.getPoints().get(p.getName())), Utils.getCachedMaterial("LAPIS_LAZULI")) ) {
+				.replace("%value%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
+				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
+				, Utils.getCachedMaterial("LAPIS_LAZULI")) ) {
 			
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
@@ -204,7 +208,9 @@ public class EnchantTable {
 		};
 		Create.prepareInv(a);
 		a.setItem(4, new EmptyItemGUI(Create.createItem(Trans.words_points()
-						.replace("%value%", ""+API.getPoints().get(p.getName())), Utils.getCachedMaterial("LAPIS_LAZULI"))));
+				.replace("%value%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
+				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
+						, Utils.getCachedMaterial("LAPIS_LAZULI"))));
 		ItemGUI getRod = new ItemGUI(Rod.getRod(p)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {

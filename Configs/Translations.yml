@@ -8,6 +8,9 @@ FishList:
   
 Points:
   Lack: "%prefix% &cYou have lack of points!"
+  Get: "%prefix% &3Player &b%player% &3has &b%points% &3points."
+  Add: "%prefix% &3You add &b%add% &3points to &b%player%&3. Player &b%player% &3now has &b%points% &3points."
+  Set: "%prefix% &3You set points of player &b%player% &3to &b%points%&3."
 
 SoldFish:
 - "&7&l-----------------------"

@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.gui;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -236,11 +237,11 @@ public class Shop {
 		String name = Loader.shop.getString("GUI."+item+".Name")
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
-				.replace("%points%", ""+API.getPoints().get(p.getName() ) );
+				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") );
 		List<String> lore = Loader.shop.getStringList("GUI."+item+".Lore");
 		lore.replaceAll(s->s.replace("%player%", p.getName())
 					.replace("%playername%", p.getDisplayName())
-					.replace("%points%", ""+API.getPoints().get(p.getName())));
+					.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",")  ));
 		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Material.valueOf(Loader.shop.getString("GUI."+item+".Icon").toUpperCase()), lore));
 		ItemGUI d = new ItemGUI(Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create()){
 			@Override
