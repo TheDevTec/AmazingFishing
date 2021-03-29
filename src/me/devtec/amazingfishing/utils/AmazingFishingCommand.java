@@ -94,7 +94,7 @@ public class AmazingFishingCommand implements CommandExecutor, TabCompleter {
 			TheAPI.msg("/Fish Points Set <player> <points>", s);
 			return true;
 		}
-		if(args[0].equalsIgnoreCase("reload")) {
+		if(args[0].equalsIgnoreCase("reload") && Loader.has(s, "amazingfishing.reload")) {
 			Loader.reload(s, true);
 			return true;
 		}
