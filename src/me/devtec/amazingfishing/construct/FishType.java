@@ -4,5 +4,5 @@ public enum FishType {
 	COD,
 	SALMON,
 	PUFFERFISH,
-	TROPICAL
+	TROPICAL_FISH
 }

@@ -72,7 +72,7 @@ public class Help {
 						}
 						Loader.msg(Trans.words_tropicalfish(), p);
 						for(Fish fish: API.getRegisteredFish().values() ) {
-							if(fish.getType()==FishType.TROPICAL)
+							if(fish.getType()==FishType.TROPICAL_FISH)
 							Loader.msg(Trans.s("FishList.Format")
 									.replace("%fish%", fish.getDisplayName()), p);
 						}
