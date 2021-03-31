@@ -2,6 +2,7 @@ package me.devtec.amazingfishing.utils;
 
 import java.util.Random;
 
+import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.util.Vector;
 
 import me.devtec.amazingfishing.API;
+import me.devtec.amazingfishing.construct.Calculator;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.construct.Enchant.FishCatchList;
 import me.devtec.amazingfishing.construct.Fish;
@@ -22,6 +24,7 @@ import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.PercentageList;
+import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 
 public class CatchFish implements Listener {
@@ -45,59 +48,52 @@ public class CatchFish implements Listener {
 		          double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
 		          double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
 		          double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();
-				Vector vec = new Vector(d0 * 0.1D, d1 * 0.1D + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08D, d2 * 0.1D);
+				Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);
 				try {
 				am=random.nextInt(am);
 				}catch(Exception er) {}
 				if(am<=0)am=1;
-				for(int a = 0; a < am; ++a) {
+				while(am!=0) {
+					--am;
+					try {
 					Fish f = ff.getRandom();
 					double weight = 0, length = 0;
 					try {
-						weight=random.nextInt((int)f.getWeigth())+random.nextDouble();
+						length=random.nextInt((int)f.getLength())+random.nextDouble();
 					}catch(Exception er) {}
 					try {
-						length=random.nextInt((int)f.getLength())+random.nextDouble();
+						weight=StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weigth%", f.getWeigth()+"")
+								.replace("%maxweigth%", f.getWeigth()+"")
+								.replace("%length%", length+"")
+								.replace("%maxlength%", f.getLength()+"").replace("%minlength%", f.getMinLength()+"")
+								.replace("%minweigth%", f.getMinWeigth()+"")).doubleValue();
 					}catch(Exception er) {}
 					if(weight>f.getWeigth())weight=f.getWeigth();
 					if(length>f.getLength())length=f.getLength();
 					if(weight<f.getMinWeigth())weight=f.getMinWeigth();
 					if(length<f.getMinLength())length=f.getMinLength();
-					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, e.getPlayer(), e.getHook().getLocation()) );
+					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, e.getPlayer(), e.getHook().getLocation()));
 			        item.setVelocity(vec);
 			        Statistics.addFish(e.getPlayer(), f.getType());
 			        Statistics.addRecord(e.getPlayer(), f, length, weight);
 			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName());
 					for(String s : f.getMessages(FishAction.CATCH))
-						TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
-								.replace("%weight%", String.format("%.2f",weight))
-								.replace("%length%", String.format("%.2f",length))
-								.replace("%chance%", String.format("%.2f",f.getChance()))
-								.replace("%name%", f.getDisplayName())
-								.replace("%player%", e.getPlayer().getName())
-								.replace("%displayname%", e.getPlayer().getDisplayName())
-								.replace("%biomes%", f.getBiomes().toString().replace("[", "").replace("]", "") )
-								.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
-								.replace("%x%", ""+e.getHook().getLocation().getBlockX())
-								.replace("%y%", ""+e.getHook().getLocation().getBlockY())
-								.replace("%z%", ""+e.getHook().getLocation().getBlockZ())
-								.replace("%world%", e.getHook().getLocation().getWorld().getName())
-								), e.getPlayer());
+						TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())
+								.replace("%chance%", StringUtils.fixedFormatDouble(f.getChance()))
+								.replace("%weight%", StringUtils.fixedFormatDouble(weight))
+								.replace("%length%", StringUtils.fixedFormatDouble(length))
+								.replace("%name%", s(f.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
+								.replace("%biomes%", sub(f.getBiomes().toString())),e.getPlayer());
 					for(String s : f.getCommands(FishAction.CATCH))
-						TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
-								.replace("%weight%", String.format("%.2f",weight))
-								.replace("%length%", String.format("%.2f",length))
-								.replace("%chance%", String.format("%.2f",f.getChance()))
-								.replace("%name%", f.getDisplayName())
-								.replace("%player%", e.getPlayer().getName())
-								.replace("%displayname%", e.getPlayer().getDisplayName())
-								.replace("%biomes%", f.getBiomes().toString().replace("[", "").replace("]", "") )
-								.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
-								.replace("%x%", ""+e.getHook().getLocation().getBlockX())
-								.replace("%y%", ""+e.getHook().getLocation().getBlockY())
-								.replace("%z%", ""+e.getHook().getLocation().getBlockZ())
-								.replace("%world%", e.getHook().getLocation().getWorld().getName())
-								));
+						TheAPI.sudoConsole(s(s,e.getPlayer(), e.getHook().getLocation())
+								.replace("%chance%", StringUtils.fixedFormatDouble(f.getChance()))
+								.replace("%weight%", StringUtils.fixedFormatDouble(weight))
+								.replace("%length%", StringUtils.fixedFormatDouble(length))
+								.replace("%name%", s(f.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
+								.replace("%biomes%", sub(f.getBiomes().toString())));
+					}catch(Exception er) {
+						break;
+					}
 				}
 			}else {
 				if(generateChance()) {
@@ -106,43 +102,44 @@ public class CatchFish implements Listener {
 					if(treas != null) {
 						item.remove();
 						for(String s : treas.getMessages())
-							TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
-									.replace("%player%", e.getPlayer().getName())
-									.replace("%chance%", String.format("%.2f",treas.getChance()))
-									.replace("%name%", treas.getName())
-									.replace("%displayname%", treas.getDisplayName())
-									.replace("%biomes%", treas.getBiomes().toString().replace("[", "").replace("]", "") )
-									.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
-									.replace("%x%", ""+e.getHook().getLocation().getBlockX())
-									.replace("%y%", ""+e.getHook().getLocation().getBlockY())
-									.replace("%z%", ""+e.getHook().getLocation().getBlockZ())
-									.replace("%world%", e.getHook().getLocation().getWorld().getName())
-									), e.getPlayer());
+							TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())
+									.replace("%chance%", StringUtils.fixedFormatDouble(treas.getChance()))
+									.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
+									.replace("%biomes%", sub(treas.getBiomes().toString())),e.getPlayer());
 						for(String s : treas.getCommands())
-							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
-									.replace("%player%", e.getPlayer().getName())
-									.replace("%chance%", String.format("%.2f",treas.getChance()))
-									.replace("%name%", treas.getName())
-									.replace("%displayname%", treas.getDisplayName())
-									.replace("%biomes%", treas.getBiomes().toString().replace("[", "").replace("]", "") )
-									.replace("%biome%", e.getHook().getLocation().getBlock().getBiome().name())
-									.replace("%x%", ""+e.getHook().getLocation().getBlockX())
-									.replace("%y%", ""+e.getHook().getLocation().getBlockY())
-									.replace("%z%", ""+e.getHook().getLocation().getBlockZ())
-									.replace("%world%", e.getHook().getLocation().getWorld().getName())));
+							TheAPI.sudoConsole(s(s,e.getPlayer(), e.getHook().getLocation())
+									.replace("%chance%", StringUtils.fixedFormatDouble(treas.getChance()))
+									.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
+									.replace("%biomes%", sub(treas.getBiomes().toString())));
 					}
 				}
 			}
 		}
 	}
+
+	private String sub(String s) {
+		return s.substring(1,s.length()-1);
+	}
 	
-	private static Random random = new Random();
+	private String s(String s, Player p, Location l) {
+		return PlaceholderAPI.setPlaceholders(p, s
+				.replace("%player%", p.getName())
+				.replace("%playername%", p.getDisplayName())
+				.replace("%displayname%", p.getDisplayName())
+				.replace("%biome%",l.getBlock().getBiome().name())
+				.replace("%x%", ""+l.getBlockX())
+				.replace("%y%", ""+l.getBlockY())
+				.replace("%z%", ""+l.getBlockZ())
+				.replace("%world%", l.getWorld().getName()));
+	}
 	
-	public static boolean generateChance() {
+	private Random random = new Random();
+	
+	public boolean generateChance() {
 		return random.nextInt(5)==4;
 	}
 	
-	public static PercentageList<Fish> generateRandom(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
+	public PercentageList<Fish> generateRandom(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Fish> fish = new PercentageList<>();
 		if(time <= 12000) { //day
 			for(Fish f : API.getRegisteredFish().values())
@@ -160,7 +157,7 @@ public class CatchFish implements Listener {
 		return fish;
 	}
 
-	public static Treasure generateTreasure(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
+	public Treasure generateTreasure(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Treasure> treas = new PercentageList<>();
 		if(time <= 12000) { //day
 			for(Treasure f : API.getRegisteredTreasures().values())

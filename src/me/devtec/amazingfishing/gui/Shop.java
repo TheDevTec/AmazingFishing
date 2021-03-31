@@ -182,26 +182,17 @@ public class Shop {
 			weight=f.getWeigth();
 			
 			sel=sel+d.getAmount();
-
-			String moneyPath=Loader.config.getString("Options.Shop.Calculator.Money");
-			String pointsPath=Loader.config.getString("Options.Shop.Calculator.Points");
-			String expsPath=Loader.config.getString("Options.Shop.Calculator.Exps");
-			if(f.getFish().getCalculator(Calculator.MONEY)!=null)
-				moneyPath=f.getFish().getCalculator(Calculator.MONEY);
-			if(f.getFish().getCalculator(Calculator.EXPS)!=null)
-				expsPath=f.getFish().getCalculator(Calculator.EXPS);
-			if(f.getFish().getCalculator(Calculator.POINTS)!=null)
-				pointsPath=f.getFish().getCalculator(Calculator.POINTS);
+			
 			//CALCULATE
-			totalMoney += StringUtils.calculate(moneyPath.replace("%length%", ""+length).replace("%weight%", ""+weight)
+			totalMoney += StringUtils.calculate(f.getFish().getCalculator(Calculator.MONEY).replace("%length%", ""+length).replace("%weight%", ""+weight)
 					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
 
-			totalExp += StringUtils.calculate(expsPath.replace("%length%", ""+length).replace("%weight%", ""+weight)
+			totalExp += StringUtils.calculate(f.getFish().getCalculator(Calculator.EXPS).replace("%length%", ""+length).replace("%weight%", ""+weight)
 						.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
 						.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
 
-			totalPoints += StringUtils.calculate(pointsPath.replace("%length%", ""+length).replace("%weight%", ""+weight)
+			totalPoints += StringUtils.calculate(f.getFish().getCalculator(Calculator.POINTS).replace("%length%", ""+length).replace("%weight%", ""+weight)
 					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue();
 			i.remove(d);
@@ -226,22 +217,18 @@ public class Shop {
 				.replace("%points%", String.format("%2.02f",totalPoints).replace(",", ".")+"")
 				.replace("%prefix%", Trans.s("Prefix")),p);
 			}
-		/*Loader.msg(Trans.s("Prefix")+Trans.s("SoldFish")
-			.replace("%amount%", sel+"").replace("%exp%", String.format("%2.02f",totalExp).replace(",", ".")+"")
-				.replace("%money%", String.format("%2.02f",totalMoney).replace(",", ".")+"")
-				.replace("%points%", String.format("%2.02f",totalPoints).replace(",", ".")+""), p);*/
 		}
 	}
-
+	private static DecimalFormat ff = new DecimalFormat("###,###.#");
 	private static ItemGUI c(Player p, String item, Runnable r) {
 		String name = Loader.shop.getString("GUI."+item+".Name")
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
-				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") );
+				.replace("%points%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))).replace(",", ".").replaceAll("[^0-9.]+", ",") );
 		List<String> lore = Loader.shop.getStringList("GUI."+item+".Lore");
 		lore.replaceAll(s->s.replace("%player%", p.getName())
 					.replace("%playername%", p.getDisplayName())
-					.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",")  ));
+					.replace("%points%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))).replace(",", ".").replaceAll("[^0-9.]+", ",")));
 		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Material.valueOf(Loader.shop.getString("GUI."+item+".Icon").toUpperCase()), lore));
 		ItemGUI d = new ItemGUI(Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create()){
 			@Override

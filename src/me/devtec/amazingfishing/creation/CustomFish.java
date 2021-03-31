@@ -12,6 +12,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Calculator;
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
@@ -21,6 +22,7 @@ import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.json.Writer;
@@ -133,7 +135,7 @@ public class CustomFish implements Fish {
 	}
 	
 	public Data createData(double weight, double length) {
-		return new Data().set("fish", name).set("type", type.name()).set("weigth", length).set("length", length);
+		return new Data().set("fish", name).set("type", type.name()).set("weigth", weight).set("length", length);
 	}
 	
 	public boolean isInstance(Data data) {
@@ -151,12 +153,11 @@ public class CustomFish implements Fish {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
 		c.setDisplayName(getDisplayName());
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
-		l.replaceAll(a -> a.replace("%weight%", ff.format(StringUtils.getDouble(String.format("%.2f",weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%length%", ff.format(StringUtils.getDouble(String.format("%.2f",length))).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%chance%", String.format("%.2f",getChance()))
+		l.replaceAll(a -> a.replace("%weight%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%length%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(length))).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%chance%", StringUtils.fixedFormatDouble(getChance()))
 				.replace("%name%", getDisplayName())
-				.replace("%biomes%", getBiomes().toString().replace("[", "").replace("]", "") )
-				);
+				.replace("%biomes%", sub(getBiomes().toString())));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
@@ -167,29 +168,38 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		c.setDisplayName(getDisplayName());
+		c.setDisplayName(s(getDisplayName(),p,hook));
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
-		l.replaceAll(a -> a.replace("%weight%", ff.format(StringUtils.getDouble(String.format("%.2f",weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%length%", ff.format(StringUtils.getDouble(String.format("%.2f",length))))
-				.replace("%chance%", String.format("%.2f",getChance()).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%name%", getDisplayName())
-				.replace("%player%", p.getName())
-				.replace("%displayname%", p.getDisplayName())
-				.replace("%biomes%", getBiomes().toString().replace("[", "").replace("]", "") )
-				.replace("%biome%", hook.getBlock().getBiome().name())
-				.replace("%x%", ""+hook.getBlockX())
-				.replace("%y%", ""+hook.getBlockY())
-				.replace("%z%", ""+hook.getBlockZ())
-				.replace("%world%", hook.getWorld().getName())
-				);
+		l.replaceAll(a -> s(a
+				.replace("%weight%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%length%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(length))).replace(",", ".").replaceAll("[^0-9.]+", ","))
+				.replace("%chance%", StringUtils.fixedFormatDouble(getChance()))
+				.replace("%name%", s(getDisplayName(),p,hook))
+				.replace("%biomes%", sub(getBiomes().toString())),p,hook));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
 		Utils.setString(Utils.getNBT(r), createData(weight, length));
 		return Utils.asBukkit(r);
 	}
+
+	private String sub(String s) {
+		return s.substring(1,s.length()-1);
+	}
 	
-	private static ItemStack find(String name, int id) {
+	private String s(String s, Player p, Location l) {
+		return PlaceholderAPI.setPlaceholders(p, s
+				.replace("%player%", p.getName())
+				.replace("%playername%", p.getDisplayName())
+				.replace("%displayname%", p.getDisplayName())
+				.replace("%biome%",l.getBlock().getBiome().name())
+				.replace("%x%", ""+l.getBlockX())
+				.replace("%y%", ""+l.getBlockY())
+				.replace("%z%", ""+l.getBlockZ())
+				.replace("%world%", l.getWorld().getName()));
+	}
+	
+	private ItemStack find(String name, int id) {
 		if(Material.getMaterial(name)!=null)return new ItemStack(Material.getMaterial(name));
 		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id);
 	}
@@ -262,6 +272,8 @@ public class CustomFish implements Fish {
 
 	@Override
 	public String getCalculator(Calculator type) {
-		return data.getString("fish."+path+"."+name+".calculator."+type.name().toLowerCase());
+		String ff = data.getString("fish."+path+"."+name+".calculator."+type.name().toLowerCase());
+		if(ff!=null)return ff;
+		return Loader.config.getString("Options.Calculator."+type.name().toLowerCase());
 	}
 }

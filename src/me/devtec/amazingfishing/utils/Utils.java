@@ -45,6 +45,7 @@ public class Utils {
 	}
 
 	public static ItemStack setModel(ItemStack s, int model) {
+		if(model==0)return s;
 		try {
 			ItemMeta meta = s.getItemMeta();
 			meta.setCustomModelData(model);

@@ -12,18 +12,21 @@
 Options:
   # PointsManager types: VAULT, USER
   PointsManager: "User"
+  Calculator:
+      # Default money calculation: (%length% / 4 +%weight% / 4 + %money%) * %bonus%
+      # Default points calculation: (%length% / 4 +%weight% / 4 + %points%) * %bonus%
+      # Default xp calculation: (%length% / 5 +%weight% / 5 + %experiences%) * %bonus%
+      # Default weight calculation: (%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)
+    weight: "(%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)"
+    money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
+    exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
+    points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+    
   Shop:
     Enabled: true
     SellFish: true
     Sounds:
       Shop-BuyItem: true
-    Calculator:
-      # Default money calculation: (%length% / 4 +%weight% / 4 + %money%) * %bonus%
-      # Default points calculation: (%length% / 4 +%weight% / 4 + %points%) * %bonus%
-      # Default xp calculation: (%length% / 5 +%weight% / 5 + %experiences%) * %bonus%
-      Money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
-      Exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
-      Points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
 
   Sell:
     DisableMoney: false

@@ -7,6 +7,7 @@ import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.User;
 
 public class Statistics {
@@ -103,12 +104,12 @@ public class Statistics {
 				old = getRecord(p, f, RecordType.LENGTH);
 				if(length > old) {
 					setNewRecord(user, f, RecordType.LENGTH, length);
-					if(cansend)
+					if(cansend && old!=0)
 						for(String msg : Loader.trans.getStringList("NewRecord"))
 							Loader.msg(msg
 									.replace("%type%", "Length")
-									.replace("%new%", String.format("%.2f",length))
-									.replace("%old%", String.format("%.2f",old))
+									.replace("%new%", StringUtils.fixedFormatDouble(length))
+									.replace("%old%", StringUtils.fixedFormatDouble(old))
 									, p);
 				}
 			}
@@ -116,12 +117,12 @@ public class Statistics {
 				old = getRecord(p, f, RecordType.WEIGHT);
 				if(weight > old) {
 					setNewRecord(user, f, RecordType.WEIGHT, weight);
-					if(cansend)
+					if(cansend && old!=0)
 						for(String msg : Loader.trans.getStringList("NewRecord"))
 							Loader.msg(msg
 								.replace("%type%", "Weight")
-								.replace("%new%", String.format("%.2f",weight))
-								.replace("%old%", String.format("%.2f",old))
+								.replace("%new%", StringUtils.fixedFormatDouble(weight))
+								.replace("%old%", StringUtils.fixedFormatDouble(old))
 								, p);
 				}
 			}
