@@ -8,8 +8,10 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.gui.Shop.ShopType;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.Utils;
+import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
@@ -18,28 +20,11 @@ import me.devtec.theapi.guiapi.ItemGUI;
 public class Bag {
 	public static void openBag(Player p, BackButton BackButton) {
 		me.devtec.amazingfishing.other.Bag bag = new me.devtec.amazingfishing.other.Bag(p);
-		GUI a = new GUI(Trans.bag_title(),54) {
+		GUI a = Create.setup(new GUI(Trans.bag_title(),54) {
 			public void onClose(Player arg0) {
 				bag.saveBag(this);
 			}
-		};
-		Create.prepareInvBig(a);
-		a.setItem(49,new ItemGUI( Create.createItem(Trans.words_back(), Material.BARRIER)) {
-			@Override
-			public void onClick(Player p, HolderGUI menu, ClickType arg2) {
-				switch(BackButton) {
-					case Help:
-						Help.open(p);
-						break;
-					case Shop:
-						Shop.openShop(p, ShopType.Sell);
-						break;
-					default:
-						menu.close(p);
-						break;
-				}
-			}
-		});
+		}, f -> Help.open(f), Settings.WITHOUT_TOP);
 		if(Loader.config.getBoolean("Options.Shop.SellFish")) {
 			if(Loader.config.getBoolean("Options.Bag.SellFish")) {
 			a.setItem(51,new ItemGUI(Create.createItem(Trans.words_sell(), Utils.getCachedMaterial("COD_BUCKET"))) {
@@ -75,11 +60,7 @@ public class Bag {
 		}}
 		for(ItemStack as : new me.devtec.amazingfishing.other.Bag(p).getBag()) {
 			if(as==null||as.getType()==Material.AIR)continue;
-			ItemGUI item = new ItemGUI(as){
-				@Override
-				public void onClick(Player p, HolderGUI arg, ClickType type) {
-				}
-			};
+			ItemGUI item = new EmptyItemGUI(as);
 			item.setUnstealable(false);
 			a.addItem(item);
 		}

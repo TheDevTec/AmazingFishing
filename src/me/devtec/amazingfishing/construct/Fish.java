@@ -41,6 +41,8 @@ public interface Fish {
 	public ItemStack createItem(double height, double length);
 
 	public ItemStack createItem(double weight, double length, Player p, Location hook);
+
+	public ItemStack preview(Player p);
 	
 	public double getWeigth();
 

@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.gui;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
@@ -16,6 +16,7 @@ import me.devtec.amazingfishing.construct.Calculator;
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.Utils;
@@ -29,7 +30,6 @@ import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Shop {
@@ -39,8 +39,7 @@ public class Shop {
 	}
 	
 	public static void openShop(Player p, ShopType t) {
-		GUI a = new GUI(Trans.shop_title(t) ,54) {
-			@Override
+		GUI a = Create.setup(new GUI(Trans.shop_title(t),54) {
 			public void onClose(Player player) {
 				if(t==ShopType.Sell) {
 					for(int count =10; count < 17; ++count)
@@ -52,34 +51,32 @@ public class Shop {
 					for(int count =37; count < 44; ++count)
 						TheAPI.giveItem(p, getItem(count));
 				}
-			}
-		};
+			}},  s -> Help.open(s), Settings.SIDES);
 		if(t==ShopType.Sell)
 			a.setInsertable(true);
 		new Tasker() {
 			public void run() {
-				Create.prepareInv(a);
 				a.setItem(4,c(p,"Points",null));
+				a.setItem(26,c(p,"Bag",new Runnable() {
+					@Override
+					public void run() {
+						Bag.openBag(p, BackButton.Shop);
+					}}));
 				if(t==ShopType.Buy) {
 				if(Loader.config.getBoolean("Options.Shop.SellFish"))
-					a.setItem(45,c(p,"SellShop",new Runnable() {
+					a.setItem(35,c(p,"SellShop",new Runnable() {
 						@Override
 						public void run() {
 							openShop(p, ShopType.Sell);
 						}}));
-				addItems(a);
+					addItems(a);
 				}else {
 					//TODO - Fish OF Day
-					 a.setItem(45, c(p,"BuyShop",new Runnable() {
+					 a.setItem(35, c(p,"BuyShop",new Runnable() {
 							@Override
 							public void run() {
 								openShop(p, ShopType.Buy);
 							}}));
-					a.setItem(26,c(p,"Bag",new Runnable() {
-						@Override
-						public void run() {
-							Bag.openBag(p, BackButton.Shop);
-						}}));
 					a.setItem(49,c(p,"Sell",new Runnable() {
 						@Override
 						public void run() {
@@ -98,7 +95,8 @@ public class Shop {
 					.replace("%item%", item).replace("%cost%", cost+""):item;
 			Material icon = null;
 			try{
-				Material.matchMaterial(Loader.shop.getString("Items."+item+".Icon").toUpperCase());
+				String s = Loader.shop.getString("Items."+item+".Icon").toUpperCase();
+				icon=s.contains(":")? new MaterialData(Material.matchMaterial(s.split(":")[0]), StringUtils.getByte(s.split(":")[1])).getItemType() : Material.matchMaterial(s);
 			}catch(Exception | NoSuchFieldError err) {}
 			if(icon==null)icon=Material.STONE;
 			List<String> lore= Loader.shop.getStringList("Items."+item+".Description");
@@ -109,6 +107,7 @@ public class Shop {
 			inv.addItem(new ItemGUI(Loader.shop.exists("Items."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("Items."+item+".ModelData")):a.create()){
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					giveItem(p, item);
+					arg.setItem(4,c(p,"Points",null));
 				}
 			});
 		}
@@ -119,8 +118,11 @@ public class Shop {
 		if(API.getPoints().has(p.getName(), cost)) {
 			//TODO sounds
 			API.getPoints().remove(p.getName(), cost);
-			for(String f:Loader.shop.getStringList("Items."+kit+".Commands"))
-				TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+"") ));
+			new Tasker() {
+				public void run() {for(String f:Loader.shop.getStringList("Items."+kit+".Commands"))
+					TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+"") ));
+				}
+			}.runTaskSync();
 			for(String f:Loader.shop.getStringList("Items."+kit+".Messages"))
 				TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
 			for(String f:Loader.shop.getKeys("Items."+kit+".Item")) {
@@ -151,22 +153,31 @@ public class Shop {
 			}
 		}
 	}
-
-	static Data data = new Data("plugins/AmazingFishing/Data.yml");
+	
 	public static void sellAll(Player p, Inventory i, boolean expand) {
 		List<ItemStack> a = new ArrayList<>();
 		if(!expand) {
-			for(int count =10; count < 17; ++count)
+			for(int count =10; count < 17; ++count) {
 				a.add(i.getItem(count));
-			for(int count =19; count < 26; ++count)
+				i.setItem(count, null);
+			}
+			for(int count =19; count < 26; ++count) {
 				a.add(i.getItem(count));
-			for(int count =28; count < 34; ++count)
+				i.setItem(count, null);
+			}
+			for(int count =28; count < 34; ++count) {
 				a.add(i.getItem(count));
-			for(int count =37; count < 44; ++count)
+				i.setItem(count, null);
+			}
+			for(int count =37; count < 44; ++count) {
 				a.add(i.getItem(count));
+				i.setItem(count, null);
+			}
 		}else {
-			for(int count = 0; count < 45; ++count)
+			for(int count = 0; count < 45; ++count) {
 				a.add(i.getItem(count));
+				i.setItem(count, null);
+			}
 		}
 		int sel = 0;
 		double totalExp=0, totalPoints=0, totalMoney=0;
@@ -212,23 +223,23 @@ public class Shop {
 
 			
 			for(String msg: Loader.trans.getStringList("SoldFish")) {
-				Loader.msg(msg.replace("%amount%", sel+"").replace("%exp%", String.format("%2.02f",totalExp).replace(",", ".")+"")
-				.replace("%money%", String.format("%2.02f",totalMoney).replace(",", ".")+"")
-				.replace("%points%", String.format("%2.02f",totalPoints).replace(",", ".")+"")
+				Loader.msg(msg.replace("%amount%", sel+"").replace("%exp%", Loader.ff.format(totalExp))
+				.replace("%money%", Loader.ff.format(totalMoney))
+				.replace("%points%", Loader.ff.format(totalPoints))
 				.replace("%prefix%", Trans.s("Prefix")),p);
 			}
 		}
 	}
-	private static DecimalFormat ff = new DecimalFormat("###,###.#");
+	
 	private static ItemGUI c(Player p, String item, Runnable r) {
 		String name = Loader.shop.getString("GUI."+item+".Name")
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
-				.replace("%points%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))).replace(",", ".").replaceAll("[^0-9.]+", ",") );
+				.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName())));
 		List<String> lore = Loader.shop.getStringList("GUI."+item+".Lore");
 		lore.replaceAll(s->s.replace("%player%", p.getName())
 					.replace("%playername%", p.getDisplayName())
-					.replace("%points%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))).replace(",", ".").replaceAll("[^0-9.]+", ",")));
+					.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName()))));
 		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Material.valueOf(Loader.shop.getString("GUI."+item+".Icon").toUpperCase()), lore));
 		ItemGUI d = new ItemGUI(Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create()){
 			@Override

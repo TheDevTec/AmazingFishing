@@ -5,10 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
-import me.devtec.amazingfishing.construct.Fish;
-import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.gui.EnchantTable.EnchantGUI;
 import me.devtec.amazingfishing.gui.Shop.ShopType;
 import me.devtec.amazingfishing.utils.Create;
@@ -19,7 +16,6 @@ import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
-import me.devtec.theapi.scheduler.Tasker;
 
 public class Help {
 	
@@ -30,7 +26,8 @@ public class Help {
 	}
 	
 	public static void open(Player p) {
-		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Help.Player.Title"),54),0);
+		GUI a = Create.setup(new GUI(Loader.gui.getString("GUI.Help.Player.Title"),54), null
+				, me.devtec.amazingfishing.utils.Create.Settings.SIDES, me.devtec.amazingfishing.utils.Create.Settings.CLOSE);
 		a.setItem(4, new EmptyItemGUI(Create.createItem(Manager.getPluginName(), Material.KNOWLEDGE_BOOK, Arrays.asList(
 				"&9Version &bV"+Loader.plugin.getDescription().getVersion(),
 				"&9Created by &bStraikerinaCZ",
@@ -46,39 +43,8 @@ public class Help {
 		a.setItem(33,new ItemGUI(Create.createItem(Trans.help_player_list(), Material.PAPER)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-				new Tasker() {
-					
-					@Override
-					public void run() {
-						Loader.msg(Trans.s("FishList.Topic"), p);
-						
-						Loader.msg(Trans.words_cod(), p);
-						for(Fish fish: API.getRegisteredFish().values() ) {
-							if(fish.getType()==FishType.COD)
-							Loader.msg(Trans.s("FishList.Format")
-									.replace("%fish%", fish.getDisplayName()), p);
-						}
-						Loader.msg(Trans.words_salmon(), p);
-						for(Fish fish: API.getRegisteredFish().values() ) {
-							if(fish.getType()==FishType.SALMON)
-							Loader.msg(Trans.s("FishList.Format")
-									.replace("%fish%", fish.getDisplayName()), p);
-						}
-						Loader.msg(Trans.words_pufferfish(), p);
-						for(Fish fish: API.getRegisteredFish().values() ) {
-							if(fish.getType()==FishType.PUFFERFISH)
-							Loader.msg(Trans.s("FishList.Format")
-									.replace("%fish%", fish.getDisplayName()), p);
-						}
-						Loader.msg(Trans.words_tropicalfish(), p);
-						for(Fish fish: API.getRegisteredFish().values() ) {
-							if(fish.getType()==FishType.TROPICAL_FISH)
-							Loader.msg(Trans.s("FishList.Format")
-									.replace("%fish%", fish.getDisplayName()), p);
-						}
-						
-					}
-				}.runTaskSync();
+				if(p.hasPermission("amazingfishing.index"))
+				Index.open(p);
 			}
 		});
 		if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled")) {

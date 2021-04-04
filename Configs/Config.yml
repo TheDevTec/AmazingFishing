@@ -47,6 +47,13 @@ Options:
     SellFish: true
   Enchants:
     Enabled: true
+    
+# Preview text on click on fish in index
+Preview:
+- "&7Your records:"
+- "&7 Highest weight: &b%weight%"
+- "&7 Longest length: &b%length%"
+- "&7 Total caught: &b%caught%"
 
 # Tournaments:
 Tournament:

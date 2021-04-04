@@ -15,7 +15,14 @@ GUI:
       Info: "&cAdmin section"
       Reload: "&6Reload"
       Tournament: "&6Tournament"
-    
+  
+  Index:
+    Title: "&bIndex of fish"
+    cod: "&bIndex of fish type &ncod"
+    salmon: "&bIndex of fish type &nsalmon"
+    tropical_fish: "&bIndex of fish type &ntropical fish"
+    pufferfish: "&bIndex of fish type &npufferfish"
+  
   SellShop:
     Title: "&eSell Shop"
   BuyShop:

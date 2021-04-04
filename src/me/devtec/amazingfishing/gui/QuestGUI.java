@@ -13,6 +13,7 @@ import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
@@ -26,9 +27,7 @@ public class QuestGUI {
 	}
 
 	private static void openQuests(Player player, int page) {
-		GUI a = new GUI(Trans.quests_title_all() ,54);
-		Create.prepareInv(a);
-
+		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f));
 		Pagination<Quest> p = new Pagination<Quest>(28);
 		for(Quest q :  Quests.getQuests(player.getName()).values()) {
 			p.add(q);
@@ -69,9 +68,8 @@ public class QuestGUI {
 			});
 			
 		}
-
 		if(p.totalPages()>page+1) {
-			a.setItem(52, new ItemGUI( Create.createItem("&bNext page", Material.ARROW)) {
+			a.setItem(51, new ItemGUI(Loader.next) {
 				
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
@@ -80,6 +78,15 @@ public class QuestGUI {
 				}
 			});
 		}
+		if(page>0) {
+			a.setItem(47, new ItemGUI(Loader.prev) {
+				
+				@Override
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					openQuests(player, page-1);
+					
+				}
+			});
 		}
 		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Material.BLUE_CONCRETE_POWDER)) {
 			@Override
@@ -88,21 +95,12 @@ public class QuestGUI {
 				
 			}
 		});
-		a.setItem(49, new ItemGUI( Create.createItem(Trans.words_back(), Material.BARRIER)) {
-			
-			@Override
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				Help.open(player);
-				
-			}
-		});
 		a.open(player);
+		}
 	}
 	private static void openMyQuests(Player p, int page) {
-		GUI a = new GUI(Trans.quests_title_my() ,54);
-		Create.prepareInv(a);
+		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f));
 		User u = TheAPI.getUser(p);
-		
 		Pagination<String> pagi = new Pagination<String>(28);
 		List<String> finishpagi = new ArrayList<String>();
 		for(String quest: u.getKeys("af-quests")) { //First unfinished
@@ -117,7 +115,7 @@ public class QuestGUI {
 			if(q==null)continue;
 			
 			int stage = u.getInt("af-quests."+quest+".stage");
-			String[] ss = q.getValue(stage).split("[.]");
+			String[] ss = q.getValue(stage).split("\\.");
 			String name = Loader.data.getString("fish."+ss[0]+"."+ss[1]+".name");
 			List<String> lore = new ArrayList<String>();
 			if(Quests.isFinished(p.getName(), quest))
@@ -141,38 +139,26 @@ public class QuestGUI {
 							.replace("%stages_total%", ""+q.getStages()) 
 							);
 			if(Quests.isFinished(p.getName(), quest))
-				a.add(new ItemGUI(Create.createItem(q.getDisplayName(),  Material.GREEN_CONCRETE, lore)) {
-					@Override
-					public void onClick(Player player, HolderGUI gui, ClickType click) {
-						
-					}
-				});
+				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Material.GREEN_CONCRETE, lore)));
 			else
-				a.add(new ItemGUI(Create.createItem(q.getDisplayName(),  Material.RED_CONCRETE, lore)) {
-					@Override
-					public void onClick(Player player, HolderGUI gui, ClickType click) {
-						
-					}
-				});
+				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Material.RED_CONCRETE, lore)));
 		}
 		if(pagi.totalPages()>page+1) {
-			a.setItem(52, new ItemGUI( Create.createItem("&bNext page", Material.ARROW)) {
-				
-				@Override
+			a.setItem(51, new ItemGUI(Loader.next) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					openMyQuests(player, page+1);
 					
 				}
 			});
 		}
-		a.setItem(49, new ItemGUI( Create.createItem(Trans.words_back(), Material.BARRIER)) {
-			
-			@Override
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				open(p);
-				
-			}
-		});
+		if(page>0) {
+			a.setItem(47, new ItemGUI(Loader.prev) {
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					openMyQuests(player, page-1);
+					
+				}
+			});
+		}
 		a.open(p);
 	}
 }

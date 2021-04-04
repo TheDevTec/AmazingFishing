@@ -3,8 +3,8 @@ package me.devtec.amazingfishing.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class Pagination<T> extends ArrayList<T> {
 	private static final long serialVersionUID = 1L;
@@ -12,7 +12,7 @@ public class Pagination<T> extends ArrayList<T> {
 	private int pageSize;
 
 	public Pagination(int pageSize) {
-		this(pageSize, new ArrayList<T>());
+		this(pageSize, new ArrayList<>());
 	}
 
 	@SafeVarargs
@@ -20,12 +20,7 @@ public class Pagination<T> extends ArrayList<T> {
 		this(pageSize, Arrays.asList(objects));
 	}
 
-	public Pagination(int pageSize, List<T> objects) {
-		this.pageSize = pageSize;
-		addAll(objects);
-	}
-
-	public Pagination(int pageSize, Set<T> objects) {
+	public Pagination(int pageSize, Collection<T> objects) {
 		this.pageSize = pageSize;
 		addAll(objects);
 	}

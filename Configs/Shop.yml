@@ -47,26 +47,26 @@ Items:
     # - "&6Some messages"
     Description:
     - "Fantastic lore!"
-    Item:
-      block01:
-        Material: "STONE"
-        Amount: 5
-        Name: "&eHoly stone"
-        Lore:
-        - "&3Great lore"
-        # Unbreakable: true
-        # HideEnchants: false
-        # HideAttributes: true
-        Enchants:
-        - "LURE:1"
-      # item02:
-        # Material: "COBBLESTONE"
-        # Amount: 5
-        # Name: "&eBad stone"
-        # Lore:
-        # - "&3Great lore"
-        # Unbreakable: true
-        # HideEnchants: false
-        # HideAttributes: true
-        # Enchants:
-        # - "LURE:1"
+#     Item:
+#       block01:
+#         Material: "STONE"
+#         Amount: 5
+#         Name: "&eHoly stone"
+#         Lore:
+#         - "&3Great lore"
+#         # Unbreakable: true
+#         # HideEnchants: false
+#         # HideAttributes: true
+#         Enchants:
+#         - "LURE:1"
+#       # item02:
+#         # Material: "COBBLESTONE"
+#         # Amount: 5
+#         # Name: "&eBad stone"
+#         # Lore:
+#         # - "&3Great lore"
+#         # Unbreakable: true
+#         # HideEnchants: false
+#         # HideAttributes: true
+#         # Enchants:
+#         # - "LURE:1"

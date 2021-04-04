@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
+import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.amazingfishing.utils.points.PointsManager;
@@ -22,6 +23,10 @@ public class API {
 			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3);
 	protected static PointsManager points;
 	protected static List<Runnable> onReload = new ArrayList<>();
+	
+	public static Material getMaterialOf(FishType type) {
+		return type==FishType.COD?cod:(type==FishType.SALMON?salmon:(type==FishType.TROPICAL_FISH?tropical_fish:pufferfish));
+	}
 	
 	public static void addRunnableOnReload(Runnable r) {
 		onReload.add(r);

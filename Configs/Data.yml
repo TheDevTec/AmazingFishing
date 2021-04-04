@@ -1,12 +1,20 @@
-  # FISH
+# FISH
 fish:
   # cod, tropical_fish, pufferfish, salmon
   cod:
     1:
+      # Display name of fish
       name: "&eCarp"
-      # model: 1
+      
+      # Model data of fish (For custom resource pack)
+      model: 1
+      
+      # Chance to catch this fish
       chance: 50.0
-      # permission: String
+      
+      # Remove this to catch fish without perms
+      permission: "amazingfishing.fish.carp"
+      
       # Lore placeholders: %length%, %weight%, %chance%, %name%, %biomes%, %biome%, %x%, %y%, %z%, %world%
       # Other placeholders: %player% - just players name, %displayname% - Players display name
       lore:
@@ -16,44 +24,88 @@ fish:
       - "&7Caught by: &f%displayname%"
       - "&7Caught in biome: &f%biome%"
       - "&7Caught on location: &f%x% %y% %z% %world%"
+      
+      # Preview of fish in the /fish -> Index
+      preview:
+        name: "&eCarp"
+        lore:
+        - "&7Chance: &f%chance%"
+        - "&7Max weight: &f%weight%"
+        - "&7Max length: &f%length%"
+        - "&7Catch:"
+        - "&7 Time: &fEVERY"
+        - "&7 Weather: &fEVERY"
+        - "&7 Biomes: &fRIVER, FOREST"
+        
+      # A biomes in which fish can be caught - empty list for every biome
+      # List of biomes: 
+      #  - (1.16) https://pastebin.com/9X5LRnSq
+      #  - (1.12) https://pastebin.com/ejKGGq4D
+      biomes:
+      - "RIVER"
+      - "FOREST"
+      
+      # The moment when the fish can be caught (weather & time)
+      catch:
+        # Types: DAY | NIGHT | EVERY
+        time: EVERY
+        # Types: SUN | RAIN | THUNDER | EVERY
+        weather: EVERY
+      
+      # List of messages on catch & eat
       messages:
         catch:
         - "&eYou catch %name% fish!"
         - "&eFish is &6%length% cm&e long and weighs &6%weight% kg"
         eat:
         - "&eYou ate %name% fish!"
-      # commands:
-        # catch: List
-        # eat: List
-      # biomes:
-      # - <biome name>
-      catch:
-        # Types: DAY | NIGHT | EVERY
-        time: EVERY
-        # Types: SUN | RAIN | THUNDER | EVERY
-        weather: EVERY
+       
+      # List of commands on catch & eat
+      commands:
+        catch: []
+        eat: []
+        
+      # * Stats *
+      
+      # Weight
       weight: 45.5
-      length: 80.7
       minweigth: 5.5
+      
+      # Length
+      length: 80.7
       minlength: 8.7
+      
+      # Shop
       money: 5.5
       points: 5.5
       xp: 10.5
-      # calculator:
-        # money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
-        # exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
-        # points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
-        # weigth: "(%length%-(%minweight%/%minlength%))/(%maxweight%/%maxlength%)"
+      # Custom calculator for shop & weight - remove this calculaator to use global calculator from Config.yml
+      calculator:
+        money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
+        exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
+        points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+        weight: "(%length%-(%minweight%/%minlength%))/(%maxweight%/%maxlength%)"
       
-  # ENCHANTMENTS
+# ENCHANTMENTS
 enchantments:
   example:
+    # Display name of enchantment
     name: "&eGreat enchant!"
+    
+    # Maximum level of enchantment
     maxlevel: 10
+    
+    # Cost in points
     cost: 5
+    
+    # Bonuses of enchantment
     bonus:
+      # Chance to catch 2 or more fish
       chance: 5
+      # Limit of maximum fish catch at one time
       amount: 2
+      
+    # Desctiption of enchantment in enchant table (/fish)
     # Description placeholders: %cost%, %maxlevel%, %name%, %displayname% - custom name with colors, %chance%, %amount%
     description:
     - "&eGreat enchant is great!"
@@ -62,55 +114,84 @@ enchantments:
     - "&7"
     - "&3Cost: &b%cost% points"
 
-  # TREASURES
+# TREASURES
 treasures:
   common:
+    # Display name of treasure
     name: "&7Common treasure"
+    
     # Placeholders: %player%, %chance%, %name% - 'common', %displayname% - custom treasure name, %biomes%, %biome%, %x%, %y%, %z%, %world%
+    # Messages on catch treasure
     messages:
     - "&3You found &7Common treasure on &b%x% %y% %z% %world%&3!!"
+    
+    # Commands on catch treasure
     commands:
     - "eco give %player% 500"
+    
+    # Chance to catch this treasure
     chance: 70.5
-    # permission: String
-    # biomes:
-    # - <biome_name>
+    
+    # Remove this to catch treasure without perms
+    permission: "amazingfishing.treasure.common"
+    
+    # A biomes in which treasure can be caught - empty list for every biome
+    # List of biomes: 
+    #  - (1.16) https://pastebin.com/9X5LRnSq
+    #  - (1.12) https://pastebin.com/ejKGGq4D
+    biomes: []
+    
+    # The moment when the treasure can be caught (weather & time)
     catch:
       # Types: DAY | NIGHT | EVERY
       time: EVERY
       # Types: SUN | RAIN | THUNDER | EVERY
       weather: EVERY
-  # Quests
+      
+# QUESTS
 quests:
   common:
+    # Display Name of quest
     name: "&6&lSuperQuest"
+    
+    # Icon of quest
     icon: "STONE"
+    
+    # Description of quest
     description:
     - "&6Great super duper quest"
     - "&7"
     - "&7Left click to accept quest"
     - "&7Right click to cancel quest (if it is in progress)"
+    
+    # Commands and messages on start quest
     start:
-      # commands:
-      # - "say You are the best hero!"
+      commands:
+      - "say Player %player% started quest %questname%"
       messages:
       - "&6You have started quest %questname%"
       - "&6Now you need to catch &e3x &eCarp"
+      
+    # Stages of quest (Starts from 1)
     stages:
       1:
-      # Placeholders: %player%, %quest% (common), %questname% (&6&lSuperQuest)
+        # Placeholders: %player%, %quest% (common), %questname% (&6&lSuperQuest)
+        # Commands on finish stage
         commands:
         - "pay %player% 500"
+        
+        # Messages on finish stage
         messages:
         - "%prefix% &6You have finished first stage of quest %questname%"
+        
         # Action: catch_fish, eat_fish, sell_fish
         action: "catch_fish"
+        
         # Value: type_of_fish.name_of_fish -> cod.<name> -> cod.1
         value: "cod.1"
+        
         count: 3
       2:
-        commands:
-        - "say Congratulation %player%!!"
         messages:
         - "%prefix% &6You have finished second stage of quest %questname%"
         action: "eat_fish"

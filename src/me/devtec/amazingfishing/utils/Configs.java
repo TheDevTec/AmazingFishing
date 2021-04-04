@@ -18,16 +18,20 @@ public class Configs {
 		Data d = Loader.data;
     	if(d!=null) {
     		d.reload(d.getFile());
-    	}else d=new Data("plugins/AmazingFishing/Data.yml");
-		try {
-		URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/Data.yml").openConnection();
-		u.setUseCaches(false);
-		data.reload(StreamUtils.fromStream(u.getInputStream()));
-    	Loader.data=d;
-		}catch(Exception es) {es.printStackTrace();}
-    	boolean change = d.merge(data, true, true);
-    	if(change)
-    	d.save(DataType.YAML);
+    	}else {
+    		d=new Data("plugins/AmazingFishing/Data.yml");
+    		if(!StreamUtils.fromStream(d.getFile()).trim().isEmpty())
+    		try {
+    			URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/Data.yml").openConnection();
+    			u.setUseCaches(false);
+    			data.reload(StreamUtils.fromStream(u.getInputStream()));
+    	    	Loader.data=d;
+    			}catch(Exception es) {es.printStackTrace();}
+    	    	boolean change = d.merge(data, true, true);
+    	    	if(change)
+    	    	d.save(DataType.YAML);
+    	}
+    	boolean change = false;
 		for(String s : datas) {
 			data.reset();
 			Config c = null;

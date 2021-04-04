@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.theapi.utils.json.Writer;
 
@@ -79,12 +80,12 @@ public class CustomEnchantment extends Enchant {
 		List<String> list = new ArrayList<String>();
 		for(String line:description) 
 			list.add(line
-					.replace("%cost%", String.format("%.2f",getCost()))
+					.replace("%cost%", Loader.ff.format(getCost()))
 					.replace("%maxlevel%", getMaxLevel()+"")
 					.replace("%name%", getName())
 					.replace("%displayname%", getDisplayName())
-					.replace("%chance%", String.format("%.2f",chance))
-					.replace("%amount%", String.format("%.2f",amount)));
+					.replace("%chance%", Loader.ff.format(chance))
+					.replace("%amount%", Loader.ff.format(amount)));
 		return list;
 	}
 

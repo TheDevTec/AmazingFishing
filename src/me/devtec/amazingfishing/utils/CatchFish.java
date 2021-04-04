@@ -1,5 +1,8 @@
 package me.devtec.amazingfishing.utils;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -74,21 +77,21 @@ public class CatchFish implements Listener {
 					if(length<f.getMinLength())length=f.getMinLength();
 					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, e.getPlayer(), e.getHook().getLocation()));
 			        item.setVelocity(vec);
-			        Statistics.addFish(e.getPlayer(), f.getType());
+			        Statistics.addFish(e.getPlayer(), f);
 			        Statistics.addRecord(e.getPlayer(), f, length, weight);
 			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName());
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())
-								.replace("%chance%", StringUtils.fixedFormatDouble(f.getChance()))
-								.replace("%weight%", StringUtils.fixedFormatDouble(weight))
-								.replace("%length%", StringUtils.fixedFormatDouble(length))
+								.replace("%chance%", fs.format(f.getChance()))
+								.replace("%weight%", fs.format(weight))
+								.replace("%length%", fs.format(length))
 								.replace("%name%", s(f.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
 								.replace("%biomes%", sub(f.getBiomes().toString())),e.getPlayer());
 					for(String s : f.getCommands(FishAction.CATCH))
 						TheAPI.sudoConsole(s(s,e.getPlayer(), e.getHook().getLocation())
-								.replace("%chance%", StringUtils.fixedFormatDouble(f.getChance()))
-								.replace("%weight%", StringUtils.fixedFormatDouble(weight))
-								.replace("%length%", StringUtils.fixedFormatDouble(length))
+								.replace("%chance%", fs.format(f.getChance()))
+								.replace("%weight%", fs.format(weight))
+								.replace("%length%", fs.format(length))
 								.replace("%name%", s(f.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
 								.replace("%biomes%", sub(f.getBiomes().toString())));
 					}catch(Exception er) {
@@ -103,12 +106,12 @@ public class CatchFish implements Listener {
 						item.remove();
 						for(String s : treas.getMessages())
 							TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())
-									.replace("%chance%", StringUtils.fixedFormatDouble(treas.getChance()))
+									.replace("%chance%", fs.format(treas.getChance()))
 									.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
 									.replace("%biomes%", sub(treas.getBiomes().toString())),e.getPlayer());
 						for(String s : treas.getCommands())
 							TheAPI.sudoConsole(s(s,e.getPlayer(), e.getHook().getLocation())
-									.replace("%chance%", StringUtils.fixedFormatDouble(treas.getChance()))
+									.replace("%chance%", fs.format(treas.getChance()))
 									.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), e.getHook().getLocation()))
 									.replace("%biomes%", sub(treas.getBiomes().toString())));
 					}
@@ -156,7 +159,7 @@ public class CatchFish implements Listener {
 		}
 		return fish;
 	}
-
+	private static DecimalFormat fs = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public Treasure generateTreasure(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Treasure> treas = new PercentageList<>();
 		if(time <= 12000) { //day

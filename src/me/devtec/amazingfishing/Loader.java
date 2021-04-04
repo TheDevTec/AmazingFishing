@@ -1,8 +1,11 @@
 package me.devtec.amazingfishing;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.construct.Enchant;
@@ -31,6 +35,7 @@ import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.apis.PluginManagerAPI;
 import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
@@ -38,7 +43,6 @@ import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.VersionChecker;
 import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.reflections.Ref;
 
 public class Loader extends JavaPlugin {
@@ -46,9 +50,11 @@ public class Loader extends JavaPlugin {
 	public static Loader plugin;
 	public static Data data;
 	public static Config trans, config,
-			gui, shop, cache = new Config("AmazingFishing/Cache.dat", DataType.BYTE);
+			gui, shop;
 	static String prefix;
-
+	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+	public static ItemStack next = ItemCreatorAPI.createHeadByValues(1, "&cNext", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmNTVmMWIzMmMzNDM1YWMxYWIzZTVlNTM1YzUwYjUyNzI4NWRhNzE2ZTU0ZmU3MDFjOWI1OTM1MmFmYzFjIn19fQ=="), prev = ItemCreatorAPI.createHeadByValues(1, "&cPrevious", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0=");
+	
 	public void onEnable() {
 		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "4.9.4")==VersionChecker.Version.NEW) {
 			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());

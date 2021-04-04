@@ -61,6 +61,7 @@ public class Utils {
 	static {
 		mat.put("BLACK_STAINED_GLASS_PANE", find("BLACK_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 15));
 		mat.put("BLUE_STAINED_GLASS_PANE", find("BLUE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 11));
+		mat.put("RED_STAINED_GLASS_PANE", find("RED_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 14));
 		mat.put("COD_BUCKET", find("COD_BUCKET", "WATER_BUCKET", 0));
 		mat.put("CRAFTING_TABLE", find("CRAFTING_TABLE", "WORKBENCH", 0));
 		mat.put("PURPLE_STAINED_GLASS_PANE", find("PURPLE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 10));
@@ -69,9 +70,10 @@ public class Utils {
 	
 	static Material find(String newName, String old, int data) {
 		try {
-			return Material.matchMaterial(newName);
+			return Material.getMaterial(newName);
 		}catch(Exception | NoSuchFieldError e) {
-			return new MaterialData(Material.matchMaterial(old),(byte)data).getItemType();
+			if(data==0)return Material.getMaterial(old);
+			return new MaterialData(Material.getMaterial(old),(byte)data).getItemType();
 		}
 	}
 	

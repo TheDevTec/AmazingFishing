@@ -42,14 +42,7 @@ public class EnchantTable {
 		}
 	}
 	private static void openMain(Player p) {
-		GUI a = new GUI(Trans.enchant_title(),54);
-		Create.prepareInv(a);
-			a.setItem(49,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
-				@Override
-				public void onClick(Player p, HolderGUI arg, ClickType type) {
-					Help.open(p);
-				}
-			});
+		GUI a = Create.setup(new GUI(Trans.enchant_title(),54), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 			a.setItem(20,new ItemGUI(Create.createItem(Trans.enchant_add(), Utils.getCachedMaterial("CRAFTING_TABLE"))){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
@@ -77,8 +70,7 @@ public class EnchantTable {
 		}
 	
 	private static boolean openEnchanterPlace(Player p, EnchantGUI type) {
-		GUI a = new GUI(Trans.enchant_selectRod_title(),54);
-		Create.prepareInv(a);
+		GUI a = Create.setup(new GUI(Trans.enchant_selectRod_title(),54), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		int slot = -1;
 		boolean add = false;
 		if(p.getInventory().getContents()!=null)
@@ -101,12 +93,6 @@ public class EnchantTable {
 				}
 			});
 		}
-		a.setItem(49,new ItemGUI(Create.createItem(Trans.words_back(), Material.BARRIER)){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				open(p, EnchantGUI.Main);
-			}
-		});
 		if(add)
 		a.open(p);
 		else a.clear();
@@ -133,15 +119,12 @@ public class EnchantTable {
 	
 	public static void openEnchantAdd(Player p) {
 		Material mat = Material.ENCHANTED_BOOK;
-		GUI a = new GUI(Trans.enchant_add_title(),54) {
-			
-			@Override
+		GUI a = Create.setup(new GUI(Trans.enchant_add_title(),54) {
 			public void onClose(Player arg0) {
 				if(Rod.saved(p))
 					Rod.retriveRod(p);
 			}
-		};
-		Create.prepareInv(a);
+		}, f -> openMain(f));
 		a.setItem(4,new ItemGUI( Create.createItem(Trans.words_points()
 				.replace("%value%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
 				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
@@ -150,23 +133,6 @@ public class EnchantTable {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				
-			}
-		});
-		ItemGUI getRod = new ItemGUI(Rod.getRod(p)){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				Rod.retriveRod(p);
-				a.close();
-			}
-		};
-		a.setItem(1,getRod);
-		a.setItem(6,getRod);
-		a.setItem(47,getRod);
-		a.setItem(51,getRod);
-		a.setItem(49,new ItemGUI(Create.createItem(Trans.words_cancel(), Material.BARRIER)){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				open(p, EnchantGUI.Main);
 			}
 		});
 		for(Enchant enchant: Enchant.enchants.values()) {
@@ -199,35 +165,16 @@ public class EnchantTable {
 	
 	public static void openEnchantUpgrade(Player p) {
 		Material mat = Material.PAPER;
-		GUI a = new GUI(Trans.enchant_upgrade_title(),54) {
+		GUI a = Create.setup(new GUI(Trans.enchant_upgrade_title(),54) {
 			public void onClose(Player arg0) {
-				if(Rod.saved(p)) {
+				if(Rod.saved(p))
 					Rod.retriveRod(p);
-				}
 			}
-		};
-		Create.prepareInv(a);
+		}, f -> openMain(f));
 		a.setItem(4, new EmptyItemGUI(Create.createItem(Trans.words_points()
 				.replace("%value%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
 				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
 						, Utils.getCachedMaterial("LAPIS_LAZULI"))));
-		ItemGUI getRod = new ItemGUI(Rod.getRod(p)){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				Rod.retriveRod(p);
-				a.close();
-			}
-		};
-		a.setItem(1,getRod);
-		a.setItem(6,getRod);
-		a.setItem(47,getRod);
-		a.setItem(51,getRod);
-		a.setItem(49,new ItemGUI(Create.createItem(Trans.words_cancel(), Material.BARRIER)){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				open(p, EnchantGUI.Main);
-			}
-		});
 		for(Enchant enchant: Enchant.enchants.values()) {
 			 ItemStack rod = Rod.getRod(p);
 			 if(enchant.containsEnchant(rod)) {

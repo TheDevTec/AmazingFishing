@@ -3,11 +3,15 @@ package me.devtec.amazingfishing.utils;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.Loader;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.GUI.ClickType;
+import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Create {
@@ -27,21 +31,7 @@ public class Create {
 	static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE"), 1, "&c"));
 	static ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE"), 1, "&c"));
 	static ItemGUI purple = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("PURPLE_STAINED_GLASS_PANE"), 1, "&c"));
-	
-	public static GUI prepareInv(GUI inv) {
-		for(int i = 0; i<10; ++i)
-		inv.setItem(i, item);
-
-		inv.setItem(17, item);
-		inv.setItem(18, item);
-		inv.setItem(26, item);
-		inv.setItem(27, item);
-		inv.setItem(35, item);
-		inv.setItem(36, item);
-		for(int i = 44; i<54; ++i)
-		inv.setItem(i,  item);
-		return inv;
-	}
+	 
 	public static GUI prepareInvBig(GUI inv) {
 		for(int i = 45; i<54; ++i)
 		inv.setItem(i, item);
@@ -57,24 +47,68 @@ public class Create {
 		inv.setItem(i, item);
 		return inv;
 	}
+
+	public static enum Settings {
+		SIDES,
+		WITHOUT_TOP,
+		FILL,
+		CLOSE,
+		CLEAR
+	}
 	
-	public static GUI prepareNewBig(GUI inv, int type) {
-		ItemGUI blue = type==0?Create.blue:Create.purple;
-		inv.setItem(0, blue);
-		inv.setItem(1, blue);
-		inv.setItem(7, blue);
-		inv.setItem(8, blue);
-		inv.setItem(9, blue);
-		inv.setItem(17, blue);
-		
-		inv.setItem(36, blue);
-		inv.setItem(44, blue);
-		inv.setItem(45, blue);
-		inv.setItem(46, blue);
-		inv.setItem(52, blue);
+	static ItemStack close = ItemCreatorAPI.create(Utils.getCachedMaterial("RED_STAINED_GLASS_PANE"), 1, Loader.trans.getString("Words.Close"));
+	
+	public static GUI setup(GUI inv, PRunnable backButton, Settings... settings) {
+		boolean[] actions = {false, false,false};
+		for(Settings s : settings) {
+			switch (s) {
+			case SIDES:
+				inv.setItem(9, item);
+				inv.setItem(17, item);
+				inv.setItem(18, item);
+				inv.setItem(26, item);
+				inv.setItem(27, item);
+				inv.setItem(35, item);
+				inv.setItem(36, item);
+				inv.setItem(44, item);
+				break;
+			case CLOSE:
+				actions[0]=true;
+				break;
+			case WITHOUT_TOP:
+				actions[2]=true;
+				break;
+			case CLEAR:
+				actions[1]=true;
+				break;
+			case FILL:
+				while(inv.getFirstEmpty() != -1)
+					inv.addItem(item);
+				break;
+			}
+		}
+		if(!actions[2]) {
+			for(int i = 1; i < 8; ++i)
+				inv.setItem(i, item);
+			inv.setItem(0, blue);
+			inv.setItem(8, blue);
+		}
+		for(int i = 46; i < 53; ++i)
+			inv.setItem(i, item);
 		inv.setItem(53, blue);
-		while(inv.getFirstEmpty() != -1)
-			inv.addItem(item);
+		inv.setItem(45, new ItemGUI(close) {
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				if(actions[0])
+					gui.close();
+				if(actions[1])
+					gui.clear();
+				if(backButton!=null)
+					backButton.run(player);
+		}});
 		return inv;
+	}
+	
+	public static interface PRunnable {
+		public void run(Player p);
 	}
 }

@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.creation;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,6 @@ import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.json.Writer;
 
@@ -145,19 +143,22 @@ public class CustomFish implements Fish {
 	public int getModel() {
 		return data.getInt("fish."+path+"."+name+".model");
 	}
-
-	private static DecimalFormat ff = new DecimalFormat("###,###.#");
 	
 	@Override
 	public ItemStack createItem(double weight, double length) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		c.setDisplayName(getDisplayName());
+		String bc = sub(getBiomes().toString()), cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%biomes%", bc)
+				.replace("%name%", getName());
+		c.setDisplayName(cf);
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
-		l.replaceAll(a -> a.replace("%weight%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%length%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(length))).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%chance%", StringUtils.fixedFormatDouble(getChance()))
-				.replace("%name%", getDisplayName())
-				.replace("%biomes%", sub(getBiomes().toString())));
+		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(null, a.replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%name%", cf)
+				.replace("%biomes%", bc)));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
@@ -168,19 +169,52 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		c.setDisplayName(s(getDisplayName(),p,hook));
+		String bc = sub(getBiomes().toString()), cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%biomes%", bc)
+				.replace("%name%", getName());
+		c.setDisplayName(cf);
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
 		l.replaceAll(a -> s(a
-				.replace("%weight%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(weight))).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%length%", ff.format(StringUtils.getDouble(StringUtils.fixedFormatDouble(length))).replace(",", ".").replaceAll("[^0-9.]+", ","))
-				.replace("%chance%", StringUtils.fixedFormatDouble(getChance()))
-				.replace("%name%", s(getDisplayName(),p,hook))
-				.replace("%biomes%", sub(getBiomes().toString())),p,hook));
+				.replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%name%", cf)
+				.replace("%biomes%", bc),p,hook));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
 		Utils.setString(Utils.getNBT(r), createData(weight, length));
 		return Utils.asBukkit(r);
+	}
+
+	@Override
+	public ItemStack preview(Player p) {
+		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		String bc = sub(getBiomes().toString());
+		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString("fish."+path+"."+name+".preview.name")!=null?data.getString("fish."+path+"."+name+".preview.name"):getDisplayName())
+				.replace("%weight%", Loader.ff.format(getWeigth()))
+				.replace("%length%", Loader.ff.format(getLength()))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%biomes%", bc)
+				.replace("%player%", p.getName())
+				.replace("%playername%", p.getDisplayName())
+				.replace("%displayname%", p.getDisplayName())
+				.replace("%name%", getName()));
+		c.setDisplayName(nn);
+		List<String> l = data.exists("fish."+path+"."+name+".preview.lore")?data.getStringList("fish."+path+"."+name+".preview.lore"):data.getStringList("fish."+path+"."+name+".lore");
+		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
+				.replace("%weight%", Loader.ff.format(getWeigth()))
+				.replace("%length%", Loader.ff.format(getLength()))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%name%", nn)
+				.replace("%biomes%", bc)
+				.replace("%player%", p.getName())
+				.replace("%playername%", p.getDisplayName())
+				.replace("%displayname%", p.getDisplayName())));
+		c.setLore(l);
+		return Utils.setModel(c.create(), getModel());
 	}
 
 	private String sub(String s) {

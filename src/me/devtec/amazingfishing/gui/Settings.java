@@ -1,7 +1,5 @@
 package me.devtec.amazingfishing.gui;
 
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -18,28 +16,24 @@ import me.devtec.theapi.utils.datakeeper.User;
 public class Settings {
 
 	public static void open(Player p) {
-		GUI a = Create.prepareNewBig(new GUI(Loader.gui.getString("GUI.Settings.Title"),54), 1);
+		GUI a = Create.setup(new GUI(Loader.gui.getString("GUI.Settings.Title"),54) {
+			public void onClose(Player player) {
+				clear();
+			}},  s -> Help.open(s), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		
 		User u = TheAPI.getUser(p);
 		String records = "on";
 		if(u.exist(Manager.getDataLocation()+".Settings.SendRecords") && 
 				!u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords"))
 			records = "off";
-		Material item = Material.valueOf( Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item") );
-		String name =  Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name");
-		List<String> lore = Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore");
-		a.setItem(21, new ItemGUI(Create.createItem(name, item, lore)) {
+		a.setItem(21, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name"), Material.getMaterial(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item")), Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore"))) {
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType click) {
-				if(!u.exist(Manager.getDataLocation()+".Settings.SendRecords")) {
-					u.setAndSave(Manager.getDataLocation()+".Settings.SendRecords", false);
-					open(p);
-					return;
-				}
-				else if(!u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords"))
-					u.setAndSave(Manager.getDataLocation()+".Settings.SendRecords", true);
-				else u.setAndSave(Manager.getDataLocation()+".Settings.SendRecords", false);
-				open(p);
+				boolean val = !u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords");
+				u.setAndSave(Manager.getDataLocation()+".Settings.SendRecords", val);
+				String records = val?"on":"off";
+				setItem(Create.createItem(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name"), Material.getMaterial(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item")), Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore")));
+				arg.setItem(21, this);
 			}
 		});
 		
