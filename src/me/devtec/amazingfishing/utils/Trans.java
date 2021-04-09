@@ -68,7 +68,7 @@ public class Trans {
 	}
 	
 	public static String shop_title(ShopType type) {
-		if(type==ShopType.Sell)
+		if(type==ShopType.SELL)
 			return Loader.gui.getString("GUI.SellShop.Title");
 		else
 			return Loader.gui.getString("GUI.BuyShop.Title");
@@ -177,5 +177,8 @@ public class Trans {
 	}
 	public static String words_tournament(TournamentType TournamentType) {
 		return Loader.config.getString("Tournament.Type."+TournamentType.formatted()+".Name");
+	}
+	public static String words_convert() {
+		return Loader.trans.getString("Words.Convert");
 	}
 }

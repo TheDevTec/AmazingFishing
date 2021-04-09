@@ -14,7 +14,6 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Calculator;
 import me.devtec.amazingfishing.construct.CatchFish;
-import me.devtec.amazingfishing.gui.Help.BackButton;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Quests;
@@ -34,14 +33,15 @@ import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Shop {
 	public static enum ShopType {
-		Buy,
-		Sell
+		BUY,
+		SELL,
+		CONVERTOR
 	}
 	
 	public static void openShop(Player p, ShopType t) {
 		GUI a = Create.setup(new GUI(Trans.shop_title(t),54) {
 			public void onClose(Player player) {
-				if(t==ShopType.Sell) {
+				if(t==ShopType.SELL) {
 					for(int count =10; count < 17; ++count)
 						TheAPI.giveItem(p, getItem(count));
 					for(int count =19; count < 26; ++count)
@@ -52,7 +52,7 @@ public class Shop {
 						TheAPI.giveItem(p, getItem(count));
 				}
 			}},  s -> Help.open(s), Settings.SIDES);
-		if(t==ShopType.Sell)
+		if(t==ShopType.SELL)
 			a.setInsertable(true);
 		new Tasker() {
 			public void run() {
@@ -60,14 +60,21 @@ public class Shop {
 				a.setItem(26,c(p,"Bag",new Runnable() {
 					@Override
 					public void run() {
-						Bag.openBag(p, BackButton.Shop);
+						if(p.hasPermission("amazingfishing.bag"))
+						Bag.openBag(p);
 					}}));
-				if(t==ShopType.Buy) {
+				a.setItem(18,c(p,"Convertor",new Runnable() {
+					@Override
+					public void run() {
+						if(p.hasPermission("amazingfishing.convertor"))
+						Convertor.open(p);
+					}}));
+				if(t==ShopType.BUY) {
 				if(Loader.config.getBoolean("Options.Shop.SellFish"))
 					a.setItem(35,c(p,"SellShop",new Runnable() {
 						@Override
 						public void run() {
-							openShop(p, ShopType.Sell);
+							openShop(p, ShopType.SELL);
 						}}));
 					addItems(a);
 				}else {
@@ -75,7 +82,7 @@ public class Shop {
 					 a.setItem(35, c(p,"BuyShop",new Runnable() {
 							@Override
 							public void run() {
-								openShop(p, ShopType.Buy);
+								openShop(p, ShopType.BUY);
 							}}));
 					a.setItem(49,c(p,"Sell",new Runnable() {
 						@Override

@@ -20,16 +20,16 @@ public class Configs {
     		d.reload(d.getFile());
     	}else {
     		d=new Data("plugins/AmazingFishing/Data.yml");
-    		if(!StreamUtils.fromStream(d.getFile()).trim().isEmpty())
+	    	Loader.data=d;
+    		if(StreamUtils.fromStream(d.getFile()).trim().isEmpty())
     		try {
     			URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/Data.yml").openConnection();
     			u.setUseCaches(false);
     			data.reload(StreamUtils.fromStream(u.getInputStream()));
-    	    	Loader.data=d;
-    			}catch(Exception es) {es.printStackTrace();}
-    	    	boolean change = d.merge(data, true, true);
-    	    	if(change)
-    	    	d.save(DataType.YAML);
+    		}catch(Exception es) {es.printStackTrace();}
+    	    boolean change = d.merge(data, true, true);
+    	    if(change)
+    	    d.save(DataType.YAML);
     	}
     	boolean change = false;
 		for(String s : datas) {

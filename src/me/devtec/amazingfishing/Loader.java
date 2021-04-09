@@ -73,7 +73,7 @@ public class Loader extends JavaPlugin {
 		reload(TheAPI.getConsole(),false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
-		TheAPI.createAndRegisterCommand("amazingfishing", "amazingfishing.command", new AmazingFishingCommand(), "fishmenu","fish","afish");
+		TheAPI.createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
 		if(config.getBoolean("Tournament.Automatic.Use")) {
 			if(config.getBoolean("Tournament.Automatic.AllWorlds")) {
 				new Tasker() {

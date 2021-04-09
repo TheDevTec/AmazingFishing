@@ -85,7 +85,6 @@ public class Bag {
 			for(ItemStack stack : list)
 			sql.set("amazingfishing", "bag", Writer.write(stack), u.getName().toLowerCase(), "name");
 		}else {
-			u.remove(Manager.getDataLocation()+".Bag");
 			List<ItemStack> list = new ArrayList<>();
 			for(int slot = 0; slot < 45; ++slot) {
 				if(i.getItem(slot)==null)continue;

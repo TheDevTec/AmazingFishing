@@ -28,10 +28,9 @@ public class Create {
     	return a.create();
     }
 	
-	static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE"), 1, "&c"));
-	static ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE"), 1, "&c"));
-	static ItemGUI purple = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("PURPLE_STAINED_GLASS_PANE"), 1, "&c"));
-	 
+	public static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE"), 1, "&c"));
+	public static ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE"), 1, "&c"));
+	
 	public static GUI prepareInvBig(GUI inv) {
 		for(int i = 45; i<54; ++i)
 		inv.setItem(i, item);

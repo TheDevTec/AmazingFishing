@@ -37,7 +37,7 @@ public class Help {
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.shop") && Loader.config.getBoolean("Options.Shop.Enabled"))
-					Shop.openShop(p, ShopType.Buy);
+					Shop.openShop(p, ShopType.BUY); // TODO Add option to disable BUY shop
 				}});
 		if(p.hasPermission("amazingfishing.list"))
 		a.setItem(33,new ItemGUI(Create.createItem(Trans.help_player_list(), Material.PAPER)){
@@ -61,7 +61,7 @@ public class Help {
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.bag"))
-					Bag.openBag(p, BackButton.Help);
+					Bag.openBag(p);
 			}
 		}
 		);

@@ -45,6 +45,7 @@ Words:
   Sell: "&eSell fish"
   Points: "&9%value% Points"
   Bag: "&7Bag"
+  Convert: "&aConvert"
   
 Quests:
   Cancel: "%prefix% &9You have canceled quest %questname%"

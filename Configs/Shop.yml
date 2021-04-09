@@ -35,6 +35,13 @@ GUI:
     Lore: 
     - "&7Sell fish in shop"
 
+  Convertor:
+    Icon: "REDSTONE"
+    # ModelData: "1"
+    Name: "&eConvertor of fish"
+    Lore: 
+    - "&7Convert fish to normal fish"
+
 # Here you can edit items in shop
 Items:
   item1:

@@ -55,6 +55,15 @@ Preview:
 - "&7 Longest length: &b%length%"
 - "&7 Total caught: &b%caught%"
 
+# Editable name & aliases of main command
+Command:
+  Name: "amazingfish"
+  Permission: "amazingfishing.command"
+  Aliases:
+  - "fish"
+  - "afish"
+  - "fishmenu"
+
 # Tournaments:
 Tournament:
   Type:
