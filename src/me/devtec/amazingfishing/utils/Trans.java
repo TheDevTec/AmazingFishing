@@ -181,4 +181,7 @@ public class Trans {
 	public static String words_convert() {
 		return Loader.trans.getString("Words.Convert");
 	}
+	public static String convertor_title() {
+		return Loader.gui.getString("GUI.Convertor.Title");
+	}
 }

@@ -18,7 +18,7 @@ import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Convertor {
 	public static void open(Player p) {
-		GUI a = Create.setup(new GUI(Trans.bag_title(),54) {
+		GUI a = Create.setup(new GUI(Trans.convertor_title(),54) {
 			public void onClose(Player arg0) {
 				for(int count =0; count < 44; ++count)
 					if(count!=4 && count!=13 && count!=22 && count!=31 && count!=40)

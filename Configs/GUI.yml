@@ -15,6 +15,9 @@ GUI:
       Info: "&cAdmin section"
       Reload: "&6Reload"
       Tournament: "&6Tournament"
+      
+  Convertor:
+    Title: "&bConvertor"
   
   Index:
     Title: "&bIndex of fish"
