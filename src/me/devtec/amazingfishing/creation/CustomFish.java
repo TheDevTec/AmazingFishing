@@ -103,6 +103,16 @@ public class CustomFish implements Fish {
 			}catch(Exception | NoSuchFieldError e) {}
 		return biomes;
 	}
+	
+	@Override
+	public List<Biome> getBlockedBiomes() {
+		List<Biome> biomes = new ArrayList<>();
+		for(String biome : data.getStringList("fish."+path+"."+name+".blockedbiomes"))
+			try {
+				biomes.add(Biome.valueOf(biome.toUpperCase()));
+			}catch(Exception | NoSuchFieldError e) {}
+		return biomes;
+	}
 
 	@Override
 	public double getChance() {
@@ -147,10 +157,12 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack createItem(double weight, double length) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		String bc = sub(getBiomes().toString()), cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
+		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
+				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
@@ -158,7 +170,9 @@ public class CustomFish implements Fish {
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%name%", cf)
-				.replace("%biomes%", bc)));
+				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
+				));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
@@ -169,10 +183,12 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		String bc = sub(getBiomes().toString()), cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
+		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
+				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
@@ -181,7 +197,8 @@ public class CustomFish implements Fish {
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%name%", cf)
-				.replace("%biomes%", bc),p,hook));
+				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
@@ -192,12 +209,13 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack preview(Player p) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		String bc = sub(getBiomes().toString());
+		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
 		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString("fish."+path+"."+name+".preview.name")!=null?data.getString("fish."+path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeigth()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
@@ -210,6 +228,7 @@ public class CustomFish implements Fish {
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%name%", nn)
 				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())));

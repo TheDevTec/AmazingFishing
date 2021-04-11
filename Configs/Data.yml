@@ -44,6 +44,7 @@ fish:
       biomes:
       - "RIVER"
       - "FOREST"
+      # blockedbiomes:
       
       # The moment when the fish can be caught (weather & time)
       catch:
@@ -120,7 +121,7 @@ treasures:
     # Display name of treasure
     name: "&7Common treasure"
     
-    # Placeholders: %player%, %chance%, %name% - 'common', %displayname% - custom treasure name, %biomes%, %biome%, %x%, %y%, %z%, %world%
+    # Placeholders: %player%, %chance%, %name% - custom treasure name, %biomes%, %biome%, %x%, %y%, %z%, %world%
     # Messages on catch treasure
     messages:
     - "&3You found &7Common treasure on &b%x% %y% %z% %world%&3!!"

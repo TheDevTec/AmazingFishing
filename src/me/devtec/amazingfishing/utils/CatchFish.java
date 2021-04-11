@@ -146,13 +146,17 @@ public class CatchFish implements Listener {
 		PercentageList<Fish> fish = new PercentageList<>();
 		if(time <= 12000) { //day
 			for(Fish f : API.getRegisteredFish().values())
-				if((f.getPermission()==null || f.getPermission()!=null && player.hasPermission(f.getPermission())) &&(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
+				if((f.getPermission()==null || f.getPermission()!=null && player.hasPermission(f.getPermission())) &&
+						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
+						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
 						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
 						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					fish.add(f, f.getChance());
 		}else { //night
 			for(Fish f : API.getRegisteredFish().values())
-				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && (f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
+				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && 
+						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
+						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
 						(f.getCatchTime()==FishTime.NIGHT || f.getCatchTime()==FishTime.EVERY)
 						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					fish.add(f, f.getChance());

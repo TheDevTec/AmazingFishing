@@ -23,6 +23,8 @@ public interface Fish {
 	public List<String> getCommands(FishAction action);
 	
 	public List<Biome> getBiomes();
+
+	public List<Biome> getBlockedBiomes();
 	
 	public double getChance();
 	
