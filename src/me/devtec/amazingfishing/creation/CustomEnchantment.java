@@ -13,12 +13,15 @@ import me.devtec.theapi.utils.json.Writer;
 
 public class CustomEnchantment extends Enchant {
 	final int level;
-	final double chance, amount,cost;
+	final double chance, amount,cost,money,points,exp;
 	final String display;
 	final List<String> description;
-	public CustomEnchantment(String name, String displayName, int level, double c, double a, List<String> description, double cost) {
+	public CustomEnchantment(String name, String displayName, int level, double c, double a, double mo, double po, double ex, List<String> description, double cost) {
 		super(name);
 		this.level=level;
+		money=mo;
+		points=po;
+		exp=ex;
 		chance=c;
 		amount=a;
 		display=displayName;
@@ -43,6 +46,9 @@ public class CustomEnchantment extends Enchant {
 		map.put("cost", getCost());
 		map.put("bonus_chance", getChance());
 		map.put("bonus_amount", getAmount());
+		map.put("bonus_money", getMoneyBoost());
+		map.put("bonus_points", getPointsBoost());
+		map.put("bonus_exp", getExpBoost());
 		return Writer.write(map);
 	}
 	
@@ -72,6 +78,9 @@ public class CustomEnchantment extends Enchant {
 		double l = level+1;
 		catchList.chance+=Math.sqrt(this.chance*l/1.75);
 		catchList.max_amount+=Math.sqrt(this.amount*l/1.8);
+		catchList.money+=Math.sqrt(this.money*l/1.8);
+		catchList.exp+=Math.sqrt(this.exp*l/1.8);
+		catchList.points+=Math.sqrt(this.points*l/1.8);
 		return catchList;
 	}
 
@@ -93,5 +102,20 @@ public class CustomEnchantment extends Enchant {
 	public double getCost() {
 		if(cost<=0)return 1;
 		return cost;
+	}
+
+	@Override
+	public double getMoneyBoost() {
+		return money;
+	}
+
+	@Override
+	public double getExpBoost() {
+		return exp;
+	}
+
+	@Override
+	public double getPointsBoost() {
+		return points;
 	}
 }

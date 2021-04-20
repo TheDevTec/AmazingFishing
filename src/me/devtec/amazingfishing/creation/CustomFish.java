@@ -146,6 +146,11 @@ public class CustomFish implements Fish {
 		return new Data().set("fish", name).set("type", type.name()).set("weigth", weight).set("length", length);
 	}
 	
+	public Data createData(double weight, double length, double money, double points, double exp) {
+		return new Data().set("fish", name).set("type", type.name()).set("weigth", weight)
+				.set("length", length).set("money", money).set("points", points).set("exp", exp);
+	}
+	
 	public boolean isInstance(Data data) {
 		return data.exists("fish") && data.exists("type") && data.getString("fish").equals(name) && data.getString("type").equals(type.name());
 	}
@@ -179,6 +184,38 @@ public class CustomFish implements Fish {
 		Utils.setString(Utils.getNBT(r), createData(weight, length));
 		return Utils.asBukkit(r);
 	}
+	
+	@Override
+	public ItemStack createItem(double weight, double length, double money, double points, double exp) {
+		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
+				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
+				.replace("%money_boost%", Loader.ff.format(money))
+				.replace("%points_boost%", Loader.ff.format(points))
+				.replace("%exp_boost%", Loader.ff.format(exp))
+				.replace("%name%", getName());
+		c.setDisplayName(cf);
+		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
+		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(null, a.replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%name%", cf)
+				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
+				.replace("%money_boost%", Loader.ff.format(money))
+				.replace("%points_boost%", Loader.ff.format(points))
+				.replace("%exp_boost%", Loader.ff.format(exp))
+				));
+		c.setLore(l);
+		ItemStack stack = Utils.setModel(c.create(), getModel());
+		Object r = Utils.asNMS(stack);
+		Utils.setString(Utils.getNBT(r), createData(weight, length,money,points,exp));
+		return Utils.asBukkit(r);
+	}
 
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
@@ -203,6 +240,38 @@ public class CustomFish implements Fish {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		Object r = Utils.asNMS(stack);
 		Utils.setString(Utils.getNBT(r), createData(weight, length));
+		return Utils.asBukkit(r);
+	}
+
+	@Override
+	public ItemStack createItem(double weight, double length, double money, double points, double exp, Player p, Location hook) {
+		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
+				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
+				.replace("%money_boost%", Loader.ff.format(money))
+				.replace("%points_boost%", Loader.ff.format(points))
+				.replace("%exp_boost%", Loader.ff.format(exp))
+				.replace("%name%", getName());
+		c.setDisplayName(cf);
+		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
+		l.replaceAll(a -> s(a
+				.replace("%weight%", Loader.ff.format(weight))
+				.replace("%length%", Loader.ff.format(length))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%name%", cf)
+				.replace("%biomes%", bc)
+				.replace("%money_boost%", Loader.ff.format(money))
+				.replace("%points_boost%", Loader.ff.format(points))
+				.replace("%exp_boost%", Loader.ff.format(exp))
+				.replace("%blockedbiomes%", bbc),p,hook));
+		c.setLore(l);
+		ItemStack stack = Utils.setModel(c.create(), getModel());
+		Object r = Utils.asNMS(stack);
+		Utils.setString(Utils.getNBT(r), createData(weight, length,money,points,exp));
 		return Utils.asBukkit(r);
 	}
 
@@ -319,6 +388,21 @@ public class CustomFish implements Fish {
 			@Override
 			public Fish getFish() {
 				return CustomFish.this;
+			}
+
+			@Override
+			public double getMoneyBoost() {
+				return data.getDouble("money");
+			}
+
+			@Override
+			public double getPointsBoost() {
+				return data.getDouble("points");
+			}
+
+			@Override
+			public double getExpBoost() {
+				return data.getDouble("exp");
 			}
 		};
 	}

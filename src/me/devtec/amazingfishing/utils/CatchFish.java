@@ -47,6 +47,7 @@ public class CatchFish implements Listener {
 					Enchant.enchants.get(s).onCatch(e.getPlayer(), data.getInt("enchants."+s), list);
 				int am = list.chance*10 > 1 ? (int)list.chance*10 : 1;
 				if(am>list.max_amount)am=(int) list.max_amount;
+				double money=list.money, points=list.points, exp=list.exp;
 				item.remove();
 		          double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
 		          double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
@@ -75,7 +76,7 @@ public class CatchFish implements Listener {
 					if(length>f.getLength())length=f.getLength();
 					if(weight<f.getMinWeigth())weight=f.getMinWeigth();
 					if(length<f.getMinLength())length=f.getMinLength();
-					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, e.getPlayer(), e.getHook().getLocation()));
+					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, money, points, exp, e.getPlayer(), e.getHook().getLocation()));
 			        item.setVelocity(vec);
 			        Statistics.addFish(e.getPlayer(), f);
 			        Statistics.addRecord(e.getPlayer(), f, length, weight);

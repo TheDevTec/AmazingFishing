@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing.construct;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +16,10 @@ import me.devtec.theapi.utils.datakeeper.Data;
 public abstract class Enchant {
 	
 	public static class FishCatchList {
-		public double max_amount = 1;
-		public double chance = 0;
+		public double max_amount = 1, chance, points,money,exp;
 	}
 	
-	public static Map<String, Enchant> enchants = new HashMap<>();
+	public static Map<String, Enchant> enchants = new LinkedHashMap<>();
 	final String name;
 	public Enchant(String name) {
 		this.name=name;
@@ -38,6 +37,12 @@ public abstract class Enchant {
 	public abstract int getMaxLevel();
 	
 	public abstract double getCost();
+	
+	public abstract double getMoneyBoost();
+	
+	public abstract double getExpBoost();
+	
+	public abstract double getPointsBoost();
 	
 	public abstract FishCatchList onCatch(Player player, int level, FishCatchList catchList);
 	

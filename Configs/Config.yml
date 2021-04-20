@@ -13,14 +13,14 @@ Options:
   # PointsManager types: VAULT, USER
   PointsManager: "User"
   Calculator:
-      # Default money calculation: (%length% / 4 +%weight% / 4 + %money%) * %bonus%
-      # Default points calculation: (%length% / 4 +%weight% / 4 + %points%) * %bonus%
-      # Default xp calculation: (%length% / 5 +%weight% / 5 + %experiences%) * %bonus%
+      # Default money calculation: ((%length% / 4 +%weight% / 4 + %money%)+((%length% / 4 +%weight% / 4 + %money%)/100)*%money_boost%) * %bonus%
+      # Default points calculation: ((%length% / 5 +%weight% / 5 + %points%)+((%length% / 5 +%weight% / 5 + %points%)/100)*%points_boost%) * %bonus%
+      # Default xp calculation: ((%length% / 4 +%weight% / 4 + %experiences%)+((%length% / 4 +%weight% / 4 + %experiences%)/100)*%exp_boost%) * %bonus%
       # Default weight calculation: (%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)
     weight: "(%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)"
-    money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
-    exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
-    points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+    money: "((%length% / 4 +%weight% / 4 + %money%)+((%length% / 4 +%weight% / 4 + %money%)/100)*%money_boost%) * %bonus%"
+    exps: "((%length% / 4 +%weight% / 4 + %experiences%)+((%length% / 4 +%weight% / 4 + %experiences%)/100)*%exp_boost%) * %bonus%"
+    points: "((%length% / 5 +%weight% / 5 + %points%)+((%length% / 5 +%weight% / 5 + %points%)/100)*%points_boost%) * %bonus%"
     
   Shop:
     Enabled: true

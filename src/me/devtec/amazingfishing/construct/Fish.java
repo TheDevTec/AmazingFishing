@@ -38,11 +38,17 @@ public interface Fish {
 	
 	public Data createData(double weight, double length);
 	
+	public Data createData(double weight, double length, double money, double points, double exp);
+	
 	public boolean isInstance(Data data);
 
 	public ItemStack createItem(double height, double length);
 
 	public ItemStack createItem(double weight, double length, Player p, Location hook);
+
+	public ItemStack createItem(double height, double length, double money, double points, double exp);
+
+	public ItemStack createItem(double weight, double length, double money, double points, double exp, Player p, Location hook);
 
 	public ItemStack preview(Player p);
 	

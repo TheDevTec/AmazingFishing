@@ -201,6 +201,9 @@ public class Loader extends JavaPlugin {
 					data.getInt("enchantments."+s+".maxlevel"), 
 					data.getDouble("enchantments."+s+".bonus.chance"),
 					data.getDouble("enchantments."+s+".bonus.amount"),
+					data.getDouble("enchantments."+s+".bonus.money"),
+					data.getDouble("enchantments."+s+".bonus.points"),
+					data.getDouble("enchantments."+s+".bonus.exp"),
 					data.getStringList("enchantments."+s+".description"),
 					data.getDouble("enchantments."+s+".cost"));
 		

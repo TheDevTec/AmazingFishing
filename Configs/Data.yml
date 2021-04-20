@@ -102,9 +102,13 @@ enchantments:
     # Bonuses of enchantment
     bonus:
       # Chance to catch 2 or more fish
-      chance: 5
+      chance: 0.6
       # Limit of maximum fish catch at one time
-      amount: 2
+      amount: 0.5
+      # Extra bonuses
+      money: 0.2
+      exp: 0.15
+      points: 0.05
       
     # Desctiption of enchantment in enchant table (/fish)
     # Description placeholders: %cost%, %maxlevel%, %name%, %displayname% - custom name with colors, %chance%, %amount%

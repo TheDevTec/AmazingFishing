@@ -10,4 +10,10 @@ public interface CatchFish {
 	public double getWeigth();
 
 	public double getLength();
+	
+	public double getMoneyBoost();
+	
+	public double getPointsBoost();
+	
+	public double getExpBoost();
 }
