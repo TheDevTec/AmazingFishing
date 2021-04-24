@@ -14,14 +14,16 @@ import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.scheduler.Scheduler;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sortedmap.RankingAPI;
+import me.devtec.theapi.utils.StringUtils;
 
 public class Tournament {
 	private final int task;
-	private long runOut;
+	private long runOut,total;
 	private final Map<Player, Double> values = new HashMap<>();
 	private final TournamentType t;
 	public Tournament(TournamentType type, long time) {
 		t=type;
+		total=time;
 		runOut = time;
 		task = new Tasker() {
 			public void run() {
@@ -29,9 +31,20 @@ public class Tournament {
 					cancel();
 					stop(true);
 					return;
+				}else {
+					if(Loader.config.getBoolean("Tournament."+t.configPath()+".Bossbar.Use"))
+						for(Player p : values.keySet())
+						TheAPI.sendBossBar(p, replace(Loader.config.getString("Tournament."+t.configPath()+".Bossbar.Text"),p), StringUtils.calculate(replace(Loader.config.getString("Tournament."+t.configPath()+".Bossbar.Counter"),p)).doubleValue());
+					if(Loader.config.getBoolean("Tournament."+t.configPath()+".Actionbar.Use"))
+						for(Player p : values.keySet())
+						TheAPI.sendActionBar(p, replace(Loader.config.getString("Tournament."+t.configPath()+".Actionbar.Text"),p));
 				}
 			}
 		}.runRepeating(0, 20);
+	}
+	
+	private String replace(String s, Player p) {
+		return PlaceholderAPI.setPlaceholders(p, s.replace("%value%", values.get(p)+"").replace("%type%", t.formatted()).replace("%time%", StringUtils.timeToString(runOut)).replace("%formatted_time%", total+"").replace("%remaining%", runOut+""));
 	}
 	
 	public long getTime() {
@@ -56,21 +69,29 @@ public class Tournament {
 	
 	public void stop(boolean giveRewards) {
 		Scheduler.cancelTask(task);
+		if(Loader.config.getBoolean("Tournament."+t.configPath()+".Bossbar.Use"))
+			for(Player p : values.keySet())
+			TheAPI.removeBossBar(p);
+		if(Loader.config.getBoolean("Tournament."+t.configPath()+".Actionbar.Use"))
+			for(Player p : values.keySet())
+			TheAPI.removeActionBar(p);
 		RankingAPI<Player, Double> top = new RankingAPI<>(values);
 		if(giveRewards) {
 			int pos = 1;
 			for(Entry<Player, Double> d : top.entrySet()) {
-				if(pos++==Loader.config.getInt("Tournament.Positions")+1)break;
-				Player player = d.getKey();
-				double value = d.getValue();
+				if(pos++==Loader.config.getInt("Tournament."+t.configPath()+".Positions")+1)break;
 				for(String cmd : Loader.config.getStringList("Tournament."+t.configPath()+"."+pos+".Commands"))
-					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%value%", value+"").replace("%type%", t.formatted())));
+					TheAPI.sudoConsole(replace(cmd,d.getKey()));
 				for(String msg : Loader.config.getStringList("Tournament."+t.configPath()+"."+pos+".Messages"))
-					TheAPI.msg(PlaceholderAPI.setPlaceholders(player, msg.replace("%value%", value+"").replace("%type%", t.formatted())), player);
+					TheAPI.msg(replace(msg,d.getKey()),d.getKey());
 			}
 		}else {
-			for(String cmd : Loader.config.getStringList("Tournament."+t.configPath()+".Stop"))
-				TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(null, cmd.replace("%type%", t.formatted())));
+			for(Entry<Player, Double> d : top.entrySet()) {
+				for(String cmd : Loader.config.getStringList("Tournament."+t.configPath()+".Stop.Messages"))
+					TheAPI.msg(replace(cmd,d.getKey()),d.getKey());
+				for(String cmd : Loader.config.getStringList("Tournament."+t.configPath()+".Stop.Commands"))
+					TheAPI.sudoConsole(replace(cmd,d.getKey()));
+			}
 		}
 	}
 

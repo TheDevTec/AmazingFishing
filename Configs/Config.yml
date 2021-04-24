@@ -69,13 +69,97 @@ Tournament:
   Type:
     Amount:
       Name: "&bAmount"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%time%"
+      Stop:
+        Commands: []
+        Messages: []
     Length:
       Name: "&bLength"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%time%"
+      Stop:
+        Commands: []
+        Messages: []
     Weight:
       Name: "&9Weight"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%time%"
+      Stop:
+        Commands: []
+        Messages: []
     TotalLength:
       Name: "&3TotalLength"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%time%"
+      Stop:
+        Commands: []
+        Messages: []
     TotalWeight:
       Name: "&3TotalWeight"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%time%"
+      Stop:
+        Commands: []
+        Messages: []
     Random:
       Name: "&6Random"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%time%"
+      Stop:
+        Commands: []
+        Messages: []

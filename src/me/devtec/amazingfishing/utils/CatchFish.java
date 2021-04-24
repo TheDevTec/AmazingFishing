@@ -24,6 +24,8 @@ import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Treasure;
+import me.devtec.amazingfishing.utils.tournament.Tournament;
+import me.devtec.amazingfishing.utils.tournament.TournamentManager;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.PercentageList;
@@ -80,6 +82,8 @@ public class CatchFish implements Listener {
 			        item.setVelocity(vec);
 			        Statistics.addFish(e.getPlayer(), f);
 			        Statistics.addRecord(e.getPlayer(), f, length, weight);
+			        Tournament t= TournamentManager.get(e.getPlayer().getWorld());
+			        if(t!=null)t.catchFish(e.getPlayer(), f, weight, length);
 			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName());
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())

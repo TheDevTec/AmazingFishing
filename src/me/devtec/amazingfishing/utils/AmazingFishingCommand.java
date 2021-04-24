@@ -221,13 +221,13 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				}
 				if(args.length==4) {
 					try {
-						TournamentType g= TournamentType.valueOf(args[3].toUpperCase());
+						TournamentType g= TournamentType.valueOf(args[2].toUpperCase());
 						for(World w : Bukkit.getWorlds()) {
-						TournamentManager.start(w, g, StringUtils.timeFromString(args[4]));
-						TheAPI.msg("Started tournament in the world "+w.getName()+" of type "+args[3].toUpperCase(), s);
+						TournamentManager.start(w, g, StringUtils.timeFromString(args[3]));
+						TheAPI.msg("Started tournament in the world "+w.getName()+" of type "+args[2].toUpperCase()+" on time "+StringUtils.timeFromString(args[3]), s);
 						}
 					}catch(Exception | NoSuchFieldError e) {
-						TheAPI.msg("Tournament type "+args[3]+" doesn't exist, valid types are: Amount, Length, Weight, Total_Length, Total_Weight", s);
+						TheAPI.msg("Tournament type "+args[2]+" doesn't exist, valid types are: Amount, Length, Weight, Total_Length, Total_Weight", s);
 					}
 					return true;
 				}
@@ -238,7 +238,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				}
 				try {
 					TournamentManager.start(w, TournamentType.valueOf(args[3].toUpperCase()), StringUtils.timeFromString(args[4]));
-					TheAPI.msg("Started tournament in the world "+w.getName()+" of type "+args[3].toUpperCase(), s);
+					TheAPI.msg("Started tournament in the world "+w.getName()+" of type "+args[3].toUpperCase()+" on time "+StringUtils.timeFromString(args[4]), s);
 				}catch(Exception | NoSuchFieldError e) {
 					TheAPI.msg("Tournament type "+args[3]+" doesn't exist, valid types are: Amount, Length, Weight, Total_Length, Total_Weight", s);
 				}
