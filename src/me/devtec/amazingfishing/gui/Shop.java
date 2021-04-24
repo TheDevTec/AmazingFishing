@@ -172,7 +172,7 @@ public class Shop {
 				a.add(i.getItem(count));
 				i.setItem(count, null);
 			}
-			for(int count =28; count < 34; ++count) {
+			for(int count =28; count < 35; ++count) {
 				a.add(i.getItem(count));
 				i.setItem(count, null);
 			}
