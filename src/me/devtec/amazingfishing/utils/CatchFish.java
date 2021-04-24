@@ -49,9 +49,9 @@ public class CatchFish implements Listener {
 				if(am>list.max_amount)am=(int) list.max_amount;
 				double money=list.money, points=list.points, exp=list.exp;
 				item.remove();
-		          double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
-		          double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
-		          double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();
+		        double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
+		        double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
+		        double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();
 				Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);
 				try {
 				am=random.nextInt(am);

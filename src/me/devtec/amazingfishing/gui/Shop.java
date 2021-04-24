@@ -189,9 +189,12 @@ public class Shop {
 		int sel = 0;
 		double totalExp=0, totalPoints=0, totalMoney=0;
 		for(ItemStack d:a) {
-			if(d==null)continue;
+			if(d==null||d.getType()==Material.AIR)continue;
 			CatchFish f = API.getCatchFish(d);
-			if(f==null)continue;
+			if(f==null) {
+				TheAPI.giveItem(p, d);
+				continue;
+			}
 			double length = 0, weight = 0;
 			int bonus=1; //TODO - Fish Of Day
 			
@@ -204,17 +207,19 @@ public class Shop {
 			//CALCULATE
 			totalMoney += StringUtils.calculate(f.getFish().getCalculator(Calculator.MONEY).replace("%length%", ""+length).replace("%weight%", ""+weight)
 					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
+					.replace("%money_boost%", ""+f.getMoneyBoost()).replace("%points_boost%", ""+f.getPointsBoost()).replace("%exp_boost%", ""+f.getExpBoost())
 					.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost())
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue()*d.getAmount();
-
 			totalExp += StringUtils.calculate(f.getFish().getCalculator(Calculator.EXPS).replace("%length%", ""+length).replace("%weight%", ""+weight)
 						.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
+						.replace("%money_boost%", ""+f.getMoneyBoost()).replace("%points_boost%", ""+f.getPointsBoost()).replace("%exp_boost%", ""+f.getExpBoost())
 						.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost())
 						.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)).doubleValue()*d.getAmount();
 
 			totalPoints += StringUtils.calculate(f.getFish().getCalculator(Calculator.POINTS).replace("%length%", ""+length).replace("%weight%", ""+weight)
 					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)
+					.replace("%money_boost%", ""+f.getMoneyBoost()).replace("%points_boost%", ""+f.getPointsBoost()).replace("%exp_boost%", ""+f.getExpBoost())
 					.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost())).doubleValue()*d.getAmount();
 			i.remove(d);
 			NMSAPI.postToMainThread(new Runnable() {

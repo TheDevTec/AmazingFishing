@@ -197,6 +197,9 @@ public class CustomFish implements Fish {
 				.replace("%money_boost%", Loader.ff.format(money))
 				.replace("%points_boost%", Loader.ff.format(points))
 				.replace("%exp_boost%", Loader.ff.format(exp))
+				.replace("%money_bonus%", Loader.ff.format(money))
+				.replace("%points_bonus%", Loader.ff.format(points))
+				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
@@ -208,6 +211,9 @@ public class CustomFish implements Fish {
 				.replace("%blockedbiomes%", bbc)
 				.replace("%money_boost%", Loader.ff.format(money))
 				.replace("%points_boost%", Loader.ff.format(points))
+				.replace("%money_bonus%", Loader.ff.format(money))
+				.replace("%points_bonus%", Loader.ff.format(points))
+				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%exp_boost%", Loader.ff.format(exp))
 				));
 		c.setLore(l);
@@ -255,6 +261,9 @@ public class CustomFish implements Fish {
 				.replace("%money_boost%", Loader.ff.format(money))
 				.replace("%points_boost%", Loader.ff.format(points))
 				.replace("%exp_boost%", Loader.ff.format(exp))
+				.replace("%money_bonus%", Loader.ff.format(money))
+				.replace("%points_bonus%", Loader.ff.format(points))
+				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
 		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
@@ -267,6 +276,9 @@ public class CustomFish implements Fish {
 				.replace("%money_boost%", Loader.ff.format(money))
 				.replace("%points_boost%", Loader.ff.format(points))
 				.replace("%exp_boost%", Loader.ff.format(exp))
+				.replace("%money_bonus%", Loader.ff.format(money))
+				.replace("%points_bonus%", Loader.ff.format(points))
+				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
