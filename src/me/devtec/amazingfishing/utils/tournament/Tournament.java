@@ -3,6 +3,7 @@ package me.devtec.amazingfishing.utils.tournament;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
@@ -18,11 +19,16 @@ import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Tournament {
+	private static Random r = new Random();
+	
 	private final int task;
 	private long runOut,total;
 	private final Map<Player, Double> values = new HashMap<>();
 	private final TournamentType t;
 	public Tournament(TournamentType type, long time) {
+		if(type==TournamentType.RANDOM) {
+			type=TournamentType.values()[r.nextInt(TournamentType.values().length)];
+		}
 		t=type;
 		total=time;
 		runOut = time;
