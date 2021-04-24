@@ -2,6 +2,7 @@ package me.devtec.amazingfishing.utils.tournament;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.World;
 
@@ -17,9 +18,24 @@ public class TournamentManager {
 	}
 
 	public static Tournament get(World w) {
-		return t.getOrDefault(w, null);
+		return t.get(w);
 	}
 	public static Map<World, Tournament> getAll() {
 		return t;
+	}
+
+	public static void remove(World w) {
+		t.remove(w);
+	}
+
+	public static void remove(Tournament w) {
+		World g = null;
+		for(Entry<World,Tournament> d : t.entrySet())
+			if(d.getValue().equals(w)) {
+			g=d.getKey();
+			break;
+		}
+		if(g!=null)
+		t.remove(g);
 	}
 }
