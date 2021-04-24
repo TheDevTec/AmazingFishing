@@ -48,6 +48,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			TheAPI.msg("/Fish Points Remove <player> <amount>", s);
 			TheAPI.msg("/Fish Points Get <player>", s);
 			TheAPI.msg("/Fish Enchant <enchant> [level]", s);
+			TheAPI.msg("/Fish EnchantTable <player>", s);
 			TheAPI.msg("/Fish Reload", s);
 			return true;
 		}
