@@ -222,10 +222,8 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				if(args.length==4) {
 					try {
 						TournamentType g= TournamentType.valueOf(args[2].toUpperCase());
-						for(World w : Bukkit.getWorlds()) {
-						TournamentManager.start(w, g, StringUtils.timeFromString(args[3]));
-						TheAPI.msg("Started tournament in the world "+w.getName()+" of type "+args[2].toUpperCase()+" on time "+StringUtils.timeFromString(args[3]), s);
-						}
+						TournamentManager.start(null, g, StringUtils.timeFromString(args[3]));
+						TheAPI.msg("Started global tournament of type "+args[2].toUpperCase()+" on time "+StringUtils.timeFromString(args[3]), s);
 					}catch(Exception | NoSuchFieldError e) {
 						TheAPI.msg("Tournament type "+args[2]+" doesn't exist, valid types are: Amount, Length, Weight, Total_Length, Total_Weight", s);
 					}
@@ -248,6 +246,8 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				if(args.length==2) {
 					for(World w : Bukkit.getWorlds())
 						TournamentManager.get(w).stop(true);
+					if(TournamentManager.getGlobal()!=null)
+						TournamentManager.getGlobal().stop(true);
 					TheAPI.msg("All tournaments stopped", s);
 					return true;
 				}

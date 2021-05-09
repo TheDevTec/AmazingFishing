@@ -110,6 +110,7 @@ public class QuestGUI {
 		if(!finishpagi.isEmpty())
 			for(String quest: finishpagi)
 				pagi.add(quest);
+		if(!pagi.isEmpty())
 		for(String quest: pagi.getPage(page)) {
 			Quest q = Quests.quests.get(quest);
 			if(q==null)continue;
