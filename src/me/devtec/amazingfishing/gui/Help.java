@@ -11,6 +11,7 @@ import me.devtec.amazingfishing.gui.Shop.ShopType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.amazingfishing.utils.Trans;
+import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
@@ -28,7 +29,7 @@ public class Help {
 	public static void open(Player p) {
 		GUI a = Create.setup(new GUI(Loader.gui.getString("GUI.Help.Player.Title"),54), null
 				, me.devtec.amazingfishing.utils.Create.Settings.SIDES, me.devtec.amazingfishing.utils.Create.Settings.CLOSE);
-		a.setItem(4, new EmptyItemGUI(Create.createItem(Manager.getPluginName(), Material.KNOWLEDGE_BOOK, Arrays.asList(
+		a.setItem(4, new EmptyItemGUI(Create.createItem(Manager.getPluginName(), Utils.getCachedMaterial("KNOWLEDGE_BOOK"), Arrays.asList(
 				"&9Version &bV"+Loader.plugin.getDescription().getVersion(),
 				"&9Created by &bStraikerinaCZ",
 				"&9Developed by &bHouska02"))));

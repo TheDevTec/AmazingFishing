@@ -36,7 +36,7 @@ public class Quests {
 		public Material getDisplayIcon() {
 			if(d.exists("quests."+name+".icon"))
 				return Material.valueOf(d.getString("quests."+name+".icon"));
-			else return Material.SUNFLOWER;
+			else return Utils.getCachedMaterial("SUNFLOWER");
 		}
 		
 		public List<String> getDescription() {

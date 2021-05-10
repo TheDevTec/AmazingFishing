@@ -3,7 +3,6 @@ package me.devtec.amazingfishing.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
@@ -12,6 +11,7 @@ import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
 import me.devtec.amazingfishing.utils.Trans;
+import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
@@ -88,7 +88,7 @@ public class QuestGUI {
 				}
 			});
 		}
-		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Material.BLUE_CONCRETE_POWDER)) {
+		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Utils.getCachedMaterial("BLUE_CONCRETE_POWDER"))) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				openMyQuests(player, 0);
@@ -140,9 +140,9 @@ public class QuestGUI {
 							.replace("%stages_total%", ""+q.getStages()) 
 							);
 			if(Quests.isFinished(p.getName(), quest))
-				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Material.GREEN_CONCRETE, lore)));
+				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Utils.getCachedMaterial("GREEN_CONCRETE"), lore)));
 			else
-				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Material.RED_CONCRETE, lore)));
+				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Utils.getCachedMaterial("RED_CONCRETE"), lore)));
 		}
 		if(pagi.totalPages()>page+1) {
 			a.setItem(51, new ItemGUI(Loader.next) {
