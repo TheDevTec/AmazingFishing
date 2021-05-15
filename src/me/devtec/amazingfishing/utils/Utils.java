@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.utils;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import me.devtec.amazingfishing.Loader;
+import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.reflections.Ref;
@@ -93,5 +96,39 @@ public class Utils {
 	
 	public static boolean hasString(Object nbt) {
 		return (boolean)Ref.invoke(nbt, hasKey, "af_data");
+	}
+	
+	public static void convertFiles() {
+		if(new File("plugins/AmazingFishing/Data.yml").exists()) {
+			Config c = new Config("AmazingFishing/Data.yml");
+			
+			//FISH
+			for(String s : c.getKeys("fish.cod",true)) {
+				Loader.cod.set("cod."+s, c.get("fish.cod."+s));
+			}
+			Loader.cod.save();
+			for(String s : c.getKeys("fish.salmon",true)) {
+				Loader.salmon.set("salmon."+s, c.get("fish.salmon."+s));
+			}
+			Loader.salmon.save();
+			for(String s : c.getKeys("fish.pufferfish",true)) {
+				Loader.puffer.set("pufferfish."+s, c.get("fish.pufferfish."+s));
+			}
+			Loader.puffer.save();
+			for(String s : c.getKeys("fish.tropical_fish",true)) {
+				Loader.tropic.set("tropical_fish."+s, c.get("fish.tropical_fish."+s));
+			}
+			Loader.tropic.save();
+			
+			//OTHER
+			for(String s : c.getKeys("enchantments",true)) {
+				Loader.enchant.set("enchantments."+s, c.get("enchantments."+s));
+			}
+			Loader.enchant.save();
+			for(String s : c.getKeys("quests",true)) {
+				Loader.quest.set("quests."+s, c.get("quests."+s));
+			}
+			Loader.quest.save();
+		}
 	}
 }

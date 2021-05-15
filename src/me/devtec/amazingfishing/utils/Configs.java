@@ -15,22 +15,14 @@ public class Configs {
 	
 	public static void load() {
 		Data data = new Data();
-		Data d = Loader.data;
-    	if(d!=null) {
-    		d.reload(d.getFile());
-    	}else {
-    		d=new Data("plugins/AmazingFishing/Data.yml");
-	    	Loader.data=d;
-    		if(StreamUtils.fromStream(d.getFile()).trim().isEmpty())
-    		try {
-    			URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/Data.yml").openConnection();
-    			u.setUseCaches(false);
-    			data.reload(StreamUtils.fromStream(u.getInputStream()));
-    		}catch(Exception es) {es.printStackTrace();}
-    	    boolean change = d.merge(data, true, true);
-    	    if(change)
-    	    d.save(DataType.YAML);
-    	}
+		loadOrReload(data,Loader.cod, "Fish/Cod.yml");
+		loadOrReload(data,Loader.salmon, "Fish/Salmon.yml");
+		loadOrReload(data,Loader.puffer, "Fish/Pufferfish.yml");
+		loadOrReload(data,Loader.tropic, "Fish/TropicalFish.yml");
+		loadOrReload(data,Loader.quest, "Data/Quests.yml");
+		loadOrReload(data,Loader.treasur, "Data/Treasures.yml");
+		loadOrReload(data,Loader.enchant, "Data/Enchantments.yml");
+		Utils.convertFiles();
     	boolean change = false;
 		for(String s : datas) {
 			data.reset();
@@ -75,5 +67,24 @@ public class Configs {
 	    		break;
 	    	}
 		}
+	}
+
+	private static Data loadOrReload(Data data, Data d, String path) {
+		if(d!=null) {
+			d.reload(d.getFile());
+		}else {
+			d=new Data("plugins/AmazingFishing/"+path);
+    		if(StreamUtils.fromStream(d.getFile()).trim().isEmpty())
+        		try {
+        			URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/"+path).openConnection();
+        			u.setUseCaches(false);
+        			data.reload(StreamUtils.fromStream(u.getInputStream()));
+        		}catch(Exception es) {es.printStackTrace();}
+        	    boolean change = d.merge(data, true, true);
+        	    if(change)
+        	    	d.save(DataType.YAML);
+		}
+		data.reset();
+		return d;
 	}
 }

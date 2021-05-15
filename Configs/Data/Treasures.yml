@@ -1,0 +1,33 @@
+# TREASURES
+treasures:
+  common:
+    # Display name of treasure
+    name: "&7Common treasure"
+    
+    # Placeholders: %player%, %chance%, %name% - custom treasure name, %biomes%, %biome%, %x%, %y%, %z%, %world%
+    # Messages on catch treasure
+    messages:
+    - "&3You found &7Common treasure on &b%x% %y% %z% %world%&3!!"
+    
+    # Commands on catch treasure
+    commands:
+    - "eco give %player% 500"
+    
+    # Chance to catch this treasure
+    chance: 70.5
+    
+    # Remove this to catch treasure without perms
+    permission: "amazingfishing.treasure.common"
+    
+    # A biomes in which treasure can be caught - empty list for every biome
+    # List of biomes: 
+    #  - (1.16) https://pastebin.com/9X5LRnSq
+    #  - (1.12) https://pastebin.com/ejKGGq4D
+    biomes: []
+    
+    # The moment when the treasure can be caught (weather & time)
+    catch:
+      # Types: DAY | NIGHT | EVERY
+      time: EVERY
+      # Types: SUN | RAIN | THUNDER | EVERY
+      weather: EVERY

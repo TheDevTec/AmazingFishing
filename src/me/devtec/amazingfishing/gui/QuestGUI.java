@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
+import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Quests;
@@ -117,7 +118,10 @@ public class QuestGUI {
 			
 			int stage = u.getInt("af-quests."+quest+".stage");
 			String[] ss = q.getValue(stage).split("\\.");
-			String name = Loader.data.getString("fish."+ss[0]+"."+ss[1]+".name");
+			String name = "none";
+			try{
+				Loader.getData(FishType.valueOf(ss[0].toUpperCase())).getString(ss[0].toLowerCase()+"."+ss[1]+".name");
+			}catch(Exception | NoSuchFieldError err) {}
 			List<String> lore = new ArrayList<String>();
 			if(Quests.isFinished(p.getName(), quest))
 				for(String s: Loader.gui.getStringList("GUI.Quests.Quest_finished"))

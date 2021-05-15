@@ -81,23 +81,23 @@ public class CustomFish implements Fish {
 
 	@Override
 	public String getDisplayName() {
-		return data.getString("fish."+path+"."+name+".name");
+		return data.getString(path+"."+name+".name");
 	}
 
 	@Override
 	public List<String> getMessages(FishAction action) {
-		return data.getStringList("fish."+path+"."+name+".messages."+action.name().toLowerCase());
+		return data.getStringList(path+"."+name+".messages."+action.name().toLowerCase());
 	}
 
 	@Override
 	public List<String> getCommands(FishAction action) {
-		return data.getStringList("fish."+path+"."+name+".commands."+action.name().toLowerCase());
+		return data.getStringList(path+"."+name+".commands."+action.name().toLowerCase());
 	}
 
 	@Override
 	public List<Biome> getBiomes() {
 		List<Biome> biomes = new ArrayList<>();
-		for(String biome : data.getStringList("fish."+path+"."+name+".biomes"))
+		for(String biome : data.getStringList(path+"."+name+".biomes"))
 			try {
 				biomes.add(Biome.valueOf(biome.toUpperCase()));
 			}catch(Exception | NoSuchFieldError e) {}
@@ -107,7 +107,7 @@ public class CustomFish implements Fish {
 	@Override
 	public List<Biome> getBlockedBiomes() {
 		List<Biome> biomes = new ArrayList<>();
-		for(String biome : data.getStringList("fish."+path+"."+name+".blockedbiomes"))
+		for(String biome : data.getStringList(path+"."+name+".blockedbiomes"))
 			try {
 				biomes.add(Biome.valueOf(biome.toUpperCase()));
 			}catch(Exception | NoSuchFieldError e) {}
@@ -116,12 +116,12 @@ public class CustomFish implements Fish {
 
 	@Override
 	public double getChance() {
-		return data.getDouble("fish."+path+"."+name+".chance");
+		return data.getDouble(path+"."+name+".chance");
 	}
 
 	@Override
 	public String getPermission() {
-		String perm = data.getString("fish."+path+"."+name+".permission");
+		String perm = data.getString(path+"."+name+".permission");
 		if(perm==null||perm.trim().equals(""))return null;
 		return perm;
 	}
@@ -129,7 +129,7 @@ public class CustomFish implements Fish {
 	@Override
 	public FishTime getCatchTime() {
 		try {
-			return FishTime.valueOf(data.getString("fish."+path+"."+name+".catch.time").toUpperCase());
+			return FishTime.valueOf(data.getString(path+"."+name+".catch.time").toUpperCase());
 		}catch(Exception | NoSuchFieldError e) {}
 		return FishTime.EVERY;
 	}
@@ -137,7 +137,7 @@ public class CustomFish implements Fish {
 	@Override
 	public FishWeather getCatchWeather() {
 		try {
-			return FishWeather.valueOf(data.getString("fish."+path+"."+name+".catch.weather").toUpperCase());
+			return FishWeather.valueOf(data.getString(path+"."+name+".catch.weather").toUpperCase());
 		}catch(Exception | NoSuchFieldError e) {}
 		return FishWeather.EVERY;
 	}
@@ -156,7 +156,7 @@ public class CustomFish implements Fish {
 	}
 	
 	public int getModel() {
-		return data.getInt("fish."+path+"."+name+".model");
+		return data.getInt(path+"."+name+".model");
 	}
 	
 	@Override
@@ -170,7 +170,7 @@ public class CustomFish implements Fish {
 				.replace("%blockedbiomes%", bbc)
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
-		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
+		List<String> l = data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(null, a.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -202,7 +202,7 @@ public class CustomFish implements Fish {
 				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
-		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
+		List<String> l = data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(null, a.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -234,7 +234,7 @@ public class CustomFish implements Fish {
 				.replace("%blockedbiomes%", bbc)
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
-		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
+		List<String> l = data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> s(a
 				.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -266,7 +266,7 @@ public class CustomFish implements Fish {
 				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
-		List<String> l = data.getStringList("fish."+path+"."+name+".lore");
+		List<String> l = data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> s(a
 				.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -291,7 +291,7 @@ public class CustomFish implements Fish {
 	public ItemStack preview(Player p) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
-		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString("fish."+path+"."+name+".preview.name")!=null?data.getString("fish."+path+"."+name+".preview.name"):getDisplayName())
+		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeigth()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -302,7 +302,7 @@ public class CustomFish implements Fish {
 				.replace("%displayname%", p.getDisplayName())
 				.replace("%name%", getName()));
 		c.setDisplayName(nn);
-		List<String> l = data.exists("fish."+path+"."+name+".preview.lore")?data.getStringList("fish."+path+"."+name+".preview.lore"):data.getStringList("fish."+path+"."+name+".lore");
+		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
 				.replace("%weight%", Loader.ff.format(getWeigth()))
 				.replace("%length%", Loader.ff.format(getLength()))
@@ -340,37 +340,37 @@ public class CustomFish implements Fish {
 
 	@Override
 	public double getWeigth() {
-		return data.getDouble("fish."+path+"."+name+".weight");
+		return data.getDouble(path+"."+name+".weight");
 	}
 
 	@Override
 	public double getLength() {
-		return data.getDouble("fish."+path+"."+name+".length");
+		return data.getDouble(path+"."+name+".length");
 	}
 
 	@Override
 	public double getMinWeigth() {
-		return data.getDouble("fish."+path+"."+name+".minweigth");
+		return data.getDouble(path+"."+name+".minweigth");
 	}
 
 	@Override
 	public double getMinLength() {
-		return data.getDouble("fish."+path+"."+name+".minlength");
+		return data.getDouble(path+"."+name+".minlength");
 	}
 	
 	@Override
 	public double getMoney() {
-		return data.getDouble("fish."+path+"."+name+".money");
+		return data.getDouble(path+"."+name+".money");
 	}
 
 	@Override
 	public double getPoints() {
-		return data.getDouble("fish."+path+"."+name+".points");
+		return data.getDouble(path+"."+name+".points");
 	}
 
 	@Override
 	public double getXp() {
-		return data.getDouble("fish."+path+"."+name+".xp");
+		return data.getDouble(path+"."+name+".xp");
 	}
 
 	@Override
@@ -421,7 +421,7 @@ public class CustomFish implements Fish {
 
 	@Override
 	public String getCalculator(Calculator type) {
-		String ff = data.getString("fish."+path+"."+name+".calculator."+type.name().toLowerCase());
+		String ff = data.getString(path+"."+name+".calculator."+type.name().toLowerCase());
 		if(ff!=null)return ff;
 		return Loader.config.getString("Options.Calculator."+type.name().toLowerCase());
 	}

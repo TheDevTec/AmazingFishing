@@ -1,0 +1,57 @@
+# QUESTS
+quests:
+  common:
+    # Display Name of quest
+    name: "&6&lSuperQuest"
+    
+    # Icon of quest
+    icon: "STONE"
+    
+    # Description of quest
+    description:
+    - "&6Great super duper quest"
+    - "&7"
+    - "&7Left click to accept quest"
+    - "&7Right click to cancel quest (if it is in progress)"
+    
+    # Commands and messages on start quest
+    start:
+      commands:
+      - "say Player %player% started quest %questname%"
+      messages:
+      - "&6You have started quest %questname%"
+      - "&6Now you need to catch &e3x &eCarp"
+      
+    # Stages of quest (Starts from 1)
+    stages:
+      1:
+        # Placeholders: %player%, %quest% (common), %questname% (&6&lSuperQuest)
+        # Commands on finish stage
+        commands:
+        - "pay %player% 500"
+        
+        # Messages on finish stage
+        messages:
+        - "%prefix% &6You have finished first stage of quest %questname%"
+        
+        # Action: catch_fish, eat_fish, sell_fish
+        action: "catch_fish"
+        
+        # Value: type_of_fish.name_of_fish -> cod.<name> -> cod.1
+        value: "cod.1"
+        
+        count: 3
+      2:
+        messages:
+        - "%prefix% &6You have finished second stage of quest %questname%"
+        action: "eat_fish"
+        value: "cod.1"
+        count: 2
+      3:
+        commands:
+        - "say Congrats %player%!!"
+        messages:
+        - "%prefix% &6You have finished quest %questname%"
+        action: "sell_fish"
+        value: "cod.1"
+        count: 2

@@ -48,15 +48,14 @@ import me.devtec.theapi.utils.reflections.Ref;
 public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
-	public static Data data;
-	public static Config trans, config,
-			gui, shop;
+	public static Config trans, config, gui, shop;
+	public static Data cod,puffer,tropic,salmon,quest,treasur, enchant;
 	static String prefix;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public static ItemStack next = ItemCreatorAPI.createHeadByValues(1, "&cNext", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmNTVmMWIzMmMzNDM1YWMxYWIzZTVlNTM1YzUwYjUyNzI4NWRhNzE2ZTU0ZmU3MDFjOWI1OTM1MmFmYzFjIn19fQ=="), prev = ItemCreatorAPI.createHeadByValues(1, "&cPrevious", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0=");
 	
 	public void onEnable() {
-		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "5.9.5")==VersionChecker.Version.NEW) {
+		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "5.9.8")==VersionChecker.Version.NEW) {
 			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", TheAPI.getConsole());
@@ -115,30 +114,53 @@ public class Loader extends JavaPlugin {
 	public static void reload(CommandSender ss, boolean reload) {
 		//RELOAD-CONFIG
 		if(reload) {
-		data.reload(data.getFile());
-		config.reload();
-		trans.reload();
-		prefix = trans.getString("Prefix");
-		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
-		TheAPI.msg(prefix+" Configurations reloaded.", ss);
+			cod.reload(cod.getFile());
+			salmon.reload(salmon.getFile());
+			puffer.reload(puffer.getFile());
+			tropic.reload(tropic.getFile());
+			quest.reload(quest.getFile());
+			treasur.reload(treasur.getFile());
+			enchant.reload(enchant.getFile());
+			config.reload();
+			trans.reload();
+			prefix = trans.getString("Prefix");
+			API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
+			TheAPI.msg(prefix+" Configurations reloaded.", ss);
 		}
 		
 		//FISH
 		
 		//PRE-LOAD
 		Map<String, FishType> toRegister = new HashMap<>();
-		for(String typeS : data.getKeys("fish"))
+		FishType type = FishType.COD;
+		for(String fish : cod.getKeys()) {
 			try {
-				FishType type = FishType.valueOf(typeS.toUpperCase());
-				for(String fish : data.getKeys("fish."+typeS)) {
-					toRegister.put(fish+":"+type.ordinal(), type);
-				}
+				toRegister.put(fish+":"+type.ordinal(), type);
 			}catch(Exception | NoSuchFieldError err) {}
+		}
+		type = FishType.SALMON;
+		for(String fish : salmon.getKeys()) {
+			try {
+				toRegister.put(fish+":"+type.ordinal(), type);
+			}catch(Exception | NoSuchFieldError err) {}
+		}
+		type = FishType.PUFFERFISH;
+		for(String fish : puffer.getKeys()) {
+			try {
+				toRegister.put(fish+":"+type.ordinal(), type);
+			}catch(Exception | NoSuchFieldError err) {}
+		}
+		type = FishType.TROPICAL_FISH;
+		for(String fish : tropic.getKeys("tropical_fish")) {
+			try {
+				toRegister.put(fish+":"+type.ordinal(), type);
+			}catch(Exception | NoSuchFieldError err) {}
+		}
 		
 		//REMOVE-NOT-LOADED
 		List<Fish> remove = new ArrayList<>();
 		for(Entry<String, Fish> fish : API.fish.entrySet())
-			if(fish.getValue() instanceof CustomFish && Ref.get(fish.getValue(), "data").equals(data))
+			if(fish.getValue() instanceof CustomFish && Ref.get(fish.getValue(), "data").equals(getData(fish.getValue().getType())))
 				if(toRegister.containsKey(fish.getValue().getName()+":"+fish.getValue().getType().ordinal()))
 					toRegister.remove(fish.getValue().getName()+":"+fish.getValue().getType().ordinal());
 				else
@@ -148,7 +170,8 @@ public class Loader extends JavaPlugin {
 		
 		//REGISTER-NOT-LOADED
 		for(Entry<String, FishType> s : toRegister.entrySet())
-			API.register(new CustomFish(s.getKey().substring(0, s.getKey().length()-2), s.getValue().name().toLowerCase(), s.getValue(), data));
+			API.register(new CustomFish(s.getKey().substring(0, s.getKey().length()-2), s.getValue().name().toLowerCase(), s.getValue(), getData(s.getValue())));
+		
 		//CLEAR-CACHE
 		TheAPI.msg(prefix+" Fish registered ("+toRegister.size()+") & removed unregistered ("+remove.size()+").", ss);
 		toRegister.clear();
@@ -157,12 +180,12 @@ public class Loader extends JavaPlugin {
 		//TREASURE
 		
 		//PRE-LOAD
-		List<String> toReg = new ArrayList<>(data.getKeys("treasures"));
+		List<String> toReg = new ArrayList<>(treasur.getKeys("treasures"));
 		
 		//REMOVE-NOT-LOADED
 		List<Treasure> removeT = new ArrayList<>();
 		for(Entry<String, Treasure> fish : API.treasure.entrySet())
-			if(fish.getValue() instanceof CustomTreasure && Ref.get(fish.getValue(), "data").equals(data))
+			if(fish.getValue() instanceof CustomTreasure && Ref.get(fish.getValue(), "data").equals(treasur))
 				if(toReg.contains(fish.getValue().getName()))
 					toReg.remove(fish.getValue().getName());
 				else
@@ -172,7 +195,7 @@ public class Loader extends JavaPlugin {
 		
 		//REGISTER-NOT-LOADED
 		for(String s : toReg)
-			API.register(new CustomTreasure(s, data));
+			API.register(new CustomTreasure(s, treasur));
 		
 		//CLEAR-CACHE
 		TheAPI.msg(prefix+" Treasures registered ("+toReg.size()+") & removed unregistered ("+removeT.size()+").", ss);
@@ -182,7 +205,7 @@ public class Loader extends JavaPlugin {
 		//ENCHANTMENT
 		
 		//PRE-LOAD
-		toReg = new ArrayList<>(data.getKeys("enchantments"));
+		toReg = new ArrayList<>(enchant.getKeys("enchantments"));
 		//REMOVE-NOT-LOADED
 		List<String> removeE = new ArrayList<>();
 		for(Entry<String, Enchant> fish : Enchant.enchants.entrySet())
@@ -197,15 +220,15 @@ public class Loader extends JavaPlugin {
 		//REGISTER-NOT-LOADED
 		for(String s : toReg) {
 			new CustomEnchantment(s, 
-					data.getString("enchantments."+s+".name"),
-					data.getInt("enchantments."+s+".maxlevel"), 
-					data.getDouble("enchantments."+s+".bonus.chance"),
-					data.getDouble("enchantments."+s+".bonus.amount"),
-					data.getDouble("enchantments."+s+".bonus.money"),
-					data.getDouble("enchantments."+s+".bonus.points"),
-					data.getDouble("enchantments."+s+".bonus.exp"),
-					data.getStringList("enchantments."+s+".description"),
-					data.getDouble("enchantments."+s+".cost"));
+					enchant.getString("enchantments."+s+".name"),
+					enchant.getInt("enchantments."+s+".maxlevel"), 
+					enchant.getDouble("enchantments."+s+".bonus.chance"),
+					enchant.getDouble("enchantments."+s+".bonus.amount"),
+					enchant.getDouble("enchantments."+s+".bonus.money"),
+					enchant.getDouble("enchantments."+s+".bonus.points"),
+					enchant.getDouble("enchantments."+s+".bonus.exp"),
+					enchant.getStringList("enchantments."+s+".description"),
+					enchant.getDouble("enchantments."+s+".cost"));
 		
 		}
 		//CLEAR-CACHE
@@ -216,7 +239,7 @@ public class Loader extends JavaPlugin {
 		//QUESTS
 		
 		//PRE-LOAD
-		toReg = new ArrayList<>(data.getKeys("quests"));
+		toReg = new ArrayList<>(quest.getKeys("quests"));
 			
 		//REMOVE-NOT-LOADED
 		for(Entry<String, Quest> quest : Quests.quests.entrySet())
@@ -228,7 +251,7 @@ public class Loader extends JavaPlugin {
 
 		//REGISTER-NOT-LOADED
 		for(String s : toReg)
-			Quests.register(new Quest(s, data));
+			Quests.register(new Quest(s, quest));
 			
 		//CLEAR-CACHE
 		TheAPI.msg(prefix+" Quests registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
@@ -237,6 +260,21 @@ public class Loader extends JavaPlugin {
 				
 		API.onReload.forEach(a->a.run());
 	}
+	
+	public static Data getData(FishType type) {
+		switch(type) {
+		case COD:
+			return cod;
+		case PUFFERFISH:
+			return puffer;
+		case SALMON:
+			return salmon;
+		case TROPICAL_FISH:
+			return tropic;
+		}
+		return null;
+	}
+
 	public static void msg(String msg, CommandSender s) {
 		TheAPI.msg(msg.replace("%prefix%", Trans.s("Prefix")), s);
 	}
