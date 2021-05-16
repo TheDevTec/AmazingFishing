@@ -6,7 +6,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
-import me.devtec.amazingfishing.gui.EnchantTable.EnchantGUI;
 import me.devtec.amazingfishing.gui.Shop.ShopType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Manager;
@@ -46,7 +45,7 @@ public class Help {
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled"))
-						EnchantTable.open(p, EnchantGUI.Main);
+						EnchantTable.openMain(p);
 				}}
 			);
 		}

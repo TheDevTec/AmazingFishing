@@ -24,29 +24,13 @@ import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 
 public class EnchantTable {
-
-	public static enum EnchantGUI{
-		Main,
-		Rod_Upgrade,
-		Rod_Add,
-		Enchant,
-		Upgrade;
-	}
-	public static void open(Player p, EnchantGUI type) {
-		if(type==EnchantGUI.Main) openMain(p);
-		if(!Enchant.enchants.isEmpty()) {
-		if(type==EnchantGUI.Rod_Upgrade) openEnchanterPlace(p, type);
-		if(type==EnchantGUI.Rod_Add) openEnchanterPlace(p, type);
-		if(type==EnchantGUI.Enchant) openEnchantAdd(p);
-		if(type==EnchantGUI.Upgrade) openEnchantUpgrade(p);
-		}
-	}
-	private static void openMain(Player p) {
+	public static void openMain(Player p) {
 		GUI a = Create.setup(new GUI(Trans.enchant_title(),54), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 			a.setItem(20,new ItemGUI(Create.createItem(Trans.enchant_add(), Utils.getCachedMaterial("CRAFTING_TABLE"))){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
-					open(p, EnchantGUI.Rod_Add);
+					if(!Enchant.enchants.isEmpty())
+					openEnchanterPlace(p, 0);
 				}
 			});
 
@@ -63,13 +47,14 @@ public class EnchantTable {
 			a.setItem(24,new ItemGUI(Create.createItem(Trans.enchant_upgrade(), Material.ANVIL)){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
-					open(p, EnchantGUI.Rod_Upgrade);
+					if(!Enchant.enchants.isEmpty())
+					openEnchanterPlace(p, 1);
 				}
 			});
 			a.open(p);
 		}
 	
-	private static boolean openEnchanterPlace(Player p, EnchantGUI type) {
+	private static boolean openEnchanterPlace(Player p, int type) {
 		GUI a = Create.setup(new GUI(Trans.enchant_selectRod_title(),54), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		int slot = -1;
 		boolean add = false;
@@ -78,7 +63,7 @@ public class EnchantTable {
 			++slot;
 			if(item==null)continue;
 			if(item.getType()!=Material.FISHING_ROD)continue;
-			if(type==EnchantGUI.Rod_Add?!canAdd(item):!containsAny(item))continue;
+			if(type==0?!canAdd(item):!containsAny(item))continue;
 			int ss = slot;
 			add=true;
 			a.addItem(new ItemGUI(item){
@@ -86,10 +71,10 @@ public class EnchantTable {
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					Rod.saveRod(p,item);
 					p.getInventory().setItem(ss, new ItemStack(Material.AIR));
-					if(type== EnchantGUI.Rod_Upgrade)
-						open(p, EnchantGUI.Upgrade);
+					if(type== 1)
+						openEnchantUpgrade(p);
 					else
-						open(p, EnchantGUI.Enchant);
+						openEnchantAdd(p);
 				}
 			});
 		}
@@ -148,7 +133,7 @@ public class EnchantTable {
 							enchant.enchant(rod, 1);
 							TheAPI.giveItem(p, rod);
 							Rod.deleteRod(p);
-							if(!openEnchanterPlace(p, EnchantGUI.Rod_Add))
+							if(!openEnchanterPlace(p, 0))
 								openMain(p);
 							return;
 						}
@@ -187,7 +172,7 @@ public class EnchantTable {
 							enchant.enchant(rod, 1);
 							TheAPI.giveItem(p, rod);
 							Rod.deleteRod(p);
-							if(!openEnchanterPlace(p, EnchantGUI.Rod_Upgrade))
+							if(!openEnchanterPlace(p, 1))
 								openMain(p);
 							return;
 					}

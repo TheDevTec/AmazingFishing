@@ -14,7 +14,6 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.gui.Bag;
 import me.devtec.amazingfishing.gui.EnchantTable;
-import me.devtec.amazingfishing.gui.EnchantTable.EnchantGUI;
 import me.devtec.amazingfishing.gui.Help;
 import me.devtec.amazingfishing.gui.Index;
 import me.devtec.amazingfishing.gui.QuestGUI;
@@ -188,7 +187,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 		if((args[0].equalsIgnoreCase("enchanttable")||args[0].equalsIgnoreCase("enchanter")) && s.hasPermission("amazingfishing.command.enchanter")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
-					EnchantTable.open((Player)s, EnchantGUI.Main);
+					EnchantTable.openMain((Player)s);
 					TheAPI.msg("Opening enchanter menu..", s);
 					return true;
 				}
@@ -200,7 +199,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				TheAPI.msg("Player "+args[1]+" isn't online", s);
 				return true;
 			}
-			EnchantTable.open(p, EnchantGUI.Main);
+			EnchantTable.openMain(p);
 			TheAPI.msg("Opening enchanter menu for player "+p.getName(), s);
 			return true;
 		}
