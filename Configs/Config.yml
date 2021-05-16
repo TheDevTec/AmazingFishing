@@ -10,6 +10,19 @@
 #  Discord: https://discord.io/spigotdevtec
 
 Options:
+  # AFK System
+  AFK:
+    Enabled: true
+    Time: "5min"
+    DisallowFishing: true
+    Action:
+      # Send message?
+      Start: []
+      # Clear title?
+      Stop: []
+      # Send title?
+      Afking: []
+  
   # PointsManager types: VAULT, USER
   PointsManager: "User"
   Calculator:

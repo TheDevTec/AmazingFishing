@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.util.Vector;
 
 import me.devtec.amazingfishing.API;
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Calculator;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.construct.Enchant.FishCatchList;
@@ -37,6 +38,7 @@ public class CatchFish implements Listener {
 	@EventHandler
 	public void onCatch(PlayerFishEvent e) {
 		if(e.getState()==State.CAUGHT_FISH) {
+			if(!Loader.config.getBoolean("Options.AFK.Enabled")||!AFKSystem.isAFK(e.getPlayer())||!Loader.config.getBoolean("Options.AFK.DisallowFishing")) {
 			Item item = (Item)e.getCaught();
 			if(API.isFishItem(item.getItemStack())) {
 				PercentageList<Fish> ff = generateRandom(e.getPlayer(), e.getHook().getLocation().getBlock().getBiome(),
@@ -122,6 +124,7 @@ public class CatchFish implements Listener {
 					}
 				}
 			}
+		}
 		}
 	}
 

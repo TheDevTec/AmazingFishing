@@ -23,6 +23,7 @@ import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.creation.CustomEnchantment;
 import me.devtec.amazingfishing.creation.CustomFish;
 import me.devtec.amazingfishing.creation.CustomTreasure;
+import me.devtec.amazingfishing.utils.AFKSystem;
 import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Configs;
@@ -111,9 +112,14 @@ public class Loader extends JavaPlugin {
 		plugin=this;
 	}
 	
+	public void onDisable() {
+		AFKSystem.unload();
+	}
+	
 	public static void reload(CommandSender ss, boolean reload) {
 		//RELOAD-CONFIG
 		if(reload) {
+			AFKSystem.unload();
 			cod.reload(cod.getFile());
 			salmon.reload(salmon.getFile());
 			puffer.reload(puffer.getFile());
@@ -127,6 +133,7 @@ public class Loader extends JavaPlugin {
 			API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
 			TheAPI.msg(prefix+" Configurations reloaded.", ss);
 		}
+		AFKSystem.load();
 		
 		//FISH
 		
@@ -283,5 +290,23 @@ public class Loader extends JavaPlugin {
 		if(s.hasPermission(permission)) return true;
 		msg(Trans.noPerms().replace("%permission%", permission), s);
 		return false;
+	}
+
+	public static void onAfk(Player p) {
+		for(String s : Loader.config.getStringList("Options.AFK.Action.Afking")) {
+			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
+		}
+	}
+
+	public static void onAfkStart(Player p) {
+		for(String s : Loader.config.getStringList("Options.AFK.Action.Start")) {
+			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
+		}
+	}
+
+	public static void onAfkStop(Player p) {
+		for(String s : Loader.config.getStringList("Options.AFK.Action.Stop")) {
+			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
+		}
 	}
 }
