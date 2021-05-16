@@ -255,7 +255,7 @@ public class Shop {
 		lore.replaceAll(s->s.replace("%player%", p.getName())
 					.replace("%playername%", p.getDisplayName())
 					.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName()))));
-		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Material.valueOf(Loader.shop.getString("GUI."+item+".Icon").toUpperCase()), lore));
+		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Utils.createType(Loader.shop.getString("GUI."+item+".Icon")), lore));
 		ItemGUI d = new ItemGUI(Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create()){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType type) {

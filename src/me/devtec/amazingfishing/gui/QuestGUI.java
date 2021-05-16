@@ -45,7 +45,7 @@ public class QuestGUI {
 						}else {
 							Loader.msg(Trans.s("Quests.CannotStart").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().name())
+									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
 					}
@@ -54,13 +54,13 @@ public class QuestGUI {
 							Quests.cancel(player.getName(), q.getName());
 							Loader.msg(Trans.s("Quests.Cancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().name())
+									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 							return;
 						}else {
 							Loader.msg(Trans.s("Quests.CannotCancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().name())
+									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
 					}

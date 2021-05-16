@@ -12,6 +12,7 @@ import org.bukkit.material.MaterialData;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.theapi.configapi.Config;
+import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.reflections.Ref;
@@ -60,7 +61,7 @@ public class Utils {
 		}
 	}
 	
-	static Map<String, Material> mat = new HashMap<>();
+	static Map<String, MaterialData> mat = new HashMap<>();
 	static {
 		mat.put("BLACK_STAINED_GLASS_PANE", find("BLACK_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 15));
 		mat.put("BLUE_STAINED_GLASS_PANE", find("BLUE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 11));
@@ -77,21 +78,21 @@ public class Utils {
 		mat.put("RED_CONCRETE", find("RED_CONCRETE", "CONCRETE", 14)==null?find("RED_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 14):find("RED_CONCRETE", "CONCRETE", 14));
 		}
 	
-	static Material find(String newName, String old, int data) {
+	static MaterialData find(String newName, String old, int data) {
 		try {
-			return Material.getMaterial(newName);
+			return Material.getMaterial(newName.toUpperCase()).getNewData((byte)0);
 		}catch(Exception | NoSuchFieldError e) {
 			try {
-			if(data==0)return Material.getMaterial(old);
-			return new MaterialData(Material.getMaterial(old),(byte)data).getItemType();
+			if(data==0)return Material.getMaterial(old.toUpperCase()).getNewData((byte)0);
+			return Material.getMaterial(old.toUpperCase()).getNewData((byte)data);
 			}catch(Exception | NoSuchFieldError er) {
 				return null;
 			}
 		}
 	}
 	
-	public static Material getCachedMaterial(String name) {
-		return mat.getOrDefault(name.toUpperCase(), null);
+	public static MaterialData getCachedMaterial(String name) {
+		return mat.getOrDefault(name.toUpperCase(), Material.STONE.getNewData((byte)0));
 	}
 	
 	public static boolean hasString(Object nbt) {
@@ -130,5 +131,9 @@ public class Utils {
 			}
 			Loader.quest.save();
 		}
+	}
+
+	public static MaterialData createType(String s) {
+		return Material.getMaterial(s.split(":")[0].toUpperCase()).getNewData(s.contains(":")?(byte)StringUtils.getInt(s.split(":")[1]):(byte)0);
 	}
 }

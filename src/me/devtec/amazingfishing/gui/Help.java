@@ -19,13 +19,6 @@ import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Help {
-	
-	public static enum BackButton{
-		Close,
-		Help,
-		Shop;
-	}
-	
 	public static void open(Player p) {
 		GUI a = Create.setup(new GUI(Loader.gui.getString("GUI.Help.Player.Title"),54), null
 				, me.devtec.amazingfishing.utils.Create.Settings.SIDES, me.devtec.amazingfishing.utils.Create.Settings.CLOSE);
@@ -49,7 +42,7 @@ public class Help {
 			}
 		});
 		if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled")) {
-			a.setItem(31,new ItemGUI(Create.createItem(Trans.help_player_enchants(), Material.matchMaterial("ENCHANTING_TABLE"))){
+			a.setItem(31,new ItemGUI(Create.createItem(Trans.help_player_enchants(), Material.getMaterial("ENCHANTING_TABLE")!=null?Material.getMaterial("ENCHANTING_TABLE"):Material.getMaterial("ENCHANTMENT_TABLE"))){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled"))

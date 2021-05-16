@@ -1,6 +1,6 @@
 name: AmazingFishing
 main: me.devtec.amazingfishing.Loader
-version: 3.8
+version: 3.9
 author: DevTec
 depend: [TheAPI]
 api-version: 1.13

@@ -1,11 +1,11 @@
 package me.devtec.amazingfishing.gui;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Manager;
+import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
@@ -26,13 +26,13 @@ public class Settings {
 		if(u.exist(Manager.getDataLocation()+".Settings.SendRecords") && 
 				!u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords"))
 			records = "off";
-		a.setItem(21, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name"), Material.getMaterial(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item")), Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore"))) {
+		a.setItem(21, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name"), Utils.createType(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item")), Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore"))) {
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType click) {
 				boolean val = !u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords");
 				u.setAndSave(Manager.getDataLocation()+".Settings.SendRecords", val);
 				String records = val?"on":"off";
-				setItem(Create.createItem(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name"), Material.getMaterial(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item")), Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore")));
+				setItem(Create.createItem(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Name"), Utils.createType(Loader.gui.getString("GUI.Settings.SendRecords."+records+".Item")), Loader.gui.getStringList("GUI.Settings.SendRecords."+records+".Lore")));
 				arg.setItem(21, this);
 			}
 		});

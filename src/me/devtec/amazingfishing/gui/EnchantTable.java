@@ -118,7 +118,6 @@ public class EnchantTable {
 	}
 	
 	public static void openEnchantAdd(Player p) {
-		Material mat = Material.ENCHANTED_BOOK;
 		GUI a = Create.setup(new GUI(Trans.enchant_add_title(),54) {
 			public void onClose(Player arg0) {
 				if(Rod.saved(p))
@@ -141,7 +140,7 @@ public class EnchantTable {
 				String name = enchant.getDisplayName();
 				List<String> lore = enchant.getDescription();
 				double cost = enchant.getCost();
-				a.addItem(new ItemGUI(Create.createItem(name, mat,lore)){
+				a.addItem(new ItemGUI(Create.createItem(name, Material.ENCHANTED_BOOK,lore)){
 					@Override
 					public void onClick(Player p, HolderGUI arg, ClickType type) {
 						if(API.getPoints().has(p.getName(), cost)) {
@@ -164,7 +163,6 @@ public class EnchantTable {
 	}
 	
 	public static void openEnchantUpgrade(Player p) {
-		Material mat = Material.PAPER;
 		GUI a = Create.setup(new GUI(Trans.enchant_upgrade_title(),54) {
 			public void onClose(Player arg0) {
 				if(Rod.saved(p))
@@ -181,7 +179,7 @@ public class EnchantTable {
 				String name = enchant.getDisplayName();
 				List<String> lore = enchant.getDescription();
 				double cost = enchant.getCost();
-				a.addItem(new ItemGUI(Create.createItem(name, mat,lore)){
+				a.addItem(new ItemGUI(Create.createItem(name, Material.PAPER,lore)){
 					@Override
 					public void onClick(Player p, HolderGUI arg, ClickType type) {
 						if(API.getPoints().has(p.getName(), cost)) {

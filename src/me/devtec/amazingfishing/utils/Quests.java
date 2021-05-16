@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.material.MaterialData;
 
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
@@ -33,9 +33,9 @@ public class Quests {
 		public String getDisplayName() {
 			return d.getString("quests."+name+".name");
 		}
-		public Material getDisplayIcon() {
+		public MaterialData getDisplayIcon() {
 			if(d.exists("quests."+name+".icon"))
-				return Material.valueOf(d.getString("quests."+name+".icon"));
+				return Utils.createType(d.getString("quests."+name+".icon"));
 			else return Utils.getCachedMaterial("SUNFLOWER");
 		}
 		
@@ -44,7 +44,7 @@ public class Quests {
 			for(String s: d.getStringList("quests."+name+".description"))
 				list.add(s.replace("%name%", getName())
 						.replace("%questname%", getDisplayName())
-						.replace("%icon%", getDisplayIcon().name())
+						.replace("%icon%", getDisplayIcon().getItemType().name())
 						.replace("%stages%", ""+getStages())
 						);
 			return list;

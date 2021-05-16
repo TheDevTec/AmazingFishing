@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.theapi.apis.ItemCreatorAPI;
@@ -27,9 +28,23 @@ public class Create {
     	a.setLore(lore);
     	return a.create();
     }
+	public static ItemStack createItem(String name, MaterialData material) {
+    	ItemCreatorAPI a = new ItemCreatorAPI(material.getItemType());
+    	a.setDisplayName(name);
+    	a.setDurability(material.getData());
+    	return a.create();
+    }
+    
+	public static ItemStack createItem(String name, MaterialData material, List<String> lore) {
+    	ItemCreatorAPI a = new ItemCreatorAPI(material.getItemType());
+    	a.setDisplayName(name);
+    	a.setLore(lore);
+    	a.setDurability(material.getData());
+    	return a.create();
+    }
 	
-	public static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE"), 1, "&c"));
-	public static ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE"), 1, "&c"));
+	public static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getItemType(), 1, "&c",Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getData()));
+	public static ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE").getItemType(), 1, "&c",Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE").getData()));
 	
 	public static GUI prepareInvBig(GUI inv) {
 		for(int i = 45; i<54; ++i)
@@ -55,7 +70,7 @@ public class Create {
 		CLEAR
 	}
 	
-	static ItemStack close = ItemCreatorAPI.create(Utils.getCachedMaterial("RED_STAINED_GLASS_PANE"), 1, Loader.trans.getString("Words.Close"));
+	static ItemStack close = ItemCreatorAPI.create(Utils.getCachedMaterial("RED_STAINED_GLASS_PANE").getItemType(), 1, Loader.trans.getString("Words.Close"),Utils.getCachedMaterial("RED_STAINED_GLASS_PANE").getData());
 	
 	public static GUI setup(GUI inv, PRunnable backButton, Settings... settings) {
 		boolean[] actions = {false, false,false};
