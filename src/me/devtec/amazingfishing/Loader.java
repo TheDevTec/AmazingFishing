@@ -133,19 +133,19 @@ public class Loader extends JavaPlugin {
 		//PRE-LOAD
 		Map<String, FishType> toRegister = new HashMap<>();
 		FishType type = FishType.COD;
-		for(String fish : cod.getKeys()) {
+		for(String fish : cod.getKeys("cod")) {
 			try {
 				toRegister.put(fish+":"+type.ordinal(), type);
 			}catch(Exception | NoSuchFieldError err) {}
 		}
 		type = FishType.SALMON;
-		for(String fish : salmon.getKeys()) {
+		for(String fish : salmon.getKeys("salmon")) {
 			try {
 				toRegister.put(fish+":"+type.ordinal(), type);
 			}catch(Exception | NoSuchFieldError err) {}
 		}
 		type = FishType.PUFFERFISH;
-		for(String fish : puffer.getKeys()) {
+		for(String fish : puffer.getKeys("pufferfish")) {
 			try {
 				toRegister.put(fish+":"+type.ordinal(), type);
 			}catch(Exception | NoSuchFieldError err) {}

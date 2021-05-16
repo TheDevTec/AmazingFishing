@@ -33,7 +33,7 @@ public class CustomFish implements Fish {
 	public CustomFish(String name, String path, FishType type, Data data) {
 		this.name=name;
 		this.type=type;
-		this.path=path;
+		this.path=path.toLowerCase();
 		this.data=data;
 	}
 	
@@ -47,8 +47,8 @@ public class CustomFish implements Fish {
 		map.put("permission", getPermission());
 		map.put("catch_time", getCatchTime().name().toLowerCase());
 		map.put("catch_weather", getCatchWeather().name().toLowerCase());
-		map.put("weigth", getWeigth());
-		map.put("min_weigth", getMinWeigth());
+		map.put("weight", getWeigth());
+		map.put("min_weight", getMinWeigth());
 		map.put("length", getLength());
 		map.put("min_length", getMinLength());
 		map.put("money", getMoney());
