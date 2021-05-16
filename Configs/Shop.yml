@@ -1,0 +1,79 @@
+GUI:
+# IMPORTANT ITEMS:
+  Bag:
+    Icon: "CHEST"
+    # ModelData: "1"
+    Name: "&6Bag"
+    Lore:
+    - "&7Click to open bag"
+
+  Points:
+    Icon: "LAPIS_LAZULI"
+    # ModelData: "1"
+    Name: "&9Points"
+    Lore: 
+    - "&7Currently you have %points% points"
+
+  BuyShop:
+    Icon: "EMERALD"
+    # ModelData: "1"
+    Name: "&eBuy shop"
+    Lore: 
+    - "&7Open shop in which you can buy items"
+
+  SellShop:
+    Icon: "COD_BUCKET"
+    # ModelData: "1"
+    Name: "&eSell shop"
+    Lore: 
+    - "&7Open shop in which you can sell fish"
+
+  Sell:
+    Icon: "GOLD_INGOT"
+    # ModelData: "1"
+    Name: "&eSell fish"
+    Lore: 
+    - "&7Sell fish in shop"
+
+  Convertor:
+    Icon: "REDSTONE"
+    # ModelData: "1"
+    Name: "&eConvertor of fish"
+    Lore: 
+    - "&7Convert fish to normal fish"
+
+# Here you can edit items in shop
+Items:
+  item1:
+    Name: "&7TestingItem &e| %cost%"
+    Icon: "STONE"
+    Cost: 2
+    # Commands:
+    # - "say Super command"
+    # Messages:
+    # - "&6Some messages"
+    Description:
+    - "Fantastic lore!"
+#     Item:
+#       block01:
+#         Material: "STONE"
+#         Amount: 5
+#         Name: "&eHoly stone"
+#         Lore:
+#         - "&3Great lore"
+#         # Unbreakable: true
+#         # HideEnchants: false
+#         # HideAttributes: true
+#         Enchants:
+#         - "LURE:1"
+#       # item02:
+#         # Material: "COBBLESTONE"
+#         # Amount: 5
+#         # Name: "&eBad stone"
+#         # Lore:
+#         # - "&3Great lore"
+#         # Unbreakable: true
+#         # HideEnchants: false
+#         # HideAttributes: true
+#         # Enchants:
+#         # - "LURE:1"

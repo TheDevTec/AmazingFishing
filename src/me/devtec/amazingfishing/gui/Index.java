@@ -1,0 +1,87 @@
+package me.devtec.amazingfishing.gui;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.bukkit.entity.Player;
+
+import me.devtec.amazingfishing.API;
+import me.devtec.amazingfishing.Loader;
+import me.devtec.amazingfishing.construct.Fish;
+import me.devtec.amazingfishing.construct.FishType;
+import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.Pagination;
+import me.devtec.amazingfishing.utils.Statistics;
+import me.devtec.amazingfishing.utils.Statistics.CaughtType;
+import me.devtec.amazingfishing.utils.Statistics.RecordType;
+import me.devtec.amazingfishing.utils.Trans;
+import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.ItemCreatorAPI;
+import me.devtec.theapi.guiapi.GUI;
+import me.devtec.theapi.guiapi.GUI.ClickType;
+import me.devtec.theapi.guiapi.HolderGUI;
+import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.placeholderapi.PlaceholderAPI;
+
+public class Index {
+	static GUI g=Create.setup(new GUI(Loader.gui.getString("GUI.Index.Title"),54), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+	static {
+		g.setItem(20, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.COD), 1, Trans.words_cod())) {
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				open(player, FishType.COD, 0);
+			}
+		});
+		g.setItem(24, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.SALMON), 1, Trans.words_salmon())) {
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				open(player, FishType.SALMON, 0);
+			}
+		});
+		g.setItem(30, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.TROPICAL_FISH), 1, Trans.words_tropicalfish())) {
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				open(player, FishType.TROPICAL_FISH, 0);
+			}
+		});
+		g.setItem(32, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.PUFFERFISH), 1, Trans.words_pufferfish())) {
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				open(player, FishType.PUFFERFISH, 0);
+			}
+		});
+	}
+	
+	public static void open(Player s) {
+		g.open(s);
+	}
+	
+	public static void open(Player s, FishType type, int page) {
+		GUI c=Create.setup(new GUI(Loader.gui.getString("GUI.Index."+type.name().toLowerCase()),54), p -> open(p));
+		Pagination<Fish> g = new Pagination<>(36, API.getRegisteredFish().values().stream().filter(a -> a.getType()==type).collect(Collectors.toList()));
+		if(g.isEmpty()||g.getPage(page).isEmpty())return;
+		for(Fish f : g.getPage(page)) {
+			c.addItem(new ItemGUI(f.preview(s)) {
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					List<String> prew = Loader.config.getStringList("Preview");
+					prew.replaceAll(a -> PlaceholderAPI.setPlaceholders(player, a.replace("%weight%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.WEIGHT)))
+							.replace("%length%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.LENGTH)))
+							.replace("%caught%", Loader.intt.format(Statistics.getCaught(player, f, CaughtType.PER_FISH)))));
+					for(String sd : prew)
+					TheAPI.sendMessage(sd, player);
+				}
+			});
+		}
+		if(g.totalPages()-1!=page && g.totalPages()-1>page) {
+			c.setItem(51, new ItemGUI(Loader.next) {
+				public void onClick(Player var1, HolderGUI var2, ClickType var3) {
+					open(var1, type, page+1);
+				}
+			});
+		}
+		if(page>0) {
+			c.setItem(47, new ItemGUI(Loader.prev) {
+				public void onClick(Player var1, HolderGUI var2, ClickType var3) {
+					open(var1, type, page-1);
+				}
+			});
+		}
+		c.open(s);
+	}
+}

@@ -1,0 +1,53 @@
+Prefix: "&bAmazingFishing &8&l»&7"
+NoPerms: "%prefix% You do not have permissions for this! (&b%permission%)"
+Admin:
+  ConfigReloaded: "&aReloaded configs"
+  
+FishList:
+  Topic: "&eFish list:"
+  Format: "&7&l- %fish%"
+  
+Points:
+  Lack: "%prefix% &cYou have lack of points!"
+  Get: "%prefix% &3Player &b%player% &3has &b%points% &3points."
+  Add: "%prefix% &3You add &b%add% &3points to &b%player%&3. Player &b%player% &3now has &b%points% &3points."
+  Set: "%prefix% &3You set points of player &b%player% &3to &b%points%&3."
+
+SoldFish:
+- "&7&l-----------------------"
+- "&eYou sold:"
+- "&7Amount: &f%amount%"
+- "&7Money &7%money%$"
+- "&7Exp: &f%exp%"
+- "&7Points: &f%points%"
+- "&7&l-----------------------"
+
+Tournaments:
+  Stop:
+    All: "%prefix% &9You have stopped all current tournaments!"
+    One: "%prefix% &9You have stopped current tournament!"
+    NoRunning: "%prefix% &cThere is no running tournament!"
+    
+NewRecord:
+- "&7&l-----------------------"
+- "&9You set a new record! &3Record type: %type%"
+- "&3New record: %new% &8&l| &7Old record: %old%"
+- "&7&l-----------------------"
+
+Words:
+  Cod: "&7Cod"
+  Salmon: "&7Salmon"
+  PufferFish: "&7PufferFish"
+  TropicalFish: "&7TropicalFish"
+  Back: "&4Back"
+  Close: "&cClose"
+  Cancel: "&cCancel"
+  Sell: "&eSell fish"
+  Points: "&9%value% Points"
+  Bag: "&7Bag"
+  Convert: "&aConvert"
+  
+Quests:
+  Cancel: "%prefix% &9You have canceled quest %questname%"
+  CannotStart: "%prefix% &9You can't start this quest!"
+  CannotCancel: "%prefix% &9You can't cancel this quest!"

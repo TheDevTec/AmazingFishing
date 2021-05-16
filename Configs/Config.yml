@@ -1,0 +1,229 @@
+# ░█████╗░██████╗░███████╗░█████╗░████████╗███████╗██████╗░  ██████╗░██╗░░░██╗  ██████╗░███████╗██╗░░░██╗████████╗███████╗░█████╗░
+# ██╔══██╗██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝██╔══██╗  ██╔══██╗╚██╗░██╔╝  ██╔══██╗██╔════╝██║░░░██║╚══██╔══╝██╔════╝██╔══██╗
+# ██║░░╚═╝██████╔╝█████╗░░███████║░░░██║░░░█████╗░░██║░░██║  ██████╦╝░╚████╔╝░  ██║░░██║█████╗░░╚██╗░██╔╝░░░██║░░░█████╗░░██║░░╚═╝
+# ██║░░██╗██╔══██╗██╔══╝░░██╔══██║░░░██║░░░██╔══╝░░██║░░██║  ██╔══██╗░░╚██╔╝░░  ██║░░██║██╔══╝░░░╚████╔╝░░░░██║░░░██╔══╝░░██║░░██╗
+# ╚█████╔╝██║░░██║███████╗██║░░██║░░░██║░░░███████╗██████╔╝  ██████╦╝░░░██║░░░  ██████╔╝███████╗░░╚██╔╝░░░░░██║░░░███████╗╚█████╔╝
+# ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═════╝░  ╚═════╝░░░░╚═╝░░░  ╚═════╝░╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚══════╝░╚════╝░
+#
+# Links:
+#  Github: https://github.com/TheDevTec/AmazingFishing
+#  Discord: https://discord.io/spigotdevtec
+
+Options:
+  # AFK System
+  AFK:
+    Enabled: true
+    Time: "5min"
+    DisallowFishing: true
+    Action:
+      # Send message?
+      Start: []
+      # Clear title?
+      Stop: []
+      # Send title?
+      Afking: []
+  
+  # PointsManager types: VAULT, USER
+  PointsManager: "User"
+  Calculator:
+      # Default money calculation: ((%length% / 4 +%weight% / 4 + %money%)+((%length% / 4 +%weight% / 4 + %money%)/100)*%money_boost%) * %bonus%
+      # Default points calculation: ((%length% / 5 +%weight% / 5 + %points%)+((%length% / 5 +%weight% / 5 + %points%)/100)*%points_boost%) * %bonus%
+      # Default xp calculation: ((%length% / 4 +%weight% / 4 + %experiences%)+((%length% / 4 +%weight% / 4 + %experiences%)/100)*%exp_boost%) * %bonus%
+      # Default weight calculation: (%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)
+    weight: "(%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)"
+    money: "((%length% / 4 +%weight% / 4 + %money%)+((%length% / 4 +%weight% / 4 + %money%)/100)*%money_boost%) * %bonus%"
+    exps: "((%length% / 4 +%weight% / 4 + %experiences%)+((%length% / 4 +%weight% / 4 + %experiences%)/100)*%exp_boost%) * %bonus%"
+    points: "((%length% / 5 +%weight% / 5 + %points%)+((%length% / 5 +%weight% / 5 + %points%)/100)*%points_boost%) * %bonus%"
+    
+  Shop:
+    Enabled: true
+    SellFish: true
+    Sounds:
+      Shop-BuyItem: true
+
+  Sell:
+    DisableMoney: false
+    DisableXP: false
+    DisablePoints: false
+
+  Bag:
+    Enabled: true
+    # Locations: DATA, SQL
+    SaveLocation: "DATA"
+    MySQL:
+      Host: "localhost"
+      Database: "global"
+      Username: "admin"
+      Password: "admin"
+    OpenShop: true
+    # If you want to be able to sell fish from your bag you need to set 'SellFish' to true
+    SellFish: true
+  Enchants:
+    Enabled: true
+    
+# Preview text on click on fish in index
+Preview:
+- "&7Your records:"
+- "&7 Highest weight: &b%weight%"
+- "&7 Longest length: &b%length%"
+- "&7 Total caught: &b%caught%"
+
+# Editable name & aliases of main command
+Command:
+  Name: "amazingfish"
+  Permission: "amazingfishing.command"
+  Aliases:
+  - "fish"
+  - "afish"
+  - "fishmenu"
+
+# Tournaments:
+Tournament:
+  Type:
+    Amount:
+      Name: "&bAmount"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+    Length:
+      Name: "&bLength"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+    Weight:
+      Name: "&9Weight"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+    TotalLength:
+      Name: "&3TotalLength"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+    TotalWeight:
+      Name: "&3TotalWeight"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%"
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+    Random:
+      Name: "&6Random"
