@@ -80,11 +80,11 @@ public class Utils {
 	
 	static MaterialData find(String newName, String old, int data) {
 		try {
-			return Material.getMaterial(newName.toUpperCase()).getNewData((byte)0);
+			return new MaterialData(Material.getMaterial(newName.toUpperCase()));
 		}catch(Exception | NoSuchFieldError e) {
 			try {
-			if(data==0)return Material.getMaterial(old.toUpperCase()).getNewData((byte)0);
-			return Material.getMaterial(old.toUpperCase()).getNewData((byte)data);
+			if(data==0)return new MaterialData(Material.getMaterial(old.toUpperCase()));
+			return new MaterialData(Material.getMaterial(old.toUpperCase()),(byte)data);
 			}catch(Exception | NoSuchFieldError er) {
 				return null;
 			}
@@ -92,7 +92,7 @@ public class Utils {
 	}
 	
 	public static MaterialData getCachedMaterial(String name) {
-		return mat.getOrDefault(name.toUpperCase(), Material.STONE.getNewData((byte)0));
+		return mat.getOrDefault(name.toUpperCase(), new MaterialData(Material.STONE));
 	}
 	
 	public static boolean hasString(Object nbt) {

@@ -124,7 +124,7 @@ public class CatchFish implements Listener {
 					}
 				}
 			}
-		}
+		}else e.setCancelled(true);
 		}
 	}
 

@@ -70,7 +70,7 @@ public class AFKSystem {
 	}
 	
 	public static boolean isAFK(UUID p) {
-		return standing.getOrDefault(p, 0L)-afkTime<=0;
+		return afkTime-standing.getOrDefault(p, 0L)<=0;
 	}
 	
 	public static boolean isAFK(Player p) {
