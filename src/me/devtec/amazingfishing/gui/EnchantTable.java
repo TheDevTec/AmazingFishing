@@ -33,17 +33,6 @@ public class EnchantTable {
 					openEnchanterPlace(p, 0);
 				}
 			});
-
-			a.setItem(22, new ItemGUI(Create.createItem(Trans.enchant_retrive(), Material.FISHING_ROD)){
-				@Override
-				public void onClick(Player p, HolderGUI arg, ClickType type) {
-					if(Rod.saved(p)) {
-						ItemStack rod = Rod.getRod(p);
-						TheAPI.giveItem(p, rod);
-						Rod.deleteRod(p);
-					}
-				}
-			});
 			a.setItem(24,new ItemGUI(Create.createItem(Trans.enchant_upgrade(), Material.ANVIL)){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {

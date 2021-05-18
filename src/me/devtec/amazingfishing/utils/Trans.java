@@ -91,9 +91,6 @@ public class Trans {
 	public static String enchant_upgrade() {
 		return Loader.gui.getString("GUI.Enchant.Upgrade");
 	}
-	public static String enchant_retrive() {
-		return Loader.gui.getString("GUI.Enchant.Retriver_rod");
-	}
 	public static String enchant_selectRod_title() {
 		return Loader.gui.getString("GUI.Enchant.SelectRod_Title");
 	}

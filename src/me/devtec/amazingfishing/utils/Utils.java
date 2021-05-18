@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import me.devtec.amazingfishing.Loader;
+import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -89,6 +90,22 @@ public class Utils {
 				return null;
 			}
 		}
+	}
+	
+	public static void fixDefaultConfig() {
+		if(!TheAPI.isOlderThan(13))return;
+		Config c = Loader.gui;
+		boolean save = false;
+		if(c.getString("GUI.Settings.SendRecords.on.Item").equalsIgnoreCase("GREEN_CONCRETE")) {
+			c.set("GUI.Settings.SendRecords.on.Item", "CONCRETE:13");
+			save=true;
+		}
+		if(c.getString("GUI.Settings.SendRecords.off.Item").equalsIgnoreCase("RED_CONCRETE")) {
+			c.set("GUI.Settings.SendRecords.off.Item", "CONCRETE:14");
+			save=true;
+		}
+		if(save)
+		c.save();
 	}
 	
 	public static MaterialData getCachedMaterial(String name) {

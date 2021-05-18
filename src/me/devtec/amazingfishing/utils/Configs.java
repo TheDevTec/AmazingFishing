@@ -68,6 +68,7 @@ public class Configs {
 		Loader.treasur=loadOrReload(data,Loader.treasur, "Data/Treasures.yml");
 		Loader.enchant=loadOrReload(data,Loader.enchant, "Data/Enchantments.yml");
 		Utils.convertFiles();
+		Utils.fixDefaultConfig();
 	}
 
 	private static Data loadOrReload(Data data, Data d, String path) {
