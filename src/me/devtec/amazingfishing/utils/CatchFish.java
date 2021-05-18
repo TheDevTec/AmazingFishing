@@ -41,6 +41,7 @@ public class CatchFish implements Listener {
 			if(!Loader.config.getBoolean("Options.AFK.Enabled")||!AFKSystem.isAFK(e.getPlayer())||!Loader.config.getBoolean("Options.AFK.DisallowFishing")) {
 			Item item = (Item)e.getCaught();
 			if(API.isFishItem(item.getItemStack())) {
+				item.remove();
 				PercentageList<Fish> ff = generateRandom(e.getPlayer(), e.getHook().getLocation().getBlock().getBiome(),
 						e.getHook().getWorld().hasStorm(), e.getHook().getWorld().isThundering(), e.getHook().getWorld().getTime());
 				if(ff.isEmpty())return;
@@ -52,7 +53,6 @@ public class CatchFish implements Listener {
 				int am = list.chance*10 > 1 ? (int)list.chance*10 : 1;
 				if(am>list.max_amount)am=(int) list.max_amount;
 				double money=list.money, points=list.points, exp=list.exp;
-				item.remove();
 		        double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
 		        double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
 		        double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();

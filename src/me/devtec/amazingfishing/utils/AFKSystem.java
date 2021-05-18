@@ -19,12 +19,13 @@ import me.devtec.theapi.utils.StringUtils;
 public class AFKSystem {
 	private static int i;
 	private static long afkTime;
-	protected static Map<UUID, Long> standing = new HashMap<>();
+	protected static Map<UUID, Integer> standing = new HashMap<>();
 	protected static Map<UUID, Location> where = new HashMap<>();
 	protected static List<UUID> noticed = new ArrayList<>();
 	public static void load() {
 		if(!Loader.config.getBoolean("Options.AFK.Enabled"))return;
 		afkTime=StringUtils.timeFromString(Loader.config.getString("Options.AFK.Time"));
+		if(afkTime<=0)return;
 		i=new Tasker() {
 			public void run() {
 				for(Player p : TheAPI.getOnlinePlayers()) {
@@ -33,17 +34,17 @@ public class AFKSystem {
 						where.put(p.getUniqueId(), p.getLocation());
 					}else {
 						Location l = p.getLocation();
-						if(Math.abs(stand.getBlockX()-l.getBlockX())<=0
-								||Math.abs(stand.getBlockY()-l.getBlockY())<=0
-								||Math.abs(stand.getBlockZ()-l.getBlockZ())<=0) {
+						if(Math.abs(stand.getBlockX()-l.getBlockX())>0
+								||Math.abs(stand.getBlockY()-l.getBlockY())>0
+								||Math.abs(stand.getBlockZ()-l.getBlockZ())>0) {
 							where.put(p.getUniqueId(), l);
-							standing.put(p.getUniqueId(), 0L);
+							standing.put(p.getUniqueId(), 0);
 							if(noticed.contains(p.getUniqueId())) {
 								noticed.remove(p.getUniqueId());
 								Loader.onAfkStop(p);
 							}
 						}else {
-							standing.put(p.getUniqueId(), standing.get(p.getUniqueId())+1);
+							standing.put(p.getUniqueId(), standing.getOrDefault(p.getUniqueId(), 0)+1);
 							if(isAFK(p.getUniqueId())) {
 								if(!noticed.contains(p.getUniqueId())) {
 									noticed.add(p.getUniqueId());
@@ -70,7 +71,7 @@ public class AFKSystem {
 	}
 	
 	public static boolean isAFK(UUID p) {
-		return afkTime-standing.getOrDefault(p, 0L)<=0;
+		return afkTime<=0?false:afkTime-standing.getOrDefault(p, 0)<=0;
 	}
 	
 	public static boolean isAFK(Player p) {
