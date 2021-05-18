@@ -102,7 +102,7 @@ public class Utils {
 	public static void convertFiles() {
 		if(new File("plugins/AmazingFishing/Data.yml").exists()) {
 			Config c = new Config("AmazingFishing/Data.yml");
-			
+			c.getData().getFile().renameTo(new File("plugins/AmazingFishing/Data.yml-Backup"));
 			//FISH
 			for(String s : c.getKeys("fish.cod",true)) {
 				Loader.cod.set("cod."+s, c.get("fish.cod."+s));
@@ -134,6 +134,6 @@ public class Utils {
 	}
 
 	public static MaterialData createType(String s) {
-		return Material.getMaterial(s.split(":")[0].toUpperCase()).getNewData(s.contains(":")?(byte)StringUtils.getInt(s.split(":")[1]):(byte)0);
+		return new MaterialData(Material.getMaterial(s.split(":")[0].toUpperCase()), s.contains(":")?(byte)StringUtils.getInt(s.split(":")[1]):(byte)0);
 	}
 }

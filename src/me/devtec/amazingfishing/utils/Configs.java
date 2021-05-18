@@ -15,14 +15,6 @@ public class Configs {
 	
 	public static void load() {
 		Data data = new Data();
-		Loader.cod=loadOrReload(data,Loader.cod, "Fish/Cod.yml");
-		Loader.salmon=loadOrReload(data,Loader.salmon, "Fish/Salmon.yml");
-		Loader.puffer=loadOrReload(data,Loader.puffer, "Fish/Pufferfish.yml");
-		Loader.tropic=loadOrReload(data,Loader.tropic, "Fish/TropicalFish.yml");
-		Loader.quest=loadOrReload(data,Loader.quest, "Data/Quests.yml");
-		Loader.treasur=loadOrReload(data,Loader.treasur, "Data/Treasures.yml");
-		Loader.enchant=loadOrReload(data,Loader.enchant, "Data/Enchantments.yml");
-		Utils.convertFiles();
     	boolean change = false;
 		for(String s : datas) {
 			data.reset();
@@ -67,6 +59,15 @@ public class Configs {
 	    		break;
 	    	}
 		}
+		data.reset();
+		Loader.cod=loadOrReload(data,Loader.cod, "Fish/Cod.yml");
+		Loader.salmon=loadOrReload(data,Loader.salmon, "Fish/Salmon.yml");
+		Loader.puffer=loadOrReload(data,Loader.puffer, "Fish/Pufferfish.yml");
+		Loader.tropic=loadOrReload(data,Loader.tropic, "Fish/TropicalFish.yml");
+		Loader.quest=loadOrReload(data,Loader.quest, "Data/Quests.yml");
+		Loader.treasur=loadOrReload(data,Loader.treasur, "Data/Treasures.yml");
+		Loader.enchant=loadOrReload(data,Loader.enchant, "Data/Enchantments.yml");
+		Utils.convertFiles();
 	}
 
 	private static Data loadOrReload(Data data, Data d, String path) {

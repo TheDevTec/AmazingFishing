@@ -52,11 +52,11 @@ public interface Fish {
 
 	public ItemStack preview(Player p);
 	
-	public double getWeigth();
+	public double getWeight();
 
 	public double getLength();
 
-	public double getMinWeigth();
+	public double getMinWeight();
 
 	public double getMinLength();
 	

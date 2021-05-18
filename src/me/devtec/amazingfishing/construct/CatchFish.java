@@ -7,7 +7,7 @@ public interface CatchFish {
 
 	public Fish getFish();
 
-	public double getWeigth();
+	public double getWeight();
 
 	public double getLength();
 	

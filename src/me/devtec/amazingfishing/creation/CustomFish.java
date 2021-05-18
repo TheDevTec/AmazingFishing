@@ -47,8 +47,8 @@ public class CustomFish implements Fish {
 		map.put("permission", getPermission());
 		map.put("catch_time", getCatchTime().name().toLowerCase());
 		map.put("catch_weather", getCatchWeather().name().toLowerCase());
-		map.put("weight", getWeigth());
-		map.put("min_weight", getMinWeigth());
+		map.put("weight", getWeight());
+		map.put("min_weight", getMinWeight());
 		map.put("length", getLength());
 		map.put("min_length", getMinLength());
 		map.put("money", getMoney());
@@ -292,7 +292,7 @@ public class CustomFish implements Fish {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
 		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
-				.replace("%weight%", Loader.ff.format(getWeigth()))
+				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%biomes%", bc)
@@ -304,7 +304,7 @@ public class CustomFish implements Fish {
 		c.setDisplayName(nn);
 		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
-				.replace("%weight%", Loader.ff.format(getWeigth()))
+				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%name%", nn)
@@ -339,7 +339,7 @@ public class CustomFish implements Fish {
 	}
 
 	@Override
-	public double getWeigth() {
+	public double getWeight() {
 		return data.getDouble(path+"."+name+".weight");
 	}
 
@@ -349,8 +349,8 @@ public class CustomFish implements Fish {
 	}
 
 	@Override
-	public double getMinWeigth() {
-		return data.getDouble(path+"."+name+".minweigth");
+	public double getMinWeight() {
+		return data.getDouble(path+"."+name+".minweight");
 	}
 
 	@Override
@@ -378,8 +378,8 @@ public class CustomFish implements Fish {
 		return new CatchFish() {
 			
 			@Override
-			public double getWeigth() {
-				return data.getDouble("weigth");
+			public double getWeight() {
+				return data.getDouble("weight");
 			}
 			
 			@Override

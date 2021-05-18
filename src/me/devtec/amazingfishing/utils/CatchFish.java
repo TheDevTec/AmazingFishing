@@ -70,15 +70,15 @@ public class CatchFish implements Listener {
 						length=random.nextInt((int)f.getLength())+random.nextDouble();
 					}catch(Exception er) {}
 					try {
-						weight=StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeigth()+"")
-								.replace("%maxweight%", f.getWeigth()+"")
+						weight=StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight()+"")
+								.replace("%maxweight%", f.getWeight()+"")
 								.replace("%length%", length+"")
 								.replace("%maxlength%", f.getLength()+"").replace("%minlength%", f.getMinLength()+"")
-								.replace("%minweight%", f.getMinWeigth()+"")).doubleValue();
+								.replace("%minweight%", f.getMinWeight()+"")).doubleValue();
 					}catch(Exception er) {}
-					if(weight>f.getWeigth())weight=f.getWeigth();
+					if(weight>f.getWeight())weight=f.getWeight();
 					if(length>f.getLength())length=f.getLength();
-					if(weight<f.getMinWeigth())weight=f.getMinWeigth();
+					if(weight<f.getMinWeight())weight=f.getMinWeight();
 					if(length<f.getMinLength())length=f.getMinLength();
 					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, money, points, exp, e.getPlayer(), e.getHook().getLocation()));
 			        item.setVelocity(vec);
