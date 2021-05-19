@@ -1,0 +1,40 @@
+# ACHIEVEMENTS
+achievements:
+  common:
+    # Display Name of achievement
+    name: "&6&lSuperAchievement"
+    
+    # Icon of achievement
+    icon:
+      unfinished: "RED_WOOL"
+      finished: "GREEN_WOOL"
+    
+    # Description of achievement
+    description:
+    - "&6Great super duper quest"
+    - "&7"
+    - "&7Left click to accept quest"
+    - "&7Right click to cancel quest (if it is in progress)"
+
+    # Requirement of achievement (Starts from 1)
+    requirement:
+      # Placeholders: %player%, %achievement% (common), %achievement_name% (&6&lSuperAchievement)
+      # Commands on finish
+        commands:
+        - "pay %player% 500"
+        
+        # Messages on finish
+        messages:
+        - "%prefix% &6You have finished achievements %questname%"
+        
+        # Actions:
+        #   fishing: catch_fish, eat_fish, sell_fish
+        #   treasures: catch_treasure
+        action: "catch_fish"
+        
+        # Value: type_of_fish.name_of_fish -> cod.<name> -> cod.1
+        # Value: treasure.name_of_treasure -> treasure.<name> -> treasure.common
+        # Other: count (count of all fish or treasures) (all types)
+        value: "cod.1"
+        
+        amount: 3
