@@ -23,6 +23,7 @@ achievements:
         commands:
         - "pay %player% 500"
         
+        
         # Messages on finish
         messages:
         - "%prefix% &6You have finished achievements %questname%"
