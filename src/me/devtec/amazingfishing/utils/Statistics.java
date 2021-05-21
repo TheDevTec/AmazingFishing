@@ -9,6 +9,11 @@ import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.datakeeper.User;
 
 public class Statistics {
+	
+	/*
+	 * 		Fishing:
+	 */
+	
 	public static enum CaughtType {
 		GLOBAL, PER_TYPE, PER_FISH
 	}
@@ -33,6 +38,88 @@ public class Statistics {
 		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Caught", getCaught(p, f, CaughtType.PER_FISH)+1);
 		u.save();
 	}
+	
+	//Records
+	public static void addRecord(Player p, Fish f, double length, double weight) {
+		User user = TheAPI.getUser(p);
+		boolean cansend=!user.exist(Manager.getDataLocation()+".Settings.SendRecords")?true:user.getBoolean(Manager.getDataLocation()+".Settings.SendRecords");
+		double old;
+		if(f!=null) {
+			if(length!=0) {
+				old = getRecord(p, f, RecordType.LENGTH);
+				if(length > old) {
+					setNewRecord(user, f, RecordType.LENGTH, length);
+					if(cansend && old!=0)
+						for(String msg : Loader.trans.getStringList("NewRecord"))
+							Loader.msg(msg
+									.replace("%type%", "Length")
+									.replace("%new%", Loader.ff.format(length))
+									.replace("%old%", Loader.ff.format(old))
+									, p);
+				}
+			}
+			if(weight!=0) {
+				old = getRecord(p, f, RecordType.WEIGHT);
+				if(weight > old) {
+					setNewRecord(user, f, RecordType.WEIGHT, weight);
+					if(cansend && old!=0)
+						for(String msg : Loader.trans.getStringList("NewRecord"))
+							Loader.msg(msg
+								.replace("%type%", "Weight")
+								.replace("%new%", Loader.ff.format(weight))
+								.replace("%old%", Loader.ff.format(old))
+								, p);
+				}
+			}
+		}
+	}
+	
+	private static void setNewRecord(User u, Fish f, RecordType type, double record) {
+		u.setAndSave( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() , record);
+	}
+	public static double getRecord(Player p, Fish f, RecordType type) {
+		User u = TheAPI.getUser(p);
+		if(u.exist(Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() ))
+			return u.getDouble( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() );
+		return 0;
+	}
+	public enum RecordType{
+		LENGTH,
+		WEIGHT;
+	}
+	
+	/*
+	 * Eating
+	 */
+	
+	public static enum SavingType {
+		GLOBAL, PER_TYPE, PER_FISH
+	}
+	
+	public static int getEaten(Player p, Fish f, SavingType t) {
+		User u = TheAPI.getUser(p);
+		switch(t) {
+		case GLOBAL:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Eaten");
+		case PER_FISH:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Eaten");
+		case PER_TYPE:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Eaten");
+		}
+		return 0;
+	}
+
+	public static void addEating(Player p, Fish f) {
+		User u = TheAPI.getUser(p);
+		u.set(Manager.getDataLocation()+".Statistics.Fish.Eaten", getEaten(p, f, SavingType.GLOBAL)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Eaten", getEaten(p, f, SavingType.PER_TYPE)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Eaten", getEaten(p, f, SavingType.PER_FISH)+1);
+		u.save();
+	}
+	
+	/*
+	 * 		Tournaments:
+	 */
 	
 	public static void addTournamentData(Player p, TournamentType type ,int position) {
 		if(position>4) position=0;
@@ -74,52 +161,5 @@ public class Statistics {
 			u.set(Manager.getDataLocation()+".Statistics.Tournament."+type.name()+".Played", getTournamentPlayed(p, type)+1);
 		u.set(Manager.getDataLocation()+".Statistics.Tournament.Played", getTournamentPlayed(p, null)+1);
 		u.save();
-	}
-	
-	public static void addRecord(Player p, Fish f, double length, double weight) {
-		User user = TheAPI.getUser(p);
-		boolean cansend=!user.exist(Manager.getDataLocation()+".Settings.SendRecords")?true:user.getBoolean(Manager.getDataLocation()+".Settings.SendRecords");
-		double old;
-		if(f!=null) {
-			if(length!=0) {
-				old = getRecord(p, f, RecordType.LENGTH);
-				if(length > old) {
-					setNewRecord(user, f, RecordType.LENGTH, length);
-					if(cansend && old!=0)
-						for(String msg : Loader.trans.getStringList("NewRecord"))
-							Loader.msg(msg
-									.replace("%type%", "Length")
-									.replace("%new%", Loader.ff.format(length))
-									.replace("%old%", Loader.ff.format(old))
-									, p);
-				}
-			}
-			if(weight!=0) {
-				old = getRecord(p, f, RecordType.WEIGHT);
-				if(weight > old) {
-					setNewRecord(user, f, RecordType.WEIGHT, weight);
-					if(cansend && old!=0)
-						for(String msg : Loader.trans.getStringList("NewRecord"))
-							Loader.msg(msg
-								.replace("%type%", "Weight")
-								.replace("%new%", Loader.ff.format(weight))
-								.replace("%old%", Loader.ff.format(old))
-								, p);
-				}
-			}
-		}
-	}
-	private static void setNewRecord(User u, Fish f, RecordType type, double record) {
-		u.setAndSave( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() , record);
-	}
-	public static double getRecord(Player p, Fish f, RecordType type) {
-		User u = TheAPI.getUser(p);
-		if(u.exist(Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() ))
-			return u.getDouble( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() );
-		return 0;
-	}
-	public enum RecordType{
-		LENGTH,
-		WEIGHT;
 	}
 }
