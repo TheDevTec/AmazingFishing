@@ -19,9 +19,9 @@ public class Statistics {
 	 * 		Fishing:
 	 */
 	
-	public static int getCaught(Player p, Fish f, SavingType t) {
+	public static int getCaught(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
-		switch(t) {
+		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
 		case PER_FISH:
@@ -75,13 +75,13 @@ public class Statistics {
 		}
 	}
 	
-	private static void setNewRecord(User u, Fish f, RecordType type, double record) {
-		u.setAndSave( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() , record);
+	private static void setNewRecord(User u, Fish f, RecordType RecordType, double record) {
+		u.setAndSave( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+RecordType.name() , record);
 	}
-	public static double getRecord(Player p, Fish f, RecordType type) {
+	public static double getRecord(Player p, Fish f, RecordType RecordType) {
 		User u = TheAPI.getUser(p);
-		if(u.exist(Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() ))
-			return u.getDouble( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+type.name() );
+		if(u.exist(Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+RecordType.name() ))
+			return u.getDouble( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+RecordType.name() );
 		return 0;
 	}
 	public enum RecordType{
@@ -94,9 +94,9 @@ public class Statistics {
 	 */
 	
 
-	public static int getEaten(Player p, Fish f, SavingType t) {
+	public static int getEaten(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
-		switch(t) {
+		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Eaten");
 		case PER_FISH:
@@ -120,9 +120,9 @@ public class Statistics {
 	 */
 	
 	// Selling fish
-	public static int getSold(Player p, Fish f, SavingType t) {
+	public static int getSold(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
-		switch(t) {
+		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Sold");
 		case PER_FISH:
@@ -174,9 +174,9 @@ public class Statistics {
 	public static enum CaughtTreasuresType {
 		GLOBAL, PER_TREASURE
 	}
-	public static int getCaughtTreasures(Player p, Treasure treasure, CaughtTreasuresType t) {
+	public static int getCaughtTreasures(Player p, Treasure treasure, CaughtTreasuresType CaughtTreasuresType) {
 		User u = TheAPI.getUser(p);
-		switch(t) {
+		switch(CaughtTreasuresType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
 		case PER_TREASURE:
@@ -196,44 +196,44 @@ public class Statistics {
 	 * 		Tournaments:
 	 */
 	
-	public static void addTournamentData(Player p, TournamentType type ,int position) {
+	public static void addTournamentData(Player p, TournamentType TournamentType ,int position) {
 		if(position>4) position=0;
-		addTournamentPlacement(p, type, position);
-		addTournamentPlayed(p, type);
+		addTournamentPlacement(p, TournamentType, position);
+		addTournamentPlayed(p, TournamentType);
 	}
 	
-	public static int getTournamentPlacement(Player p, TournamentType type, int position) {
+	public static int getTournamentPlacement(Player p, TournamentType TournamentType, int position) {
 		User u = TheAPI.getUser(p);
-		if(type==null || position==0) {
+		if(TournamentType==null || position==0) {
 			if(!u.exist(Manager.getDataLocation()+".Statistics.Tournament.Placements")) return 0;
 			return u.getInt(Manager.getDataLocation()+".Statistics.Tournament.Placements");
 		}
 		else {
-			if(!u.exist(Manager.getDataLocation()+".Statistics.Tournament."+type.name()+".Placement."+position)) return 0;
-			return u.getInt(Manager.getDataLocation()+".Statistics.Tournament."+type.name()+".Placement."+position);
+			if(!u.exist(Manager.getDataLocation()+".Statistics.Tournament."+TournamentType.name()+".Placement."+position)) return 0;
+			return u.getInt(Manager.getDataLocation()+".Statistics.Tournament."+TournamentType.name()+".Placement."+position);
 		}
 	}
 
-	private static void addTournamentPlacement(Player p, TournamentType type, int position) {
+	private static void addTournamentPlacement(Player p, TournamentType TournamentType, int position) {
 		User u = TheAPI.getUser(p);
-		if(type!=null && position!=0) {
-			u.set(Manager.getDataLocation()+".Statistics.Tournament."+type.name()+".Placement."+position, getTournamentPlacement(p, type, position)+1);
+		if(TournamentType!=null && position!=0) {
+			u.set(Manager.getDataLocation()+".Statistics.Tournament."+TournamentType.name()+".Placement."+position, getTournamentPlacement(p, TournamentType, position)+1);
 		}
 		u.set(Manager.getDataLocation()+".Statistics.Tournament.Placements", getTournamentPlacement(p, null, 0)+1);
 		u.save();
 	}
 	
-	public static int getTournamentPlayed(Player p, TournamentType type) {
+	public static int getTournamentPlayed(Player p, TournamentType TournamentType) {
 		User u = TheAPI.getUser(p);
-		if(type==null)
+		if(TournamentType==null)
 			return u.getInt(Manager.getDataLocation()+".Statistics.Tournament.Played");
-		return u.getInt(Manager.getDataLocation()+".Statistics.Tournament."+type.name()+".Played");
+		return u.getInt(Manager.getDataLocation()+".Statistics.Tournament."+TournamentType.name()+".Played");
 		}
 
-	private static void addTournamentPlayed(Player p, TournamentType type) {
+	private static void addTournamentPlayed(Player p, TournamentType TournamentType) {
 		User u = TheAPI.getUser(p);
-		if(type!=null)
-			u.set(Manager.getDataLocation()+".Statistics.Tournament."+type.name()+".Played", getTournamentPlayed(p, type)+1);
+		if(TournamentType!=null)
+			u.set(Manager.getDataLocation()+".Statistics.Tournament."+TournamentType.name()+".Played", getTournamentPlayed(p, TournamentType)+1);
 		u.set(Manager.getDataLocation()+".Statistics.Tournament.Played", getTournamentPlayed(p, null)+1);
 		u.save();
 	}
