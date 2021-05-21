@@ -20,7 +20,11 @@ public class Bag {
 		me.devtec.amazingfishing.other.Bag bag = new me.devtec.amazingfishing.other.Bag(p);
 		GUI a = Create.setup(new GUI(Trans.bag_title(),54) {
 			public void onClose(Player arg0) {
-				bag.saveBag(this);
+				try {
+					bag.saveBag(this);
+				}catch(Exception err) {
+					err.printStackTrace();
+				}
 			}
 		}, f -> Help.open(f), Settings.WITHOUT_TOP);
 		if(Loader.config.getBoolean("Options.Shop.SellFish") && Loader.config.getBoolean("Options.Bag.SellFish")) {
