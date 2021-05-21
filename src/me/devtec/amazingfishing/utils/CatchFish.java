@@ -111,6 +111,7 @@ public class CatchFish implements Listener {
 					e.getHook().getWorld().hasStorm(), e.getHook().getWorld().isThundering(), e.getHook().getWorld().getTime());
 					if(treas != null) {
 						item.remove();
+						Statistics.addTreasure(e.getPlayer(), treas);
 						for(String s : treas.getMessages())
 							TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())
 									.replace("%chance%", fs.format(treas.getChance()))

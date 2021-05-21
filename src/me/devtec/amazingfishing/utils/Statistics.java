@@ -4,21 +4,22 @@ import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
+import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.datakeeper.User;
 
 public class Statistics {
 	
+	public static enum SavingType { //For Fishing, Eating, Selling (Shop)
+		GLOBAL, PER_TYPE, PER_FISH
+	}
+	
 	/*
 	 * 		Fishing:
 	 */
 	
-	public static enum CaughtType {
-		GLOBAL, PER_TYPE, PER_FISH
-	}
-	
-	public static int getCaught(Player p, Fish f, CaughtType t) {
+	public static int getCaught(Player p, Fish f, SavingType t) {
 		User u = TheAPI.getUser(p);
 		switch(t) {
 		case GLOBAL:
@@ -33,9 +34,9 @@ public class Statistics {
 
 	public static void addFish(Player p, Fish f) {
 		User u = TheAPI.getUser(p);
-		u.set(Manager.getDataLocation()+".Statistics.Fish.Caught", getCaught(p, f, CaughtType.GLOBAL)+1);
-		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Caught", getCaught(p, f, CaughtType.PER_TYPE)+1);
-		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Caught", getCaught(p, f, CaughtType.PER_FISH)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish.Caught", getCaught(p, f, SavingType.GLOBAL)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Caught", getCaught(p, f, SavingType.PER_TYPE)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Caught", getCaught(p, f, SavingType.PER_FISH)+1);
 		u.save();
 	}
 	
@@ -92,10 +93,7 @@ public class Statistics {
 	 * Eating
 	 */
 	
-	public static enum SavingType {
-		GLOBAL, PER_TYPE, PER_FISH
-	}
-	
+
 	public static int getEaten(Player p, Fish f, SavingType t) {
 		User u = TheAPI.getUser(p);
 		switch(t) {
@@ -114,6 +112,55 @@ public class Statistics {
 		u.set(Manager.getDataLocation()+".Statistics.Fish.Eaten", getEaten(p, f, SavingType.GLOBAL)+1);
 		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Eaten", getEaten(p, f, SavingType.PER_TYPE)+1);
 		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Eaten", getEaten(p, f, SavingType.PER_FISH)+1);
+		u.save();
+	}
+	
+	/*
+	 * Shop (Selling)
+	 */
+	
+	public static int getSold(Player p, Fish f, SavingType t) {
+		User u = TheAPI.getUser(p);
+		switch(t) {
+		case GLOBAL:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Sold");
+		case PER_FISH:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Sold");
+		case PER_TYPE:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Sold");
+		}
+		return 0;
+	}
+
+	public static void addSelling(Player p, Fish f) {
+		User u = TheAPI.getUser(p);
+		u.set(Manager.getDataLocation()+".Statistics.Fish.Sold", getSold(p, f, SavingType.GLOBAL)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Sold", getSold(p, f, SavingType.PER_TYPE)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Sold", getSold(p, f, SavingType.PER_FISH)+1);
+		u.save();
+	}
+	
+	/*
+	 * 		Treasures:
+	 */
+	public static enum CaughtTreasuresType {
+		GLOBAL, PER_TREASURE
+	}
+	public static int getCaughtTreasures(Player p, Treasure treasure, CaughtTreasuresType t) {
+		User u = TheAPI.getUser(p);
+		switch(t) {
+		case GLOBAL:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
+		case PER_TREASURE:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures."+treasure.getName()+".Caught");
+		}
+		return 0;
+	}
+
+	public static void addTreasure(Player p, Treasure treasure) {
+		User u = TheAPI.getUser(p);
+		u.set(Manager.getDataLocation()+".Statistics.Treasures.Caught", getCaughtTreasures(p, treasure, CaughtTreasuresType.GLOBAL)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Treasures."+treasure.getName()+".Caught", getCaughtTreasures(p, treasure, CaughtTreasuresType.PER_TREASURE)+1);
 		u.save();
 	}
 	

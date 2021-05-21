@@ -17,6 +17,7 @@ import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Quests;
+import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
@@ -224,6 +225,7 @@ public class Shop {
 			i.remove(d);
 			NMSAPI.postToMainThread(new Runnable() {
 				public void run() {
+					Statistics.addSelling(p, f.getFish());
 			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName());
 				}});
 		}
