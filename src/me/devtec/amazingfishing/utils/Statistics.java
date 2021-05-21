@@ -119,6 +119,7 @@ public class Statistics {
 	 * Shop (Selling)
 	 */
 	
+	// Selling fish
 	public static int getSold(Player p, Fish f, SavingType t) {
 		User u = TheAPI.getUser(p);
 		switch(t) {
@@ -137,6 +138,33 @@ public class Statistics {
 		u.set(Manager.getDataLocation()+".Statistics.Fish.Sold", getSold(p, f, SavingType.GLOBAL)+1);
 		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Sold", getSold(p, f, SavingType.PER_TYPE)+1);
 		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Sold", getSold(p, f, SavingType.PER_FISH)+1);
+		u.save();
+	}
+	
+	//Gaining moneys, xps, points
+	//Value of total earnings from selling fish
+	
+	public static enum gainedType {
+		MONEY, POINTS, EXP;
+	}
+	public static Double getGainedValues(Player p, gainedType gainedType) { //Value of total earnings from selling fish 
+		User u = TheAPI.getUser(p);
+		switch(gainedType) {
+		case EXP:
+			return u.getDouble(Manager.getDataLocation()+".Statistics.Shop.Gained.Exp");
+		case MONEY:
+			return u.getDouble(Manager.getDataLocation()+".Statistics.Shop.Gained.Money");
+		case POINTS:
+			return u.getDouble(Manager.getDataLocation()+".Statistics.Shop.Gained.Points");
+		}
+		return 0.0;
+	}
+	
+	public static void addSellingValues(Player player, double money, double points, double exp) { //Value of total earnings from selling fish 
+		User u = TheAPI.getUser(player);
+		u.set(Manager.getDataLocation()+".Statistics.Shop.Gained.Money", getGainedValues(player, gainedType.MONEY)+money);
+		u.set(Manager.getDataLocation()+".Statistics.Shop.Gained.Points", getGainedValues(player, gainedType.POINTS)+points);
+		u.set(Manager.getDataLocation()+".Statistics.Shop.Gained.Exp", getGainedValues(player, gainedType.EXP)+exp);
 		u.save();
 	}
 	

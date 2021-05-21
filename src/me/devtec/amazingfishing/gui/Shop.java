@@ -225,7 +225,7 @@ public class Shop {
 			i.remove(d);
 			NMSAPI.postToMainThread(new Runnable() {
 				public void run() {
-					Statistics.addSelling(p, f.getFish());
+					Statistics.addSelling(p, f.getFish()); //Adding fish to Selling statistics
 			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName());
 				}});
 		}
@@ -238,6 +238,7 @@ public class Shop {
 			EconomyAPI.depositPlayer(p, totalMoney);
 			p.giveExp((int)totalExp);
 
+			Statistics.addSellingValues(p, totalMoney, totalPoints, totalExp);
 			
 			for(String msg: Loader.trans.getStringList("SoldFish")) {
 				Loader.msg(msg.replace("%amount%", sel+"").replace("%exp%", Loader.ff.format(totalExp))
