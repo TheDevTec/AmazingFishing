@@ -12,8 +12,8 @@ import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Statistics;
-import me.devtec.amazingfishing.utils.Statistics.CaughtType;
 import me.devtec.amazingfishing.utils.Statistics.RecordType;
+import me.devtec.amazingfishing.utils.Statistics.SavingType;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
@@ -62,7 +62,7 @@ public class Index {
 					List<String> prew = Loader.config.getStringList("Preview");
 					prew.replaceAll(a -> PlaceholderAPI.setPlaceholders(player, a.replace("%weight%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.WEIGHT)))
 							.replace("%length%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.LENGTH)))
-							.replace("%caught%", Loader.intt.format(Statistics.getCaught(player, f, CaughtType.PER_FISH)))));
+							.replace("%caught%", Loader.intt.format(Statistics.getCaught(player, f, SavingType.PER_FISH)))));
 					for(String sd : prew)
 					TheAPI.sendMessage(sd, player);
 				}

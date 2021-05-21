@@ -147,7 +147,7 @@ public class Statistics {
 	public static enum gainedType {
 		MONEY, POINTS, EXP;
 	}
-	public static Double getGainedValues(Player p, gainedType gainedType) { //Value of total earnings from selling fish 
+	public static Double getGainedValues(Player p, gainedType gainedType) { //Values of total earnings from selling fish 
 		User u = TheAPI.getUser(p);
 		switch(gainedType) {
 		case EXP:
