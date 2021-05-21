@@ -15,6 +15,7 @@ import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.scheduler.Scheduler;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
+import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class AFKSystem {
 	private static int i;
@@ -28,33 +29,35 @@ public class AFKSystem {
 		if(afkTime<=0)return;
 		i=new Tasker() {
 			public void run() {
-				for(Player p : TheAPI.getOnlinePlayers()) {
-					Location stand = where.get(p.getUniqueId());
-					if(stand==null) {
-						where.put(p.getUniqueId(), p.getLocation());
-					}else {
-						Location l = p.getLocation();
-						if(Math.abs(stand.getBlockX()-l.getBlockX())>0
-								||Math.abs(stand.getBlockY()-l.getBlockY())>0
-								||Math.abs(stand.getBlockZ()-l.getBlockZ())>0) {
-							where.put(p.getUniqueId(), l);
-							standing.put(p.getUniqueId(), 0);
-							if(noticed.contains(p.getUniqueId())) {
-								noticed.remove(p.getUniqueId());
-								Loader.onAfkStop(p);
-							}
+				try {
+					for(Player p : TheAPI.getOnlinePlayers()) {
+						Location stand = where.get(p.getUniqueId());
+						if(stand==null) {
+							where.put(p.getUniqueId(), p.getLocation());
 						}else {
-							standing.put(p.getUniqueId(), standing.getOrDefault(p.getUniqueId(), 0)+1);
-							if(isAFK(p.getUniqueId())) {
-								if(!noticed.contains(p.getUniqueId())) {
-									noticed.add(p.getUniqueId());
-									Loader.onAfkStart(p);
-								}else
-									Loader.onAfk(p);
+							Location l = p.getLocation();
+							if(Math.abs(stand.getBlockX()-l.getBlockX())>0
+									||Math.abs(stand.getBlockY()-l.getBlockY())>0
+									||Math.abs(stand.getBlockZ()-l.getBlockZ())>0) {
+								where.put(p.getUniqueId(), l);
+								standing.put(p.getUniqueId(), 0);
+								if(noticed.contains(p.getUniqueId())) {
+									noticed.remove(p.getUniqueId());
+									NMSAPI.postToMainThread(() -> Loader.onAfkStop(p));
+								}
+							}else {
+								standing.put(p.getUniqueId(), standing.getOrDefault(p.getUniqueId(), 0)+1);
+								if(isAFK(p.getUniqueId())) {
+									if(!noticed.contains(p.getUniqueId())) {
+										noticed.add(p.getUniqueId());
+										NMSAPI.postToMainThread(() -> Loader.onAfkStart(p));
+									}else
+										NMSAPI.postToMainThread(() -> Loader.onAfk(p));
+								}
 							}
 						}
 					}
-				}
+				}catch(Exception err) {err.printStackTrace();}
 			}
 		}.runRepeating(0, 20);
 	}

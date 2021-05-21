@@ -77,9 +77,16 @@ public class Bag {
 			List<ItemStack> list = new ArrayList<>();
 			for(int slot = 0; slot < 45; ++slot) {
 				if(i.getItem(slot)==null)continue;
+				if(!API.isFishItem(i.getItem(slot))) {
+					TheAPI.giveItem(player, i.getItem(slot));
+					continue;
+				}
 				Fish fish = API.getFish(i.getItem(slot));
-				if(fish==null)TheAPI.giveItem(player, i.getItem(slot));
-				else list.add(i.getItem(slot));
+				if(fish==null) {
+					TheAPI.giveItem(player, i.getItem(slot));
+					continue;
+				}
+				list.add(i.getItem(slot));
 			}
 			sql.execute("delete from amazingfishing where name='"+u.getName().toLowerCase()+"'");
 			for(ItemStack stack : list)
@@ -88,9 +95,16 @@ public class Bag {
 			List<ItemStack> list = new ArrayList<>();
 			for(int slot = 0; slot < 45; ++slot) {
 				if(i.getItem(slot)==null)continue;
+				if(!API.isFishItem(i.getItem(slot))) {
+					TheAPI.giveItem(player, i.getItem(slot));
+					continue;
+				}
 				Fish fish = API.getFish(i.getItem(slot));
-				if(fish==null)TheAPI.giveItem(player, i.getItem(slot));
-				else list.add(i.getItem(slot));
+				if(fish==null) {
+					TheAPI.giveItem(player, i.getItem(slot));
+					continue;
+				}
+				list.add(i.getItem(slot));
 			}
 			u.set(Manager.getDataLocation()+".Bag", list);
 			u.save();
