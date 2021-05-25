@@ -21,7 +21,7 @@ achievements:
         
     # Messages on finish
     messages:
-    - "%prefix% &6You have finished achievements %questname%"
+    - "%prefix% &6You have finished achievements %achievement_name%"
 
     # Requirement of achievement (Starts from 0)
     requirement:

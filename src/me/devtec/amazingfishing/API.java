@@ -17,7 +17,7 @@ import me.devtec.amazingfishing.utils.points.PointsManager;
 import me.devtec.theapi.utils.datakeeper.Data;
 
 public class API {
-	protected static Map<String, Fish> fish = new HashMap<>();
+	public static Map<String, Fish> fish = new HashMap<>();
 	protected static Map<String, Treasure> treasure = new HashMap<>();
 	protected static Material cod = find("COD",0), salmon = find("SALMON",1)
 			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3);

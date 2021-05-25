@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
@@ -146,13 +145,10 @@ public class Achievements {
     # Other: all; type_of_fish -> cod (just type)
 	 */
 	public static void add(Player p, String value) {
-		Bukkit.broadcastMessage(value);
-		
 		for(Achievement achievement: achievements.values()) { // Achievements
 			if(isFinished(p, achievement)) continue;
 			
 			for (int i = 0; i < achievement.getRequirement(); ++i) { // Stages / Requirement thinks
-				TheAPI.bcMsg(i+":"+achievement.name);
 				if(stageIsFinished(p, achievement, i))
 					continue;
 				String action = achievement.getAction(i);
@@ -162,7 +158,6 @@ public class Achievements {
 				if( (action.equalsIgnoreCase("catch_fish")||action.equalsIgnoreCase("eat_fish")||action.equalsIgnoreCase("sell_fish")) && 
 						(value.startsWith("cod")||value.startsWith("pufferfish")||value.startsWith("salmon")||
 								value.startsWith("tropicalfish")||value.startsWith("tropical_fish")) ) {
-					Bukkit.broadcastMessage("1");
 					String[] s = value.split("[.]"); // type.name
 					SavingType type = null;
 					if(val.equalsIgnoreCase(value)) // Určitá ryba
@@ -172,14 +167,9 @@ public class Achievements {
 					if(val.equalsIgnoreCase( s[0] )) // Všechny ryby určitého typu
 						//TODO - OTESTOVAT jestli to vůbec takto funguje
 						type= SavingType.PER_TYPE;
-
-					Bukkit.broadcastMessage("2:"+action);
-					Bukkit.broadcastMessage("2.5:"+s[1]+" ; "+s[0]);
 					if(action.equalsIgnoreCase("catch_fish")&&
-							( Statistics.getCaught(p, s[1], s[0].toUpperCase(), type)>=achievement.getAmount(i) ) ) {
-						Bukkit.broadcastMessage("3");
+							( Statistics.getCaught(p, s[1], s[0], type)>=achievement.getAmount(i) ) ) {
 						setStageFinished(p, achievement, i);
-						Bukkit.broadcastMessage("4");
 						continue;
 					}
 					if(action.equalsIgnoreCase("eat_fish")&&

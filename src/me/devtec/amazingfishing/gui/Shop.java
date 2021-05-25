@@ -226,7 +226,7 @@ public class Shop {
 			i.remove(d);
 			NMSAPI.postToMainThread(new Runnable() {
 				public void run() {
-					Statistics.addSelling(p, f.getFish()); //Adding fish to Selling statistics
+					Statistics.addSelling(p, f.getFish(), d.getAmount()); //Adding fish to Selling statistics
 			        Achievements.check(p, f);
 			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName());
 				}});

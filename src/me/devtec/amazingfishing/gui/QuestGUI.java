@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
+import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.utils.Create;
@@ -89,6 +90,7 @@ public class QuestGUI {
 				}
 			});
 		}
+		}
 		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Utils.getCachedMaterial("BLUE_CONCRETE_POWDER"))) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
@@ -97,7 +99,6 @@ public class QuestGUI {
 			}
 		});
 		a.open(player);
-		}
 	}
 	private static void openMyQuests(Player p, int page) {
 		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f));
@@ -118,7 +119,7 @@ public class QuestGUI {
 			
 			int stage = u.getInt("af-quests."+quest+".stage");
 			String[] ss = q.getValue(stage).split("\\.");
-			String name = "none";
+			String name = (API.fish.get( ss[0]+"."+ss[1] )).getDisplayName(); // TODO - NEFUNGUJE
 			try{
 				Loader.getData(FishType.valueOf(ss[0].toUpperCase())).getString(ss[0].toLowerCase()+"."+ss[1]+".name");
 			}catch(Exception | NoSuchFieldError err) {}

@@ -37,9 +37,9 @@ public class Statistics {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught"); //All fishes
 		case PER_FISH:
-			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+"."+fish+".Caught");
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type.toUpperCase()+"."+fish+".Caught");
 		case PER_TYPE:
-			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+".Caught");
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type.toUpperCase()+".Caught");
 		}
 		return 0;
 	}
@@ -167,14 +167,21 @@ public class Statistics {
 		return 0;
 	}
 
-	public static void addSelling(Player p, Fish f) {
+	public static void addSelling(Player p, Fish fish) {
 		User u = TheAPI.getUser(p);
-		u.set(Manager.getDataLocation()+".Statistics.Fish.Sold", getSold(p, f, SavingType.GLOBAL)+1);
-		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Sold", getSold(p, f, SavingType.PER_TYPE)+1);
-		u.set(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Sold", getSold(p, f, SavingType.PER_FISH)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish.Sold", getSold(p, fish, SavingType.GLOBAL)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+fish.getType().name()+".Sold", getSold(p, fish, SavingType.PER_TYPE)+1);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+fish.getType().name()+"."+fish.getName()+".Sold", getSold(p, fish, SavingType.PER_FISH)+1);
 		u.save();
 	}
-	
+	public static void addSelling(Player p, Fish fish, int amount) {
+		User u = TheAPI.getUser(p);
+		u.set(Manager.getDataLocation()+".Statistics.Fish.Sold", getSold(p, fish, SavingType.GLOBAL)+amount);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+fish.getType().name()+".Sold", getSold(p, fish, SavingType.PER_TYPE)+amount);
+		u.set(Manager.getDataLocation()+".Statistics.Fish."+fish.getType().name()+"."+fish.getName()+".Sold", getSold(p, fish, SavingType.PER_FISH)+amount);
+		u.save();
+		
+	}
 	//Gaining moneys, xps, points
 	//Value of total earnings from selling fish
 	
