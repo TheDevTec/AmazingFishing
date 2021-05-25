@@ -87,6 +87,7 @@ public class CatchFish implements Listener {
 			        Tournament t= TournamentManager.get(e.getPlayer().getWorld());
 			        if(t!=null)t.catchFish(e.getPlayer(), f, weight, length);
 			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName());
+			        Achievements.check(e.getPlayer(), f);
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())
 								.replace("%chance%", fs.format(f.getChance()))
@@ -112,6 +113,7 @@ public class CatchFish implements Listener {
 					if(treas != null) {
 						item.remove();
 						Statistics.addTreasure(e.getPlayer(), treas);
+						 Achievements.check(e.getPlayer(), treas);
 						for(String s : treas.getMessages())
 							TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())
 									.replace("%chance%", fs.format(treas.getChance()))

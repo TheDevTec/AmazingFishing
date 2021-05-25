@@ -11,31 +11,45 @@ achievements:
     
     # Description of achievement
     description:
-    - "&6Great super duper quest"
+    - "&6&lSuperAchievement"
     - "&7"
-    - "&7Left click to accept quest"
-    - "&7Right click to cancel quest (if it is in progress)"
+    
+    # Placeholders: %player%, %achievement% (common), %achievement_name% (&6&lSuperAchievement)
+    # Commands on finish
+    commands:
+    - "pay %player% 500"
+        
+    # Messages on finish
+    messages:
+    - "%prefix% &6You have finished achievements %questname%"
 
-    # Requirement of achievement (Starts from 1)
+    # Requirement of achievement (Starts from 0)
     requirement:
-      # Placeholders: %player%, %achievement% (common), %achievement_name% (&6&lSuperAchievement)
-      # Commands on finish
-        commands:
-        - "pay %player% 500"
-        
-        
-        # Messages on finish
-        messages:
-        - "%prefix% &6You have finished achievements %questname%"
-        
+      0:
         # Actions:
         #   fishing: catch_fish, eat_fish, sell_fish
         #   treasures: catch_treasure
+        #   shop: gained_money, gained_points, gained_xp
+        #   other: catch_all (fish or treasure)
         action: "catch_fish"
         
         # Value: type_of_fish.name_of_fish -> cod.<name> -> cod.1
         # Value: treasure.name_of_treasure -> treasure.<name> -> treasure.common
-        # Other: count (count of all fish or treasures) (all types)
+        # Other: all; type_of_fish -> cod (just type)
         value: "cod.1"
         
-        amount: 3
+        amount: 20
+      1:
+        # Actions:
+        #   fishing: catch_fish, eat_fish, sell_fish
+        #   treasures: catch_treasure
+        #   shop: gained_money, gained_points, gained_xp
+        #   other: catch_all (fish or treasure)
+        action: "sell_fish"
+        
+        # Value: type_of_fish.name_of_fish -> cod.<name> -> cod.1
+        # Value: treasure.name_of_treasure -> treasure.<name> -> treasure.common
+        # Other: all; type_of_fish -> cod (just type)
+        value: "cod.1"
+        
+        amount: 20

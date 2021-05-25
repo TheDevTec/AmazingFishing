@@ -24,6 +24,8 @@ import me.devtec.amazingfishing.creation.CustomEnchantment;
 import me.devtec.amazingfishing.creation.CustomFish;
 import me.devtec.amazingfishing.creation.CustomTreasure;
 import me.devtec.amazingfishing.utils.AFKSystem;
+import me.devtec.amazingfishing.utils.Achievements;
+import me.devtec.amazingfishing.utils.Achievements.Achievement;
 import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Configs;
@@ -50,7 +52,7 @@ public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
 	public static Config trans, config, gui, shop;
-	public static Data cod,puffer,tropic,salmon,quest,treasur, enchant;
+	public static Data cod,puffer,tropic,salmon,quest,treasur, enchant, achievements;
 	static String prefix;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public static ItemStack next = ItemCreatorAPI.createHeadByValues(1, "&cNext", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmNTVmMWIzMmMzNDM1YWMxYWIzZTVlNTM1YzUwYjUyNzI4NWRhNzE2ZTU0ZmU3MDFjOWI1OTM1MmFmYzFjIn19fQ=="), prev = ItemCreatorAPI.createHeadByValues(1, "&cPrevious", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0=");
@@ -125,6 +127,7 @@ public class Loader extends JavaPlugin {
 			puffer.reload(puffer.getFile());
 			tropic.reload(tropic.getFile());
 			quest.reload(quest.getFile());
+			achievements.reload(achievements.getFile());
 			treasur.reload(treasur.getFile());
 			enchant.reload(enchant.getFile());
 			config.reload();
@@ -265,6 +268,28 @@ public class Loader extends JavaPlugin {
 		toReg.clear();
 		removeE.clear();
 				
+		//ACHIEVEMENTS
+		
+		//PRE-LOAD
+		toReg = new ArrayList<>(achievements.getKeys("achievements"));
+			
+		//REMOVE-NOT-LOADED
+		for(Entry<String, Achievement> ach : Achievements.achievements.entrySet())
+			if(ach.getValue().getClass()==Achievement.class)
+				if(!toReg.contains(ach.getKey()))
+					removeE.add(ach.getKey());
+		for(String s : removeE)
+			Achievements.achievements.remove(s);
+
+		//REGISTER-NOT-LOADED
+		for(String s : toReg)
+			Achievements.register(new Achievement(s, achievements));
+			
+		//CLEAR-CACHE
+		TheAPI.msg(prefix+" Achievements registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+		toReg.clear();
+		removeE.clear();
+		
 		API.onReload.forEach(a->a.run());
 	}
 	

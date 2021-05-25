@@ -65,6 +65,7 @@ public class Configs {
 		Loader.puffer=loadOrReload(data,Loader.puffer, "Fish/Pufferfish.yml");
 		Loader.tropic=loadOrReload(data,Loader.tropic, "Fish/TropicalFish.yml");
 		Loader.quest=loadOrReload(data,Loader.quest, "Data/Quests.yml");
+		Loader.achievements=loadOrReload(data,Loader.achievements, "Data/Achievements.yml");
 		Loader.treasur=loadOrReload(data,Loader.treasur, "Data/Treasures.yml");
 		Loader.enchant=loadOrReload(data,Loader.enchant, "Data/Enchantments.yml");
 		Utils.convertFiles();

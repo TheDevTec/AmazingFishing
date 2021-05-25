@@ -23,7 +23,7 @@ public class Statistics {
 		User u = TheAPI.getUser(p);
 		switch(SavingType) {
 		case GLOBAL:
-			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught"); //All fishes
 		case PER_FISH:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Caught");
 		case PER_TYPE:
@@ -31,7 +31,18 @@ public class Statistics {
 		}
 		return 0;
 	}
-
+	public static int getCaught(Player p, String fish, String type, SavingType SavingType) {//TODO - kontrola zda je ten typ ryby s velkýma nebo malýma písmenkama!!
+		User u = TheAPI.getUser(p);
+		switch(SavingType) {
+		case GLOBAL:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught"); //All fishes
+		case PER_FISH:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+"."+fish+".Caught");
+		case PER_TYPE:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+".Caught");
+		}
+		return 0;
+	}
 	public static void addFish(Player p, Fish f) {
 		User u = TheAPI.getUser(p);
 		u.set(Manager.getDataLocation()+".Statistics.Fish.Caught", getCaught(p, f, SavingType.GLOBAL)+1);
@@ -93,7 +104,6 @@ public class Statistics {
 	 * Eating
 	 */
 	
-
 	public static int getEaten(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
 		switch(SavingType) {
@@ -103,6 +113,18 @@ public class Statistics {
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Eaten");
 		case PER_TYPE:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Eaten");
+		}
+		return 0;
+	}
+	public static int getEaten(Player p, String fish, String type, SavingType SavingType) {
+		User u = TheAPI.getUser(p);
+		switch(SavingType) {
+		case GLOBAL:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Eaten");
+		case PER_FISH:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+"."+fish+".Eaten");
+		case PER_TYPE:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+".Eaten");
 		}
 		return 0;
 	}
@@ -129,6 +151,18 @@ public class Statistics {
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+"."+f.getName()+".Sold");
 		case PER_TYPE:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+f.getType().name()+".Sold");
+		}
+		return 0;
+	}
+	public static int getSold(Player p, String fish, String type, SavingType SavingType) {
+		User u = TheAPI.getUser(p);
+		switch(SavingType) {
+		case GLOBAL:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Sold");
+		case PER_FISH:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+"."+fish+".Sold");
+		case PER_TYPE:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type+".Sold");
 		}
 		return 0;
 	}
@@ -181,6 +215,16 @@ public class Statistics {
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
 		case PER_TREASURE:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures."+treasure.getName()+".Caught");
+		}
+		return 0;
+	}
+	public static int getCaughtTreasures(Player p, String treasure, CaughtTreasuresType CaughtTreasuresType) {
+		User u = TheAPI.getUser(p);
+		switch(CaughtTreasuresType) {
+		case GLOBAL:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
+		case PER_TREASURE:
+			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures."+treasure+".Caught");
 		}
 		return 0;
 	}

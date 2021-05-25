@@ -19,6 +19,7 @@ public class EatFish implements Listener {
 			if(f!=null) {
 		        Quests.addProgress(e.getPlayer(), "eat_fish", f.getType().name().toLowerCase()+"."+f.getName());
 		        Statistics.addEating(e.getPlayer(), f);
+		        Achievements.check(e.getPlayer(), f);
 				for(String s : f.getMessages(FishAction.EAT))
 					TheAPI.msg(PlaceholderAPI.setPlaceholders(e.getPlayer(), s
 							.replace("%name%", f.getDisplayName())
