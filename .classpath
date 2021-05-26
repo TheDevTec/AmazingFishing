@@ -7,6 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/spigot-1.16.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ADAMB/OneDrive/Plocha/Pluginy/TheAPI.jar"/>
+	<classpathentry kind="lib" path="C:/EclipseUtils/TheAPI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
