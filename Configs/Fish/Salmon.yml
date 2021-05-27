@@ -1,0 +1,86 @@
+# salmon:
+  # 1:
+    # Display name of fish
+    # name: "&dSalmon"
+    
+    # Model data of fish (For custom resource pack)
+    # model: 1
+    
+    # Chance to catch this fish
+    # chance: 50.0
+    
+    # Remove this to catch fish without perms
+    # permission: "amazingfishing.fish.carp"
+    
+    # Lore placeholders: %length%, %weight%, %chance%, %name%, %biomes%, %biome%, %x%, %y%, %z%, %world%
+    # Other placeholders: %player% - just players name, %displayname% - Players display name
+    # lore:
+    # - "&7Weight: &f%weight%"
+    # - "&7Length: &f%length%"
+    # - "&7Chance: &f%chance%"
+    # - "&7Caught by: &f%displayname%"
+    # - "&7Caught in biome: &f%biome%"
+    # - "&7Caught on location: &f%x% %y% %z% %world%"
+    
+    # Preview of fish in the /fish -> Index (Fish list)
+    # preview:
+      # name: "&dSalmon"
+      # lore:
+      # - "&7Chance: &f%chance%"
+      # - "&7Max weight: &f%weight%"
+      # - "&7Max length: &f%length%"
+      # - "&7Catch:"
+      # - "&7 Time: &fEVERY"
+      # - "&7 Weather: &fEVERY"
+      # - "&7 Biomes: &fRIVER, FOREST"
+      
+    # A biomes in which fish can be caught - empty list for every biome
+    # List of biomes: 
+    #  - (1.16) https://pastebin.com/9X5LRnSq
+    #  - (1.12) https://pastebin.com/ejKGGq4D
+    # biomes:
+    # - "RIVER"
+    # - "FOREST"
+    # blockedbiomes:
+    # - "DESERT"
+    
+    # The moment when the fish can be caught (weather & time)
+    # catch:
+      # Types: DAY | NIGHT | EVERY
+      # time: EVERY
+      # Types: SUN | RAIN | THUNDER | EVERY
+      # weather: EVERY
+    
+    # List of messages on catch & eat
+    # messages:
+      # catch:
+      # - "&eYou catch %name% fish!"
+      # - "&eFish is &6%length% cm&e long and weighs &6%weight% kg"
+      # eat:
+      # - "&eYou ate %name% fish!"
+     
+    # List of commands on catch & eat
+    # commands:
+      # catch: []
+      # eat: []
+      
+    # * Stats *
+    
+    # Weight
+    # weight: 45.5
+    # minweigth: 5.5
+    
+    # Length
+    # length: 80.7
+    # minlength: 8.7
+    
+    # Shop
+    # money: 5.5
+    # points: 5.5
+    # xp: 10.5
+    # Custom calculator for shop & weight - remove this calculaator to use global calculator from Config.yml
+    # calculator:
+      # money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
+      # exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
+      # points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+      # weight: "(%length%-(%minweight%/%minlength%))/(%maxweight%/%maxlength%)"
