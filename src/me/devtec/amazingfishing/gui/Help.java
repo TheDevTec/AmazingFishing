@@ -68,6 +68,8 @@ public class Help {
 					}
 				}
 			});
+
+		if(p.hasPermission("amazingfishing.quests"))
 		a.setItem(20,new ItemGUI(Create.createItem(Trans.help_player_quests(), Material.BOOK)){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
@@ -76,7 +78,16 @@ public class Help {
 				}
 			}
 		});
-		//TODO - udělat achievmenty!
+
+		if(p.hasPermission("amazingfishing.achievements"))
+		a.setItem(29,new ItemGUI(Create.createItem(Trans.help_player_achievements(), Material.SUNFLOWER)){
+			@Override
+			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
+				if(p.hasPermission("amazingfishing.achievements")) {
+					AchievementGUI.open(p);
+				}
+			}
+		});
 		a.open(p);
 	
 	}

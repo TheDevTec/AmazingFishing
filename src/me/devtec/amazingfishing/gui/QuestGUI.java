@@ -9,6 +9,7 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
@@ -29,7 +30,7 @@ public class QuestGUI {
 	}
 
 	private static void openQuests(Player player, int page) {
-		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f));
+		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f), Settings.SIDES);
 		Pagination<Quest> p = new Pagination<Quest>(28);
 		for(Quest q :  Quests.getQuests(player.getName()).values()) {
 			p.add(q);

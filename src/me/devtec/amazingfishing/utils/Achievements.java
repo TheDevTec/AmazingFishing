@@ -222,46 +222,52 @@ public class Achievements {
 			if (allStagesFinished(p, achievement)) {
 				setFinished(p, achievement);
 				for(String cmd : achievement.getFinishCommands())
-					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, cmd.replace("%player%", p.getName()).replace("%achievement%", achievement.getDisplayName()).replace("%achievement_name%", achievement.getName()).replace("%prefix%", Trans.prefix()) ) );
+					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, cmd.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Trans.prefix()) ) );
 				for(String msg : achievement.getFinishMessages())
-					TheAPI.msg(PlaceholderAPI.setPlaceholders(p, msg.replace("%player%", p.getName()).replace("%achievement%", achievement.getDisplayName()).replace("%achievement_name%", achievement.getName()).replace("%prefix%", Trans.prefix()) ), p);
-			
+					TheAPI.msg(PlaceholderAPI.setPlaceholders(p, msg.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Trans.prefix()) ), p);
+			continue;
 			}
 			
 		}
 		
 	}
 	
-	private static boolean isFinished(Player p, Achievement a) {
-		User u = TheAPI.getUser(p);
-		if( !u.exist(Manager.getDataLocation()+".achievements."+a.getName()+".finished") )
+	public static boolean isFinished(Player player, Achievement achievement) {
+		User u = TheAPI.getUser(player);
+		if( !u.exist(Manager.getDataLocation()+".achievements."+achievement.getName()+".finished") )
 			return false;
-		else return u.getBoolean(Manager.getDataLocation()+".achievements."+a.getName()+".finished");
+		else return u.getBoolean(Manager.getDataLocation()+".achievements."+achievement.getName()+".finished");
 	}
-	private static void setFinished(Player p, Achievement achievement) {
-		User u = TheAPI.getUser(p);
+	private static void setFinished(Player player, Achievement achievement) {
+		User u = TheAPI.getUser(player);
 		u.set(Manager.getDataLocation()+".achievements."+achievement.getName()+".finished", true);
 		u.save();
 	}
-	private static boolean stageIsFinished(Player p, Achievement a, int stage) {
-		User u = TheAPI.getUser(p);
-		if( !u.exist(Manager.getDataLocation()+".achievements."+a.getName()+"."+stage) )
+	private static boolean stageIsFinished(Player player, Achievement achievement, int stage) {
+		User u = TheAPI.getUser(player);
+		if( !u.exist(Manager.getDataLocation()+".achievements."+achievement.getName()+"."+stage) )
 			return false;
-		else return u.getBoolean(Manager.getDataLocation()+".achievements."+a.getName()+"."+stage);
+		else return u.getBoolean(Manager.getDataLocation()+".achievements."+achievement.getName()+"."+stage);
 	}
 	
-	private static void setStageFinished(Player p, Achievement a, int stage) {
-		User u = TheAPI.getUser(p);
-		u.set(Manager.getDataLocation()+".achievements."+a.getName()+"."+stage, true);
+	private static void setStageFinished(Player player, Achievement achievement, int stage) {
+		User u = TheAPI.getUser(player);
+		u.set(Manager.getDataLocation()+".achievements."+achievement.getName()+"."+stage, true);
 		u.save();
 	}
-	private static boolean allStagesFinished(Player p, Achievement achievement) {
+	private static boolean allStagesFinished(Player player, Achievement achievement) {
 		boolean fin = true;
 		for (int i = 0; i < achievement.getRequirement(); ++i) { // Stages / Requirement thinks
-			if(!stageIsFinished(p, achievement, i))
+			if(!stageIsFinished(player, achievement, i))
 				fin=false;
 		}
 		return fin;
+	}
+	public static MaterialData getIcon(Player player, Achievement achievement) {
+		if(isFinished(player, achievement))
+			return achievement.getFinishedIcon();
+		else 
+			return achievement.getUnfinishedIcon();
 	}
 	/*
 	 dataLocation:

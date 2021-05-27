@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
+import me.devtec.amazingfishing.gui.AchievementGUI;
 import me.devtec.amazingfishing.gui.Bag;
 import me.devtec.amazingfishing.gui.EnchantTable;
 import me.devtec.amazingfishing.gui.Help;
@@ -144,6 +145,25 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			QuestGUI.open(p);
 			TheAPI.msg("Opening quests menu for player "+p.getName(), s);
+			return true;
+		}
+		if(args[0].equalsIgnoreCase("achievements") && s.hasPermission("amazingfishing.command.achievements")) {
+			if(args.length==1) {
+				if(s instanceof Player) {
+					AchievementGUI.open((Player)s);
+					TheAPI.msg("Opening achievements menu..", s);
+					return true;
+				}
+				TheAPI.msg("/Fish Achievements <player>", s);
+				return true;
+			}
+			Player p = TheAPI.getPlayer(args[1]);
+			if(p==null) {
+				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				return true;
+			}
+			AchievementGUI.open(p);
+			TheAPI.msg("Opening achievements menu for player "+p.getName(), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("index") && s.hasPermission("amazingfishing.command.index")) {
@@ -341,7 +361,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			TheAPI.msg("/Fish Points Set <player> <points>", s);
 			return true;
 		}
-		if(args[0].equalsIgnoreCase("reload") && s.hasPermission("amazingfishing.command.reload")) {
+		if( (args[0].equalsIgnoreCase("reload")||args[0].equalsIgnoreCase("rl")) && s.hasPermission("amazingfishing.command.reload")) {
 			Loader.reload(s, true);
 			return true;
 		}

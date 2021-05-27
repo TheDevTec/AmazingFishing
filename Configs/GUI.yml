@@ -8,6 +8,7 @@ GUI:
        Enchant: "&bEnchant table"
        Bag: "&bBackPack"
        Quests: "&bQuests"
+       Achievements: "&bAchievements"
        Info: "&ePlayer section"
        Settings: "&bSettings"
     Admin:
@@ -97,3 +98,6 @@ GUI:
     - "&7 Total stages: %stages_total%"
     Quest_finished:
     - "&aQuest FINISHED"
+    
+  Achievements:
+    Title: "&3Achievements"

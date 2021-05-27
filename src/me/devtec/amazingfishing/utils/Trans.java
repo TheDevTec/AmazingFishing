@@ -49,6 +49,9 @@ public class Trans {
 	public static String help_player_quests() {
 		return Loader.gui.getString("GUI.Help.Player.Quests");
 	}
+	public static String help_player_achievements() {
+		return Loader.gui.getString("GUI.Help.Player.Achievements");
+	}
 	public static String help_player_settings() {
 		return Loader.gui.getString("GUI.Help.Player.Settings");
 	}
@@ -143,6 +146,9 @@ public class Trans {
 		return Loader.gui.getString("GUI.Quests.Title.MyQuests");
 	}
 	
+	public static String achievements_title() {
+		return Loader.gui.getString("GUI.Achievements.Title");
+	}
 	
 	public static String words_cod() {
 		return Loader.trans.getString("Words.Cod");
