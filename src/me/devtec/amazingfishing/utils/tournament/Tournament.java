@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
+import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.scheduler.Scheduler;
@@ -99,6 +100,7 @@ public class Tournament {
 			int wins = StringUtils.calculate(f).intValue();
 			for(Entry<Player, Double> d : top.entrySet()) {
 				++pos;
+				Statistics.addTournamentData(d.getKey(), getType(), pos);
 				if(pos>wins) {
 					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Position.Other.Commands")) {
 						String cfmd=replace(cmd.replace("%player%", d.getKey().getName())
