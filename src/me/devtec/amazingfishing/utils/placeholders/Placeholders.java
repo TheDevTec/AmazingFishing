@@ -31,6 +31,7 @@ public class Placeholders {
 	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
 	 */
 	
+	
 	public static String getStatistics(Player player, String identifier) {
 		String[] pp;
 		pp=identifier.replace("amazingfishing", "").split("[_]");
