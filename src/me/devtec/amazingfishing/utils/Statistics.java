@@ -31,7 +31,7 @@ public class Statistics {
 		}
 		return 0;
 	}
-	public static int getCaught(Player p, String fish, String type, SavingType SavingType) {//TODO - kontrola zda je ten typ ryby s velkýma nebo malýma písmenkama!!
+	public static int getCaught(Player p, String fish, String type, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
 		switch(SavingType) {
 		case GLOBAL:
@@ -219,7 +219,7 @@ public class Statistics {
 		User u = TheAPI.getUser(p);
 		switch(CaughtTreasuresType) {
 		case GLOBAL:
-			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
+			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures.Caught");
 		case PER_TREASURE:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures."+treasure.getName()+".Caught");
 		}
@@ -229,7 +229,7 @@ public class Statistics {
 		User u = TheAPI.getUser(p);
 		switch(CaughtTreasuresType) {
 		case GLOBAL:
-			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
+			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures.Caught");
 		case PER_TREASURE:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures."+treasure+".Caught");
 		}
@@ -288,4 +288,42 @@ public class Statistics {
 		u.set(Manager.getDataLocation()+".Statistics.Tournament.Played", getTournamentPlayed(p, null)+1);
 		u.save();
 	}
+	/*
+	  AmazingFishing:
+	    Statistics:
+	      Tournament:
+	        Played: int
+	        Placements: int //Počet kolikrát jsi se umístil na TOP 4 (dohromady)
+	        <TOURNAMENT>:
+	          Played: int
+	          Placement:
+	            <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
+	      Treasures:
+	        Caught: int
+	        <TREASURE>:
+	          Caught: int
+	      Shop:
+	       Gained:
+	         Exp: double
+	         Money: double
+	         Points: double
+	      Records:
+	        <TYP>:
+	          <RYBA>:
+	            WEIGHT: double
+	            LENGTH: double
+	      Fish:
+	        Caught: int
+	        Eaten: int
+	        Sold: int
+	        <TYP>:
+	          Caught: int
+	          Eaten: int
+	          Sold: int
+	          <RYBA>:
+	            Caught: int
+	            Eaten: int
+	            Sold: int
+	            
+	 */
 }
