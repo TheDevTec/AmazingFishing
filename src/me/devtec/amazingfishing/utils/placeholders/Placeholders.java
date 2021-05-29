@@ -32,6 +32,8 @@ public class Placeholders {
 	 */
 	
 	
+	
+	
 	public static String getStatistics(Player player, String identifier) {
 		String[] pp;
 		pp=identifier.replace("amazingfishing", "").split("[_]");
