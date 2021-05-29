@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.utils.placeholders;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.utils.Manager;
@@ -30,9 +29,6 @@ public class Placeholders {
 	 *%amazingfishing_fish_<TYP>_<caught | eaten | sold>%
 	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
 	 */
-	
-	
-	
 	
 	public static String getStatistics(Player player, String identifier) {
 		String[] pp;
@@ -74,7 +70,8 @@ public class Placeholders {
 					path=path+s.substring(0, 1).toUpperCase() + s.substring(1);
 			}
 		}
-    	Bukkit.broadcastMessage(path);
+		if(!TheAPI.getUser(player).exist(path))
+			return "0";
 		return TheAPI.getUser(player).getString(path);
 	}
 	

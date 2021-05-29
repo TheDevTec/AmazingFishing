@@ -81,130 +81,7 @@ public class Loader extends JavaPlugin {
 		TheAPI.createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
 		
 		if(Placeholders.isEnabledPlaceholderAPI()) {
-			reg=new PlaceholderRegister("amazingfishing", "DevTec", getDescription().getVersion()) {
-				
-			    
-				public String onRequest(Player player, String identifier) {
-			        /*
-			        %amazingfishing_<n�co>%
-			        Returns the number of online players
-			         */
-			   	
-			   	/*
-			   	 * OLD Placeholders:
-			   	 *  amazingfishing_tournament_wins_top1 -DONE
-			   	 *  amazingfishing_tournament_played_top1 -DONE
-			   	 *  amazingfishing_caught_top1 
-			   	 *  
-			   	 *  Player:
-			   	 *  amazingfishing_player_caught -DONE
-			   	 *  amazingfishing_player_tournaments_top1 -DONE
-			   	 *  amazingfishing_player_tournaments_played -DONE
-			   	 */
-			   	
-			   	/*
-			   	 * Placeholders:
-			   	 * 
-			   	 * amazingfishing_<CO>_<Poznávadlo | TYP NĚČEHO>_<POZNÁVADLO | NÁZEV>_<POZNÁVADLO>
-			   	 * 
-			   	 * %amazingfishing_<tournament | treasures | shop | records | fish>_
-			   	 *
-			   	 * %amazingfishing_tournament_<played | placements | TOURNAMENT TYPE>
-			   	 * %amazingfishing_tournament_<TOURNAMENT>_<played | placement>%
-			   	 *
-			   	 * %amazingfishing_treasures_<caught | TREASURE>
-			   	 * %amazingfishing_treasures_<TREASURE>_caught%
-			   	 * 
-			   	 * %amazingfishing_shop_gained_<exp | money | points>%
-			   	 *
-			   	 *%amazingfishing_records_<TYP RYBY: COD,...>_<jméno ryby>_<Weight | lenght>%
-			   	 *
-			   	 *%amazingfishing_fish_<caught | eaten | sold>%
-			   	 *%amazingfishing_fish_<TYP>_<caught | eaten | sold>%
-			   	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
-			   	 */
-			   	
-			   	/*
-			 	  AmazingFishing:
-			 	    Statistics:
-			 	      Tournament:
-			 	        Played: int
-			 	        Placements: int //Počet kolikrát jsi se umístil na TOP 4 (dohromady)
-			 	        <TOURNAMENT>:
-			 	          Played: int
-			 	          Placement:
-			 	            <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
-			 	      Treasures:
-			 	        Caught: int
-			 	        <TREASURE>:
-			 	          Caught: int
-			 	      Shop:
-			 	       Gained:
-			 	         Exp: double
-			 	         Money: double
-			 	         Points: double
-			 	      Records:
-			 	        <TYP>:
-			 	          <RYBA>:
-			 	            WEIGHT: double
-			 	            LENGTH: double
-			 	      Fish:
-			 	        Caught: int
-			 	        Eaten: int
-			 	        Sold: int
-			 	        <TYP>:
-			 	          Caught: int
-			 	          Eaten: int
-			 	          Sold: int
-			 	          <RYBA>:
-			 	            Caught: int
-			 	            Eaten: int
-			 	            Sold: int
-			 	            
-			 	 */
-			   	//TODO - nějaké TOPKY?
-			   	
-			       /*
-			       Check if the player is online,
-			       You should do this before doing anything regarding players
-			        */
-			       if(player == null){
-			           return null;
-			       }    	
-			       /*
-			   	 * Placeholders:
-			   	 * 
-			   	 * amazingfishing_<CO>_<Poznávadlo | TYP NĚČEHO>_<POZNÁVADLO | NÁZEV>_<POZNÁVADLO>
-			   	 * 
-			   	 * %amazingfishing_<tournament | treasures | shop | records | fish>_
-			   	 *
-			   	 * %amazingfishing_tournament_<played | placements | TOURNAMENT TYPE>
-			   	 * %amazingfishing_tournament_<TOURNAMENT>_<played | placement>%
-			   	 *
-			   	 * %amazingfishing_treasures_<caught | TREASURE>
-			   	 * %amazingfishing_treasures_<TREASURE>_caught%
-			   	 * 
-			   	 * %amazingfishing_shop_gained_<exp | money | points>% //TODO - upravit formát
-			   	 *
-			   	 *%amazingfishing_records_<TYP RYBY: COD,...>_<jméno ryby>_<Weight | lenght>%
-			   	 *
-			   	 *%amazingfishing_fish_<caught | eaten | sold>%
-			   	 *%amazingfishing_fish_<TYP>_<caught | eaten | sold>%
-			   	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
-			   	 */
-			       if(identifier.startsWith("tournament")|| identifier.startsWith("treasures") || identifier.startsWith("shop") || identifier.startsWith("records")
-			       		|| identifier.startsWith("fish")) {
-			       	Bukkit.broadcastMessage(identifier);
-			       	return Placeholders.getStatistics(player, identifier);
-			       }
-
-
-			       return null;
-				}
-			};
-			reg.register();
-			TheAPI.getConsole().sendMessage(TheAPI.colorize("&3 &aHooked into PAPI and loaded placeholders &3."));
-			TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
+			loadPlaceholders();
 		}
 		
 		if(config.getBoolean("Tournament.Automatic.Use")) {
@@ -464,5 +341,133 @@ public class Loader extends JavaPlugin {
 		for(String s : Loader.config.getStringList("Options.AFK.Action.Stop")) {
 			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
 		}
+	}
+	public static void loadPlaceholders() {
+
+		plugin.reg=new PlaceholderRegister("amazingfishing", "DevTec", plugin.getDescription().getVersion()) {
+			
+		    
+			public String onRequest(Player player, String identifier) {
+		        /*
+		        %amazingfishing_<n�co>%
+		        Returns the number of online players
+		         */
+		   	
+		   	/*
+		   	 * OLD Placeholders:
+		   	 *  amazingfishing_tournament_wins_top1 -DONE
+		   	 *  amazingfishing_tournament_played_top1 -DONE
+		   	 *  amazingfishing_caught_top1 
+		   	 *  
+		   	 *  Player:
+		   	 *  amazingfishing_player_caught -DONE
+		   	 *  amazingfishing_player_tournaments_top1 -DONE
+		   	 *  amazingfishing_player_tournaments_played -DONE
+		   	 */
+		   	
+		   	/*
+		   	 * Placeholders:
+		   	 * 
+		   	 * amazingfishing_<CO>_<Poznávadlo | TYP NĚČEHO>_<POZNÁVADLO | NÁZEV>_<POZNÁVADLO>
+		   	 * 
+		   	 * %amazingfishing_<tournament | treasures | shop | records | fish>_
+		   	 *
+		   	 * %amazingfishing_tournament_<played | placements | TOURNAMENT TYPE>
+		   	 * %amazingfishing_tournament_<TOURNAMENT>_<played | placement>%
+		   	 *
+		   	 * %amazingfishing_treasures_<caught | TREASURE>
+		   	 * %amazingfishing_treasures_<TREASURE>_caught%
+		   	 * 
+		   	 * %amazingfishing_shop_gained_<exp | money | points>%
+		   	 *
+		   	 *%amazingfishing_records_<TYP RYBY: COD,...>_<jméno ryby>_<Weight | lenght>%
+		   	 *
+		   	 *%amazingfishing_fish_<caught | eaten | sold>%
+		   	 *%amazingfishing_fish_<TYP>_<caught | eaten | sold>%
+		   	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
+		   	 */
+		   	
+		   	/*
+		 	  AmazingFishing:
+		 	    Statistics:
+		 	      Tournament:
+		 	        Played: int
+		 	        Placements: int //Počet kolikrát jsi se umístil na TOP 4 (dohromady)
+		 	        <TOURNAMENT>:
+		 	          Played: int
+		 	          Placement:
+		 	            <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
+		 	      Treasures:
+		 	        Caught: int
+		 	        <TREASURE>:
+		 	          Caught: int
+		 	      Shop:
+		 	       Gained:
+		 	         Exp: double
+		 	         Money: double
+		 	         Points: double
+		 	      Records:
+		 	        <TYP>:
+		 	          <RYBA>:
+		 	            WEIGHT: double
+		 	            LENGTH: double
+		 	      Fish:
+		 	        Caught: int
+		 	        Eaten: int
+		 	        Sold: int
+		 	        <TYP>:
+		 	          Caught: int
+		 	          Eaten: int
+		 	          Sold: int
+		 	          <RYBA>:
+		 	            Caught: int
+		 	            Eaten: int
+		 	            Sold: int
+		 	            
+		 	 */
+		   	//TODO - nějaké TOPKY?
+		   	
+		       /*
+		       Check if the player is online,
+		       You should do this before doing anything regarding players
+		        */
+		       if(player == null){
+		           return null;
+		       }    	
+		       /*
+		   	 * Placeholders:
+		   	 * 
+		   	 * amazingfishing_<CO>_<Poznávadlo | TYP NĚČEHO>_<POZNÁVADLO | NÁZEV>_<POZNÁVADLO>
+		   	 * 
+		   	 * %amazingfishing_<tournament | treasures | shop | records | fish>_
+		   	 *
+		   	 * %amazingfishing_tournament_<played | placements | TOURNAMENT TYPE>
+		   	 * %amazingfishing_tournament_<TOURNAMENT>_<played | placement>%
+		   	 *
+		   	 * %amazingfishing_treasures_<caught | TREASURE>
+		   	 * %amazingfishing_treasures_<TREASURE>_caught%
+		   	 * 
+		   	 * %amazingfishing_shop_gained_<exp | money | points>% //TODO - upravit formát
+		   	 *
+		   	 *%amazingfishing_records_<TYP RYBY: COD,...>_<jméno ryby>_<Weight | lenght>%
+		   	 *
+		   	 *%amazingfishing_fish_<caught | eaten | sold>%
+		   	 *%amazingfishing_fish_<TYP>_<caught | eaten | sold>%
+		   	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
+		   	 */
+		       if(identifier.startsWith("tournament")|| identifier.startsWith("treasures") || identifier.startsWith("shop") || identifier.startsWith("records")
+		       		|| identifier.startsWith("fish")) {
+		       	Bukkit.broadcastMessage(identifier);
+		       	return Placeholders.getStatistics(player, identifier);
+		       }
+
+
+		       return null;
+			}
+		};
+		plugin.reg.register();
+		TheAPI.getConsole().sendMessage(TheAPI.colorize("&3 &aHooked into PAPI and loaded placeholders &3."));
+		TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
+	
 	}
 }
