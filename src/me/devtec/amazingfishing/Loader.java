@@ -34,6 +34,7 @@ import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.placeholders.Placeholders;
+import me.devtec.amazingfishing.utils.placeholders.Placeholders.TopType;
 import me.devtec.amazingfishing.utils.points.UserPoints;
 import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
@@ -54,7 +55,7 @@ public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
 	public static Config trans, config, gui, shop;
-	public static Data cod,puffer,tropic,salmon,quest,treasur, enchant, achievements;
+	public static Data cod, puffer, tropic, salmon, quest, treasur, enchant, achievements;
 	static String prefix;
 	private PlaceholderRegister reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
@@ -145,7 +146,7 @@ public class Loader extends JavaPlugin {
 			TheAPI.msg(prefix+" Configurations reloaded.", ss);
 		}
 		AFKSystem.load();
-		
+		Placeholders.loadTops();
 		//FISH
 		
 		//PRE-LOAD
@@ -348,22 +349,6 @@ public class Loader extends JavaPlugin {
 			
 		    
 			public String onRequest(Player player, String identifier) {
-		        /*
-		        %amazingfishing_<n�co>%
-		        Returns the number of online players
-		         */
-		   	
-		   	/*
-		   	 * OLD Placeholders:
-		   	 *  amazingfishing_tournament_wins_top1 -DONE
-		   	 *  amazingfishing_tournament_played_top1 -DONE
-		   	 *  amazingfishing_caught_top1 
-		   	 *  
-		   	 *  Player:
-		   	 *  amazingfishing_player_caught -DONE
-		   	 *  amazingfishing_player_tournaments_top1 -DONE
-		   	 *  amazingfishing_player_tournaments_played -DONE
-		   	 */
 		   	
 		   	/*
 		   	 * Placeholders:
@@ -387,46 +372,18 @@ public class Loader extends JavaPlugin {
 		   	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
 		   	 */
 		   	
-		   	/*
-		 	  AmazingFishing:
-		 	    Statistics:
-		 	      Tournament:
-		 	        Played: int
-		 	        Placements: int //Počet kolikrát jsi se umístil na TOP 4 (dohromady)
-		 	        <TOURNAMENT>:
-		 	          Played: int
-		 	          Placement:
-		 	            <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
-		 	      Treasures:
-		 	        Caught: int
-		 	        <TREASURE>:
-		 	          Caught: int
-		 	      Shop:
-		 	       Gained:
-		 	         Exp: double
-		 	         Money: double
-		 	         Points: double
-		 	      Records:
-		 	        <TYP>:
-		 	          <RYBA>:
-		 	            WEIGHT: double
-		 	            LENGTH: double
-		 	      Fish:
-		 	        Caught: int
-		 	        Eaten: int
-		 	        Sold: int
-		 	        <TYP>:
-		 	          Caught: int
-		 	          Eaten: int
-		 	          Sold: int
-		 	          <RYBA>:
-		 	            Caught: int
-		 	            Eaten: int
-		 	            Sold: int
-		 	            
-		 	 */
-		   	//TODO - nějaké TOPKY?
-		   	
+				/*
+				 * %amazingfishing_tournaments_wins_<1-4>%
+				 * %amazingfishing_fish_caught_<1-4>%
+				 */
+		   	if(identifier.startsWith("tournaments_wins")) {
+		   		int pos = StringUtils.getInt(identifier.replace("tournaments_wins_", ""));
+		   		return Placeholders.getTop(TopType.TOURNAMENTS_WINS, pos);
+		   	}
+		   	if(identifier.startsWith("fish_caught")) {
+		   		int pos = StringUtils.getInt(identifier.replace("fish_caught_", ""));
+		   		return Placeholders.getTop(TopType.FISH_CAUGHT, pos);
+		   	}
 		       /*
 		       Check if the player is online,
 		       You should do this before doing anything regarding players
@@ -434,30 +391,8 @@ public class Loader extends JavaPlugin {
 		       if(player == null){
 		           return null;
 		       }    	
-		       /*
-		   	 * Placeholders:
-		   	 * 
-		   	 * amazingfishing_<CO>_<Poznávadlo | TYP NĚČEHO>_<POZNÁVADLO | NÁZEV>_<POZNÁVADLO>
-		   	 * 
-		   	 * %amazingfishing_<tournament | treasures | shop | records | fish>_
-		   	 *
-		   	 * %amazingfishing_tournament_<played | placements | TOURNAMENT TYPE>
-		   	 * %amazingfishing_tournament_<TOURNAMENT>_<played | placement>%
-		   	 *
-		   	 * %amazingfishing_treasures_<caught | TREASURE>
-		   	 * %amazingfishing_treasures_<TREASURE>_caught%
-		   	 * 
-		   	 * %amazingfishing_shop_gained_<exp | money | points>% //TODO - upravit formát
-		   	 *
-		   	 *%amazingfishing_records_<TYP RYBY: COD,...>_<jméno ryby>_<Weight | lenght>%
-		   	 *
-		   	 *%amazingfishing_fish_<caught | eaten | sold>%
-		   	 *%amazingfishing_fish_<TYP>_<caught | eaten | sold>%
-		   	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
-		   	 */
 		       if(identifier.startsWith("tournament")|| identifier.startsWith("treasures") || identifier.startsWith("shop") || identifier.startsWith("records")
 		       		|| identifier.startsWith("fish")) {
-		       	Bukkit.broadcastMessage(identifier);
 		       	return Placeholders.getStatistics(player, identifier);
 		       }
 
@@ -466,8 +401,50 @@ public class Loader extends JavaPlugin {
 			}
 		};
 		plugin.reg.register();
-		TheAPI.getConsole().sendMessage(TheAPI.colorize("&3 &aHooked into PAPI and loaded placeholders &3."));
-		TheAPI.getConsole().sendMessage(TheAPI.colorize("&7 *********************************************"));
+		TheAPI.getConsole().sendMessage(TheAPI.colorize("&8 *********************************************"));
+		TheAPI.getConsole().sendMessage(TheAPI.colorize(prefix+"&3 &aHooked into PAPI and loaded placeholders &3."));
+		TheAPI.getConsole().sendMessage(TheAPI.colorize("&8 *********************************************"));
 	
+	}
+   	/*
+ 	  AmazingFishing:
+ 	    Statistics:
+ 	      Tournament:
+ 	        Played: int
+ 	        Placements: int //Počet kolikrát jsi se umístil na TOP 4 (dohromady)
+ 	        <TOURNAMENT>:
+ 	          Played: int
+ 	          Placement:
+ 	            <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
+ 	      Treasures:
+ 	        Caught: int
+ 	        <TREASURE>:
+ 	          Caught: int
+ 	      Shop:
+ 	       Gained:
+ 	         Exp: double
+ 	         Money: double
+ 	         Points: double
+ 	      Records:
+ 	        <TYP>:
+ 	          <RYBA>:
+ 	            WEIGHT: double
+ 	            LENGTH: double
+ 	      Fish:
+ 	        Caught: int
+ 	        Eaten: int
+ 	        Sold: int
+ 	        <TYP>:
+ 	          Caught: int
+ 	          Eaten: int
+ 	          Sold: int
+ 	          <RYBA>:
+ 	            Caught: int
+ 	            Eaten: int
+ 	            Sold: int
+ 	            
+ 	 */
+	public static String getPrefix() {
+		return prefix;
 	}
 }

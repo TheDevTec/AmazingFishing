@@ -60,6 +60,16 @@ Options:
     SellFish: true
   Enchants:
     Enabled: true
+  Placeholders:
+    Settings:
+      MessageOnReload: true
+      # Reload_of_data_time: seconds
+      Reload_of_data_time: "1800"
+    Format:
+      Fish:
+        Caught: "&7%position% &8&l- &e%player% &8&l| &6%amount% caught"
+      Tournaments:
+        Wins: "&7%position% &8&l- &e%player% &8&l| &6%amount% wins"
     
 # Preview text on click on fish in index
 Preview:
