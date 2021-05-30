@@ -102,11 +102,17 @@ public class Placeholders {
 	public static String getTop(TopType TopType, int position) {
 		switch (TopType) {
 		case FISH_CAUGHT:
-			Entry<UUID, Integer> data = fish_caught.get(position);
+			Entry<UUID, Integer> data = fish_caught.get(position);			
+			if(data==null)
+				return Loader.config.getString("Options.Placeholders.Format.Fish.Caught").replace("%position%", position+"")
+						.replace("%player%", "-" ).replace("%amount%", "-");
 			return Loader.config.getString("Options.Placeholders.Format.Fish.Caught").replace("%position%", position+"")
 					.replace("%player%", Bukkit.getServer().getOfflinePlayer(data.getKey()).getName()+"" ).replace("%amount%", ""+data.getValue());
 		case TOURNAMENTS_WINS:
 			Entry<UUID, Integer> dat = fish_caught.get(position);
+			if(dat==null)
+				return Loader.config.getString("Options.Placeholders.Format.Tournaments.Wins").replace("%position%", position+"")
+					.replace("%player%", "-" ).replace("%amount%", "-");
 			return Loader.config.getString("Options.Placeholders.Format.Tournaments.Wins").replace("%position%", position+"")
 					.replace("%player%", Bukkit.getServer().getOfflinePlayer(dat.getKey()).getName()+"" ).replace("%amount%", ""+dat.getValue());
 		default:
@@ -143,15 +149,17 @@ public class Placeholders {
 						int i = u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
 						f_caught.put(uuid, i);
 					}
-				}				
-
+				}		
+				int pos=1;		
+				if(!t_wins.isEmpty()) {
 				RankingAPI<UUID, Integer> ranks = new RankingAPI<UUID, Integer>(t_wins);
-				int pos=1;
 				for(Entry<UUID, Integer> data: ranks.entrySet()) {
 					if(pos==5)break;
 					tournaments_wins.put(pos, data);
 					++pos;
 				};
+				}
+				if(!f_caught.isEmpty()) {
 				RankingAPI<UUID, Integer> ranks2 = new RankingAPI<UUID, Integer>(f_caught);
 				pos=1;
 				for(Entry<UUID, Integer> data: ranks2.entrySet()) {
@@ -159,6 +167,7 @@ public class Placeholders {
 					fish_caught.put(pos, data);
 					++pos;
 				};
+				}
 				if(Loader.config.getBoolean("Options.Placeholders.Settings.MessageOnReload")==true) {
 					NMSAPI.postToMainThread(new Runnable() {
 						public void run() {				
