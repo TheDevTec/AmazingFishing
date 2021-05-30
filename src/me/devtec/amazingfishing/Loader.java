@@ -125,6 +125,7 @@ public class Loader extends JavaPlugin {
 	
 	public void onDisable() {
 		AFKSystem.unload();
+		Bukkit.getScheduler().cancelTask(Placeholders.task);
 	}
 	
 	public static void reload(CommandSender ss, boolean reload) {

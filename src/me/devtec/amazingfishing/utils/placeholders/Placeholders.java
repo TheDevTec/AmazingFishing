@@ -121,7 +121,7 @@ public class Placeholders {
 			}
 		});
 	}
-	static int task;
+	public static int task;
 	public static void loadTops() {
 		if(task!=0)
 			Bukkit.getScheduler().cancelTask(task);
