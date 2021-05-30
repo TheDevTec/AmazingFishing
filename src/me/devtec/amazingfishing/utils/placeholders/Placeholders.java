@@ -171,9 +171,7 @@ public class Placeholders {
 				if(Loader.config.getBoolean("Options.Placeholders.Settings.MessageOnReload")==true) {
 					NMSAPI.postToMainThread(new Runnable() {
 						public void run() {				
-						TheAPI.getConsole().sendMessage(TheAPI.colorize("&8 *********************************************"));
 						TheAPI.getConsole().sendMessage(TheAPI.colorize(Loader.getPrefix()+"&3 Reloaded TOP placeholders &3."));
-						TheAPI.getConsole().sendMessage(TheAPI.colorize("&8 *********************************************"));
 						}
 					});
 				}
