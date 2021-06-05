@@ -41,7 +41,7 @@ public class Tournament {
 				}else {
 					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
 						for(Player p : values.keySet())
-							TheAPI.sendBossBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p), StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)).doubleValue());
+							TheAPI.sendBossBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p), StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)));
 						
 						if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
 						for(Player p : values.keySet())
@@ -97,7 +97,7 @@ public class Tournament {
 		if(giveRewards) {
 			int pos = 0;
 			String f = PlaceholderAPI.setPlaceholders(null,Loader.config.getString("Tournament.Type."+t.configPath()+".Positions").replace("%participants%", values.size()+""));
-			int wins = StringUtils.calculate(f).intValue();
+			int wins = (int)StringUtils.calculate(f);
 			for(Entry<Player, Double> d : top.entrySet()) {
 				++pos;
 				Statistics.addTournamentData(d.getKey(), getType(), pos);

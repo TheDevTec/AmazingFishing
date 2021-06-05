@@ -17,7 +17,7 @@ public class EatFish implements Listener {
 		if(API.isFish(e.getItem())) {
 			Fish f = API.getFish(e.getItem());
 			if(f!=null) {
-		        Quests.addProgress(e.getPlayer(), "eat_fish", f.getType().name().toLowerCase()+"."+f.getName());
+		        Quests.addProgress(e.getPlayer(), "eat_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
 		        Statistics.addEating(e.getPlayer(), f);
 		        Achievements.check(e.getPlayer(), f);
 				for(String s : f.getMessages(FishAction.EAT))

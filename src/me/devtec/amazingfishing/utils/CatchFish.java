@@ -74,7 +74,7 @@ public class CatchFish implements Listener {
 								.replace("%maxweight%", f.getWeight()+"")
 								.replace("%length%", length+"")
 								.replace("%maxlength%", f.getLength()+"").replace("%minlength%", f.getMinLength()+"")
-								.replace("%minweight%", f.getMinWeight()+"")).doubleValue();
+								.replace("%minweight%", f.getMinWeight()+""));
 					}catch(Exception er) {}
 					if(weight>f.getWeight())weight=f.getWeight();
 					if(length>f.getLength())length=f.getLength();
@@ -86,7 +86,7 @@ public class CatchFish implements Listener {
 			        Statistics.addRecord(e.getPlayer(), f, length, weight);
 			        Tournament t= TournamentManager.get(e.getPlayer().getWorld());
 			        if(t!=null)t.catchFish(e.getPlayer(), f, weight, length);
-			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName());
+			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
 			        Achievements.check(e.getPlayer(), f);
 					for(String s : f.getMessages(FishAction.CATCH))
 						TheAPI.msg(s(s,e.getPlayer(), e.getHook().getLocation())

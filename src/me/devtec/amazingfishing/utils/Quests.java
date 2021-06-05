@@ -103,7 +103,7 @@ public class Quests {
 	
 	//action = catch_fish, eat_fish, sell_fish
 	//value = type_of_fish.name_of_fish -> cod.nazev
-	public static void addProgress(Player player, String action, String value) {
+	public static void addProgress(Player player, String action, String value, int amount) {
 		if(!progress.containsKey(player.getName())) {
 			loadNew(player.getName());
 			return;
@@ -124,7 +124,7 @@ public class Quests {
 			String v = q.getValue((int)a[1]);
 			if(!value.equalsIgnoreCase(v))continue;
 			int c = q.getCount((int)a[1]);
-			a[2]=(int)a[2]+1;
+			a[2]=(int)a[2]+amount;
 			if(c<=(int)a[2]) {
 				NMSAPI.postToMainThread(new Runnable() {
 					public void run() {
