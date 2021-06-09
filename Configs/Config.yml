@@ -89,6 +89,12 @@ Command:
 
 # Tournaments:
 Tournament:
+  Automatic:
+    Use: false
+    Period: "3h"
+    Length: "10min"
+    AllWorlds: true
+    Worlds: []
   Type:
     Amount:
       Name: "&bAmount"
