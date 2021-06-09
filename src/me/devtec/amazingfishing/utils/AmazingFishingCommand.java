@@ -33,7 +33,10 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 	@Override
 	public boolean onCommand(CommandSender s, Command var2, String var3, String[] args) {
 		if(args.length==0) {
+			if(s instanceof Player)
 			Help.open((Player)s);
+			else
+				TheAPI.msg("/Fish Help", s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("help") && s.hasPermission("amazingfishing.command.help")) {
