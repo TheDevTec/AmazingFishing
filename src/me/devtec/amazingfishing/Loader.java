@@ -377,11 +377,11 @@ public class Loader extends JavaPlugin {
 				 * %amazingfishing_tournaments_wins_<1-4>%
 				 * %amazingfishing_fish_caught_<1-4>%
 				 */
-		   	if(identifier.startsWith("tournaments_wins")) {
+		   	if(identifier.startsWith("tournaments_wins_")) {
 		   		int pos = StringUtils.getInt(identifier.replace("tournaments_wins_", ""));
 		   		return Placeholders.getTop(TopType.TOURNAMENTS_WINS, pos);
 		   	}
-		   	if(identifier.startsWith("fish_caught")) {
+		   	if(identifier.startsWith("fish_caught_")) {
 		   		int pos = StringUtils.getInt(identifier.replace("fish_caught_", ""));
 		   		return Placeholders.getTop(TopType.FISH_CAUGHT, pos);
 		   	}

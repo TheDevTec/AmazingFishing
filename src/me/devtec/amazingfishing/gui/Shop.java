@@ -217,7 +217,6 @@ public class Shop {
 						.replace("%money_boost%", ""+f.getMoneyBoost()).replace("%points_boost%", ""+f.getPointsBoost()).replace("%exp_boost%", ""+f.getExpBoost())
 						.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost())
 						.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus))*d.getAmount();
-
 			totalPoints += StringUtils.calculate(f.getFish().getCalculator(Calculator.POINTS).replace("%length%", ""+length).replace("%weight%", ""+weight)
 					.replace("%money%", ""+f.getFish().getMoney()).replace("%experiences%", ""+f.getFish().getXp())
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)

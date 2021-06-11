@@ -65,12 +65,13 @@ public class CatchFish implements Listener {
 					--am;
 					try {
 					Fish f = ff.getRandom();
-					double weight = 0, length = 0;
+					double weight = 0;
+					double length = 0;
 					try {
 						length=random.nextInt((int)f.getLength())+random.nextDouble();
 					}catch(Exception er) {}
 					try {
-						weight=StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight()+"")
+						weight = (double) StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight()+"")
 								.replace("%maxweight%", f.getWeight()+"")
 								.replace("%length%", length+"")
 								.replace("%maxlength%", f.getLength()+"").replace("%minlength%", f.getMinLength()+"")
@@ -130,7 +131,7 @@ public class CatchFish implements Listener {
 		}else e.setCancelled(true);
 		}
 	}
-
+	
 	private String sub(String s) {
 		return s.substring(1,s.length()-1);
 	}
