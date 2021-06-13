@@ -21,14 +21,15 @@ import me.devtec.theapi.utils.reflections.Ref;
 public class Utils {
 	//NMS
 	private static Method asNMSCopy = Ref.method(Ref.craft("inventory.CraftItemStack"), "asNMSCopy", ItemStack.class), 
-			asBukkitCopy = Ref.method(Ref.craft("inventory.CraftItemStack"), "asBukkitCopy", Ref.nms("ItemStack")), 
-			getOrCreateTag = Ref.method(Ref.nms("ItemStack"), "getOrCreateTag"),
-			setString =  Ref.method(Ref.nms("NBTTagCompound"), "setString", String.class, String.class),
-			getString =  Ref.method(Ref.nms("NBTTagCompound"), "getString", String.class),
-			hasKey =  Ref.method(Ref.nms("NBTTagCompound"), "hasKey", String.class);
+			asBukkitCopy = Ref.method(Ref.craft("inventory.CraftItemStack"), "asBukkitCopy", Ref.nmsOrOld("world.item.ItemStack", "ItemStack")), 
+			getOrCreateTag = Ref.method(Ref.nmsOrOld("world.item.ItemStack", "ItemStack"), "getOrCreateTag"),
+			setString =  Ref.method(Ref.nmsOrOld("nbt.NBTTagCompound", "NBTTagCompound"), "setString", String.class, String.class),
+			getString =  Ref.method(Ref.nmsOrOld("nbt.NBTTagCompound", "NBTTagCompound"), "getString", String.class),
+			hasKey =Ref.method(Ref.nmsOrOld("nbt.NBTTagCompound", "NBTTagCompound"), "hasKey", String.class);
 
 	public static Object asNMS(ItemStack stack) {
 		return Ref.invokeNulled(asNMSCopy, stack);
+		
 	}
 
 	public static ItemStack asBukkit(Object stack) {
