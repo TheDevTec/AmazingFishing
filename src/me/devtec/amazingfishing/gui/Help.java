@@ -27,7 +27,6 @@ public class Help {
 				"&9Developed by &bHouska02"))));
 		if(p.hasPermission("amazingfishing.shop") && Loader.config.getBoolean("Options.Shop.Enabled"))
 			a.setItem(22,new ItemGUI(Create.createItem(Trans.help_player_shop(), Material.EMERALD)){
-				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					if(p.hasPermission("amazingfishing.shop") && Loader.config.getBoolean("Options.Shop.Enabled"))
 					Shop.openShop(p, ShopType.BUY); // TODO Add option to disable BUY shop
@@ -80,7 +79,7 @@ public class Help {
 		});
 
 		if(p.hasPermission("amazingfishing.achievements"))
-		a.setItem(29,new ItemGUI(Create.createItem(Trans.help_player_achievements(), Material.SUNFLOWER)){
+		a.setItem(29,new ItemGUI(Create.createItem(Trans.help_player_achievements(), Utils.getCachedMaterial("SUNFLOWER"))){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 				if(p.hasPermission("amazingfishing.achievements")) {

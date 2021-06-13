@@ -15,7 +15,6 @@ import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sortedmap.RankingAPI;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.User;
-import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Placeholders {
 	
@@ -120,13 +119,7 @@ public class Placeholders {
 		}
 		
 	}
-	public static void broadcast(String msg) {
-			NMSAPI.postToMainThread(new Runnable() {
-			public void run() {	
-				Bukkit.broadcastMessage(msg);
-			}
-		});
-	}
+	
 	public static int task;
 	public static void loadTops() {
 		if(task!=0)
@@ -140,7 +133,6 @@ public class Placeholders {
 				
 				for(UUID uuid : TheAPI.getUsers()) {
 					User u = TheAPI.getUser(uuid);
-					//broadcast(uuid+" ; "+u.getName()+ " ;"+LoaderClass.cache.lookupNameById(uuid)+ " ; "+Bukkit.getServer().getOfflinePlayer(uuid).getName());
 					if(u.exist(Manager.getDataLocation()+".Statistics.Tournament.Placements")) {
 						int i = u.getInt(Manager.getDataLocation()+".Statistics.Tournament.Placements");
 						t_wins.put(uuid, i);
@@ -168,14 +160,6 @@ public class Placeholders {
 					++pos;
 				};
 				}
-				if(Loader.config.getBoolean("Options.Placeholders.Settings.MessageOnReload")==true) {
-					NMSAPI.postToMainThread(new Runnable() {
-						public void run() {				
-						TheAPI.getConsole().sendMessage(TheAPI.colorize(Loader.getPrefix()+"&3 Reloaded TOP placeholders &3."));
-						}
-					});
-				}
-
 			}
 		}.runRepeating(1, StringUtils.getTimeFromString(Loader.config.getString("Options.Placeholders.Settings.Reload_of_data_time"))*20 );
 		

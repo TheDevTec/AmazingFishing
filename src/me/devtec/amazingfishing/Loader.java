@@ -34,7 +34,6 @@ import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
 import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.placeholders.Placeholders;
-import me.devtec.amazingfishing.utils.placeholders.Placeholders.TopType;
 import me.devtec.amazingfishing.utils.points.UserPoints;
 import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
@@ -57,7 +56,7 @@ public class Loader extends JavaPlugin {
 	public static Config trans, config, gui, shop;
 	public static Data cod, puffer, tropic, salmon, quest, treasur, enchant, achievements;
 	static String prefix;
-	private PlaceholderRegister reg;
+	protected static PlaceholderRegister reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public static ItemStack next = ItemCreatorAPI.createHeadByValues(1, "&cNext", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmNTVmMWIzMmMzNDM1YWMxYWIzZTVlNTM1YzUwYjUyNzI4NWRhNzE2ZTU0ZmU3MDFjOWI1OTM1MmFmYzFjIn19fQ=="), prev = ItemCreatorAPI.createHeadByValues(1, "&cPrevious", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0=");
 	
@@ -81,9 +80,8 @@ public class Loader extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
 		TheAPI.createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
 		
-		if(Placeholders.isEnabledPlaceholderAPI()) {
-			loadPlaceholders();
-		}
+		if(Placeholders.isEnabledPlaceholderAPI())
+			new PAPISupport();
 		
 		if(config.getBoolean("Tournament.Automatic.Use")) {
 			if(config.getBoolean("Tournament.Automatic.AllWorlds")) {
@@ -124,6 +122,7 @@ public class Loader extends JavaPlugin {
 	}
 	
 	public void onDisable() {
+		if(reg!=null)reg.unregister();
 		AFKSystem.unload();
 		Bukkit.getScheduler().cancelTask(Placeholders.task);
 	}
@@ -343,69 +342,6 @@ public class Loader extends JavaPlugin {
 		for(String s : Loader.config.getStringList("Options.AFK.Action.Stop")) {
 			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
 		}
-	}
-	public static void loadPlaceholders() {
-
-		plugin.reg=new PlaceholderRegister("amazingfishing", "DevTec", plugin.getDescription().getVersion()) {
-			
-		    
-			public String onRequest(Player player, String identifier) {
-		   	
-		   	/*
-		   	 * Placeholders:
-		   	 * 
-		   	 * amazingfishing_<CO>_<Poznávadlo | TYP NĚČEHO>_<POZNÁVADLO | NÁZEV>_<POZNÁVADLO>
-		   	 * 
-		   	 * %amazingfishing_<tournament | treasures | shop | records | fish>_
-		   	 *
-		   	 * %amazingfishing_tournament_<played | placements | TOURNAMENT TYPE>
-		   	 * %amazingfishing_tournament_<TOURNAMENT>_<played | placement>%
-		   	 *
-		   	 * %amazingfishing_treasures_<caught | TREASURE>
-		   	 * %amazingfishing_treasures_<TREASURE>_caught%
-		   	 * 
-		   	 * %amazingfishing_shop_gained_<exp | money | points>%
-		   	 *
-		   	 *%amazingfishing_records_<TYP RYBY: COD,...>_<jméno ryby>_<Weight | lenght>%
-		   	 *
-		   	 *%amazingfishing_fish_<caught | eaten | sold>%
-		   	 *%amazingfishing_fish_<TYP>_<caught | eaten | sold>%
-		   	 *%amazingfishing_fish_<TYP>_<jméno ryby>_<caught | eaten | sold>%
-		   	 */
-		   	
-				/*
-				 * %amazingfishing_tournaments_wins_<1-4>%
-				 * %amazingfishing_fish_caught_<1-4>%
-				 */
-		   	if(identifier.startsWith("tournaments_wins_")) {
-		   		int pos = StringUtils.getInt(identifier.replace("tournaments_wins_", ""));
-		   		return Placeholders.getTop(TopType.TOURNAMENTS_WINS, pos);
-		   	}
-		   	if(identifier.startsWith("fish_caught_")) {
-		   		int pos = StringUtils.getInt(identifier.replace("fish_caught_", ""));
-		   		return Placeholders.getTop(TopType.FISH_CAUGHT, pos);
-		   	}
-		       /*
-		       Check if the player is online,
-		       You should do this before doing anything regarding players
-		        */
-		       if(player == null){
-		           return null;
-		       }    	
-		       if(identifier.startsWith("tournament")|| identifier.startsWith("treasures") || identifier.startsWith("shop") || identifier.startsWith("records")
-		       		|| identifier.startsWith("fish")) {
-		       	return Placeholders.getStatistics(player, identifier);
-		       }
-
-
-		       return null;
-			}
-		};
-		plugin.reg.register();
-		TheAPI.getConsole().sendMessage(TheAPI.colorize("&8 *********************************************"));
-		TheAPI.getConsole().sendMessage(TheAPI.colorize(prefix+"&3 &aHooked into PAPI and loaded placeholders &3."));
-		TheAPI.getConsole().sendMessage(TheAPI.colorize("&8 *********************************************"));
-	
 	}
    	/*
  	  AmazingFishing:
