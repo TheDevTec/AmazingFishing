@@ -151,6 +151,10 @@ public class Utils {
 	}
 
 	public static MaterialData createType(String s) {
-		return new MaterialData(Material.getMaterial(s.split(":")[0].toUpperCase()), s.contains(":")?(byte)StringUtils.getInt(s.split(":")[1]):(byte)0);
+		try {
+			return new MaterialData(Material.getMaterial(s.split(":")[0].toUpperCase()), s.contains(":")?(byte)StringUtils.getInt(s.split(":")[1]):(byte)0);
+		}catch(Exception | NoSuchFieldError er) {
+			return new MaterialData(Material.STONE);
+		}
 	}
 }

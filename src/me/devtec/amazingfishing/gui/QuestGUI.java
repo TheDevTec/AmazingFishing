@@ -120,10 +120,7 @@ public class QuestGUI {
 			
 			int stage = u.getInt("af-quests."+quest+".stage");
 			String[] ss = q.getValue(stage).split("\\.");
-			String name = (API.fish.get( ss[0]+"."+ss[1] )).getDisplayName(); // TODO - NEFUNGUJE
-			try{
-				Loader.getData(FishType.valueOf(ss[0].toUpperCase())).getString(ss[0].toLowerCase()+"."+ss[1]+".name");
-			}catch(Exception | NoSuchFieldError err) {}
+			String name = API.getFish(FishType.valueOf(ss[0].toUpperCase()),ss[1]).getDisplayName();
 			List<String> lore = new ArrayList<String>();
 			if(Quests.isFinished(p.getName(), quest))
 				for(String s: Loader.gui.getStringList("GUI.Quests.Quest_finished"))

@@ -32,16 +32,21 @@ public class API {
 		onReload.add(r);
 	}
 	
-	public static void register(Fish fish) {
+	public static Fish register(Fish fish) {
 		API.fish.put(fish.getName()+fish.getType().ordinal(), fish);
+		return fish;
 	}
 	
 	public static Map<String, Fish> getRegisteredFish() {
 		return new HashMap<>(fish);
 	}
 	
-	public static void unregister(Fish fish) {
-		API.fish.remove(fish.getName()+fish.getType().ordinal());
+	public static Fish unregister(Fish fish) {
+		return API.fish.remove(fish.getName()+fish.getType().ordinal());
+	}
+	
+	public static Fish getFish(FishType type, String name) {
+		return API.fish.get(name+type.ordinal());
 	}
 	
 	public static Map<String, Treasure> getRegisteredTreasures() {
@@ -52,12 +57,13 @@ public class API {
 		return points;
 	}
 	
-	public static void register(Treasure fish) {
-		API.treasure.put(fish.getName(), fish);
+	public static Treasure register(Treasure treas) {
+		API.treasure.put(treas.getName(), treas);
+		return treas;
 	}
 	
-	public static void unregister(Treasure fish) {
-		API.treasure.remove(fish.getName());
+	public static Treasure unregister(Treasure treas) {
+		return API.treasure.remove(treas.getName());
 	}
 	
 	public static boolean isFish(ItemStack stack) {
