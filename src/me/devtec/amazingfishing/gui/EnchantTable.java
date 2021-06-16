@@ -22,6 +22,7 @@ import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public class EnchantTable {
 	public static void openMain(Player p) {
@@ -85,9 +86,10 @@ public class EnchantTable {
 	}
 	
 	private static int getLevel(ItemStack rod, String enchant) {
-		Object r = Utils.asNMS(rod);
-		Object n = Utils.getNBT(r);
-		Data data = Utils.getString(n);
+		NBTEdit edit = new NBTEdit(rod);
+		Data data = new Data();
+		if(edit.getString("af_data")!=null)
+		data.reload(edit.getString("af_data"));
 		return data.getInt("enchants."+enchant.toLowerCase());
 	}
 	

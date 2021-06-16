@@ -9,9 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.datakeeper.DataType;
+import me.devtec.theapi.utils.nms.NMSAPI;
+import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public abstract class Enchant {
 	
@@ -47,17 +49,19 @@ public abstract class Enchant {
 	public abstract FishCatchList onCatch(Player player, int level, FishCatchList catchList);
 	
 	public int enchant(ItemStack rod, int amount) {
-		Object r = Utils.asNMS(rod);
-		Object n = Utils.getNBT(r);
-		Data data = Utils.getString(n);
+		NBTEdit edit = new NBTEdit(rod);
+		Data data = new Data();
+		if(edit.getString("af_data")!=null)
+		data.reload(edit.getString("af_data"));
 		String remove = data.getString("enchant."+name.toLowerCase());
 		data.set("enchant."+name.toLowerCase(), StringUtils.colorize(getDisplayName()+style(data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
 						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount)));
 		data.set("enchants."+name.toLowerCase(), 
 				data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
 						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount);
-		Utils.setString(n, data);
-		ItemMeta m = Utils.asBukkit(r).getItemMeta();
+		edit.setString("af_data", data.toString(DataType.JSON));
+		rod=NMSAPI.setNBT(rod, edit);
+		ItemMeta m = rod.getItemMeta();
 		List<String> l = m.getLore() != null ? m.getLore() : new ArrayList<>();
 		if(remove!=null)
 			l.remove(remove);
@@ -95,9 +99,10 @@ public abstract class Enchant {
 		return " "+i;
 	}
 	public boolean containsEnchant(ItemStack rod) {
-		Object r = Utils.asNMS(rod);
-		Object n = Utils.getNBT(r);
-		Data data = Utils.getString(n);
+		NBTEdit edit = new NBTEdit(rod);
+		Data data = new Data();
+		if(edit.getString("af_data")!=null)
+		data.reload(edit.getString("af_data"));
 		if(data.exists("enchant."+name.toLowerCase()))
 			return true;
 		return false;

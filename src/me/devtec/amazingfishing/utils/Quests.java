@@ -105,8 +105,7 @@ public class Quests {
 	//value = type_of_fish.name_of_fish -> cod.nazev
 	public static void addProgress(Player player, String action, String value, int amount) {
 		if(!progress.containsKey(player.getName())) {
-			loadNew(player.getName());
-			return;
+			load(player.getName());
 		}
 		check(player.getName());
 		Iterator<Object[]> it = progress.get(player.getName()).iterator();
@@ -181,8 +180,7 @@ public class Quests {
 		for(String s : a.getKeys("af-quests"))
 			if(quests.containsKey(s) && !isFinished(name, s))
 				set.add(new Object[] {s, a.getInt("af-quests."+s+".stage"), a.getInt("af-quests."+s+".count") });
-		if(set!=null || !set.isEmpty())
-			progress.put(name, set);
+		progress.put(name, set);
 	}
 	
 	public static void unload(String name) {

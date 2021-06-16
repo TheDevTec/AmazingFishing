@@ -34,6 +34,7 @@ import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.PercentageList;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 import me.devtec.theapi.utils.reflections.Ref;
 
 public class CatchFish implements Listener {
@@ -52,7 +53,10 @@ public class CatchFish implements Listener {
 						loc.getWorld().hasStorm(), loc.getWorld().isThundering(), loc.getWorld().getTime());
 				if(ff.isEmpty())return;
 				FishCatchList list = new FishCatchList();
-				Data data = Utils.getString(Utils.getNBT(Utils.asNMS(e.getPlayer().getItemInHand())));
+				NBTEdit edit = new NBTEdit(e.getPlayer().getItemInHand());
+				Data data = new Data();
+				if(edit.getString("af_data")!=null)
+				data.reload(edit.getString("af_data"));
 				for(String s : data.getKeys("enchants"))
 					if(Enchant.enchants.containsKey(s))
 					Enchant.enchants.get(s).onCatch(e.getPlayer(), data.getInt("enchants."+s), list);

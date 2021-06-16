@@ -12,24 +12,32 @@ import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.Treasure;
-import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.amazingfishing.utils.points.PointsManager;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public class API {
 	public static Map<String, Fish> fish = new HashMap<>();
 	protected static Map<String, Treasure> treasure = new HashMap<>();
-	protected static Material cod = find("COD",0), salmon = find("SALMON",1)
+	protected static ItemStack cod = find("COD",0), salmon = find("SALMON",1)
 			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3);
 	protected static PointsManager points;
 	protected static List<Runnable> onReload = new ArrayList<>();
 	
-	public static Material getMaterialOf(FishType type) {
+	public static ItemStack getMaterialOf(FishType type) {
 		return type==FishType.COD?cod:(type==FishType.SALMON?salmon:(type==FishType.TROPICAL_FISH?tropical_fish:pufferfish));
 	}
-	
+
 	public static void addRunnableOnReload(Runnable r) {
 		onReload.add(r);
+	}
+
+	public static void removeRunnableOnReload(Runnable r) {
+		onReload.remove(r);
+	}
+
+	public static List<Runnable> getRunnablesOnReload() {
+		return onReload;
 	}
 	
 	public static Fish register(Fish fish) {
@@ -38,7 +46,7 @@ public class API {
 	}
 	
 	public static Map<String, Fish> getRegisteredFish() {
-		return new HashMap<>(fish);
+		return fish;
 	}
 	
 	public static Fish unregister(Fish fish) {
@@ -50,7 +58,7 @@ public class API {
 	}
 	
 	public static Map<String, Treasure> getRegisteredTreasures() {
-		return new HashMap<>(treasure);
+		return treasure;
 	}
 	
 	public static PointsManager getPoints() {
@@ -67,16 +75,21 @@ public class API {
 	}
 	
 	public static boolean isFish(ItemStack stack) {
-		return isFishItem(stack)?Utils.hasString(Utils.getNBT(Utils.asNMS(stack))):false;
+		if(isFishItem(stack))
+			return new NBTEdit(stack).hasKey("af_data");
+		return false;
 	}
 
 	public static boolean isFishItem(ItemStack stack) {
-		return stack.getType()==cod||stack.getType()==salmon||stack.getType()==pufferfish||stack.getType()==tropical_fish;
+		return stack.getType()==cod.getType() && stack.getData().getData()==cod.getData().getData()||stack.getType()==salmon.getType() && stack.getData().getData()==salmon.getData().getData()||stack.getType()==pufferfish.getType() && stack.getData().getData()==pufferfish.getData().getData()||stack.getType()==tropical_fish.getType()&& stack.getData().getData()==tropical_fish.getData().getData();
 	}
 	
 	public static Fish getFish(ItemStack stack) {
 		if(!isFishItem(stack))return null;
-		Data data = Utils.getString(Utils.getNBT(Utils.asNMS(stack)));
+		NBTEdit edit = new NBTEdit(stack);
+		Data data = new Data();
+		if(edit.getString("af_data")!=null)
+		data.reload(edit.getString("af_data"));
 		for(Fish f : fish.values())
 			if(f.isInstance(data))return f;
 		return null;
@@ -84,7 +97,10 @@ public class API {
 	
 	public static CatchFish getCatchFish(ItemStack stack) {
 		if(!isFishItem(stack))return null;
-		Data data = Utils.getString(Utils.getNBT(Utils.asNMS(stack)));
+		NBTEdit edit = new NBTEdit(stack);
+		Data data = new Data();
+		if(edit.getString("af_data")!=null)
+		data.reload(edit.getString("af_data"));
 		for(Fish f : fish.values())
 			if(f.isInstance(data))
 				return f.createCatchFish(data);
@@ -92,8 +108,8 @@ public class API {
 	}
 	
 	//UTILITY
-	private static Material find(String name, int id) {
-		if(Material.getMaterial(name)!=null)return Material.getMaterial(name);
-		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id).getType();
+	private static ItemStack find(String name, int id) {
+		if(Material.getMaterial(name)!=null)return new ItemStack(Material.getMaterial(name));
+		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)0,(byte)id);
 	}
 }

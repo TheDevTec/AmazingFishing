@@ -26,22 +26,22 @@ import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 public class Index {
 	static GUI g=Create.setup(new GUI(Loader.gui.getString("GUI.Index.Title"),54), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 	static {
-		g.setItem(20, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.COD), 1, Trans.words_cod())) {
+		g.setItem(20, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.COD).getType(), 1, Trans.words_cod(), API.getMaterialOf(FishType.COD).getData().getData())) {
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				open(player, FishType.COD, 0);
 			}
 		});
-		g.setItem(24, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.SALMON), 1, Trans.words_salmon())) {
+		g.setItem(24, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.SALMON).getType(), 1, Trans.words_salmon(), API.getMaterialOf(FishType.SALMON).getData().getData())) {
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				open(player, FishType.SALMON, 0);
 			}
 		});
-		g.setItem(30, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.TROPICAL_FISH), 1, Trans.words_tropicalfish())) {
+		g.setItem(30, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.TROPICAL_FISH).getType(), 1, Trans.words_tropicalfish(), API.getMaterialOf(FishType.TROPICAL_FISH).getData().getData())) {
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				open(player, FishType.TROPICAL_FISH, 0);
 			}
 		});
-		g.setItem(32, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.PUFFERFISH), 1, Trans.words_pufferfish())) {
+		g.setItem(32, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.PUFFERFISH).getType(), 1, Trans.words_pufferfish(), API.getMaterialOf(FishType.PUFFERFISH).getData().getData())) {
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				open(player, FishType.PUFFERFISH, 0);
 			}

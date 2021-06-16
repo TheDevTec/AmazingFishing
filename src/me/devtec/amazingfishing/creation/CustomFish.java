@@ -23,7 +23,10 @@ import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.json.Writer;
+import me.devtec.theapi.utils.nms.NMSAPI;
+import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public class CustomFish implements Fish {
 	final String name, path;
@@ -180,9 +183,9 @@ public class CustomFish implements Fish {
 				));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
-		Object r = Utils.asNMS(stack);
-		Utils.setString(Utils.getNBT(r), createData(weight, length));
-		return Utils.asBukkit(r);
+		NBTEdit edit = new NBTEdit(stack);
+		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
+		return NMSAPI.setNBT(stack, edit);
 	}
 	
 	@Override
@@ -218,9 +221,9 @@ public class CustomFish implements Fish {
 				));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
-		Object r = Utils.asNMS(stack);
-		Utils.setString(Utils.getNBT(r), createData(weight, length,money,points,exp));
-		return Utils.asBukkit(r);
+		NBTEdit edit = new NBTEdit(stack);
+		edit.setString("af_data", createData(weight, length,money,points,exp).toString(DataType.JSON));
+		return NMSAPI.setNBT(stack, edit);
 	}
 
 	@Override
@@ -244,9 +247,9 @@ public class CustomFish implements Fish {
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
-		Object r = Utils.asNMS(stack);
-		Utils.setString(Utils.getNBT(r), createData(weight, length));
-		return Utils.asBukkit(r);
+		NBTEdit edit = new NBTEdit(stack);
+		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
+		return NMSAPI.setNBT(stack, edit);
 	}
 
 	@Override
@@ -282,9 +285,9 @@ public class CustomFish implements Fish {
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
 		ItemStack stack = Utils.setModel(c.create(), getModel());
-		Object r = Utils.asNMS(stack);
-		Utils.setString(Utils.getNBT(r), createData(weight, length,money,points,exp));
-		return Utils.asBukkit(r);
+		NBTEdit edit = new NBTEdit(stack);
+		edit.setString("af_data", createData(weight, length,money,points,exp).toString(DataType.JSON));
+		return NMSAPI.setNBT(stack, edit);
 	}
 
 	@Override

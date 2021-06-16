@@ -127,11 +127,9 @@ public class Shop {
 		if(API.getPoints().has(p.getName(), cost)) {
 			//TODO sounds
 			API.getPoints().remove(p.getName(), cost);
-			new Tasker() {
-				public void run() {for(String f:Loader.shop.getStringList("Items."+kit+".Commands"))
+			NMSAPI.postToMainThread(() -> {for(String f:Loader.shop.getStringList("Items."+kit+".Commands"))
 					TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+"") ));
-				}
-			}.runTaskSync();
+				});
 			for(String f:Loader.shop.getStringList("Items."+kit+".Messages"))
 				TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
 			for(String f:Loader.shop.getKeys("Items."+kit+".Item")) {
@@ -223,12 +221,11 @@ public class Shop {
 					.replace("%money_boost%", ""+f.getMoneyBoost()).replace("%points_boost%", ""+f.getPointsBoost()).replace("%exp_boost%", ""+f.getExpBoost())
 					.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost()))*d.getAmount();
 			i.remove(d);
-			NMSAPI.postToMainThread(new Runnable() {
-				public void run() {
+			NMSAPI.postToMainThread(() -> {
 					Statistics.addSelling(p, f.getFish(), d.getAmount()); //Adding fish to Selling statistics
 			        Achievements.check(p, f);
 			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName(), d.getAmount());
-				}});
+				});
 		}
 		if(sel != 0) {
 			//TODO sounds
