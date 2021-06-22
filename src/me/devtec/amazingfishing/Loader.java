@@ -287,12 +287,16 @@ public class Loader extends JavaPlugin {
 			if(ach.getValue().getClass()==Achievement.class)
 				if(!toReg.contains(ach.getKey()))
 					removeE.add(ach.getKey());
-		for(String s : removeE)
+		for(String s : removeE) {
 			Achievements.achievements.remove(s);
-
+		}
 		//REGISTER-NOT-LOADED
-		for(String s : toReg)
-			Achievements.register(new Achievement(s, achievements));
+		for(String s : toReg) {
+			if(Loader.achievements.exists("achievements."+s+".icon")) {
+				Achievements.register(new Achievement(s, achievements));
+			}
+			else continue;
+		}
 			
 		//CLEAR-CACHE
 		TheAPI.msg(prefix+" Achievements registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);

@@ -49,15 +49,35 @@ public class Achievements {
 			else return Utils.getCachedMaterial("GREEN_WOOL");
 		}
 		
-		public List<String> getDescription() {
+		public List<String> getDescription(Player p) {
 			List<String> list = new ArrayList<String>();
-			for(String s: d.getStringList("achievements."+name+".description"))
-				list.add(s.replace("%name%", getName())
-						.replace("%questname%", getDisplayName())
-						.replace("%unfinished_icon%", getUnfinishedIcon().getItemType().name())
-						.replace("%finished_icon%", getFinishedIcon().getItemType().name())
-						.replace("%requirement%", ""+getRequirement())
-						);
+			if(isFinished(p, this) && d.exists("achievements."+name+".description.finished")) {
+				for(String s: d.getStringList("achievements."+name+".description.finished"))
+					list.add(s.replace("%name%", getName())
+							.replace("%questname%", getDisplayName())
+							.replace("%unfinished_icon%", getUnfinishedIcon().getItemType().name())
+							.replace("%finished_icon%", getFinishedIcon().getItemType().name())
+							.replace("%requirement%", ""+getRequirement())
+							);
+			}
+			else {
+				if(d.exists("achievements."+name+".description.unfinished"))
+				for(String s: d.getStringList("achievements."+name+".description.unfinished"))
+					list.add(s.replace("%name%", getName())
+							.replace("%questname%", getDisplayName())
+							.replace("%unfinished_icon%", getUnfinishedIcon().getItemType().name())
+							.replace("%finished_icon%", getFinishedIcon().getItemType().name())
+							.replace("%requirement%", ""+getRequirement())
+							);
+				else
+					for(String s: d.getStringList("achievements."+name+".description"))
+						list.add(s.replace("%name%", getName())
+								.replace("%questname%", getDisplayName())
+								.replace("%unfinished_icon%", getUnfinishedIcon().getItemType().name())
+								.replace("%finished_icon%", getFinishedIcon().getItemType().name())
+								.replace("%requirement%", ""+getRequirement())
+								);
+			}
 			return list;
 		}
 		
@@ -165,8 +185,8 @@ public class Achievements {
 					if(val.equalsIgnoreCase("all")) // Všechny ryby
 						type= SavingType.GLOBAL;
 					if(val.equalsIgnoreCase( s[0] )) // Všechny ryby určitého typu
-						//TODO - OTESTOVAT jestli to vůbec takto funguje
 						type= SavingType.PER_TYPE;
+					
 					if(action.equalsIgnoreCase("catch_fish")&&
 							( Statistics.getCaught(p, s[1], s[0], type)>=achievement.getAmount(i) ) ) {
 						setStageFinished(p, achievement, i);

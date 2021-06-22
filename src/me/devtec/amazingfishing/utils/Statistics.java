@@ -21,6 +21,7 @@ public class Statistics {
 	
 	public static int getCaught(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
+		if(SavingType==null) return -1;
 		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught"); //All fishes
@@ -33,8 +34,10 @@ public class Statistics {
 	}
 	public static int getCaught(Player p, String fish, String type, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
+		if(SavingType==null) return -1;
 		switch(SavingType) {
 		case GLOBAL:
+			if(u.exist(Manager.getDataLocation()+".Statistics.Fish.Caught"))
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught"); //All fishes
 		case PER_FISH:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish."+type.toUpperCase()+"."+fish+".Caught");
@@ -91,6 +94,7 @@ public class Statistics {
 	}
 	public static double getRecord(Player p, Fish f, RecordType RecordType) {
 		User u = TheAPI.getUser(p);
+		if(RecordType==null) return -1;
 		if(u.exist(Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+RecordType.name() ))
 			return u.getDouble( Manager.getDataLocation()+".Statistics.Records."+f.getType()+"."+f.getName()+"."+RecordType.name() );
 		return 0;
@@ -106,6 +110,7 @@ public class Statistics {
 	
 	public static int getEaten(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
+		if(SavingType==null) return -1;
 		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Eaten");
@@ -118,6 +123,7 @@ public class Statistics {
 	}
 	public static int getEaten(Player p, String fish, String type, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
+		if(SavingType==null) return -1;
 		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Eaten");
@@ -144,6 +150,7 @@ public class Statistics {
 	// Selling fish
 	public static int getSold(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
+		if(SavingType==null) return -1;
 		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Sold");
@@ -156,6 +163,7 @@ public class Statistics {
 	}
 	public static int getSold(Player p, String fish, String type, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
+		if(SavingType==null) return -1;
 		switch(SavingType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Fish.Sold");
@@ -190,6 +198,7 @@ public class Statistics {
 	}
 	public static Double getGainedValues(Player p, gainedType gainedType) { //Values of total earnings from selling fish 
 		User u = TheAPI.getUser(p);
+		if(gainedType==null) return -1.0;
 		switch(gainedType) {
 		case EXP:
 			return u.getDouble(Manager.getDataLocation()+".Statistics.Shop.Gained.Exp");
@@ -217,6 +226,7 @@ public class Statistics {
 	}
 	public static int getCaughtTreasures(Player p, Treasure treasure, CaughtTreasuresType CaughtTreasuresType) {
 		User u = TheAPI.getUser(p);
+		if(CaughtTreasuresType==null) return -1;
 		switch(CaughtTreasuresType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures.Caught");
@@ -227,6 +237,7 @@ public class Statistics {
 	}
 	public static int getCaughtTreasures(Player p, String treasure, CaughtTreasuresType CaughtTreasuresType) {
 		User u = TheAPI.getUser(p);
+		if(CaughtTreasuresType==null) return -1;
 		switch(CaughtTreasuresType) {
 		case GLOBAL:
 			return u.getInt(Manager.getDataLocation()+".Statistics.Treasures.Caught");

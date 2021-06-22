@@ -28,7 +28,7 @@ public class AchievementGUI {
 		}
 		if(p!=null && !p.isEmpty()) {
 		for(Achievement ach: p.getPage(page)) {
-			a.add(new ItemGUI( Create.createItem(ach.getDisplayName(), Achievements.getIcon(player, ach), ach.getDescription())) {
+			a.add(new ItemGUI( Create.createItem(ach.getDisplayName(), Achievements.getIcon(player, ach), ach.getDescription(player))) {
 				
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
