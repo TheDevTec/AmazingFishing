@@ -303,6 +303,29 @@ public class Loader extends JavaPlugin {
 		toReg.clear();
 		removeE.clear();
 		
+		if(achievements.exists("categories")) {
+			int old = 0;
+			if(!Achievements.categories.isEmpty()) {
+				old = Achievements.categories.size();
+						Achievements.categories.clear();
+			}
+			List<Achievement> ctoReg = new ArrayList<>();
+			
+			for(String category : achievements.getKeys("categories")) {
+				
+				for(String ach: achievements.getStringList("categories."+category+".achievements")) {
+					if(Achievements.achievements.containsKey(ach))
+						ctoReg.add( Achievements.achievements.get(ach) );
+				}
+				Achievements.addToCategory(category, new ArrayList<>(ctoReg));
+				//Achievements.categories.put(category, ctoReg);
+				ctoReg.clear();
+			}
+			
+			TheAPI.msg(prefix+" Achievements categories registered ("+Achievements.categories.size()+") & removed unregistered ("+old+").", ss);
+			
+		}
+		
 		API.onReload.forEach(a->a.run());
 	}
 	

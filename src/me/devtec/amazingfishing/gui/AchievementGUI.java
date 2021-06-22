@@ -1,5 +1,7 @@
 package me.devtec.amazingfishing.gui;
 
+import java.util.List;
+
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
@@ -23,9 +25,19 @@ public class AchievementGUI {
 		GUI a = Create.setup(new GUI(Trans.achievements_title(),54), f -> Help.open(f), Settings.SIDES);
 
 		Pagination<Achievement> p = new Pagination<Achievement>(28);
-		for(Achievement q :  Achievements.achievements.values()) {
-			p.add(q);
+		if(Achievements.categories.isEmpty()) {
+			for(Achievement q :  Achievements.achievements.values()) {
+				p.add(q);
+			}
+		} else {
+			for(List<Achievement> cat :  Achievements.categories.values()) {
+				for(Achievement q: cat) {
+					p.add(q);
+				}
+			}
 		}
+
+
 		if(p!=null && !p.isEmpty()) {
 		for(Achievement ach: p.getPage(page)) {
 			a.add(new ItemGUI( Create.createItem(ach.getDisplayName(), Achievements.getIcon(player, ach), ach.getDescription(player))) {

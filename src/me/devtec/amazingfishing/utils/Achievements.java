@@ -122,11 +122,11 @@ public class Achievements {
 	
 	
 	public static Map<String, Achievement> achievements = new HashMap<>();
+	public static Map<String, List<Achievement> > categories = new HashMap<>(); // Category, list of Achievements
 	
 	public static void register(Achievement achievement) {
 		achievements.put(achievement.getName(), achievement);
 	}
-	
 	public static void unregister(Achievement achievement) {
 		achievements.remove(achievement.getName());
 	}
@@ -134,7 +134,17 @@ public class Achievements {
 	public static void unregister(String achievement) {
 		achievements.remove(achievement);
 	}
-
+	
+	public static void addToCategory(String category, List<Achievement> list) {
+		categories.put(category, list);
+	}
+	public static void removeFromCategory(String category, List<Achievement> list) {
+		categories.remove(category, list);
+	}
+	public static void removeFromCategory(String category) {
+		categories.remove(category);
+	}
+	
 	public static enum Action {
 		/*Fishing:*/ catch_fish, eat_fish, sell_fish,
         /*Treasures:*/ catch_treasure,

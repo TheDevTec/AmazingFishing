@@ -53,3 +53,8 @@ achievements:
         value: "cod.1"
         
         amount: 20
+#categories:
+#  test:
+#    achievements:
+#    - "common"
+#    - "achievement_2"
