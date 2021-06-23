@@ -11,6 +11,7 @@ import java.util.Set;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
+import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -85,6 +86,7 @@ public class Quests {
 	}
 	
 	public static Map<String, Quest> quests = new HashMap<>();
+	public static Map<String, Category> categories = new HashMap<>(); // name, Category
 	
 	public static void register(Quest quest) {
 		quests.put(quest.getName(), quest);
@@ -96,6 +98,9 @@ public class Quests {
 	
 	public static void unregister(String quest) {
 		quests.remove(quest);
+	}
+	public static void addToCategory(Category category) {
+		categories.put(category.getName(), category);
 	}
 	
 	//PlayerName, Set<Object[QuestName, Stage]>

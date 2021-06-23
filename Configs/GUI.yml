@@ -86,6 +86,7 @@ GUI:
   Quests:
     Title:
       All: "&3All quests"
+      Category: "&3Quests &7&l- %category%"
       MyQuests: "&3My quests"
     MyQuests: "&bGo to my quests"
     Quest_progress:
@@ -101,3 +102,4 @@ GUI:
     
   Achievements:
     Title: "&3Achievements"
+    Category: "&3Achievements &7&l- %category%"

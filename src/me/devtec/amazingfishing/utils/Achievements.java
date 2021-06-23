@@ -11,6 +11,7 @@ import org.bukkit.material.MaterialData;
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.Treasure;
+import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Statistics.CaughtTreasuresType;
 import me.devtec.amazingfishing.utils.Statistics.SavingType;
 import me.devtec.amazingfishing.utils.Statistics.gainedType;
@@ -122,7 +123,7 @@ public class Achievements {
 	
 	
 	public static Map<String, Achievement> achievements = new HashMap<>();
-	public static Map<String, List<Achievement> > categories = new HashMap<>(); // Category, list of Achievements
+	public static Map<String, Category> categories = new HashMap<>();  // name, Category
 	
 	public static void register(Achievement achievement) {
 		achievements.put(achievement.getName(), achievement);
@@ -134,12 +135,14 @@ public class Achievements {
 	public static void unregister(String achievement) {
 		achievements.remove(achievement);
 	}
-	
-	public static void addToCategory(String category, List<Achievement> list) {
-		categories.put(category, list);
+	public static void addToCategory(Category category) {
+		categories.put(category.getName(), category);
 	}
-	public static void removeFromCategory(String category, List<Achievement> list) {
-		categories.remove(category, list);
+	/*public static void addToCategory(String category, List<Achievement> list) {
+		categories.put(category, list);
+	}*/
+	public static void removeFromCategory(String category, Category cat) {
+		categories.remove(category, cat);
 	}
 	public static void removeFromCategory(String category) {
 		categories.remove(category);
@@ -306,4 +309,5 @@ public class Achievements {
 	 			finished: true/false
 	 			<stage>: true/false // Finished?
 	 */
+
 }

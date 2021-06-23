@@ -55,3 +55,14 @@ quests:
         action: "sell_fish"
         value: "cod.1"
         count: 2
+
+#categories:
+#  test:
+#    content:
+#    - "common"
+#    - "quest_2"
+#    name: ""
+#    #Icom: MATERIAL
+#    icon: ""
+#    head: ""
+#    description: []

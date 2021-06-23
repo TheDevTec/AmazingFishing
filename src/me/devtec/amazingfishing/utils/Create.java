@@ -1,11 +1,17 @@
 package me.devtec.amazingfishing.utils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
+
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.theapi.apis.ItemCreatorAPI;
@@ -24,6 +30,12 @@ public class Create {
     
 	public static ItemStack createItem(String name, Material material, List<String> lore) {
     	ItemCreatorAPI a = new ItemCreatorAPI(material);
+    	a.setDisplayName(name);
+    	a.setLore(lore);
+    	return a.create();
+    }
+	public static ItemStack createItem(String name, ItemStack item, List<String> lore) {
+    	ItemCreatorAPI a = new ItemCreatorAPI(item);
     	a.setDisplayName(name);
     	a.setLore(lore);
     	return a.create();
@@ -125,4 +137,26 @@ public class Create {
 	public static interface PRunnable {
 		public void run(Player p);
 	}
+	
+	public static ItemStack createSkull(String url) {
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+        if (url==null)
+            return head;
+
+        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+
+        profile.getProperties().put("textures", new Property("textures", url));
+
+        try {
+            Field profileField = headMeta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(headMeta, profile);
+
+        } catch (IllegalArgumentException | NoSuchFieldException | SecurityException | IllegalAccessException error) {
+            error.printStackTrace();
+        }
+        head.setItemMeta(headMeta);
+        return head;
+    }
 }

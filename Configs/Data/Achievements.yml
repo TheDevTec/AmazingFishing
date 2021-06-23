@@ -55,6 +55,10 @@ achievements:
         amount: 20
 #categories:
 #  test:
-#    achievements:
+#    content:
 #    - "common"
 #    - "achievement_2"
+#    name: ""
+#    icon: ""
+#    head: ""
+#    description: []

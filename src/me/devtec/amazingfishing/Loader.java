@@ -28,6 +28,7 @@ import me.devtec.amazingfishing.utils.Achievements;
 import me.devtec.amazingfishing.utils.Achievements.Achievement;
 import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.CatchFish;
+import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.EatFish;
 import me.devtec.amazingfishing.utils.Quests;
@@ -276,7 +277,21 @@ public class Loader extends JavaPlugin {
 		TheAPI.msg(prefix+" Quests registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();
 		removeE.clear();
-				
+		
+		if(quest.exists("categories")) {
+			int old = 0;
+			if(!Quests.categories.isEmpty()) {
+				old = Quests.categories.size();
+				Quests.categories.clear();
+			}
+			
+			for(String category : quest.getKeys("categories")) {
+				Quests.addToCategory( new Category(category, quest));
+			}
+			
+			TheAPI.msg(prefix+" Quests categories registered ("+Quests.categories.size()+") & removed unregistered ("+old+").", ss);
+		}
+		
 		//ACHIEVEMENTS
 		
 		//PRE-LOAD
@@ -309,17 +324,9 @@ public class Loader extends JavaPlugin {
 				old = Achievements.categories.size();
 						Achievements.categories.clear();
 			}
-			List<Achievement> ctoReg = new ArrayList<>();
 			
 			for(String category : achievements.getKeys("categories")) {
-				
-				for(String ach: achievements.getStringList("categories."+category+".achievements")) {
-					if(Achievements.achievements.containsKey(ach))
-						ctoReg.add( Achievements.achievements.get(ach) );
-				}
-				Achievements.addToCategory(category, new ArrayList<>(ctoReg));
-				//Achievements.categories.put(category, ctoReg);
-				ctoReg.clear();
+				Achievements.addToCategory( new Category(category, achievements));
 			}
 			
 			TheAPI.msg(prefix+" Achievements categories registered ("+Achievements.categories.size()+") & removed unregistered ("+old+").", ss);

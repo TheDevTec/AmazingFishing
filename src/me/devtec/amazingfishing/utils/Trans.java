@@ -141,6 +141,9 @@ public class Trans {
 	
 	public static String quests_title_all() {
 		return Loader.gui.getString("GUI.Quests.Title.All");
+	}	
+	public static String quests_title_categories() {
+		return Loader.gui.getString("GUI.Quests.Title.Category");
 	}
 	public static String quests_title_my() {
 		return Loader.gui.getString("GUI.Quests.Title.MyQuests");
@@ -148,6 +151,9 @@ public class Trans {
 	
 	public static String achievements_title() {
 		return Loader.gui.getString("GUI.Achievements.Title");
+	}
+	public static String achievements_title_category() {
+		return Loader.gui.getString("GUI.Achievements.Category");
 	}
 	
 	public static String words_cod() {

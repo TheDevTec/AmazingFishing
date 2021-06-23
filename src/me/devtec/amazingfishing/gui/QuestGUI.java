@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.FishType;
+import me.devtec.amazingfishing.utils.Categories;
+import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Pagination;
@@ -26,7 +28,19 @@ import me.devtec.theapi.utils.datakeeper.User;
 public class QuestGUI {
 	
 	public static void open(Player p) {
-		openQuests(p, 0);
+		boolean icon = false;
+		if(!Quests.categories.isEmpty()) {
+			for(Category category :  Quests.categories.values()) {
+				if(Categories.hasIcon(category)) {
+					icon=true;
+					break;
+				}
+			}
+		}
+		if(icon==false)
+			openQuests(p, 0);
+		else
+			openCategoryList(p, 0);
 	}
 
 	private static void openQuests(Player player, int page) {
@@ -101,6 +115,133 @@ public class QuestGUI {
 		});
 		a.open(player);
 	}
+	
+	private static void openCategoryList(Player player, int page) {
+		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f), Settings.SIDES);
+
+		Pagination<Category> p = new Pagination<Category>(28);
+	
+		for(Category category :  Quests.categories.values()) {
+				p.add(category);
+		}
+		
+		if(p!=null && !p.isEmpty()) {
+			for(Category category: p.getPage(page)) {
+				a.add(new ItemGUI( Create.createItem(category.getDisplayName(), category.getIcon(), category.getDescription())) {
+					@Override
+					public void onClick(Player player, HolderGUI gui, ClickType click) {
+						openCategory(player, 0, category);
+					}
+				});
+			}
+			
+			
+			
+			if(p.totalPages()>page+1) {
+				a.setItem(51, new ItemGUI(Loader.next) {
+					
+					@Override
+					public void onClick(Player player, HolderGUI gui, ClickType click) {
+						openCategoryList(player, page+1);
+						
+					}
+				});
+			}
+			if(page>0) {
+				a.setItem(47, new ItemGUI(Loader.prev) {
+					
+					@Override
+					public void onClick(Player player, HolderGUI gui, ClickType click) {
+						openCategoryList(player, page-1);
+						
+					}
+				});
+			}
+		}
+		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Utils.getCachedMaterial("BLUE_CONCRETE_POWDER"))) {
+			@Override
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				openMyQuests(player, 0);
+				
+			}
+		});
+		a.open(player);
+	}
+	
+	private static void openCategory(Player player, int page, Category category) {
+		GUI a = Create.setup(new GUI(Trans.quests_title_all().replace("%category%", category.getDisplayName()),54), f -> Help.open(f), Settings.SIDES);
+		Pagination<Quest> p = new Pagination<Quest>(28);
+		for(String q :  category.getContent()) {
+			if(Quests.quests.containsKey(q))
+				p.add(Quests.quests.get(q));
+		}
+		if(p!=null && !p.isEmpty()) {
+		for(Quest q: p.getPage(page)) {
+			a.add(new ItemGUI( Create.createItem(q.getDisplayName(), q.getDisplayIcon(), q.getDescription())) {
+				
+				@Override
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					if(click == ClickType.LEFT_PICKUP) {
+						if(Quests.canStartNew(player.getName()) && !Quests.isInPorgress(player.getName(), q.getName()) ) {
+							Quests.start(player, q);
+						}else {
+							Loader.msg(Trans.s("Quests.CannotStart").replace("%name%", q.getName())
+									.replace("%questname%", q.getDisplayName())
+									.replace("%icon%", q.getDisplayIcon().getItemType().name())
+									.replace("%stages%", ""+q.getStages()), player);
+						}
+					}
+					if(click == ClickType.RIGHT_PICKUP) {
+						if(Quests.canCancel(player.getName(), q)) {
+							Quests.cancel(player.getName(), q.getName());
+							Loader.msg(Trans.s("Quests.Cancel").replace("%name%", q.getName())
+									.replace("%questname%", q.getDisplayName())
+									.replace("%icon%", q.getDisplayIcon().getItemType().name())
+									.replace("%stages%", ""+q.getStages()), player);
+							return;
+						}else {
+							Loader.msg(Trans.s("Quests.CannotCancel").replace("%name%", q.getName())
+									.replace("%questname%", q.getDisplayName())
+									.replace("%icon%", q.getDisplayIcon().getItemType().name())
+									.replace("%stages%", ""+q.getStages()), player);
+						}
+					}
+					
+				}
+			});
+			
+		}
+		if(p.totalPages()>page+1) {
+			a.setItem(51, new ItemGUI(Loader.next) {
+				
+				@Override
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					openQuests(player, page+1);
+					
+				}
+			});
+		}
+		if(page>0) {
+			a.setItem(47, new ItemGUI(Loader.prev) {
+				
+				@Override
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					openQuests(player, page-1);
+					
+				}
+			});
+		}
+		}
+		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Utils.getCachedMaterial("BLUE_CONCRETE_POWDER"))) {
+			@Override
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+				openMyQuests(player, 0);
+				
+			}
+		});
+		a.open(player);
+	}
+	
 	private static void openMyQuests(Player p, int page) {
 		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f));
 		User u = TheAPI.getUser(p);
