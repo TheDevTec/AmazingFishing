@@ -108,7 +108,7 @@ public class Placeholders {
 			return Loader.config.getString("Options.Placeholders.Format.Fish.Caught").replace("%position%", position+"")
 					.replace("%player%", Bukkit.getServer().getOfflinePlayer(data.getKey()).getName()+"" ).replace("%amount%", ""+data.getValue());
 		case TOURNAMENTS_WINS:
-			Entry<UUID, Integer> dat = fish_caught.get(position);
+			Entry<UUID, Integer> dat = tournaments_wins.get(position);
 			if(dat==null)
 				return Loader.config.getString("Options.Placeholders.Format.Tournaments.Wins").replace("%position%", position+"")
 					.replace("%player%", "-" ).replace("%amount%", "-");

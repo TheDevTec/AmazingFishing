@@ -82,7 +82,7 @@ public class Loader extends JavaPlugin {
 		TheAPI.createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
 		
 		if(Placeholders.isEnabledPlaceholderAPI())
-			new PAPISupport();
+			new PAPISupport().load();
 		
 		if(config.getBoolean("Tournament.Automatic.Use")) {
 			if(config.getBoolean("Tournament.Automatic.AllWorlds")) {
