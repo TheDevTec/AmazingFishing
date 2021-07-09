@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -25,6 +24,7 @@ import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.TheAPI.SudoType;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.economyapi.EconomyAPI;
+import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
@@ -86,11 +86,18 @@ public class Shop {
 							public void run() {
 								openShop(p, ShopType.BUY);
 							}}));
-					a.setItem(49,c(p,"Sell",new Runnable() {
+					a.setItem(49, new ItemGUI(cc(p,"Sell")) {
+						
+						@Override
+						public void onClick(Player player, HolderGUI gui, ClickType click) {
+							sellAll(p, gui, false);
+						}
+					});
+					/*a.setItem(49,c(p,"Sell",new Runnable() {
 						@Override
 						public void run() {
 							sellAll(p, p.getOpenInventory().getTopInventory(), false);
-						}}));
+						}}));*/
 				}
 				a.open(p);
 			}
@@ -161,29 +168,29 @@ public class Shop {
 		}
 	}
 	
-	public static void sellAll(Player p, Inventory i, boolean expand) {
+	public static void sellAll(Player p, HolderGUI gui, boolean expand) {
 		List<ItemStack> a = new ArrayList<>();
 		if(!expand) {
 			for(int count =10; count < 17; ++count) {
-				a.add(i.getItem(count));
-				i.setItem(count, null);
+				a.add(gui.getItem(count));
+				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
 			}
 			for(int count =19; count < 26; ++count) {
-				a.add(i.getItem(count));
-				i.setItem(count, null);
+				a.add(gui.getItem(count));
+				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
 			}
 			for(int count =28; count < 35; ++count) {
-				a.add(i.getItem(count));
-				i.setItem(count, null);
+				a.add(gui.getItem(count));
+				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
 			}
 			for(int count =37; count < 44; ++count) {
-				a.add(i.getItem(count));
-				i.setItem(count, null);
+				a.add(gui.getItem(count));
+				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
 			}
 		}else {
 			for(int count = 0; count < 45; ++count) {
-				a.add(i.getItem(count));
-				i.setItem(count, null);
+				a.add(gui.getItem(count));
+				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
 			}
 		}
 		int sel = 0;
@@ -220,7 +227,7 @@ public class Shop {
 					.replace("%points%", ""+f.getFish().getPoints()).replace("%bonus%", ""+bonus)
 					.replace("%money_boost%", ""+f.getMoneyBoost()).replace("%points_boost%", ""+f.getPointsBoost()).replace("%exp_boost%", ""+f.getExpBoost())
 					.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost()))*d.getAmount();
-			i.remove(d);
+			//a.remove(d);
 			NMSAPI.postToMainThread(() -> {
 					Statistics.addSelling(p, f.getFish(), d.getAmount()); //Adding fish to Selling statistics
 			        Achievements.check(p, f);
@@ -264,5 +271,18 @@ public class Shop {
 					r.run();
 		}};
 		return d;
+	}
+	private static ItemStack cc(Player p, String item) {
+		String name = Loader.shop.getString("GUI."+item+".Name")
+				.replace("%player%", p.getName())
+				.replace("%playername%", p.getDisplayName())
+				.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName())));
+		List<String> lore = Loader.shop.getStringList("GUI."+item+".Lore");
+		lore.replaceAll(s->s.replace("%player%", p.getName())
+					.replace("%playername%", p.getDisplayName())
+					.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName()))));
+		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Utils.createType(Loader.shop.getString("GUI."+item+".Icon")), lore));
+		
+		return Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create();
 	}
 }

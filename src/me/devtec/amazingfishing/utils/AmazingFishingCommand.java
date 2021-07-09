@@ -267,7 +267,8 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			if(args[1].equalsIgnoreCase("stop")) {
 				if(args.length==2) {
 					for(World w : Bukkit.getWorlds())
-						TournamentManager.get(w).stop(true);
+						if(TournamentManager.get(w)!=null)
+							TournamentManager.get(w).stop(true);
 					if(TournamentManager.getGlobal()!=null)
 						TournamentManager.getGlobal().stop(true);
 					TheAPI.msg("All tournaments stopped", s);

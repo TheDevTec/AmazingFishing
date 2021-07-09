@@ -17,14 +17,19 @@ public class TournamentManager {
 	public static boolean start(World world, TournamentType type, long time) {
 		if(world==null) {
 			if(global!=null)return false;
-			global=new Tournament(type, time);
+			global=new Tournament(type, time, null);
 			return true;
 		}
-		return isRunning(world) ? false : t.put(world, new Tournament(type, time))==null;
+		return isRunning(world) ? false : t.put(world, new Tournament(type, time, world))==null;
 	}
 
 	public static Tournament get(World w) {
-		return t.get(w);
+		if(t.containsKey(w))
+			return t.get(w);
+		if(global!=null)
+			return global;
+		else
+			return null;
 	}
 	public static Map<World, Tournament> getAll() {
 		return t;

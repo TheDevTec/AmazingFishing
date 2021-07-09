@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
@@ -26,12 +27,27 @@ public class Tournament {
 	private long runOut,total;
 	private final Map<Player, Double> values = new HashMap<>();
 	private final TournamentType t;
-	public Tournament(TournamentType type, long time) {
+	public Tournament(TournamentType type, long time, World world) {
 		if(type==TournamentType.RANDOM) {
 			type=TournamentType.values()[r.nextInt(TournamentType.values().length)];
 		}
 		t=type;
 		total=time;
+		
+		for(Player p : TheAPI.getOnlinePlayers()) {
+			if(world!=null)
+				if(world != p.getWorld())
+					continue;
+			NMSAPI.postToMainThread(new Runnable() {
+				public void run() {
+					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Commands"))
+						TheAPI.sudoConsole(replace(cmd,p));
+				}
+			});
+			for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Messages"))
+				TheAPI.msg(replace(msg.replace("%time%", StringUtils.setTimeToString(time)) ,p), p);
+		}
+		
 		runOut = time;
 		task = new Tasker() {
 			public void run() {
@@ -42,9 +58,9 @@ public class Tournament {
 					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
 						for(Player p : values.keySet())
 							TheAPI.sendBossBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p), StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)));
-						if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
+					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
 						for(Player p : values.keySet())
-						TheAPI.sendActionBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Actionbar.Text"),p));
+							TheAPI.sendActionBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Actionbar.Text"),p));
 					}
 			}
 		}.runRepeating(0, 20);
@@ -162,8 +178,8 @@ public class Tournament {
 		if(!values.containsKey(p)) {
 			NMSAPI.postToMainThread(new Runnable() {
 				public void run() {
-					for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Commands"))
-						TheAPI.sudoConsole(replace(msg,p));
+					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Commands"))
+						TheAPI.sudoConsole(replace(cmd,p));
 				}
 			});
 			for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Messages"))
