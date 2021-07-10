@@ -6,6 +6,9 @@ cod:
     # Model data of fish (For custom resource pack)
     model: 1
     
+    # Head options: link, value, player's name (Houska02) or HeadDatabase head (hdb:ID)
+    # head: ""
+    
     # Chance to catch this fish
     chance: 50.0
     
@@ -64,6 +67,13 @@ cod:
       catch: []
       eat: []
       
+    # * Custom values*
+    # you don't need to use this options
+    
+    # customvalues:
+    #   addhunger "value" adds hunger on eat
+    #   addhunger: "2" 
+    
     # * Stats *
     
     # Weight

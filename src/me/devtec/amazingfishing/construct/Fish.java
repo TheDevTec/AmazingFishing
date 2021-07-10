@@ -41,6 +41,8 @@ public interface Fish {
 	public Data createData(double weight, double length, double money, double points, double exp);
 	
 	public boolean isInstance(Data data);
+	
+	public boolean isHead();
 
 	public ItemStack createItem(double height, double length);
 
@@ -65,6 +67,8 @@ public interface Fish {
 	public double getPoints();
 	
 	public double getXp();
+	
+	public double getFood();
 	
 	public CatchFish createCatchFish(Data data);
 

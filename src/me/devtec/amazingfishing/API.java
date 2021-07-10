@@ -20,7 +20,8 @@ public class API {
 	public static Map<String, Fish> fish = new HashMap<>();
 	protected static Map<String, Treasure> treasure = new HashMap<>();
 	protected static ItemStack cod = find("COD",0), salmon = find("SALMON",1)
-			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3);
+			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3)
+			,head = find("PLAYER_HEAD", 0);
 	protected static PointsManager points;
 	protected static List<Runnable> onReload = new ArrayList<>();
 	
@@ -81,6 +82,8 @@ public class API {
 	}
 
 	public static boolean isFishItem(ItemStack stack) {
+		if(stack.getType()==head.getType())
+			return true;
 		return stack.getType()==cod.getType() && stack.getData().getData()==cod.getData().getData()||stack.getType()==salmon.getType() && stack.getData().getData()==salmon.getData().getData()||stack.getType()==pufferfish.getType() && stack.getData().getData()==pufferfish.getData().getData()||stack.getType()==tropical_fish.getType()&& stack.getData().getData()==tropical_fish.getData().getData();
 	}
 	

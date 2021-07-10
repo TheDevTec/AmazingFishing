@@ -19,6 +19,7 @@ import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
+import me.devtec.amazingfishing.utils.HDBSupport;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
@@ -32,12 +33,17 @@ public class CustomFish implements Fish {
 	final String name, path;
 	final Data data;
 	final FishType type;
+	boolean head;
 	
 	public CustomFish(String name, String path, FishType type, Data data) {
 		this.name=name;
 		this.type=type;
 		this.path=path.toLowerCase();
 		this.data=data;
+		if(data.exists(path+"."+name+".head"))
+			this.head=true;
+		else
+			this.head=false;
 	}
 	
 	public String toString() {
@@ -58,6 +64,7 @@ public class CustomFish implements Fish {
 		map.put("exp", getXp());
 		map.put("points", getPoints());
 		map.put("model", getModel());
+		map.put("head", getHead());
 		return Writer.write(map);
 	}
 	
@@ -162,9 +169,17 @@ public class CustomFish implements Fish {
 		return data.getInt(path+"."+name+".model");
 	}
 	
+	public String getHead() {
+		return data.getString(path+"."+name+".head");
+	}
+	public boolean isHead() {
+		return head;
+	}
+	
 	@Override
 	public ItemStack createItem(double weight, double length) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -191,6 +206,7 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack createItem(double weight, double length, double money, double points, double exp) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -229,6 +245,7 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -255,6 +272,7 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack createItem(double weight, double length, double money, double points, double exp, Player p, Location hook) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -293,6 +311,7 @@ public class CustomFish implements Fish {
 	@Override
 	public ItemStack preview(Player p) {
 		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
+		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
 		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
@@ -337,8 +356,28 @@ public class CustomFish implements Fish {
 	}
 	
 	private ItemStack find(String name, int id) {
+		if(this.head) {
+			String head = data.getString(path+"."+this.name+".head");
+			if(head.toLowerCase().startsWith("hdb:"))
+				return new ItemCreatorAPI( HDBSupport.parse(head)).create();
+			else
+			if(head.startsWith("https://")||head.startsWith("http://"))
+				return ItemCreatorAPI.createHeadByWeb(1, "&7Head from website", head);
+			else
+			if(head.length()>16) {
+				return ItemCreatorAPI.createHeadByValues(1, "&7Head from values", head);
+			}else
+				return ItemCreatorAPI.createHead(1, "&7" + head + "'s Head", head);
+		}
 		if(Material.getMaterial(name)!=null)return new ItemStack(Material.getMaterial(name));
 		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id);
+	}
+	private ItemCreatorAPI fixHead(ItemCreatorAPI item) {
+		if(this.head) {
+			if(data.getString(path+"."+this.name+".head").length()>16)
+				item.setOwnerFromValues(data.getString(path+"."+this.name+".head"));
+		}
+		return item;
 	}
 
 	@Override
@@ -374,6 +413,11 @@ public class CustomFish implements Fish {
 	@Override
 	public double getXp() {
 		return data.getDouble(path+"."+name+".xp");
+	}
+	
+	@Override
+	public double getFood() {
+		return data.getDouble(path+"."+name+".customvalues.addhunger");
 	}
 
 	@Override
