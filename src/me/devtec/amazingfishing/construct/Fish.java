@@ -72,4 +72,6 @@ public interface Fish {
 	
 	public CatchFish createCatchFish(Data data);
 
+	boolean hasFoodSet();
+
 }

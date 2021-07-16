@@ -417,9 +417,16 @@ public class CustomFish implements Fish {
 	
 	@Override
 	public double getFood() {
-		return data.getDouble(path+"."+name+".customvalues.addhunger");
+		if(data.exists(path+"."+name+".customvalues.addhunger"))
+			return data.getDouble(path+"."+name+".customvalues.addhunger");
+		else
+			return 1;
 	}
-
+	@Override
+	public boolean hasFoodSet() {
+		return data.exists(path+"."+name+".customvalues.addhunger");
+	}
+	
 	@Override
 	public CatchFish createCatchFish(Data data) {
 		return new CatchFish() {

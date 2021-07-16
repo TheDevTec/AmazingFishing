@@ -20,6 +20,9 @@ public class EatFish implements Listener {
 		if(API.isFish(e.getItem())) {
 			Fish f = API.getFish(e.getItem());
 			if(f!=null) {
+				if(e.getPlayer().getFoodLevel()!=20 && f.hasFoodSet()) {
+					e.getPlayer().setFoodLevel( (int) Math.max( (e.getPlayer().getFoodLevel()+f.getFood()) , 20));
+				}
 		        Quests.addProgress(e.getPlayer(), "eat_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
 		        Statistics.addEating(e.getPlayer(), f);
 		        Achievements.check(e.getPlayer(), f);
