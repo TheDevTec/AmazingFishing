@@ -19,9 +19,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishType;
+import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.creation.CustomEnchantment;
 import me.devtec.amazingfishing.creation.CustomFish;
+import me.devtec.amazingfishing.creation.CustomJunk;
 import me.devtec.amazingfishing.creation.CustomTreasure;
 import me.devtec.amazingfishing.utils.AFKSystem;
 import me.devtec.amazingfishing.utils.Achievements;
@@ -55,7 +57,7 @@ public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
 	public static Config trans, config, gui, shop;
-	public static Data cod, puffer, tropic, salmon, quest, treasur, enchant, achievements;
+	public static Data cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
 	static String prefix;
 	protected static PlaceholderRegister reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
@@ -139,6 +141,7 @@ public class Loader extends JavaPlugin {
 			quest.reload(quest.getFile());
 			achievements.reload(achievements.getFile());
 			treasur.reload(treasur.getFile());
+			junk.reload(junk.getFile());
 			enchant.reload(enchant.getFile());
 			config.reload();
 			trans.reload();
@@ -333,6 +336,31 @@ public class Loader extends JavaPlugin {
 			
 		}
 		
+		//JUNK
+		
+		//PRE-LOAD
+		toReg = new ArrayList<>(junk.getKeys("items"));
+		
+		//REMOVE-NOT-LOADED
+		List<Junk> removeJ = new ArrayList<>();
+		for(Entry<String, Junk> junk : API.junk.entrySet())
+			if(junk.getValue() instanceof CustomJunk && Ref.get(junk.getValue(), "data").equals(junk))
+				if(toReg.contains(junk.getValue().getName()))
+					toReg.remove(junk.getValue().getName());
+				else
+					removeJ.add(junk.getValue());
+		for(Junk s : removeJ)
+			API.unregister(s);
+		
+		//REGISTER-NOT-LOADED
+		for(String s : toReg)
+			API.register(new CustomJunk(s, "items", junk));
+		
+		//CLEAR-CACHE
+		TheAPI.msg(prefix+" Junk registered ("+toReg.size()+") & removed unregistered ("+removeJ.size()+").", ss);
+		toReg.clear();
+		removeJ.clear();
+				
 		API.onReload.forEach(a->a.run());
 	}
 	

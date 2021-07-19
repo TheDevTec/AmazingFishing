@@ -64,6 +64,7 @@ public class Configs {
 		Loader.salmon=loadOrReload(data,Loader.salmon, "Fish/Salmon.yml");
 		Loader.puffer=loadOrReload(data,Loader.puffer, "Fish/Pufferfish.yml");
 		Loader.tropic=loadOrReload(data,Loader.tropic, "Fish/TropicalFish.yml");
+		Loader.junk=loadOrReload(data,Loader.junk, "Fish/Junk.yml");
 		Loader.quest=loadOrReload(data,Loader.quest, "Data/Quests.yml");
 		Loader.achievements=loadOrReload(data,Loader.achievements, "Data/Achievements.yml");
 		Loader.treasur=loadOrReload(data,Loader.treasur, "Data/Treasures.yml");

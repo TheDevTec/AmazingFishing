@@ -60,6 +60,7 @@ Options:
     SellFish: true
   Enchants:
     Enabled: true
+    
   Placeholders:
     Settings:
       MessageOnReload: true

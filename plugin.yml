@@ -3,4 +3,5 @@ main: me.devtec.amazingfishing.Loader
 version: 4.1.1
 author: DevTec
 depend: [TheAPI]
+softdepend: [HeadDatabase]
 api-version: 1.13

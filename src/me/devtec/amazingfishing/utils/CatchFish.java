@@ -6,6 +6,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.FishHook;
@@ -15,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import me.devtec.amazingfishing.API;
@@ -26,6 +28,7 @@ import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishWeather;
+import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.tournament.Tournament;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
@@ -51,7 +54,10 @@ public class CatchFish implements Listener {
 				item.remove();
 				PercentageList<Fish> ff = generateRandom(e.getPlayer(), loc.getBlock().getBiome(),
 						loc.getWorld().hasStorm(), loc.getWorld().isThundering(), loc.getWorld().getTime());
-				if(ff.isEmpty())return;
+				if(ff.isEmpty()) {
+					Bukkit.broadcastMessage("no fish");
+					return;
+				}
 				FishCatchList list = new FishCatchList();
 				NBTEdit edit = new NBTEdit(e.getPlayer().getItemInHand());
 				Data data = new Data();
@@ -136,6 +142,60 @@ public class CatchFish implements Listener {
 									.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), loc))
 									.replace("%biomes%", sub(treas.getBiomes().toString())));
 					}
+				} else {
+					Junk junk = generateJunk(e.getPlayer(), loc.getBlock().getBiome(),
+					loc.getWorld().hasStorm(), loc.getWorld().isThundering(), loc.getWorld().getTime());
+					if(junk!=null) {
+						item.remove();
+						
+				        double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
+				        double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
+				        double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();
+						Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);
+						
+						double weight = -1;
+						double length = -1;
+						if(junk.hasLength()) {
+							try {
+								length=random.nextInt((int)junk.getLength())+random.nextDouble();
+							}catch(Exception er) {}
+						}
+						if(junk.hasWeight() && length!=-1) {
+							try {
+								weight = (double) StringUtils.calculate(junk.getCalculator(Calculator.WEIGHT).replace("%weight%", junk.getWeight()+"")
+										.replace("%maxweight%", junk.getWeight()+"")
+										.replace("%length%", length+"")
+										.replace("%maxlength%", junk.getLength()+"").replace("%minlength%", junk.getMinLength()+"")
+										.replace("%minweight%", junk.getMinWeight()+""));
+							}catch(Exception er) {}
+						}
+						
+						if(junk.hasWeight() && weight>junk.getWeight())weight=junk.getWeight();
+						if(junk.hasLength() &&length>junk.getLength())length=junk.getLength();
+						if(junk.hasWeight() &&weight<junk.getMinWeight())weight=junk.getMinWeight();
+						if(junk.hasLength() &&length<junk.getMinLength())length=junk.getMinLength();
+						
+						ItemStack i = junk.create(weight, length, e.getPlayer(), loc);
+						if(i!=null) {
+							item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), junk.create(weight, length, e.getPlayer(), loc));
+					        item.setVelocity(vec);
+						}
+						for(String s : junk.getMessages(FishAction.CATCH))
+							TheAPI.msg(s(s,e.getPlayer(), loc)
+									.replace("%chance%", fs.format(junk.getChance()))
+									.replace("%weight%", fs.format(weight))
+									.replace("%length%", fs.format(length))
+									.replace("%name%", s(junk.getDisplayName(),e.getPlayer(), loc))
+									.replace("%biomes%", sub(junk.getBiomes().toString())),e.getPlayer());
+						for(String s : junk.getCommands(FishAction.CATCH))
+							TheAPI.sudoConsole(s(s,e.getPlayer(), loc)
+									.replace("%chance%", fs.format(junk.getChance()))
+									.replace("%weight%", fs.format(weight))
+									.replace("%length%", fs.format(length))
+									.replace("%name%", s(junk.getDisplayName(),e.getPlayer(), loc))
+									.replace("%biomes%", sub(junk.getBiomes().toString())) );
+
+					}
 				}
 			}
 		}else e.setCancelled(true);
@@ -202,5 +262,26 @@ public class CatchFish implements Listener {
 					treas.add(f, f.getChance());
 		}
 		return treas.getRandom();
+	}
+	public Junk generateJunk(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
+		PercentageList<Junk> junk = new PercentageList<>();
+		if(time <= 12000) { //day
+			for(Junk f : API.getRegisteredJunk().values())
+				if((f.getPermission()==null || f.getPermission()!=null && player.hasPermission(f.getPermission())) &&
+						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
+						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
+						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
+						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
+					junk.add(f, f.getChance());
+		}else { //night
+			for(Junk f : API.getRegisteredJunk().values())
+				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && 
+						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
+						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
+						(f.getCatchTime()==FishTime.NIGHT || f.getCatchTime()==FishTime.EVERY)
+						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
+					junk.add(f, f.getChance());
+		}
+		return junk.getRandom();
 	}
 }

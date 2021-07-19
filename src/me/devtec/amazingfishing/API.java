@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishType;
+import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.points.PointsManager;
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -18,6 +19,7 @@ import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public class API {
 	public static Map<String, Fish> fish = new HashMap<>();
+	public static Map<String, Junk> junk = new HashMap<>();
 	protected static Map<String, Treasure> treasure = new HashMap<>();
 	protected static ItemStack cod = find("COD",0), salmon = find("SALMON",1)
 			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3)
@@ -61,6 +63,9 @@ public class API {
 	public static Map<String, Treasure> getRegisteredTreasures() {
 		return treasure;
 	}
+	public static Map<String, Junk> getRegisteredJunk() {
+		return junk;
+	}
 	
 	public static PointsManager getPoints() {
 		return points;
@@ -75,6 +80,15 @@ public class API {
 		return API.treasure.remove(treas.getName());
 	}
 	
+	public static Junk register(Junk junk) {
+		API.junk.put(junk.getName(), junk);
+		return junk;
+	}
+	
+	public static Junk unregister(Junk junk) {
+		return API.junk.remove(junk.getName());
+	}
+	
 	public static boolean isFish(ItemStack stack) {
 		if(isFishItem(stack))
 			return new NBTEdit(stack).hasKey("af_data");
@@ -84,7 +98,10 @@ public class API {
 	public static boolean isFishItem(ItemStack stack) {
 		if(stack.getType()==head.getType())
 			return true;
-		return stack.getType()==cod.getType() && stack.getData().getData()==cod.getData().getData()||stack.getType()==salmon.getType() && stack.getData().getData()==salmon.getData().getData()||stack.getType()==pufferfish.getType() && stack.getData().getData()==pufferfish.getData().getData()||stack.getType()==tropical_fish.getType()&& stack.getData().getData()==tropical_fish.getData().getData();
+		return stack.getType()==cod.getType() && stack.getData().getData()==cod.getData().getData()||
+				stack.getType()==salmon.getType() && stack.getData().getData()==salmon.getData().getData()||
+				stack.getType()==pufferfish.getType() && stack.getData().getData()==pufferfish.getData().getData()||
+				stack.getType()==tropical_fish.getType()&& stack.getData().getData()==tropical_fish.getData().getData();
 	}
 	
 	public static Fish getFish(ItemStack stack) {
@@ -107,6 +124,31 @@ public class API {
 		for(Fish f : fish.values())
 			if(f.isInstance(data))
 				return f.createCatchFish(data);
+		return null;
+	}
+	
+	public static boolean isJunk(ItemStack stack) {
+		if(new NBTEdit(stack).hasKey("af_data")) {
+			NBTEdit edit = new NBTEdit(stack);
+			Data data = new Data();
+			if(edit.getString("af_data")!=null)
+			data.reload(edit.getString("af_data"));
+			if(data.getString("ID").equalsIgnoreCase("JUNK"))
+				return true;
+			else
+				return false;
+		}
+		return false;
+	}
+	
+	public static Junk getJunk(ItemStack stack) {
+		if(!isJunk(stack))return null;
+		NBTEdit edit = new NBTEdit(stack);
+		Data data = new Data();
+		if(edit.getString("af_data")!=null)
+		data.reload(edit.getString("af_data"));
+		for(Junk junk : junk.values())
+			if(junk.isInstance(data))return junk;
 		return null;
 	}
 	
