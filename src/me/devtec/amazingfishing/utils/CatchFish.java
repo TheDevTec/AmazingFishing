@@ -69,10 +69,11 @@ public class CatchFish implements Listener {
 				int am = list.chance*10 > 1 ? (int)list.chance*10 : 1;
 				if(am>list.max_amount)am=(int) list.max_amount;
 				double money=list.money, points=list.points, exp=list.exp;
-		        double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
+				
+		       /* double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
 		        double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
 		        double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();
-				Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);
+				Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);*/
 				try {
 				am=random.nextInt(am);
 				}catch(Exception er) {}
@@ -97,8 +98,11 @@ public class CatchFish implements Listener {
 					if(length>f.getLength())length=f.getLength();
 					if(weight<f.getMinWeight())weight=f.getMinWeight();
 					if(length<f.getMinLength())length=f.getMinLength();
-					item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, money, points, exp, e.getPlayer(), loc));
-			        item.setVelocity(vec);
+
+					giveItem(item, f.createItem(weight, length, money, points, exp, e.getPlayer(), loc), e.getPlayer(), loc);
+					//item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), f.createItem(weight, length, money, points, exp, e.getPlayer(), loc));
+			        //item.setVelocity(vec);
+					
 			        Statistics.addFish(e.getPlayer(), f);
 			        Statistics.addRecord(e.getPlayer(), f, length, weight);
 			        Tournament t= TournamentManager.get(e.getPlayer().getWorld());
@@ -148,10 +152,10 @@ public class CatchFish implements Listener {
 					if(junk!=null) {
 						item.remove();
 						
-				        double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
+				        /*double d0 = e.getPlayer().getLocation().getX() - item.getLocation().getX();
 				        double d1 = e.getPlayer().getLocation().getY() - item.getLocation().getY()+1;
 				        double d2 = e.getPlayer().getLocation().getZ() - item.getLocation().getZ();
-						Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);
+						Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);*/
 						
 						double weight = -1;
 						double length = -1;
@@ -177,8 +181,9 @@ public class CatchFish implements Listener {
 						
 						ItemStack i = junk.create(weight, length, e.getPlayer(), loc);
 						if(i!=null) {
-							item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), junk.create(weight, length, e.getPlayer(), loc));
-					        item.setVelocity(vec);
+							giveItem(item, i, e.getPlayer(), loc);
+							/*item = (Item) e.getCaught().getWorld().dropItem(e.getCaught().getLocation(), i, loc));
+					        item.setVelocity(vec);*/
 						}
 						for(String s : junk.getMessages(FishAction.CATCH))
 							TheAPI.msg(s(s,e.getPlayer(), loc)
@@ -200,6 +205,17 @@ public class CatchFish implements Listener {
 			}
 		}else e.setCancelled(true);
 		}
+	}
+	
+	public static void giveItem(Item item, ItemStack itemStack, Player p, Location itemloc) {
+        double d0 = p.getLocation().getX() - itemloc.getX();
+        double d1 = p.getLocation().getY() - itemloc.getY()+1;
+        double d2 = p.getLocation().getZ() - itemloc.getZ();
+		Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);
+		
+		item = (Item) itemloc.getWorld().dropItem(itemloc, itemStack);
+		item.setVelocity(vec);
+        
 	}
 	
 	private String sub(String s) {
@@ -243,6 +259,8 @@ public class CatchFish implements Listener {
 						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					fish.add(f, f.getChance());
 		}
+		if(fish==null || fish.isEmpty())
+			return null;
 		return fish;
 	}
 	private static DecimalFormat fs = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
@@ -261,6 +279,8 @@ public class CatchFish implements Listener {
 						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					treas.add(f, f.getChance());
 		}
+		if(treas==null || treas.isEmpty())
+			return null;
 		return treas.getRandom();
 	}
 	public Junk generateJunk(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
@@ -282,6 +302,8 @@ public class CatchFish implements Listener {
 						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
 					junk.add(f, f.getChance());
 		}
+		if(junk==null || junk.isEmpty())
+			return null;
 		return junk.getRandom();
 	}
 }

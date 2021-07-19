@@ -168,6 +168,9 @@ public class Trans {
 	public static String words_tropicalfish() {
 		return Loader.trans.getString("Words.TropicalFish");
 	}
+	public static String words_junk() {
+		return Loader.trans.getString("Words.Junk");
+	}
 	public static String words_back() {
 		return Loader.trans.getString("Words.Back");
 	}

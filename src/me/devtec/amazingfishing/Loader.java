@@ -374,6 +374,8 @@ public class Loader extends JavaPlugin {
 			return salmon;
 		case TROPICAL_FISH:
 			return tropic;
+		case JUNK:
+			return junk;
 		}
 		return null;
 	}

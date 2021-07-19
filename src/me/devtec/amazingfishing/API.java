@@ -28,6 +28,9 @@ public class API {
 	protected static List<Runnable> onReload = new ArrayList<>();
 	
 	public static ItemStack getMaterialOf(FishType type) {
+		if(type==FishType.JUNK) {
+			return find(Loader.gui.getString("GUI.Index.Items.junk"), 0);
+		}
 		return type==FishType.COD?cod:(type==FishType.SALMON?salmon:(type==FishType.TROPICAL_FISH?tropical_fish:pufferfish));
 	}
 

@@ -26,6 +26,17 @@ items:
     - "&7Caught in biome: &f%biome%"
     - "&7Caught on location: &f%x% %y% %z% %world%"
     
+    preview:
+      name: "&7Snail"
+      lore:
+      - "&7Chance: &f%chance%"
+      - "&7Max weight: &f%weight%"
+      - "&7Max length: &f%length%"
+      - "&7Catch:"
+      - "&7 Time: &fEVERY"
+      - "&7 Weather: &fEVERY"
+      - "&7 Biomes: &fRIVER, FOREST"
+      
     amount: 1
     
     # nbt:

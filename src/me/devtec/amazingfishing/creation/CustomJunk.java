@@ -216,7 +216,7 @@ public class CustomJunk implements Junk{
 	}
 
 	@Override
-	public double getFood() { // TODO - aplikovat jídlo
+	public double getFood() {
 		if(data.exists(path+"."+name+".options.addhunger") )
 			return data.getDouble(path+"."+name+".options.addhunger");
 		else
@@ -346,6 +346,48 @@ public class CustomJunk implements Junk{
 		return NMSAPI.setNBT(stack, edit);
 	}
 	
+	@Override
+	public ItemStack preview(Player p) {
+		ItemCreatorAPI c = new ItemCreatorAPI(find(getType(), getType().ordinal()));
+		fixHead(c);
+		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
+		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
+				.replace("%weight%", Loader.ff.format(getWeight()))
+				.replace("%length%", Loader.ff.format(getLength()))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
+				.replace("%player%", p.getName())
+				.replace("%playername%", p.getDisplayName())
+				.replace("%displayname%", p.getDisplayName())
+				.replace("%name%", getName()));
+		c.setDisplayName(nn);
+		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):getLore();
+		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
+				.replace("%weight%", Loader.ff.format(getWeight()))
+				.replace("%length%", Loader.ff.format(getLength()))
+				.replace("%chance%", Loader.ff.format(getChance()))
+				.replace("%name%", nn)
+				.replace("%biomes%", bc)
+				.replace("%blockedbiomes%", bbc)
+				.replace("%player%", p.getName())
+				.replace("%playername%", p.getDisplayName())
+				.replace("%displayname%", p.getDisplayName())));
+		c.setLore(l);
+		c.setAmount(getAmount());
+		
+		for(ItemFlag flag : getFlags())
+			c.addItemFlag(flag);
+		
+		for (String enchs : getEnchantments()) {
+			String nonum = enchs.replaceAll("[^A-Za-z_]+", "").toUpperCase();
+			if (EnchantmentAPI.byName(nonum)==null)
+				Bukkit.getLogger().warning("Error when getting junk: " + name + "!! Enchantment " + enchs + " (Converted to "+nonum+"), enchantment is invalid");
+			else
+				c.addEnchantment(nonum, StringUtils.getInt(enchs.replaceAll("[^+0-9]+", ""))<=0?1:StringUtils.getInt(enchs.replaceAll("[^+0-9]+", "")));
+		}
+		return Utils.setModel(c.create(), getModel());
+	}
 	
 	private ItemStack find(Material material, int id) {
 		if(this.head) {

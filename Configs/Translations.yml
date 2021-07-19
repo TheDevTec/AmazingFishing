@@ -46,6 +46,7 @@ Words:
   Points: "&9%value% Points"
   Bag: "&7Bag"
   Convert: "&aConvert"
+  Junk: "&7Junk"
   
 Quests:
   Cancel: "%prefix% &9You have canceled quest %questname%"

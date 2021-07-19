@@ -26,6 +26,9 @@ GUI:
     salmon: "&bIndex of fish type &nsalmon"
     tropical_fish: "&bIndex of fish type &ntropical fish"
     pufferfish: "&bIndex of fish type &npufferfish"
+    junk: "&bList of junk items"
+    Items:
+      junk: "ENDER_CHEST"
   
   SellShop:
     Title: "&eSell Shop"

@@ -71,6 +71,8 @@ public interface Junk {
 
 	public ItemStack createItem(Player p, Location hook);
 	
+	public ItemStack preview(Player p);
+	
 	public List<String> getEnchantments();
 	
 	public List<ItemFlag> getFlags();
