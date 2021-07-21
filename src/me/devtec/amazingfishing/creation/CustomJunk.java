@@ -252,6 +252,10 @@ public class CustomJunk implements Junk{
 		return data.exists("junk") && data.exists("type") && data.getString("junk").equals(name) && data.getString("type").equals(getType().name());
 	}
 	
+	@Override
+	public boolean show() {
+		return data.getBoolean(path+"."+name+".preview.show");
+	}
 	
 	@Override
 	public ItemStack create(double weight, double length, Player p, Location hook) {

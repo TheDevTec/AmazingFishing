@@ -73,6 +73,8 @@ public interface Junk {
 	
 	public ItemStack preview(Player p);
 	
+	boolean show();
+	
 	public List<String> getEnchantments();
 	
 	public List<ItemFlag> getFlags();

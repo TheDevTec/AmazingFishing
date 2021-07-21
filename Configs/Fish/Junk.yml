@@ -27,6 +27,8 @@ items:
     - "&7Caught on location: &f%x% %y% %z% %world%"
     
     preview:
+      # If you don't want item to be in Index GUI, just set show to false
+      show: true
       name: "&7Snail"
       lore:
       - "&7Chance: &f%chance%"

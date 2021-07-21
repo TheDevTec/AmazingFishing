@@ -50,7 +50,7 @@ public class Index {
 		
 		g.setItem(22, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.JUNK).getType(), 1, Trans.words_junk(), API.getMaterialOf(FishType.JUNK).getData().getData())) {
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				open(player, FishType.PUFFERFISH, 0);
+				open(player, FishType.JUNK, 0);
 			}
 		});
 	}
@@ -95,14 +95,16 @@ public class Index {
 			Pagination<Junk> g = new Pagination<>(36, API.getRegisteredJunk().values().stream().collect(Collectors.toList()));
 			if(g.isEmpty()||g.getPage(page).isEmpty())return;
 			for(Junk f : g.getPage(page)) {
-				c.addItem(new ItemGUI(f.preview(s)) {
-					public void onClick(Player player, HolderGUI gui, ClickType click) {
-						/*List<String> prew = Loader.config.getStringList("Preview");
-						prew.replaceAll(a -> PlaceholderAPI.setPlaceholders(player, a));
-						for(String sd : prew)
-						TheAPI.sendMessage(sd, player);*/
-					}
-				});
+				if(f.show()) {
+					c.addItem(new ItemGUI(f.preview(s)) {
+						public void onClick(Player player, HolderGUI gui, ClickType click) {
+							/*List<String> prew = Loader.config.getStringList("Preview");
+							prew.replaceAll(a -> PlaceholderAPI.setPlaceholders(player, a));
+							for(String sd : prew)
+							TheAPI.sendMessage(sd, player);*/
+						}
+					});
+				}
 			}
 			if(g.totalPages()-1!=page && g.totalPages()-1>page) {
 				c.setItem(51, new ItemGUI(Loader.next) {
