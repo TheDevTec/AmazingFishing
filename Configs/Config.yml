@@ -10,6 +10,24 @@
 #  Discord: https://discord.io/spigotdevtec
 
 Options:
+  # Fishing section
+  Fishing:
+    Fish:
+      # Chance for Fish when you are fishing
+      Chance: 70
+      # If you don't want to catch fish from Cod.yml, Salmon.yml, Pufferfish.yml, Salmon.yml just set this value to false
+      Enabled: true
+    Treasure:
+      # Chance for Treasure when you are fishing
+      Chance: 10
+      # If you don't want to catch Treasures just set this value to false
+      Enabled: true
+    Junk:
+      # Chance for Junk when you are fishing (Such unnecessary items -> Junk.yml) 
+      Chance: 20
+      # If you don't want to catch Junk from Junky.yml just set this value to false
+      Enabled: true
+
   # AFK System
   AFK:
     Enabled: true

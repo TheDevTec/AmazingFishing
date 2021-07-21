@@ -10,12 +10,14 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.Junk;
+import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.Statistics.RecordType;
 import me.devtec.amazingfishing.utils.Statistics.SavingType;
 import me.devtec.amazingfishing.utils.Trans;
+import me.devtec.amazingfishing.utils.CatchFish.Fishing;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.guiapi.GUI;
@@ -27,32 +29,36 @@ import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 public class Index {
 	static GUI g=Create.setup(new GUI(Loader.gui.getString("GUI.Index.Title"),54), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 	static {
-		g.setItem(20, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.COD).getType(), 1, Trans.words_cod(), API.getMaterialOf(FishType.COD).getData().getData())) {
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				open(player, FishType.COD, 0);
-			}
-		});
-		g.setItem(24, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.SALMON).getType(), 1, Trans.words_salmon(), API.getMaterialOf(FishType.SALMON).getData().getData())) {
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				open(player, FishType.SALMON, 0);
-			}
-		});
-		g.setItem(30, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.TROPICAL_FISH).getType(), 1, Trans.words_tropicalfish(), API.getMaterialOf(FishType.TROPICAL_FISH).getData().getData())) {
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				open(player, FishType.TROPICAL_FISH, 0);
-			}
-		});
-		g.setItem(32, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.PUFFERFISH).getType(), 1, Trans.words_pufferfish(), API.getMaterialOf(FishType.PUFFERFISH).getData().getData())) {
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				open(player, FishType.PUFFERFISH, 0);
-			}
-		});
-		
-		g.setItem(22, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.JUNK).getType(), 1, Trans.words_junk(), API.getMaterialOf(FishType.JUNK).getData().getData())) {
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				open(player, FishType.JUNK, 0);
-			}
-		});
+
+		if(CatchFish.isEnabled(Fishing.Fish)) {
+			g.setItem(20, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.COD).getType(), 1, Trans.words_cod(), API.getMaterialOf(FishType.COD).getData().getData())) {
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					open(player, FishType.COD, 0);
+				}
+			});
+			g.setItem(24, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.SALMON).getType(), 1, Trans.words_salmon(), API.getMaterialOf(FishType.SALMON).getData().getData())) {
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					open(player, FishType.SALMON, 0);
+				}
+			});
+			g.setItem(30, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.TROPICAL_FISH).getType(), 1, Trans.words_tropicalfish(), API.getMaterialOf(FishType.TROPICAL_FISH).getData().getData())) {
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					open(player, FishType.TROPICAL_FISH, 0);
+				}
+			});
+			g.setItem(32, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.PUFFERFISH).getType(), 1, Trans.words_pufferfish(), API.getMaterialOf(FishType.PUFFERFISH).getData().getData())) {
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					open(player, FishType.PUFFERFISH, 0);
+				}
+			});
+		}
+		if(CatchFish.isEnabled(Fishing.Junk)) {
+			g.setItem(22, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.JUNK).getType(), 1, Trans.words_junk(), API.getMaterialOf(FishType.JUNK).getData().getData())) {
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					open(player, FishType.JUNK, 0);
+				}
+			});
+		}
 	}
 	
 	public static void open(Player s) {
