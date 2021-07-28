@@ -14,6 +14,7 @@ import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.points.PointsManager;
+import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
@@ -101,10 +102,10 @@ public class API {
 	public static boolean isFishItem(ItemStack stack) {
 		if(stack.getType()==head.getType())
 			return true;
-		return stack.getType()==cod.getType() && stack.getData().getData()==cod.getData().getData()||
-				stack.getType()==salmon.getType() && stack.getData().getData()==salmon.getData().getData()||
-				stack.getType()==pufferfish.getType() && stack.getData().getData()==pufferfish.getData().getData()||
-				stack.getType()==tropical_fish.getType()&& stack.getData().getData()==tropical_fish.getData().getData();
+		return  stack.getType()==cod.getType() && TheAPI.isNewVersion() ? true :stack.getData().getData()==cod.getData().getData()  ||
+				stack.getType()==salmon.getType() && TheAPI.isNewVersion() ? true :stack.getData().getData()==salmon.getData().getData() ||
+				stack.getType()==pufferfish.getType() && TheAPI.isNewVersion() ? true :stack.getData().getData()==pufferfish.getData().getData() ||
+				stack.getType()==tropical_fish.getType()&& TheAPI.isNewVersion() ? true :stack.getData().getData()==tropical_fish.getData().getData() ;
 	}
 	
 	public static Fish getFish(ItemStack stack) {

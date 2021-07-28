@@ -170,36 +170,57 @@ public class Shop {
 	
 	public static void sellAll(Player p, HolderGUI gui, boolean expand) {
 		List<ItemStack> a = new ArrayList<>();
+		ItemGUI item = new EmptyItemGUI(new ItemStack(Material.AIR) );
+		item.setUnstealable(false);
 		if(!expand) {
 			for(int count =10; count < 17; ++count) {
 				a.add(gui.getItem(count));
-				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
+				gui.setItem(count, item );
 			}
 			for(int count =19; count < 26; ++count) {
 				a.add(gui.getItem(count));
-				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
+				gui.setItem(count, item );
 			}
 			for(int count =28; count < 35; ++count) {
 				a.add(gui.getItem(count));
-				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
+				gui.setItem(count, item );
 			}
 			for(int count =37; count < 44; ++count) {
 				a.add(gui.getItem(count));
-				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
+				gui.setItem(count, item );
 			}
 		}else {
 			for(int count = 0; count < 45; ++count) {
 				a.add(gui.getItem(count));
-				gui.setItem(count, new EmptyItemGUI(new ItemStack(Material.AIR) ));
+				gui.setItem(count, item );
 			}
 		}
+		gui.setInsertable(true);
+		
 		int sel = 0;
 		double totalExp=0, totalPoints=0, totalMoney=0;
 		for(ItemStack d:a) {
 			if(d==null||d.getType()==Material.AIR)continue;
 			CatchFish f = API.getCatchFish(d);
 			if(f==null) {
-				TheAPI.giveItem(p, d);
+				if(API.isFishItem(d) && Loader.config.getBoolean("Options.Shop.SellDefaultFish")==true) {
+					if(Loader.config.exists("Options.Sell.DefaultFish."+d.getType().name()+".Money"))
+						totalMoney+= Loader.config.getDouble("Options.Sell.DefaultFish."+d.getType()+".Money");
+					else
+						totalMoney+= Loader.config.getDouble("Options.Sell.DefaultFish.Money");
+					
+					if(Loader.config.exists("Options.Sell.DefaultFish."+d.getType().name()+".Exps"))
+						totalExp+= Loader.config.getDouble("Options.Sell.DefaultFish."+d.getType()+".Exps");
+					else
+						totalExp+= Loader.config.getDouble("Options.Sell.DefaultFish.Exps");
+					
+					if(Loader.config.exists("Options.Sell.DefaultFish."+d.getType().name()+".Points"))
+						totalPoints+= Loader.config.getDouble("Options.Sell.DefaultFish."+d.getType()+".Points");
+					else
+						totalPoints+= Loader.config.getDouble("Options.Sell.DefaultFish.Points");
+					sel=sel+d.getAmount();
+				}else
+					TheAPI.giveItem(p, d);
 				continue;
 			}
 			double length = 0, weight = 0;
