@@ -39,7 +39,7 @@ public class CustomJunk implements Junk{
 		this.path=path.toLowerCase();
 		this.data=data;
 
-		if(data.exists(path+"."+name+".name")&& (data.exists(path+"."+name+".type") ||data.exists(path+"."+name+".head")))
+		if(data.exists(path+"."+name+".type") ||data.exists(path+"."+name+".head"))
 			this.item=true;
 		else
 			this.item=false;
@@ -61,7 +61,10 @@ public class CustomJunk implements Junk{
 
 	@Override
 	public String getDisplayName() {
-		return data.getString(path+"."+name+".name");
+		if(data.exists(path+"."+name+".name"))
+			return data.getString(path+"."+name+".name");
+		else
+			return null;
 	}
 
 	@Override
@@ -276,14 +279,16 @@ public class CustomJunk implements Junk{
 		ItemCreatorAPI c = new ItemCreatorAPI(find(getType(), getType().ordinal()));
 		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
-				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
+				cf= getDisplayName()!=null? s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc)
-				.replace("%name%", getName());
-		c.setDisplayName(cf);
+				.replace("%name%", getName()) : null;
+		if(cf!=null)
+			c.setDisplayName(cf);
 		List<String> l = data.getStringList(path+"."+name+".lore");
+		if(l!= null && !l.isEmpty())
 		l.replaceAll(a -> s(a
 				.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -291,6 +296,7 @@ public class CustomJunk implements Junk{
 				.replace("%name%", cf)
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc),p,hook));
+		if(l!= null && !l.isEmpty())
 		c.setLore(l);		
 		c.setAmount(getAmount());
 		
@@ -315,14 +321,16 @@ public class CustomJunk implements Junk{
 		ItemCreatorAPI c = new ItemCreatorAPI(find(getType(), getType().ordinal()));
 		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
-				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(-1))
+				cf=getDisplayName()!=null? s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(-1))
 				.replace("%length%", Loader.ff.format(-1))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc)
-				.replace("%name%", getName());
-		c.setDisplayName(cf);
+				.replace("%name%", getName()):null;
+		if(cf!=null)
+			c.setDisplayName(cf);
 		List<String> l = data.getStringList(path+"."+name+".lore");
+		if(l!= null && !l.isEmpty())
 		l.replaceAll(a -> s(a
 				.replace("%weight%", Loader.ff.format(-1))
 				.replace("%length%", Loader.ff.format(-1))
@@ -330,6 +338,7 @@ public class CustomJunk implements Junk{
 				.replace("%name%", cf)
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc),p,hook));
+		if(l!= null && !l.isEmpty())
 		c.setLore(l);
 		c.setAmount(getAmount());
 		
@@ -355,7 +364,7 @@ public class CustomJunk implements Junk{
 		ItemCreatorAPI c = new ItemCreatorAPI(find(getType(), getType().ordinal()));
 		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
-		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
+		String nn = getDisplayName()!=null? PlaceholderAPI.setPlaceholders(p, (data.exists(path+"."+name+".preview.name")?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -364,9 +373,12 @@ public class CustomJunk implements Junk{
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
-				.replace("%name%", getName()));
-		c.setDisplayName(nn);
+				.replace("%name%", getName())):null;
+		if(nn!=null)
+			c.setDisplayName(nn);
+		
 		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):getLore();
+		if(l!= null && !l.isEmpty())
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
@@ -377,6 +389,7 @@ public class CustomJunk implements Junk{
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())));
+		if(l!= null && !l.isEmpty())
 		c.setLore(l);
 		c.setAmount(getAmount());
 		
