@@ -219,77 +219,78 @@ public class CatchFish implements Listener {
 			Fishing type = generate();
 			if(type==Fishing.Fish) {
 
-				item.remove();
 				PercentageList<Fish> ff = generateRandom(e.getPlayer(), loc.getBlock().getBiome(),
 						loc.getWorld().hasStorm(), loc.getWorld().isThundering(), loc.getWorld().getTime());
-				if(ff.isEmpty()) {
-					return;
-				}
-				FishCatchList list = new FishCatchList();
-				NBTEdit edit = new NBTEdit(e.getPlayer().getItemInHand());
-				Data data = new Data();
-				if(edit.getString("af_data")!=null)
-				data.reload(edit.getString("af_data"));
-				for(String s : data.getKeys("enchants"))
-					if(Enchant.enchants.containsKey(s))
-					Enchant.enchants.get(s).onCatch(e.getPlayer(), data.getInt("enchants."+s), list);
 				
-				int am = list.chance*10 > 1 ? (int)list.chance*10 : 1;
-				if(am>list.max_amount)am=(int) list.max_amount;
-				double money=list.money, points=list.points, exp=list.exp;
-				
-				try {
-				am=random.nextInt(am);
-				}catch(Exception er) {}
-				if(am<=0)am=1;
-				while(am!=0) {
-					--am;
-					try {
-					Fish f = ff.getRandom();
-					double weight = 0;
-					double length = 0;
-					try {
-						length=random.nextInt((int)f.getLength())+random.nextDouble();
-					}catch(Exception er) {}
-					try {
-						weight = (double) StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight()+"")
-								.replace("%maxweight%", f.getWeight()+"")
-								.replace("%length%", length+"")
-								.replace("%maxlength%", f.getLength()+"").replace("%minlength%", f.getMinLength()+"")
-								.replace("%minweight%", f.getMinWeight()+""));
-					}catch(Exception er) {}
-					if(weight>f.getWeight())weight=f.getWeight();
-					if(length>f.getLength())length=f.getLength();
-					if(weight<f.getMinWeight())weight=f.getMinWeight();
-					if(length<f.getMinLength())length=f.getMinLength();
-
-					giveItem(item, f.createItem(weight, length, money, points, exp, e.getPlayer(), loc), e.getPlayer(), loc);
+				if(ff!=null && !ff.isEmpty()) {
+					item.remove();
 					
-			        Statistics.addFish(e.getPlayer(), f);
-			        Statistics.addRecord(e.getPlayer(), f, length, weight);
-			        Tournament t= TournamentManager.get(e.getPlayer().getWorld());
-			        if(t!=null)t.catchFish(e.getPlayer(), f, weight, length);
-			        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
-			        Achievements.check(e.getPlayer(), f);
-					for(String s : f.getMessages(FishAction.CATCH))
-						TheAPI.msg(s(s,e.getPlayer(), loc)
-								.replace("%chance%", fs.format(f.getChance()))
-								.replace("%weight%", fs.format(weight))
-								.replace("%length%", fs.format(length))
-								.replace("%name%", s(f.getDisplayName(),e.getPlayer(), loc))
-								.replace("%biomes%", sub(f.getBiomes().toString())),e.getPlayer());
-					for(String s : f.getCommands(FishAction.CATCH))
-						TheAPI.sudoConsole(s(s,e.getPlayer(), loc)
-								.replace("%chance%", fs.format(f.getChance()))
-								.replace("%weight%", fs.format(weight))
-								.replace("%length%", fs.format(length))
-								.replace("%name%", s(f.getDisplayName(),e.getPlayer(), loc))
-								.replace("%biomes%", sub(f.getBiomes().toString())));
-					}catch(Exception er) {
-						break;
+					FishCatchList list = new FishCatchList();
+					NBTEdit edit = new NBTEdit(e.getPlayer().getItemInHand());
+					Data data = new Data();
+					if(edit.getString("af_data")!=null)
+					data.reload(edit.getString("af_data"));
+					for(String s : data.getKeys("enchants"))
+						if(Enchant.enchants.containsKey(s))
+						Enchant.enchants.get(s).onCatch(e.getPlayer(), data.getInt("enchants."+s), list);
+					
+					int am = list.chance*10 > 1 ? (int)list.chance*10 : 1;
+					if(am>list.max_amount)am=(int) list.max_amount;
+					double money=list.money, points=list.points, exp=list.exp;
+					
+					try {
+					am=random.nextInt(am);
+					}catch(Exception er) {}
+					if(am<=0)am=1;
+					while(am!=0) {
+						--am;
+						try {
+						Fish f = ff.getRandom();
+						double weight = 0;
+						double length = 0;
+						try {
+							length=random.nextInt((int)f.getLength())+random.nextDouble();
+						}catch(Exception er) {}
+						try {
+							weight = (double) StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight()+"")
+									.replace("%maxweight%", f.getWeight()+"")
+									.replace("%length%", length+"")
+									.replace("%maxlength%", f.getLength()+"").replace("%minlength%", f.getMinLength()+"")
+									.replace("%minweight%", f.getMinWeight()+""));
+						}catch(Exception er) {}
+						if(weight>f.getWeight())weight=f.getWeight();
+						if(length>f.getLength())length=f.getLength();
+						if(weight<f.getMinWeight())weight=f.getMinWeight();
+						if(length<f.getMinLength())length=f.getMinLength();
+	
+						giveItem(item, f.createItem(weight, length, money, points, exp, e.getPlayer(), loc), e.getPlayer(), loc);
+						
+				        Statistics.addFish(e.getPlayer(), f);
+				        Statistics.addRecord(e.getPlayer(), f, length, weight);
+				        Tournament t= TournamentManager.get(e.getPlayer().getWorld());
+				        if(t!=null)t.catchFish(e.getPlayer(), f, weight, length);
+				        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
+				        Achievements.check(e.getPlayer(), f);
+						for(String s : f.getMessages(FishAction.CATCH))
+							TheAPI.msg(s(s,e.getPlayer(), loc)
+									.replace("%chance%", fs.format(f.getChance()))
+									.replace("%weight%", fs.format(weight))
+									.replace("%length%", fs.format(length))
+									.replace("%name%", s(f.getDisplayName(),e.getPlayer(), loc))
+									.replace("%biomes%", sub(f.getBiomes().toString())),e.getPlayer());
+						for(String s : f.getCommands(FishAction.CATCH))
+							TheAPI.sudoConsole(s(s,e.getPlayer(), loc)
+									.replace("%chance%", fs.format(f.getChance()))
+									.replace("%weight%", fs.format(weight))
+									.replace("%length%", fs.format(length))
+									.replace("%name%", s(f.getDisplayName(),e.getPlayer(), loc))
+									.replace("%biomes%", sub(f.getBiomes().toString())));
+						}catch(Exception er) {
+							break;
+						}
 					}
 				}
-			
+				else type=Fishing.Junk;
 			}
 			if(type==Fishing.Treasure){
 				Treasure treas = generateTreasure(e.getPlayer(), loc.getBlock().getBiome(),
@@ -309,6 +310,7 @@ public class CatchFish implements Listener {
 								.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), loc))
 								.replace("%biomes%", sub(treas.getBiomes().toString())));
 				}
+				else type= Fishing.Junk;
 			}
 			if(type==Fishing.Junk){
 				Junk junk = generateJunk(e.getPlayer(), loc.getBlock().getBiome(),
