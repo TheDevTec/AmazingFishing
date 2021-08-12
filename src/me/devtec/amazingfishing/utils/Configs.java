@@ -77,7 +77,14 @@ public class Configs {
 		if(d!=null) {
 			d.reload(d.getFile());
 		}else {
-			d=new Data("plugins/AmazingFishing/"+path);
+			d = new Data("plugins/AmazingFishing/"+path);
+			try{
+				d.getFile().getParentFile().mkdirs();
+				}catch(Exception er) {}
+				try{
+					d.getFile().createNewFile();
+				}catch(Exception er) {}
+			
     		if(StreamUtils.fromStream(d.getFile()).trim().isEmpty())
         		try {
         			URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/"+path).openConnection();
