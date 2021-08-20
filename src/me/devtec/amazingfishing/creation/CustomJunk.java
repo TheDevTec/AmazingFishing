@@ -41,13 +41,9 @@ public class CustomJunk implements Junk{
 
 		if(data.exists(path+"."+name+".type") ||data.exists(path+"."+name+".head"))
 			this.item=true;
-		else
-			this.item=false;
 		
 		if(data.exists(path+"."+name+".head")&&this.item==true)
 			this.head=true;
-		else
-			this.head=false;
 	}
 
 	/*

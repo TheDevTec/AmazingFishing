@@ -102,10 +102,10 @@ public class API {
 	public static boolean isFishItem(ItemStack stack) {
 		if(stack.getType()==head.getType())
 			return true;
-		return  stack.getType()==cod.getType() && TheAPI.isNewVersion() ? true :stack.getData().getData()==cod.getData().getData()  ||
-				stack.getType()==salmon.getType() && TheAPI.isNewVersion() ? true :stack.getData().getData()==salmon.getData().getData() ||
-				stack.getType()==pufferfish.getType() && TheAPI.isNewVersion() ? true :stack.getData().getData()==pufferfish.getData().getData() ||
-				stack.getType()==tropical_fish.getType()&& TheAPI.isNewVersion() ? true :stack.getData().getData()==tropical_fish.getData().getData() ;
+		return stack.getType() == cod.getType() && TheAPI.isNewVersion() || (stack.getData().getData() == cod.getData().getData() ||
+				stack.getType() == salmon.getType() && TheAPI.isNewVersion() || (stack.getData().getData() == salmon.getData().getData() ||
+				stack.getType() == pufferfish.getType() && TheAPI.isNewVersion() || (stack.getData().getData() == pufferfish.getData().getData() ||
+				stack.getType() == tropical_fish.getType() && TheAPI.isNewVersion() || stack.getData().getData() == tropical_fish.getData().getData())));
 	}
 	
 	public static Fish getFish(ItemStack stack) {
@@ -137,10 +137,9 @@ public class API {
 			Data data = new Data();
 			if(edit.getString("af_data")!=null)
 			data.reload(edit.getString("af_data"));
-			if(data.getString("ID").equalsIgnoreCase("JUNK"))
+			String id = data.getString("ID");
+			if(id!=null && id.equalsIgnoreCase("junk"))
 				return true;
-			else
-				return false;
 		}
 		return false;
 	}
