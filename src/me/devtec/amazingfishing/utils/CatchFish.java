@@ -251,6 +251,10 @@ public class CatchFish implements Listener {
 						try {
 							length=random.nextInt((int)f.getLength())+random.nextDouble();
 						}catch(Exception er) {}
+						
+						if(length>f.getLength())length=f.getLength();
+						if(length<f.getMinLength())length=f.getMinLength();
+						
 						try {
 							weight = (double) StringUtils.calculate(f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight()+"")
 									.replace("%maxweight%", f.getWeight()+"")
@@ -259,9 +263,7 @@ public class CatchFish implements Listener {
 									.replace("%minweight%", f.getMinWeight()+""));
 						}catch(Exception er) {}
 						if(weight>f.getWeight())weight=f.getWeight();
-						if(length>f.getLength())length=f.getLength();
 						if(weight<f.getMinWeight())weight=f.getMinWeight();
-						if(length<f.getMinLength())length=f.getMinLength();
 	
 						giveItem(item, f.createItem(weight, length, money, points, exp, e.getPlayer(), loc), e.getPlayer(), loc);
 						

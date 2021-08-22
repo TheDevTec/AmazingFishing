@@ -322,7 +322,8 @@ public class CustomFish implements Fish {
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
-				.replace("%name%", getName()));
+				.replace("%name%", getName())
+				.replace("%fishname%", getDisplayName()));
 		c.setDisplayName(nn);
 		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
