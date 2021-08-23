@@ -25,7 +25,7 @@ import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
-import me.devtec.theapi.utils.json.Writer;
+import me.devtec.theapi.utils.json.Json;
 import me.devtec.theapi.utils.nms.NMSAPI;
 import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
@@ -65,7 +65,8 @@ public class CustomFish implements Fish {
 		map.put("points", getPoints());
 		map.put("model", getModel());
 		map.put("head", getHead());
-		return Writer.write(map);
+		return Json.writer().write(map);
+		//return Writer.write(map);
 	}
 	
 	public boolean equals(Object o) {

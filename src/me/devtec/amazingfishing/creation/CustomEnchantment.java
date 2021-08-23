@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
-import me.devtec.theapi.utils.json.Writer;
+import me.devtec.theapi.utils.json.Json;
 
 public class CustomEnchantment extends Enchant {
 	final int level;
@@ -49,7 +49,9 @@ public class CustomEnchantment extends Enchant {
 		map.put("bonus_money", getMoneyBoost());
 		map.put("bonus_points", getPointsBoost());
 		map.put("bonus_exp", getExpBoost());
-		return Writer.write(map);
+		return Json.writer().write(map);
+		//return Writer.write(map);
+		
 	}
 	
 	public boolean equals(Object o) {

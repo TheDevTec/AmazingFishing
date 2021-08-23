@@ -16,8 +16,7 @@ import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sqlapi.SQLAPI;
 import me.devtec.theapi.utils.datakeeper.User;
-import me.devtec.theapi.utils.json.Reader;
-import me.devtec.theapi.utils.json.Writer;
+import me.devtec.theapi.utils.json.Json;
 import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Bag {
@@ -62,7 +61,8 @@ public class Bag {
 			try {
 			while(set.next()) {
 				try {
-					list.add((ItemStack)Reader.read(set.getString(++id)));
+					list.add((ItemStack)Json.reader().read(set.getString(++id)));
+					//list.add((ItemStack)Reader.read(set.getString(++id)));
 				} catch (Exception e) {
 				}
 			}
@@ -92,7 +92,8 @@ public class Bag {
 			}
 			sql.execute("delete from amazingfishing where name='"+u.getName().toLowerCase()+"'");
 			for(ItemStack stack : list)
-			sql.set("amazingfishing", "bag", Writer.write(stack), u.getName().toLowerCase(), "name");
+				sql.set("amazingfishing", "bag", Json.writer().write(stack), u.getName().toLowerCase(), "name");
+			//sql.set("amazingfishing", "bag", Writer.write(stack), u.getName().toLowerCase(), "name");
 		}else {
 			List<ItemStack> list = new ArrayList<>();
 			for(int st = 0; st < 45; ++st) {

@@ -11,7 +11,7 @@ import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.json.Writer;
+import me.devtec.theapi.utils.json.Json;
 
 public class CustomTreasure implements Treasure {
 	final String name;
@@ -31,7 +31,8 @@ public class CustomTreasure implements Treasure {
 		map.put("permission", getPermission());
 		map.put("catch_time", getCatchTime().name().toLowerCase());
 		map.put("catch_weather", getCatchWeather().name().toLowerCase());
-		return Writer.write(map);
+		return Json.writer().write(map);
+		//return Writer.write(map);
 	}
 	
 	public boolean equals(Object o) {
