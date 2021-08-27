@@ -17,7 +17,9 @@ public interface Junk {
 	
 	public String getDisplayName();
 	
-	public Material getType();
+	public FishType getType();
+	
+	public Material getItem();
 	
 	public String getHead();
 	

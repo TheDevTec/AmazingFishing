@@ -141,8 +141,6 @@ public class Quests {
 				if(q.getStages()<((int)a[1]+1)) { //END OF QUEST
 					finish(player.getName(), q.getName());
 					it.remove();
-					//if(!it.hasNext())
-					//progress.remove(player.getName());
 				}else { // PREPARE FOR NEXT STAGE
 					a[1]=(int)a[1]+1;
 					a[2]=0;
@@ -163,10 +161,8 @@ public class Quests {
 	public static void save(String name) {
 		User a = TheAPI.getUser(name);
 		Iterator<Object[]> it = progress.get(name).iterator();
-		//a.remove("af-quests");
 		while(it.hasNext()) {
 			Object[] o = it.next();
-			//a.set("af-quests."+o[0], o[1]);
 			a.set("af-quests."+o[0]+".stage", o[1]);
 			a.set("af-quests."+o[0]+".count", o[2]);
 		}
@@ -252,7 +248,7 @@ public class Quests {
 		return true;
 	}	
 	public static boolean canCancel(String player, Quest quest) {
-		if( !TheAPI.getUser(player).exist("af-quests."+quest.getName()) ) return false;
+		if(!TheAPI.getUser(player).exist("af-quests."+quest.getName()) ) return false;
 		if(isFinished(player, quest.getName())) return false;
 		else return true;
 	}

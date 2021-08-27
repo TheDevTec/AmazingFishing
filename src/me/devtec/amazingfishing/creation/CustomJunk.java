@@ -1,7 +1,9 @@
 package me.devtec.amazingfishing.creation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,6 +17,7 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Calculator;
 import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.FishTime;
+import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.utils.HDBSupport;
@@ -25,10 +28,11 @@ import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
+import me.devtec.theapi.utils.json.Json;
 import me.devtec.theapi.utils.nms.NMSAPI;
 import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
-public class CustomJunk implements Junk{
+public class CustomJunk implements Junk {
 	
 	final String name, path;
 	final Data data;
@@ -45,10 +49,6 @@ public class CustomJunk implements Junk{
 		if(data.exists(path+"."+name+".head")&&this.item==true)
 			this.head=true;
 	}
-
-	/*
-	 *  ITEM
-	 */
 	
 	@Override
 	public String getName() {
@@ -62,9 +62,14 @@ public class CustomJunk implements Junk{
 		else
 			return null;
 	}
+	
+	@Override
+	public FishType getType() {
+		return FishType.JUNK;
+	}
 
 	@Override
-	public Material getType() {
+	public Material getItem() {
 		if(data.exists(path+"."+name+".type") && !isHead())
 			return Material.valueOf(data.getString(path+"."+name+".type"));
 		if(isHead())
@@ -92,6 +97,7 @@ public class CustomJunk implements Junk{
 	public int getModel() {
 		return data.getInt(path+"."+name+".model");
 	}
+
 	@Override
 	public int getAmount() {
 		if(data.exists(path+"."+name+".amount"))
@@ -120,10 +126,6 @@ public class CustomJunk implements Junk{
 		}
 		return list;
 	}
-	
-	/*
-	 * OTHER
-	 */
 	
 	@Override
 	public List<String> getMessages(FishAction action) {
@@ -248,7 +250,7 @@ public class CustomJunk implements Junk{
 	
 	@Override
 	public boolean isInstance(Data data) {
-		return data.exists("junk") && data.exists("type") && data.getString("junk").equals(name) && data.getString("type").equals(getType().name());
+		return data.exists("junk") && data.exists("type") && data.getString("junk").equals(name) && data.getString("type").equals("JUNK");
 	}
 	
 	@Override
@@ -272,7 +274,7 @@ public class CustomJunk implements Junk{
 
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(getType(), getType().ordinal()));
+		ItemCreatorAPI c = new ItemCreatorAPI(find(getItem(), getType().ordinal()));
 		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf= getDisplayName()!=null? s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
@@ -312,9 +314,10 @@ public class CustomJunk implements Junk{
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
 		return NMSAPI.setNBT(stack, edit);
 	}
+
 	@Override
 	public ItemStack createItem(Player p, Location hook) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(getType(), getType().ordinal()));
+		ItemCreatorAPI c = new ItemCreatorAPI(find(getItem(), getType().ordinal()));
 		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=getDisplayName()!=null? s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(-1))
@@ -357,7 +360,7 @@ public class CustomJunk implements Junk{
 	
 	@Override
 	public ItemStack preview(Player p) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(getType(), getType().ordinal()));
+		ItemCreatorAPI c = new ItemCreatorAPI(find(getItem(), getType().ordinal()));
 		fixHead(c);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
 		String nn = getDisplayName()!=null? PlaceholderAPI.setPlaceholders(p, (data.exists(path+"."+name+".preview.name")?data.getString(path+"."+name+".preview.name"):getDisplayName())
@@ -419,6 +422,7 @@ public class CustomJunk implements Junk{
 		if(material!=null)return new ItemStack(material);
 		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id);
 	}
+
 	private ItemCreatorAPI fixHead(ItemCreatorAPI item) {
 		if(this.head) {
 			if(data.getString(path+"."+this.name+".head").length()>16)
@@ -426,9 +430,12 @@ public class CustomJunk implements Junk{
 		}
 		return item;
 	}
+
 	private String sub(String s) {
 		return s.substring(1,s.length()-1);
+
 	}
+
 	private String s(String s, Player p, Location l) {
 		return PlaceholderAPI.setPlaceholders(p, s
 				.replace("%player%", p.getName())
@@ -442,9 +449,41 @@ public class CustomJunk implements Junk{
 	}
 	
 	public Data createData(double weight, double length) {
-		return new Data().set("junk", name).set("type", getType().name()).set("weigth", weight).set("length", length).set("ID", "JUNK");
+		return new Data().set("junk", name).set("type", getType().name()).set("item", getItem().name()).set("weigth", weight).set("length", length);
 	}
+
 	public Data createData() {
-		return new Data().set("junk", name).set("type", getType().name()).set("ID", "JUNK");
+		return new Data().set("junk", name).set("type", getType().name()).set("item", getItem().name());
+	}
+	
+	public String toString() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("type", "Junk");
+		map.put("name", getName());
+		map.put("chance", getChance());
+		map.put("fish", getType().name().toLowerCase());
+		if(getPermission()!=null)
+		map.put("permission", getPermission());
+		map.put("catch_time", getCatchTime().name().toLowerCase());
+		map.put("catch_weather", getCatchWeather().name().toLowerCase());
+		map.put("weight", getWeight());
+		map.put("min_weight", getMinWeight());
+		map.put("length", getLength());
+		map.put("min_length", getMinLength());
+		map.put("item", getItem().name());
+		map.put("model", getModel());
+		map.put("head", getHead());
+		return Json.writer().write(map);
+	}
+	
+	public boolean equals(Object o) {
+		if(o instanceof Junk) {
+			if(o instanceof CustomJunk) {
+				return ((CustomJunk) o).data.equals(data) && name.equals(((CustomJunk) o).name);
+			}else {
+				return ((Junk) o).getName().equals(name);
+			}
+		}
+		return false;
 	}
 }

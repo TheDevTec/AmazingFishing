@@ -59,45 +59,30 @@ public class Shop {
 		new Tasker() {
 			public void run() {
 				a.setItem(4,c(p,"Points",null));
-				a.setItem(26,c(p,"Bag",new Runnable() {
-					@Override
-					public void run() {
+				a.setItem(26,c(p,"Bag",() -> {
 						if(p.hasPermission("amazingfishing.bag"))
 						Bag.openBag(p);
-					}}));
-				a.setItem(18,c(p,"Convertor",new Runnable() {
-					@Override
-					public void run() {
+					}));
+				a.setItem(18,c(p,"Convertor",() -> {
 						if(p.hasPermission("amazingfishing.convertor"))
 						Convertor.open(p);
-					}}));
+					}));
 				if(t==ShopType.BUY) {
 				if(Loader.config.getBoolean("Options.Shop.SellFish"))
-					a.setItem(35,c(p,"SellShop",new Runnable() {
-						@Override
-						public void run() {
+					a.setItem(35,c(p,"SellShop",() -> {
 							openShop(p, ShopType.SELL);
-						}}));
+						}));
 					addItems(a);
 				}else {
 					//TODO - Fish OF Day
-					 a.setItem(35, c(p,"BuyShop",new Runnable() {
-							@Override
-							public void run() {
+					 a.setItem(35, c(p,"BuyShop",() -> {
 								openShop(p, ShopType.BUY);
-							}}));
+							}));
 					a.setItem(49, new ItemGUI(cc(p,"Sell")) {
-						
-						@Override
 						public void onClick(Player player, HolderGUI gui, ClickType click) {
 							sellAll(p, gui, false);
 						}
 					});
-					/*a.setItem(49,c(p,"Sell",new Runnable() {
-						@Override
-						public void run() {
-							sellAll(p, p.getOpenInventory().getTopInventory(), false);
-						}}));*/
 				}
 				a.open(p);
 			}
@@ -117,7 +102,7 @@ public class Shop {
 			if(icon==null)icon=Material.STONE;
 			List<String> lore= Loader.shop.getStringList("Items."+item+".Description");
 			if(lore!=null)lore.replaceAll(ss -> ss.replace("%item%", item).replace("%cost%", cost+""));
-			ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(icon));
+			ItemCreatorAPI a = new ItemCreatorAPI(icon);
 			a.setDisplayName(ItemName);
 			a.setLore(lore);
 			inv.addItem(new ItemGUI(Loader.shop.exists("Items."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("Items."+item+".ModelData")):a.create()){
@@ -141,29 +126,35 @@ public class Shop {
 				TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
 			for(String f:Loader.shop.getKeys("Items."+kit+".Item")) {
 				try {
-				ItemCreatorAPI a = new ItemCreatorAPI(Material.matchMaterial(Loader.shop.getString("Items."+kit+".Item."+f+".Material")));
-				a.setAmount(Loader.shop.getInt("Items."+kit+".Item."+f+".Amount")>0?Loader.shop.getInt("Items."+kit+".Item."+f+".Amount"):1);
-				a.setDisplayName(Loader.shop.getString("Items."+kit+".Item."+f+".Name").replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""));
-				List<String> lore = Loader.shop.getStringList("Items."+kit+".Item."+f+".Lore");
-				lore.replaceAll(w-> w.replace("%item%", kit).replace("%player%", p.getName()).replace("%cost%", cost+""));
-				a.setLore(lore);
-				a.setUnbreakable(Loader.shop.getBoolean("Items."+kit+".Item."+f+".Unbreakable"));
-				if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideEnchants"))
-					a.addItemFlag(ItemFlag.HIDE_ENCHANTS);
-				if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideAttributes"))
-					a.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
-				for(String s:Loader.shop.getStringList("Items."+kit+".Item."+f+".Enchants")) {
-	            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
-	            	int num = StringUtils.getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
-	            	if(num==0)num=1;
-	            	try {
-	            		a.addEnchantment(ench, num);
-	            	}catch(Exception e) {
-	            		
-	            	}
-				}
-				TheAPI.giveItem(p,Loader.shop.exists("Items."+kit+".Item."+f+".Model")?Utils.setModel(a.create(), Loader.shop.getInt("Items."+kit+".Item."+f+".Model")):a.create());
-				}catch(Exception | NoSuchFieldError e) {}
+					Material icon = null;
+					try{
+						String s = Loader.shop.getString("Items."+kit+".Item."+f+".Material").toUpperCase();
+						icon=s.contains(":")? new MaterialData(Material.matchMaterial(s.split(":")[0]), StringUtils.getByte(s.split(":")[1])).getItemType() : Material.matchMaterial(s);
+					}catch(Exception | NoSuchFieldError err) {}
+					if(icon==null)icon=Material.STONE;
+					ItemCreatorAPI a = new ItemCreatorAPI(icon);
+					a.setAmount(Loader.shop.getInt("Items."+kit+".Item."+f+".Amount")>0?Loader.shop.getInt("Items."+kit+".Item."+f+".Amount"):1);
+					a.setDisplayName(Loader.shop.getString("Items."+kit+".Item."+f+".Name").replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""));
+					List<String> lore = Loader.shop.getStringList("Items."+kit+".Item."+f+".Lore");
+					lore.replaceAll(w-> w.replace("%item%", kit).replace("%player%", p.getName()).replace("%cost%", cost+""));
+					a.setLore(lore);
+					a.setUnbreakable(Loader.shop.getBoolean("Items."+kit+".Item."+f+".Unbreakable"));
+					if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideEnchants"))
+						a.addItemFlag(ItemFlag.HIDE_ENCHANTS);
+					if(Loader.shop.getBoolean("Items."+kit+".Item."+f+".HideAttributes"))
+						a.addItemFlag(ItemFlag.HIDE_ATTRIBUTES);
+					for(String s:Loader.shop.getStringList("Items."+kit+".Item."+f+".Enchants")) {
+		            	String ench = s.replace(":", "").replace(" ", "").replaceAll("[0-9]+", "");
+		            	int num = StringUtils.getInt(s.replace(":", "").replace(" ", "").replace("_", ""));
+		            	if(num==0)num=1;
+		            	try {
+		            		a.addEnchantment(ench, num);
+		            	}catch(Exception e) {
+		            		
+		            	}
+					}
+					TheAPI.giveItem(p,Loader.shop.exists("Items."+kit+".Item."+f+".Model")?Utils.setModel(a.create(), Loader.shop.getInt("Items."+kit+".Item."+f+".Model")):a.create());
+					}catch(Exception | NoSuchFieldError e) {}
 			}
 		}
 	}
@@ -249,14 +240,14 @@ public class Shop {
 					.replace("%money_boost%", ""+f.getMoneyBoost()).replace("%points_boost%", ""+f.getPointsBoost()).replace("%exp_boost%", ""+f.getExpBoost())
 					.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost()))*d.getAmount();
 			//a.remove(d);
+			Statistics.addSelling(p, f.getFish(), d.getAmount()); //Adding fish to Selling statistics
 			NMSAPI.postToMainThread(() -> {
-					Statistics.addSelling(p, f.getFish(), d.getAmount()); //Adding fish to Selling statistics
 			        Achievements.check(p, f);
 			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName(), d.getAmount());
 				});
 		}
 		if(sel != 0) {
-			//TODO sounds
+			//TODO sounds - EDIT - commands & messages (list)
 			if(Loader.config.getBoolean("Options.SellFish.DisableMoney")) totalMoney=0;
 			if(Loader.config.getBoolean("Options.SellFish.DisableXP")) totalExp=0;
 			if(Loader.config.getBoolean("Options.SellFish.DisablePoints")) totalPoints=0;

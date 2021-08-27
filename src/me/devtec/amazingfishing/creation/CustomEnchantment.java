@@ -50,8 +50,6 @@ public class CustomEnchantment extends Enchant {
 		map.put("bonus_points", getPointsBoost());
 		map.put("bonus_exp", getExpBoost());
 		return Json.writer().write(map);
-		//return Writer.write(map);
-		
 	}
 	
 	public boolean equals(Object o) {

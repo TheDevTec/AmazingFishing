@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.devtec.amazingfishing.Loader;
+import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.utils.StreamUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -71,6 +72,8 @@ public class Configs {
 		Loader.enchant=loadOrReload(data,Loader.enchant, "Data/Enchantments.yml");
 		Utils.convertFiles();
 		Utils.fixDefaultConfig();
+		Loader.next = ItemCreatorAPI.createHeadByValues(1, Trans.next(), Trans.head_next());
+		Loader.prev = ItemCreatorAPI.createHeadByValues(1, Trans.previous(), Trans.head_previous());
 	}
 
 	private static Data loadOrReload(Data data, Data d, String path) {

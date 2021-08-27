@@ -66,7 +66,6 @@ public class CustomFish implements Fish {
 		map.put("model", getModel());
 		map.put("head", getHead());
 		return Json.writer().write(map);
-		//return Writer.write(map);
 	}
 	
 	public boolean equals(Object o) {

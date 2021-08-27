@@ -117,7 +117,6 @@ public class EnchantTable {
 				List<String> lore = enchant.getDescription();
 				double cost = enchant.getCost();
 				a.addItem(new ItemGUI(Create.createItem(name, Material.ENCHANTED_BOOK,lore)){
-					@Override
 					public void onClick(Player p, HolderGUI arg, ClickType type) {
 						if(API.getPoints().has(p.getName(), cost)) {
 							API.getPoints().remove(p.getName(), cost);
@@ -156,7 +155,6 @@ public class EnchantTable {
 				List<String> lore = enchant.getDescription();
 				double cost = enchant.getCost();
 				a.addItem(new ItemGUI(Create.createItem(name, Material.PAPER,lore)){
-					@Override
 					public void onClick(Player p, HolderGUI arg, ClickType type) {
 						if(API.getPoints().has(p.getName(), cost)) {
 							API.getPoints().remove(p.getName(), cost);

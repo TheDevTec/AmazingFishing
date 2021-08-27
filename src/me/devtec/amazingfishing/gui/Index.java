@@ -30,7 +30,7 @@ public class Index {
 	static GUI g=Create.setup(new GUI(Loader.gui.getString("GUI.Index.Title"),54), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 	static {
 
-		if(CatchFish.isEnabled(Fishing.Fish)) {
+		if(CatchFish.isEnabled(Fishing.FISH)) {
 			g.setItem(20, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.COD).getType(), 1, Trans.words_cod(), API.getMaterialOf(FishType.COD).getData().getData())) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					open(player, FishType.COD, 0);
@@ -52,7 +52,7 @@ public class Index {
 				}
 			});
 		}
-		if(CatchFish.isEnabled(Fishing.Junk)) {
+		if(CatchFish.isEnabled(Fishing.JUNK)) {
 			g.setItem(22, new ItemGUI(ItemCreatorAPI.create(API.getMaterialOf(FishType.JUNK).getType(), 1, Trans.words_junk(), API.getMaterialOf(FishType.JUNK).getData().getData())) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					open(player, FishType.JUNK, 0);

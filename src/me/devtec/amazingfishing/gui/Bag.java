@@ -29,7 +29,6 @@ public class Bag {
 		}, f -> Help.open(f), Settings.WITHOUT_TOP);
 		if(Loader.config.getBoolean("Options.Shop.SellFish") && Loader.config.getBoolean("Options.Bag.SellFish")) {
 			a.setItem(49,new ItemGUI(Create.createItem(Trans.words_sell(), Utils.getCachedMaterial("COD_BUCKET"))) {
-				@Override
 				public void onClick(Player p, HolderGUI gui, ClickType arg2) {
 					Shop.sellAll(p, gui, true);
 					bag.saveBag(a);

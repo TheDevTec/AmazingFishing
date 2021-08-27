@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -61,10 +62,10 @@ public class Loader extends JavaPlugin {
 	static String prefix;
 	protected static PlaceholderRegister reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-	public static ItemStack next = ItemCreatorAPI.createHeadByValues(1, "&cNext", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmNTVmMWIzMmMzNDM1YWMxYWIzZTVlNTM1YzUwYjUyNzI4NWRhNzE2ZTU0ZmU3MDFjOWI1OTM1MmFmYzFjIn19fQ=="), prev = ItemCreatorAPI.createHeadByValues(1, "&cPrevious", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0=");
+	public static ItemStack next, prev;
 	
 	public void onEnable() {
-		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "5.9.9")==VersionChecker.Version.NEW) {
+		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "6.9")==VersionChecker.Version.NEW) {
 			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", TheAPI.getConsole());
@@ -84,7 +85,7 @@ public class Loader extends JavaPlugin {
 		TheAPI.createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
 		
 		if(Placeholders.isEnabledPlaceholderAPI())
-			new PAPISupport().load();
+			PAPISupport.load();
 		
 		if(config.getBoolean("Tournament.Automatic.Use")) {
 			if(config.getBoolean("Tournament.Automatic.AllWorlds")) {
@@ -146,6 +147,8 @@ public class Loader extends JavaPlugin {
 			config.reload();
 			trans.reload();
 			prefix = trans.getString("Prefix");
+			Loader.next = ItemCreatorAPI.createHeadByValues(1, Trans.next(), Trans.head_next());
+			Loader.prev = ItemCreatorAPI.createHeadByValues(1, Trans.previous(), Trans.head_previous());
 			API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
 			TheAPI.msg(prefix+" Configurations reloaded.", ss);
 		}
@@ -203,7 +206,7 @@ public class Loader extends JavaPlugin {
 		//TREASURE
 		
 		//PRE-LOAD
-		List<String> toReg = new ArrayList<>(treasur.getKeys("treasures"));
+		Set<String> toReg = treasur.getKeys("treasures");
 		
 		//REMOVE-NOT-LOADED
 		List<Treasure> removeT = new ArrayList<>();
@@ -228,7 +231,7 @@ public class Loader extends JavaPlugin {
 		//ENCHANTMENT
 		
 		//PRE-LOAD
-		toReg = new ArrayList<>(enchant.getKeys("enchantments"));
+		toReg = enchant.getKeys("enchantments");
 		//REMOVE-NOT-LOADED
 		List<String> removeE = new ArrayList<>();
 		for(Entry<String, Enchant> fish : Enchant.enchants.entrySet())
@@ -262,7 +265,7 @@ public class Loader extends JavaPlugin {
 		//QUESTS
 		
 		//PRE-LOAD
-		toReg = new ArrayList<>(quest.getKeys("quests"));
+		toReg = quest.getKeys("quests");
 			
 		//REMOVE-NOT-LOADED
 		for(Entry<String, Quest> quest : Quests.quests.entrySet())
@@ -298,7 +301,7 @@ public class Loader extends JavaPlugin {
 		//ACHIEVEMENTS
 		
 		//PRE-LOAD
-		toReg = new ArrayList<>(achievements.getKeys("achievements"));
+		toReg = achievements.getKeys("achievements");
 			
 		//REMOVE-NOT-LOADED
 		for(Entry<String, Achievement> ach : Achievements.achievements.entrySet())
@@ -309,28 +312,20 @@ public class Loader extends JavaPlugin {
 			Achievements.achievements.remove(s);
 		}
 		//REGISTER-NOT-LOADED
-		for(String s : toReg) {
-			if(Loader.achievements.exists("achievements."+s+".icon")) {
+		for(String s : toReg)
+			if(Loader.achievements.exists("achievements."+s+".icon"))
 				Achievements.register(new Achievement(s, achievements));
-			}
-			else continue;
-		}
-			
+		
 		//CLEAR-CACHE
 		TheAPI.msg(prefix+" Achievements registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();
 		removeE.clear();
 		
 		if(achievements.exists("categories")) {
-			int old = 0;
-			if(!Achievements.categories.isEmpty()) {
-				old = Achievements.categories.size();
-						Achievements.categories.clear();
-			}
-			
-			for(String category : achievements.getKeys("categories")) {
+			int old = Achievements.categories.size();
+			Achievements.categories.clear();
+			for(String category : achievements.getKeys("categories"))
 				Achievements.addToCategory( new Category(category, achievements));
-			}
 			
 			TheAPI.msg(prefix+" Achievements categories registered ("+Achievements.categories.size()+") & removed unregistered ("+old+").", ss);
 			
@@ -339,7 +334,7 @@ public class Loader extends JavaPlugin {
 		//JUNK
 		
 		//PRE-LOAD
-		toReg = new ArrayList<>(junk.getKeys("items"));
+		toReg = junk.getKeys("items");
 		
 		//REMOVE-NOT-LOADED
 		List<Junk> removeJ = new ArrayList<>();

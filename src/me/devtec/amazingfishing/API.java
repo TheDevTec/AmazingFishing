@@ -125,6 +125,8 @@ public class API {
 		Data data = new Data();
 		if(edit.getString("af_data")!=null)
 		data.reload(edit.getString("af_data"));
+		String id = data.getString("type");
+		if(id!=null && id.equalsIgnoreCase("junk"))return null;
 		for(Fish f : fish.values())
 			if(f.isInstance(data))
 				return f.createCatchFish(data);
@@ -137,9 +139,8 @@ public class API {
 			Data data = new Data();
 			if(edit.getString("af_data")!=null)
 			data.reload(edit.getString("af_data"));
-			String id = data.getString("ID");
-			if(id!=null && id.equalsIgnoreCase("junk"))
-				return true;
+			String id = data.getString("type");
+			return id!=null && id.equalsIgnoreCase("junk");
 		}
 		return false;
 	}

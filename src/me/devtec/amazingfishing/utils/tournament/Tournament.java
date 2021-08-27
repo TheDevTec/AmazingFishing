@@ -17,6 +17,7 @@ import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.scheduler.Scheduler;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sortedmap.RankingAPI;
+import me.devtec.theapi.sortedmap.SortedMap.ComparableObject;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.nms.NMSAPI;
 
@@ -113,7 +114,7 @@ public class Tournament {
 			int pos = 0;
 			String f = PlaceholderAPI.setPlaceholders(null,Loader.config.getString("Tournament.Type."+t.configPath()+".Positions").replace("%participants%", values.size()+""));
 			int wins = (int) StringUtils.calculate(f);
-			for(Entry<Player, Double> d : top.entrySet()) {
+			for(ComparableObject<Player, Double> d : top.all()) {
 				++pos;
 				Statistics.addTournamentData(d.getKey(), getType(), pos);
 				if(pos>wins) {
@@ -122,11 +123,9 @@ public class Tournament {
 								.replace("%playername%", d.getKey().getDisplayName()+"")
 								.replace("%displayname%", d.getKey().getDisplayName()+"")
 								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-						NMSAPI.postToMainThread(new Runnable() {
-							public void run() {
+						NMSAPI.postToMainThread(() -> {
 								TheAPI.sudoConsole(cfmd);
-							}
-						});
+							});
 					}
 					for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Position.Other.Messages")) {
 						msg=replace(msg.replace("%player%", d.getKey().getName())
@@ -143,11 +142,9 @@ public class Tournament {
 							.replace("%playername%", d.getKey().getDisplayName()+"")
 							.replace("%displayname%", d.getKey().getDisplayName()+"")
 							.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-					NMSAPI.postToMainThread(new Runnable() {
-						public void run() {
+					NMSAPI.postToMainThread(() -> {
 							TheAPI.sudoConsole(cfmd);
-						}
-					});
+						});
 				}
 				for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Position."+pos+".Messages")) {
 					msg=replace(msg.replace("%player%", d.getKey().getName())
@@ -159,15 +156,13 @@ public class Tournament {
 				}
 			}
 		}else {
-			for(Entry<Player, Double> d : top.entrySet()) {
+			for(ComparableObject<Player, Double> d : top.all()) {
 				for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Messages"))
 					TheAPI.msg(replace(cmd,d.getKey()),d.getKey());
-				NMSAPI.postToMainThread(new Runnable() {
-					public void run() {
+				NMSAPI.postToMainThread(() -> {
 						for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Commands"))
 							TheAPI.sudoConsole(replace(cmd,d.getKey()));
-					}
-				});
+					});
 			}
 		}
 		TournamentManager.remove(this);
@@ -176,12 +171,10 @@ public class Tournament {
 
 	public void catchFish(Player p, Fish f, double weight, double length) {
 		if(!values.containsKey(p)) {
-			NMSAPI.postToMainThread(new Runnable() {
-				public void run() {
+			NMSAPI.postToMainThread(() -> {
 					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Commands"))
 						TheAPI.sudoConsole(replace(cmd,p));
-				}
-			});
+				});
 			for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Messages"))
 				TheAPI.msg(replace(msg,p), p);
 		}

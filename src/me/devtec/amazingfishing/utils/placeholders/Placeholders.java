@@ -1,7 +1,6 @@
 package me.devtec.amazingfishing.utils.placeholders;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -13,6 +12,7 @@ import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.PluginManagerAPI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sortedmap.RankingAPI;
+import me.devtec.theapi.sortedmap.SortedMap.ComparableObject;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.User;
 
@@ -92,8 +92,8 @@ public class Placeholders {
 	 *  fish caught
 	 *  
 	 */
-	private static HashMap<Integer, Entry<UUID, Integer>> tournaments_wins = new HashMap<>(); // position - <UUID, Chyceno>
-	private static HashMap<Integer, Entry<UUID, Integer>> fish_caught = new HashMap<>(); // position - < UUID, Chyceno>
+	private static HashMap<Integer, ComparableObject<UUID, Integer>> tournaments_wins = new HashMap<>(); // position - <UUID, Chyceno>
+	private static HashMap<Integer, ComparableObject<UUID, Integer>> fish_caught = new HashMap<>(); // position - < UUID, Chyceno>
 	public static enum TopType {
 		FISH_CAUGHT,
 		TOURNAMENTS_WINS;
@@ -101,14 +101,14 @@ public class Placeholders {
 	public static String getTop(TopType TopType, int position) {
 		switch (TopType) {
 		case FISH_CAUGHT:
-			Entry<UUID, Integer> data = fish_caught.get(position);			
+			ComparableObject<UUID, Integer> data = fish_caught.get(position);			
 			if(data==null)
 				return Loader.config.getString("Options.Placeholders.Format.Fish.Caught").replace("%position%", position+"")
 						.replace("%player%", "-" ).replace("%amount%", "-");
 			return Loader.config.getString("Options.Placeholders.Format.Fish.Caught").replace("%position%", position+"")
 					.replace("%player%", Bukkit.getServer().getOfflinePlayer(data.getKey()).getName()+"" ).replace("%amount%", ""+data.getValue());
 		case TOURNAMENTS_WINS:
-			Entry<UUID, Integer> dat = tournaments_wins.get(position);
+			ComparableObject<UUID, Integer> dat = tournaments_wins.get(position);
 			if(dat==null)
 				return Loader.config.getString("Options.Placeholders.Format.Tournaments.Wins").replace("%position%", position+"")
 					.replace("%player%", "-" ).replace("%amount%", "-");
@@ -145,7 +145,7 @@ public class Placeholders {
 				int pos=1;		
 				if(!t_wins.isEmpty()) {
 				RankingAPI<UUID, Integer> ranks = new RankingAPI<UUID, Integer>(t_wins);
-				for(Entry<UUID, Integer> data: ranks.entrySet()) {
+				for(ComparableObject<UUID, Integer> data: ranks.all()) {
 					if(pos==5)break;
 					tournaments_wins.put(pos, data);
 					++pos;
@@ -154,7 +154,7 @@ public class Placeholders {
 				if(!f_caught.isEmpty()) {
 				RankingAPI<UUID, Integer> ranks2 = new RankingAPI<UUID, Integer>(f_caught);
 				pos=1;
-				for(Entry<UUID, Integer> data: ranks2.entrySet()) {
+				for(ComparableObject<UUID, Integer> data: ranks2.all()) {
 					if(pos==5)break;
 					fish_caught.put(pos, data);
 					++pos;

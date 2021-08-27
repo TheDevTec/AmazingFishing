@@ -196,4 +196,16 @@ public class Trans {
 	public static String convertor_title() {
 		return Loader.gui.getString("GUI.Convertor.Title");
 	}
+	public static String next() {
+		return Loader.gui.getString("GUI.Button.Next");
+	}
+	public static String previous() {
+		return Loader.gui.getString("GUI.Button.Previous");
+	}
+	public static String head_next() {
+		return Loader.gui.getString("GUI.Button.Next_Head");
+	}
+	public static String head_previous() {
+		return Loader.gui.getString("GUI.Button.Previous_Head");
+	}
 }

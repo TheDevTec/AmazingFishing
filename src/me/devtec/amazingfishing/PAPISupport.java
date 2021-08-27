@@ -8,7 +8,7 @@ import me.devtec.theapi.placeholderapi.PlaceholderRegister;
 import me.devtec.theapi.utils.StringUtils;
 
 public class PAPISupport {
-	public void load() {
+	public static void load() {
 		Loader.reg=new PlaceholderRegister("amazingfishing", "DevTec", Loader.plugin.getDescription().getVersion()) {
 			
 		    
