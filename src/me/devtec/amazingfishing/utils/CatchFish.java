@@ -59,6 +59,12 @@ public class CatchFish implements Listener {
 				case FISH:{
 					PercentageList<Fish> ff = generateRandom(e.getPlayer(), loc.getBlock().getBiome(),
 							loc.getWorld().hasStorm(), loc.getWorld().isThundering(), loc.getWorld().getTime());
+
+					//Bukkit.broadcast("--------------", "debug.permission");
+					/*for(Entry<Fish, Double> f : ff.entrySet()) {
+						Bukkit.broadcast(f.getKey().getType()+" ; "+f.getKey().getName()+" ; "+f.getValue()+" ; "+f.getKey().getDisplayName(), "debug.permission");
+						Bukkit.broadcast("Random: "+ff.getRandom().getDisplayName(), "debug.permission");
+					}*/
 					
 					if(ff!=null && !ff.isEmpty()) {
 						item.remove();
@@ -239,8 +245,11 @@ public class CatchFish implements Listener {
 						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
 						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
 						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
+						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN)) {
 					fish.add(f, f.getChance());
+					//Bukkit.broadcast(f.getType()+" ; "+f.getName()+ " ; "+f.getChance()+" ; "+f.getDisplayName(), "debug.permission");
+				}
+					
 		}else { //night
 			for(Fish f : API.getRegisteredFish().values())
 				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && 
