@@ -131,9 +131,20 @@ public class Tournament {
 						msg=replace(msg.replace("%player%", d.getKey().getName())
 								.replace("%playername%", d.getKey().getDisplayName()+"")
 								.replace("%displayname%", d.getKey().getDisplayName()+"")
-								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-						for(Player p : values.keySet())
-						TheAPI.msg(msg,p);
+								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"")
+								.replace("%top1_name%", top.get(1).getKey().getName())
+								.replace("%top1_displayname%", top.get(1).getKey().getDisplayName())
+								.replace("%top1_value%",""+top.get(1).getValue())
+								.replace("%top2_name%", top.get(2)!=null ? top.get(2).getKey().getName() : "-")
+								.replace("%top2_displayname%", top.get(2)!=null ? top.get(2).getKey().getDisplayName() : "-")
+								.replace("%top2_value%", top.get(2)!=null ? ""+top.get(2).getValue() : "-")
+								.replace("%top3_name%", top.get(3)!=null ? top.get(3).getKey().getName() : "-")
+								.replace("%top3_displayname%", top.get(3)!=null ? top.get(3).getKey().getDisplayName() : "-")
+								.replace("%top3_value%", top.get(3)!=null ? ""+top.get(3).getValue() : "-")
+								.replace("%top4_name%", top.get(4)!=null ? top.get(4).getKey().getName() : "-")
+								.replace("%top4_displayname%", top.get(4)!=null?top.get(4).getKey().getDisplayName():"-")
+								.replace("%top4_value%", top.get(4)!=null?""+top.get(4).getValue():"-");
+						TheAPI.msg(msg,d.getKey());
 					}
 					continue;
 				}
@@ -150,9 +161,20 @@ public class Tournament {
 					msg=replace(msg.replace("%player%", d.getKey().getName())
 							.replace("%playername%", d.getKey().getDisplayName()+"")
 							.replace("%displayname%", d.getKey().getDisplayName()+"")
-							.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-					for(Player p : values.keySet())
-					TheAPI.msg(msg,p);
+							.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"")
+							.replace("%top1_name%", top.get(1).getKey().getName())
+							.replace("%top1_displayname%", top.get(1).getKey().getDisplayName())
+							.replace("%top1_value%", ""+top.get(1).getValue())
+							.replace("%top2_name%", top.get(2)!=null ? top.get(2).getKey().getName() : "-")
+							.replace("%top2_displayname%", top.get(2)!=null ? top.get(2).getKey().getDisplayName() : "-")
+							.replace("%top2_value%", top.get(2)!=null ? ""+top.get(2).getValue() : "-")
+							.replace("%top3_name%", top.get(3)!=null ? top.get(3).getKey().getName() : "-")
+							.replace("%top3_displayname%", top.get(3)!=null ? top.get(3).getKey().getDisplayName() : "-")
+							.replace("%top3_value%", top.get(3)!=null ? ""+top.get(3).getValue() : "-")
+							.replace("%top4_name%", top.get(4)!=null ? top.get(4).getKey().getName() : "-")
+							.replace("%top4_displayname%", top.get(4)!=null?top.get(4).getKey().getDisplayName():"-")
+							.replace("%top4_value%", top.get(4)!=null?""+top.get(4).getValue():"-");
+					TheAPI.msg(msg,d.getKey());
 				}
 			}
 		}else {

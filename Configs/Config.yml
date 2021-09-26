@@ -131,20 +131,58 @@ Tournament:
       Positions: 3
       Participated:
         Commands: []
-        Messages: []
+        Messages:
+        - "&7You are participating in a fishing tournament"
       Position:
         1:
           Commands: []
-          Messages: []
+          # Availible placeholders: %player%, %playername%, %displayname%, %customname%, %position%, %top<1-4>_name% --> %top1_name%; %top<1-4>_displayname% --> %top2_displayname%; %top<1-4>_value% --> %top4_value%
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f&l%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
         2:
           Commands: []
-          Messages: []
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f&l%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
         3:
           Commands: []
-          Messages: []
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f&l%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
         Other:
           Commands: []
-          Messages: []
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
       Bossbar:
         Use: true
         Text: "&bYou participate in the amount tournament"
@@ -154,10 +192,19 @@ Tournament:
         Text: "&bThe tournament ends in &9%formatted_time%"
       Stop:
         Commands: []
-        Messages: []
+        Messages:
+        - "&7&l&m============&7&l« !#1431d3&lAmazingFishing!#46b9ff &7&l»&7&l&m============="
+        - "&7 Someone forced fishing tournament to stop!"
+        - "&7 We are sorry"
+        - "&7&l&m=========================================="
       Start:
         Commands: []
-        Messages: []
+        Messages:
+        - "&7&l&m============&7&l« !#1431d3&lAmazingFishing!#46b9ff &7&l»&7&l&m============="
+        - "&7 Fishing tournament started!!!"
+        - "&7 Tournament type: &3&lAmount"
+        - "&7 Time to end: &3%time%"
+        - "&7&l&m=========================================="
     Length:
       Name: "&bLength"
       Positions: 3
