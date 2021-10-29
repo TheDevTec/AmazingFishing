@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.PluginManagerAPI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sortedmap.RankingAPI;
 import me.devtec.theapi.sortedmap.SortedMap.ComparableObject;
@@ -166,7 +165,7 @@ public class Placeholders {
 	}
 	
 	public static boolean isEnabledPlaceholderAPI() {
-		return PluginManagerAPI.getPlugin("PlaceholderAPI")!=null;
+		return Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null;
 	}
 	
 }

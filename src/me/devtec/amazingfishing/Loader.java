@@ -44,7 +44,6 @@ import me.devtec.amazingfishing.utils.tournament.TournamentManager;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.apis.PluginManagerAPI;
 import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderRegister;
@@ -65,7 +64,7 @@ public class Loader extends JavaPlugin {
 	public static ItemStack next, prev;
 	
 	public void onEnable() {
-		if(VersionChecker.getVersion(PluginManagerAPI.getVersion("TheAPI"), "6.9")==VersionChecker.Version.NEW) {
+		if(VersionChecker.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "6.9")==VersionChecker.Version.NEW) {
 			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", TheAPI.getConsole());
