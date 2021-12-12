@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.utils.Statistics;
+import me.devtec.amazingfishing.utils.tournament.bossbar.BossBarManager;
+import me.devtec.amazingfishing.utils.tournament.bossbar.SBossBar;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.scheduler.Scheduler;
@@ -56,8 +58,11 @@ public class Tournament {
 					return;
 				}else {
 					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
-						for(Player p : values.keySet())
-							TheAPI.sendBossBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p), StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)));
+						for(Player p : values.keySet()) {
+							SBossBar bar = BossBarManager.getOrCreate(p);
+							bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)));
+							bar.setTitle(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p));
+						}
 					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
 						for(Player p : values.keySet())
 							TheAPI.sendActionBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Actionbar.Text"),p));
@@ -104,7 +109,7 @@ public class Tournament {
 	public void stop(boolean giveRewards) {
 		if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
 			for(Player p : values.keySet())
-				TheAPI.removeBossBar(p);
+				BossBarManager.remove(p);
 		if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
 			for(Player p : values.keySet())
 				TheAPI.removeActionBar(p);
