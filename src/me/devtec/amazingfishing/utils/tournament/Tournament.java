@@ -19,7 +19,6 @@ import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sortedmap.RankingAPI;
 import me.devtec.theapi.sortedmap.SortedMap.ComparableObject;
 import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Tournament {
 	private static Random r = new Random();
@@ -39,7 +38,7 @@ public class Tournament {
 			if(world!=null)
 				if(world != p.getWorld())
 					continue;
-			NMSAPI.postToMainThread(new Runnable() {
+			TheAPI.getNmsProvider().postToMainThread(new Runnable() {
 				public void run() {
 					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Commands"))
 						TheAPI.sudoConsole(replace(cmd,p));
@@ -123,7 +122,7 @@ public class Tournament {
 								.replace("%playername%", d.getKey().getDisplayName()+"")
 								.replace("%displayname%", d.getKey().getDisplayName()+"")
 								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-						NMSAPI.postToMainThread(() -> {
+						TheAPI.getNmsProvider().postToMainThread(() -> {
 								TheAPI.sudoConsole(cfmd);
 							});
 					}
@@ -153,7 +152,7 @@ public class Tournament {
 							.replace("%playername%", d.getKey().getDisplayName()+"")
 							.replace("%displayname%", d.getKey().getDisplayName()+"")
 							.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-					NMSAPI.postToMainThread(() -> {
+					TheAPI.getNmsProvider().postToMainThread(() -> {
 							TheAPI.sudoConsole(cfmd);
 						});
 				}
@@ -181,7 +180,7 @@ public class Tournament {
 			for(ComparableObject<Player, Double> d : top.all()) {
 				for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Messages"))
 					TheAPI.msg(replace(cmd,d.getKey()),d.getKey());
-				NMSAPI.postToMainThread(() -> {
+				TheAPI.getNmsProvider().postToMainThread(() -> {
 						for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Commands"))
 							TheAPI.sudoConsole(replace(cmd,d.getKey()));
 					});
@@ -193,7 +192,7 @@ public class Tournament {
 
 	public void catchFish(Player p, Fish f, double weight, double length) {
 		if(!values.containsKey(p)) {
-			NMSAPI.postToMainThread(() -> {
+			TheAPI.getNmsProvider().postToMainThread(() -> {
 					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Commands"))
 						TheAPI.sudoConsole(replace(cmd,p));
 				});

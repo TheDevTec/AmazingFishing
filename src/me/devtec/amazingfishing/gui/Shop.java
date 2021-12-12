@@ -31,7 +31,6 @@ import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Shop {
 	public static enum ShopType {
@@ -119,7 +118,7 @@ public class Shop {
 		if(API.getPoints().has(p.getName(), cost)) {
 			//TODO sounds
 			API.getPoints().remove(p.getName(), cost);
-			NMSAPI.postToMainThread(() -> {for(String f:Loader.shop.getStringList("Items."+kit+".Commands"))
+			TheAPI.getNmsProvider().postToMainThread(() -> {for(String f:Loader.shop.getStringList("Items."+kit+".Commands"))
 					TheAPI.sudoConsole(SudoType.COMMAND, TheAPI.colorize(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+"") ));
 				});
 			for(String f:Loader.shop.getStringList("Items."+kit+".Messages"))
@@ -241,7 +240,7 @@ public class Shop {
 					.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost()))*d.getAmount();
 			//a.remove(d);
 			Statistics.addSelling(p, f.getFish(), d.getAmount()); //Adding fish to Selling statistics
-			NMSAPI.postToMainThread(() -> {
+			TheAPI.getNmsProvider().postToMainThread(() -> {
 			        Achievements.check(p, f);
 			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName(), d.getAmount());
 				});

@@ -15,7 +15,6 @@ import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.scheduler.Scheduler;
 import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class AFKSystem {
 	private static int i;
@@ -43,16 +42,16 @@ public class AFKSystem {
 								standing.put(p.getUniqueId(), 0);
 								if(noticed.contains(p.getUniqueId())) {
 									noticed.remove(p.getUniqueId());
-									NMSAPI.postToMainThread(() -> Loader.onAfkStop(p));
+									TheAPI.getNmsProvider().postToMainThread(() -> Loader.onAfkStop(p));
 								}
 							}else {
 								standing.put(p.getUniqueId(), standing.getOrDefault(p.getUniqueId(), 0)+1);
 								if(isAFK(p.getUniqueId())) {
 									if(!noticed.contains(p.getUniqueId())) {
 										noticed.add(p.getUniqueId());
-										NMSAPI.postToMainThread(() -> Loader.onAfkStart(p));
+										TheAPI.getNmsProvider().postToMainThread(() -> Loader.onAfkStart(p));
 									}else
-										NMSAPI.postToMainThread(() -> Loader.onAfk(p));
+										TheAPI.getNmsProvider().postToMainThread(() -> Loader.onAfk(p));
 								}
 							}
 						}

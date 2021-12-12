@@ -17,7 +17,6 @@ import me.devtec.theapi.scheduler.Tasker;
 import me.devtec.theapi.sqlapi.SQLAPI;
 import me.devtec.theapi.utils.datakeeper.User;
 import me.devtec.theapi.utils.json.Json;
-import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Bag {
 	private static SQLAPI sql;
@@ -80,12 +79,12 @@ public class Bag {
 				int slot = st;
 				if(i.getItem(slot)==null)continue;
 				if(!API.isFishItem(i.getItem(slot))) {
-					NMSAPI.postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
+					TheAPI.getNmsProvider().postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
 					continue;
 				}
 				Fish fish = API.getFish(i.getItem(slot));
 				if(fish==null) {
-					NMSAPI.postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
+					TheAPI.getNmsProvider().postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
 					continue;
 				}
 				list.add(i.getItem(slot));
@@ -100,12 +99,12 @@ public class Bag {
 				int slot = st;
 				if(i.getItem(slot)==null)continue;
 				if(!API.isFishItem(i.getItem(slot))) {
-					NMSAPI.postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
+					TheAPI.getNmsProvider().postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
 					continue;
 				}
 				Fish fish = API.getFish(i.getItem(slot));
 				if(fish==null) {
-					NMSAPI.postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
+					TheAPI.getNmsProvider().postToMainThread(() -> TheAPI.giveItem(player, i.getItem(slot)));
 					continue;
 				}
 				list.add(i.getItem(slot));

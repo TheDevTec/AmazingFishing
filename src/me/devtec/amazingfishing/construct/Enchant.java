@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
-import me.devtec.theapi.utils.nms.NMSAPI;
 import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public abstract class Enchant {
@@ -60,7 +60,7 @@ public abstract class Enchant {
 				data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
 						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount);
 		edit.setString("af_data", data.toString(DataType.JSON));
-		rod=NMSAPI.setNBT(rod, edit);
+		rod=TheAPI.getNmsProvider().setNBT(rod, edit);
 		ItemMeta m = rod.getItemMeta();
 		List<String> l = m.getLore() != null ? m.getLore() : new ArrayList<>();
 		if(remove!=null)

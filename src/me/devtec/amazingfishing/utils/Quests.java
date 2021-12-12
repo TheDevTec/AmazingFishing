@@ -16,7 +16,6 @@ import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.User;
-import me.devtec.theapi.utils.nms.NMSAPI;
 
 public class Quests {
 	public static class Quest {
@@ -130,7 +129,7 @@ public class Quests {
 			int c = q.getCount((int)a[1]);
 			a[2]=(int)a[2]+amount;
 			if(c<=(int)a[2]) {
-				NMSAPI.postToMainThread(new Runnable() {
+				TheAPI.getNmsProvider().postToMainThread(new Runnable() {
 					public void run() {
 						for(String cmd : q.getCommands((int)a[1]))
 							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ) );
@@ -210,7 +209,7 @@ public class Quests {
 		a.save();
 		load(player.getName());
 		
-		NMSAPI.postToMainThread(new Runnable() {
+		TheAPI.getNmsProvider().postToMainThread(new Runnable() {
 			public void run() {
 				for(String cmd : quest.getStartCommands() )
 					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName())

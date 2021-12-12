@@ -22,6 +22,7 @@ import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.utils.HDBSupport;
 import me.devtec.amazingfishing.utils.Utils;
+import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.EnchantmentAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
@@ -29,7 +30,6 @@ import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.json.Json;
-import me.devtec.theapi.utils.nms.NMSAPI;
 import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public class CustomJunk implements Junk {
@@ -312,7 +312,7 @@ public class CustomJunk implements Junk {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
-		return NMSAPI.setNBT(stack, edit);
+		return TheAPI.getNmsProvider().setNBT(stack, edit);
 	}
 
 	@Override
@@ -355,7 +355,7 @@ public class CustomJunk implements Junk {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData().toString(DataType.JSON));
-		return NMSAPI.setNBT(stack, edit);
+		return TheAPI.getNmsProvider().setNBT(stack, edit);
 	}
 	
 	@Override
