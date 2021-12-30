@@ -91,7 +91,6 @@ public class Loader extends JavaPlugin {
 				new Tasker() {
 					public void run() {
 						for(World w : Bukkit.getWorlds()) {
-							if(!config.getStringList("Tournament.Automatic.Worlds").contains(w.getName()))continue;
 							if(TournamentManager.start(w, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 								String format = TournamentManager.get(w).getType().formatted(), path = TournamentManager.get(w).getType().configPath();
 								for(Player p : w.getPlayers()) {
