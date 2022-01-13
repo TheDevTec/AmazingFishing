@@ -67,7 +67,8 @@ public class Statistics {
 					if(cansend && old!=0)
 						for(String msg : Loader.trans.getStringList("NewRecord"))
 							Loader.msg(msg
-									.replace("%type%", "Length")
+									//.replace("%type%", "Length")
+									.replace("%type%", Trans.words_length())
 									.replace("%new%", Loader.ff.format(length))
 									.replace("%old%", Loader.ff.format(old))
 									, p);
@@ -80,7 +81,8 @@ public class Statistics {
 					if(cansend && old!=0)
 						for(String msg : Loader.trans.getStringList("NewRecord"))
 							Loader.msg(msg
-								.replace("%type%", "Weight")
+								//.replace("%type%", "Weight")
+								.replace("%type%", Trans.words_weight())
 								.replace("%new%", Loader.ff.format(weight))
 								.replace("%old%", Loader.ff.format(old))
 								, p);

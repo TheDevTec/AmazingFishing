@@ -156,6 +156,12 @@ public class Trans {
 		return Loader.gui.getString("GUI.Achievements.Category");
 	}
 	
+	public static String words_length() {
+		return Loader.trans.getString("Words.Length");
+	}
+	public static String words_weight() {
+		return Loader.trans.getString("Words.Weight");
+	}
 	public static String words_cod() {
 		return Loader.trans.getString("Words.Cod");
 	}
@@ -185,7 +191,6 @@ public class Trans {
 	}
 	public static String words_points() {
 		return Loader.trans.getString("Words.Points");
-		
 	}
 	public static String words_tournament(TournamentType TournamentType) {
 		return Loader.config.getString("Tournament.Type."+TournamentType.formatted()+".Name");

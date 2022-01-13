@@ -6,9 +6,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/EclipseUtils/HeadDatabase.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/PlaceholderAPI-2.10.9.jar"/>
-	<classpathentry kind="lib" path="C:/EclipseUtils/MC/spigot-1.17.1.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/TheAPI.jar" sourcepath="/TheAPI"/>
+	<classpathentry kind="lib" path="C:/EclipseUtils/HeadDatabase-4.14.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADAMB/Downloads/spigot-1.18.jar"/>
+	<classpathentry kind="lib" path="C:/EclipseUtils/MC/spigot-1.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
