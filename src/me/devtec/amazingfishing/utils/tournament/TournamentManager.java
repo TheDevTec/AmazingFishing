@@ -1,6 +1,7 @@
 package me.devtec.amazingfishing.utils.tournament;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -24,12 +25,10 @@ public class TournamentManager {
 	}
 
 	public static Tournament get(World w) {
+		if(w==null)return global;
 		if(t.containsKey(w))
 			return t.get(w);
-		if(global!=null)
-			return global;
-		else
-			return null;
+		return global;
 	}
 	public static Map<World, Tournament> getAll() {
 		return t;
@@ -52,13 +51,10 @@ public class TournamentManager {
 			global=null;
 			return;
 		}
-		World g = null;
-		for(Entry<World,Tournament> d : t.entrySet())
+		for(Entry<World,Tournament> d : new HashSet<>(t.entrySet()))
 			if(d.getValue().equals(w)) {
-			g=d.getKey();
+				t.remove(d.getKey());
 			break;
 		}
-		if(g!=null)
-		t.remove(g);
 	}
 }

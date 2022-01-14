@@ -90,19 +90,17 @@ public class Loader extends JavaPlugin {
 			if(config.getBoolean("Tournament.Automatic.AllWorlds")) {
 				new Tasker() {
 					public void run() {
-						for(World w : Bukkit.getWorlds()) {
-							if(TournamentManager.start(w, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
-								String format = TournamentManager.get(w).getType().formatted(), path = TournamentManager.get(w).getType().configPath();
-								for(Player p : w.getPlayers()) {
-									for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Messages"))
-										TheAPI.msg(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)), p);
-									for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Commands"))
-										TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)));
-								}
+						if(TournamentManager.start(null, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
+							String format = TournamentManager.get(null).getType().formatted(), path = TournamentManager.get(null).getType().configPath();
+							for(Player p : TheAPI.getOnlinePlayers()) {
+								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Messages"))
+									TheAPI.msg(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)), p);
+								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Commands"))
+									TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)));
 							}
 						}
 					}
-				}.runRepeating(StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")), StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
+				}.runRepeating(100, StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
 			}else {
 				new Tasker() {
 					public void run() {

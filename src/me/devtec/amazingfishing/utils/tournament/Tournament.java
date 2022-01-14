@@ -30,7 +30,7 @@ public class Tournament {
 	private final Map<Player, Double> values = new HashMap<>();
 	private final TournamentType t;
 	public Tournament(TournamentType type, long time, World world) {
-		if(type==TournamentType.RANDOM) {
+		while(type==TournamentType.RANDOM) {
 			type=TournamentType.values()[r.nextInt(TournamentType.values().length)];
 		}
 		t=type;
@@ -60,6 +60,7 @@ public class Tournament {
 					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
 						for(Player p : values.keySet()) {
 							SBossBar bar = BossBarManager.getOrCreate(p);
+							bar.show();
 							bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)));
 							bar.setTitle(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p));
 						}
@@ -136,18 +137,18 @@ public class Tournament {
 								.replace("%playername%", d.getKey().getDisplayName()+"")
 								.replace("%displayname%", d.getKey().getDisplayName()+"")
 								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"")
-								.replace("%top1_name%", top.get(1).getKey().getName())
-								.replace("%top1_displayname%", top.get(1).getKey().getDisplayName())
-								.replace("%top1_value%",""+top.get(1).getValue())
-								.replace("%top2_name%", top.get(2)!=null ? top.get(2).getKey().getName() : "-")
-								.replace("%top2_displayname%", top.get(2)!=null ? top.get(2).getKey().getDisplayName() : "-")
-								.replace("%top2_value%", top.get(2)!=null ? ""+top.get(2).getValue() : "-")
-								.replace("%top3_name%", top.get(3)!=null ? top.get(3).getKey().getName() : "-")
-								.replace("%top3_displayname%", top.get(3)!=null ? top.get(3).getKey().getDisplayName() : "-")
-								.replace("%top3_value%", top.get(3)!=null ? ""+top.get(3).getValue() : "-")
-								.replace("%top4_name%", top.get(4)!=null ? top.get(4).getKey().getName() : "-")
-								.replace("%top4_displayname%", top.get(4)!=null?top.get(4).getKey().getDisplayName():"-")
-								.replace("%top4_value%", top.get(4)!=null?""+top.get(4).getValue():"-");
+								.replace("%top1_name%", top.get(0).getKey().getName())
+								.replace("%top1_displayname%", top.get(0).getKey().getDisplayName())
+								.replace("%top1_value%",""+top.get(0).getValue())
+								.replace("%top2_name%", top.size()>=2 ? top.get(1).getKey().getName() : "-")
+								.replace("%top2_displayname%", top.size()>=2 ? top.get(1).getKey().getDisplayName() : "-")
+								.replace("%top2_value%", top.size()>=2 ? ""+top.get(1).getValue() : "-")
+								.replace("%top3_name%", top.size()>=3 ? top.get(2).getKey().getName() : "-")
+								.replace("%top3_displayname%", top.size()>=3 ? top.get(2).getKey().getDisplayName() : "-")
+								.replace("%top3_value%", top.size()>=3 ? ""+top.get(2).getValue() : "-")
+								.replace("%top4_name%", top.size()>=4 ? top.get(3).getKey().getName() : "-")
+								.replace("%top4_displayname%", top.size()>=4?top.get(3).getKey().getDisplayName():"-")
+								.replace("%top4_value%", top.size()>=4?""+top.get(3).getValue():"-");
 						TheAPI.msg(msg,d.getKey());
 					}
 					continue;
@@ -166,18 +167,18 @@ public class Tournament {
 							.replace("%playername%", d.getKey().getDisplayName()+"")
 							.replace("%displayname%", d.getKey().getDisplayName()+"")
 							.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"")
-							.replace("%top1_name%", top.get(1).getKey().getName())
-							.replace("%top1_displayname%", top.get(1).getKey().getDisplayName())
-							.replace("%top1_value%", ""+top.get(1).getValue())
-							.replace("%top2_name%", top.get(2)!=null ? top.get(2).getKey().getName() : "-")
-							.replace("%top2_displayname%", top.get(2)!=null ? top.get(2).getKey().getDisplayName() : "-")
-							.replace("%top2_value%", top.get(2)!=null ? ""+top.get(2).getValue() : "-")
-							.replace("%top3_name%", top.get(3)!=null ? top.get(3).getKey().getName() : "-")
-							.replace("%top3_displayname%", top.get(3)!=null ? top.get(3).getKey().getDisplayName() : "-")
-							.replace("%top3_value%", top.get(3)!=null ? ""+top.get(3).getValue() : "-")
-							.replace("%top4_name%", top.get(4)!=null ? top.get(4).getKey().getName() : "-")
-							.replace("%top4_displayname%", top.get(4)!=null?top.get(4).getKey().getDisplayName():"-")
-							.replace("%top4_value%", top.get(4)!=null?""+top.get(4).getValue():"-");
+							.replace("%top1_name%", top.get(0).getKey().getName())
+							.replace("%top1_displayname%", top.get(0).getKey().getDisplayName())
+							.replace("%top1_value%", ""+top.get(0).getValue())
+							.replace("%top2_name%", top.size()>=2 ? top.get(1).getKey().getName() : "-")
+							.replace("%top2_displayname%", top.size()>=2 ? top.get(1).getKey().getDisplayName() : "-")
+							.replace("%top2_value%", top.size()>=2 ? ""+top.get(1).getValue() : "-")
+							.replace("%top3_name%", top.size()>=3 ? top.get(2).getKey().getName() : "-")
+							.replace("%top3_displayname%", top.size()>=3 ? top.get(2).getKey().getDisplayName() : "-")
+							.replace("%top3_value%", top.size()>=3 ? ""+top.get(2).getValue() : "-")
+							.replace("%top4_name%", top.size()>=4 ? top.get(3).getKey().getName() : "-")
+							.replace("%top4_displayname%", top.size()>=4?top.get(3).getKey().getDisplayName():"-")
+							.replace("%top4_value%", top.size()>=4?""+top.get(3).getValue():"-");
 					TheAPI.msg(msg,d.getKey());
 				}
 			}

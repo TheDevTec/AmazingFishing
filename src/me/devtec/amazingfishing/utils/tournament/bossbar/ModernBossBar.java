@@ -14,13 +14,13 @@ public class ModernBossBar implements SBossBar {
 	private Player player;
 	public ModernBossBar(Player player, String title) {
 		this.player=player;
-		bar = Bukkit.createBossBar(title, BarColor.PURPLE, BarStyle.SEGMENTED_20);
+		bar = Bukkit.createBossBar(TheAPI.colorize(title), BarColor.PURPLE, BarStyle.SEGMENTED_20);
 		bar.addPlayer(player);
 	}
 	
 	@Override
 	public void setTitle(String title) {
-		bar.setTitle(title);
+		bar.setTitle(TheAPI.colorize(title));
 	}
 
 	@Override
