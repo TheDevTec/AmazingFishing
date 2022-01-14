@@ -58,14 +58,14 @@ public class Shop {
 		new Tasker() {
 			public void run() {
 				a.setItem(4,c(p,"Points",null));
-				a.setItem(26,c(p,"Bag",() -> {
-						if(p.hasPermission("amazingfishing.bag"))
-						Bag.openBag(p);
-					}));
-				a.setItem(18,c(p,"Convertor",() -> {
-						if(p.hasPermission("amazingfishing.convertor"))
-						Convertor.open(p);
-					}));
+				if(p.hasPermission("amazingfishing.bag"))
+					a.setItem(26,c(p,"Bag",() -> {
+							Bag.openBag(p);
+						}));
+				if(p.hasPermission("amazingfishing.convertor"))
+					a.setItem(18,c(p,"Convertor",() -> {
+							Convertor.open(p);
+						}));
 				if(t==ShopType.BUY) {
 				if(Loader.config.getBoolean("Options.Shop.SellFish"))
 					a.setItem(35,c(p,"SellShop",() -> {

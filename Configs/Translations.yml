@@ -47,6 +47,8 @@ Words:
   Bag: "&7Bag"
   Convert: "&aConvert"
   Junk: "&7Junk"
+  Length: "Length"
+  Weight: "Weight"
   
 Quests:
   Cancel: "%prefix% &9You have canceled quest %questname%"
