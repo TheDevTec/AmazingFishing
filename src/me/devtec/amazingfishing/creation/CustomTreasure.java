@@ -76,6 +76,16 @@ public class CustomTreasure implements Treasure {
 	}
 
 	@Override
+	public List<Biome> getBlockedBiomes() {
+		List<Biome> biomes = new ArrayList<>();
+		for(String biome : data.getStringList("treasures."+name+".blockedbiomes"))
+			try {
+				biomes.add(Biome.valueOf(biome.toUpperCase()));
+			}catch(Exception | NoSuchFieldError e) {}
+		return biomes;
+	}
+
+	@Override
 	public double getChance() {
 		return data.getDouble("treasures."+name+".chance");
 	}

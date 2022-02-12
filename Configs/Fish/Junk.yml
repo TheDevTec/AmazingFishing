@@ -32,8 +32,6 @@ items:
       name: "&7Snail"
       lore:
       - "&7Chance: &f%chance%"
-      - "&7Max weight: &f%weight%"
-      - "&7Max length: &f%length%"
       - "&7Catch:"
       - "&7 Time: &fEVERY"
       - "&7 Weather: &fEVERY"
@@ -69,7 +67,6 @@ items:
     messages:
       catch:
       - "&eYou catch %name% !"
-      - "&eSnail is &6%length% cm&e long and weighs &6%weight% kg"
       eat:
       - "&eYou ate %name%!"
      
@@ -97,6 +94,6 @@ items:
     
     # Custom calculator for weight - remove this calculaator to use global calculator from Config.yml
     calculator:
-      weight: "(%length%-(%minweight%/%minlength%))/(%maxweight%/%maxlength%)"
+      weight: "-1"
       
       

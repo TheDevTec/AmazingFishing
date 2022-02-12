@@ -34,7 +34,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 	public boolean onCommand(CommandSender s, Command var2, String var3, String[] args) {
 		if(args.length==0) {
 			if(s instanceof Player)
-			Help.open((Player)s);
+				Help.open((Player)s);
 			else
 				TheAPI.msg("/Fish Help", s);
 			return true;
@@ -47,6 +47,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			TheAPI.msg("/Fish Settings <player>", s);
 			TheAPI.msg("/Fish Quests <player>", s);
 			TheAPI.msg("/Fish Bag <player>", s);
+			TheAPI.msg("/Fish Tournament - For help", s);
 			TheAPI.msg("/Fish Points Add <player> <amount>", s);
 			TheAPI.msg("/Fish Points Remove <player> <amount>", s);
 			TheAPI.msg("/Fish Points Get <player>", s);
@@ -312,6 +313,10 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 		if(args[0].equalsIgnoreCase("enchant") && s.hasPermission("amazingfishing.command.enchant")) {
 			if(args.length==1) {
 				TheAPI.msg("/Fish Enchant <enchant>", s);
+				return true;
+			}
+			if(Enchant.enchants.get(args[1].toLowerCase())==null) {
+				TheAPI.msg("Enchantment with name "+args[1].toLowerCase()+" doesn't exist", s);
 				return true;
 			}
 			if(args.length==2) {

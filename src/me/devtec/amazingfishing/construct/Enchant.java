@@ -51,8 +51,8 @@ public abstract class Enchant {
 	public int enchant(ItemStack rod, int amount) {
 		NBTEdit edit = new NBTEdit(rod);
 		Data data = new Data();
-		if(edit.getString("af_data")!=null)
-		data.reload(edit.getString("af_data"));
+		if(edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
 		String remove = data.getString("enchant."+name.toLowerCase());
 		data.set("enchant."+name.toLowerCase(), StringUtils.colorize(getDisplayName()+style(data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
 						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount)));

@@ -26,8 +26,6 @@ import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.construct.Enchant.FishCatchList;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishAction;
-import me.devtec.amazingfishing.construct.FishTime;
-import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.tournament.Tournament;
@@ -57,26 +55,21 @@ public class CatchFish implements Listener {
 				Fishing type = generate();
 				switch(type) {
 				case FISH:{
-					PercentageList<Fish> ff = generateRandom(e.getPlayer(), loc.getBlock().getBiome(),
-							loc.getWorld().hasStorm(), loc.getWorld().isThundering(), loc.getWorld().getTime());
-
-					//Bukkit.broadcast("--------------", "debug.permission");
-					/*for(Entry<Fish, Double> f : ff.entrySet()) {
-						Bukkit.broadcast(f.getKey().getType()+" ; "+f.getKey().getName()+" ; "+f.getValue()+" ; "+f.getKey().getDisplayName(), "debug.permission");
-						Bukkit.broadcast("Random: "+ff.getRandom().getDisplayName(), "debug.permission");
-					}*/
+					PercentageList<Fish> ff = generateRandom(e.getPlayer(), loc.getBlock().getBiome(), loc.getWorld().hasStorm(), loc.getWorld().isThundering(), loc.getWorld().getTime());
 					
-					if(ff!=null && !ff.isEmpty()) {
+					if(!ff.isEmpty()) {
 						item.remove();
 						
 						FishCatchList list = new FishCatchList();
 						NBTEdit edit = new NBTEdit(e.getPlayer().getItemInHand());
 						Data data = new Data();
-						if(edit.getString("af_data")!=null)
-						data.reload(edit.getString("af_data"));
-						for(String s : data.getKeys("enchants"))
-							if(Enchant.enchants.containsKey(s))
-							Enchant.enchants.get(s).onCatch(e.getPlayer(), data.getInt("enchants."+s), list);
+						if(edit.hasKey("af_data"))
+							data.reload(edit.getString("af_data"));
+						for(String s : data.getKeys("enchants")) {
+							Enchant ench = Enchant.enchants.get(s);
+							if(ench!=null)
+								ench.onCatch(e.getPlayer(), data.getInt("enchants."+s), list);
+						}
 						
 						int am = list.chance*10 > 1 ? (int)list.chance*10 : 1;
 						if(am>list.max_amount)am=(int) list.max_amount;
@@ -113,7 +106,7 @@ public class CatchFish implements Listener {
 							
 					        Statistics.addFish(e.getPlayer(), f);
 					        Statistics.addRecord(e.getPlayer(), f, length, weight);
-					        Tournament t= TournamentManager.get(e.getPlayer().getWorld());
+					        Tournament t = TournamentManager.get(e.getPlayer().getWorld());
 					        if(t!=null)t.catchFish(e.getPlayer(), f, weight, length);
 					        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
 					        Achievements.check(e.getPlayer(), f);
@@ -239,72 +232,25 @@ public class CatchFish implements Listener {
 	
 	public PercentageList<Fish> generateRandom(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Fish> fish = new PercentageList<>();
-		if(time <= 12000) { //day
-			for(Fish f : API.getRegisteredFish().values())
-				if((f.getPermission()==null || f.getPermission()!=null && player.hasPermission(f.getPermission())) &&
-						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
-						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
-						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN)) {
-					fish.add(f, f.getChance());
-					//Bukkit.broadcast(f.getType()+" ; "+f.getName()+ " ; "+f.getChance()+" ; "+f.getDisplayName(), "debug.permission");
-				}
-					
-		}else { //night
-			for(Fish f : API.getRegisteredFish().values())
-				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && 
-						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
-						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
-						(f.getCatchTime()==FishTime.NIGHT || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
-					fish.add(f, f.getChance());
-		}
-		if(fish==null || fish.isEmpty())
-			return null;
+		for(Fish f : API.getRegisteredFish().values())
+			if(f.isAllowedToCatch(player,biome,hasStorm,thunder,time))
+				fish.add(f, f.getChance() <= 0 ? 0.1 : f.getChance());
 		return fish;
 	}
 	
 	public Treasure generateTreasure(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Treasure> treas = new PercentageList<>();
-		if(time <= 12000) { //day
-			for(Treasure f : API.getRegisteredTreasures().values())
-				if((f.getPermission()==null || player.hasPermission(f.getPermission())) &&(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
-						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
-					treas.add(f, f.getChance());
-		}else { //night
-			for(Treasure f : API.getRegisteredTreasures().values())
-				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && (f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
-						(f.getCatchTime()==FishTime.NIGHT || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
-					treas.add(f, f.getChance());
-		}
-		if(treas==null || treas.isEmpty())
-			return null;
+		for(Treasure f : API.getRegisteredTreasures().values())
+			if(f.isAllowedToCatch(player,biome,hasStorm,thunder,time))
+				treas.add(f, f.getChance() <= 0 ? 0.1 : f.getChance());
 		return treas.getRandom();
 	}
 	
 	public Junk generateJunk(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		PercentageList<Junk> junk = new PercentageList<>();
-		if(time <= 12000) { //day
-			for(Junk f : API.getRegisteredJunk().values())
-				if((f.getPermission()==null || f.getPermission()!=null && player.hasPermission(f.getPermission())) &&
-						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
-						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
-						(f.getCatchTime()==FishTime.DAY || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
-					junk.add(f, f.getChance());
-		}else { //night
-			for(Junk f : API.getRegisteredJunk().values())
-				if((f.getPermission()==null || player.hasPermission(f.getPermission())) && 
-						(f.getBiomes().isEmpty()||f.getBiomes().contains(biome)) &&
-						(f.getBlockedBiomes().isEmpty()|| !f.getBlockedBiomes().contains(biome)) &&
-						(f.getCatchTime()==FishTime.NIGHT || f.getCatchTime()==FishTime.EVERY)
-						&& (f.getCatchWeather()==FishWeather.EVERY|| hasStorm&&f.getCatchWeather()==FishWeather.RAIN|| thunder&&f.getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&f.getCatchWeather()==FishWeather.SUN))
-					junk.add(f, f.getChance());
-		}
-		if(junk==null || junk.isEmpty())
-			return null;
+		for(Junk f : API.getRegisteredJunk().values())
+			if(f.isAllowedToCatch(player,biome,hasStorm,thunder,time))
+				junk.add(f, f.getChance() <= 0 ? 0.1 : f.getChance());
 		return junk.getRandom();
 	}
 	
