@@ -369,8 +369,8 @@ public class CustomFish implements Fish {
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())));
 		c.setLore(l);
-		return Utils.setModel(c.create(), getModel());
-	}
+		return Utils.setModel(c.create(), data.exists(path+"."+name+".preview.model")?data.getInt(path+"."+name+".preview.model"):data.getInt(path+"."+name+".model"));
+		}
 
 	private String sub(String s) {
 		return s.substring(1,s.length()-1);

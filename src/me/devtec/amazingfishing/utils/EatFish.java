@@ -18,7 +18,7 @@ public class EatFish implements Listener {
 	
 	@EventHandler
 	public void onEat(PlayerItemConsumeEvent e) {
-		if(API.isFish(e.getItem())) {
+		if(API.isAFItem(e.getItem())) {
 			Fish f = API.getFish(e.getItem());
 			if(f!=null) {
 				if(e.getPlayer().getFoodLevel()<20 && f.isFood()) {
@@ -39,8 +39,6 @@ public class EatFish implements Listener {
 							.replace("%player%", e.getPlayer().getName())
 							.replace("%displayname%", e.getPlayer().getDisplayName())));
 			}
-		}
-		if(API.isJunk(e.getItem())) {
 			Junk j = API.getJunk(e.getItem());
 			if(j!=null) {
 				for(String s : j.getMessages(FishAction.EAT))
@@ -63,7 +61,7 @@ public class EatFish implements Listener {
 	public void onUse(PlayerInteractEvent e) {
 		if(e.getItem()==null)return;
 		if(e.getPlayer().isSneaking() || e.getAction().name().contains("LEFT"))return;
-		if(API.isFish(e.getItem()) || API.isJunk(e.getItem())) {
+		if(API.isAFItem(e.getItem())) {
 			Fish f = API.getFish(e.getItem());
 			if(f!=null) {
 				if(!f.isFood()) return;
@@ -135,7 +133,11 @@ public class EatFish implements Listener {
 	}
 	@EventHandler
 	public void onUse(BlockPlaceEvent e) {
-		if(e.getItemInHand()!=null && API.isFish(e.getItemInHand()) && API.getFish(e.getItemInHand()).isFood()) e.setCancelled(true);
-		if(e.getItemInHand()!=null && API.isJunk(e.getItemInHand()) &&  API.getJunk(e.getItemInHand()).isFood()) e.setCancelled(true);
+		if(API.isAFItem(e.getItemInHand()) && e.getItemInHand()!=null) {
+			Fish fish = API.getFish(e.getItemInHand());
+			Junk junk = API.getJunk(e.getItemInHand());
+			if(fish!=null && fish.isFood() || junk!=null && junk.isFood())
+			e.setCancelled(true);
+		}
 	}
 }

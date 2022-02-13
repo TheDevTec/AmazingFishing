@@ -311,7 +311,7 @@ public class CustomJunk implements Junk {
 			}catch(Exception | NoSuchFieldError err) {
 				
 			}
-		return Utils.setModel(c.create(), getModel());
+		return Utils.setModel(c.create(), data.exists(path+"."+name+".preview.model")?data.getInt(path+"."+name+".preview.model"):data.getInt(path+"."+name+".model"));
 	}
 	
 	private String sub(String s) {

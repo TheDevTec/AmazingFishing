@@ -93,10 +93,8 @@ public class API {
 		return API.junk.remove(junk.getName());
 	}
 	
-	public static boolean isFish(ItemStack stack) {
-		if(isFishItem(stack))
-			return new NBTEdit(stack).hasKey("af_data");
-		return false;
+	public static boolean isAFItem(ItemStack stack) {
+		return new NBTEdit(stack).hasKey("af_data");
 	}
 
 	public static boolean isFishItem(ItemStack stack) {
@@ -109,22 +107,22 @@ public class API {
 	}
 	
 	public static Fish getFish(ItemStack stack) {
-		if(!isFishItem(stack))return null;
 		NBTEdit edit = new NBTEdit(stack);
 		Data data = new Data();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
+		if(data.getKeys().isEmpty())return null;
 		for(Fish f : fish.values())
 			if(f.isInstance(data))return f;
 		return null;
 	}
 	
 	public static CatchFish getCatchFish(ItemStack stack) {
-		if(!isFishItem(stack))return null;
 		NBTEdit edit = new NBTEdit(stack);
 		Data data = new Data();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
+		if(data.getKeys().isEmpty())return null;
 		String id = data.getString("type");
 		if(id!=null && id.equalsIgnoreCase("junk"))return null;
 		for(Fish f : fish.values())
@@ -133,24 +131,12 @@ public class API {
 		return null;
 	}
 	
-	public static boolean isJunk(ItemStack stack) {
-		if(new NBTEdit(stack).hasKey("af_data")) {
-			NBTEdit edit = new NBTEdit(stack);
-			Data data = new Data();
-			if(edit.hasKey("af_data"))
-				data.reload(edit.getString("af_data"));
-			String id = data.getString("type");
-			return id!=null && id.equalsIgnoreCase("junk");
-		}
-		return false;
-	}
-	
 	public static Junk getJunk(ItemStack stack) {
-		if(!isJunk(stack))return null;
 		NBTEdit edit = new NBTEdit(stack);
 		Data data = new Data();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
+		if(data.getKeys().isEmpty())return null;
 		for(Junk junk : junk.values())
 			if(junk.isInstance(data))return junk;
 		return null;
