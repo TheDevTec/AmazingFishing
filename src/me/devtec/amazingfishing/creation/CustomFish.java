@@ -7,8 +7,10 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.Loader;
@@ -24,6 +26,7 @@ import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
+import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.json.Json;
@@ -33,7 +36,7 @@ public class CustomFish implements Fish {
 	final String name, path;
 	final Data data;
 	final FishType type;
-	boolean head;
+	String item, showItem;
 	
 	public CustomFish(String name, String path, FishType type, Data data) {
 		this.name=name;
@@ -41,9 +44,11 @@ public class CustomFish implements Fish {
 		this.path=path.toLowerCase();
 		this.data=data;
 		if(data.exists(path+"."+name+".head"))
-			this.head=true;
+			this.item="head:"+data.getString(path+"."+name+".head");
 		else
-			this.head=false;
+			this.item=data.getString(path+"."+name+".type");
+		this.showItem=data.getString(path+"."+name+".preview.type");
+		if(showItem==null)showItem=item;
 	}
 	
 	public String toString() {
@@ -64,8 +69,7 @@ public class CustomFish implements Fish {
 		map.put("exp", getXp());
 		map.put("points", getPoints());
 		map.put("model", getModel());
-		map.put("head", getHead());
-		return Json.writer().write(map);
+		return Json.writer().simpleWrite(map);
 	}
 	
 	public boolean equals(Object o) {
@@ -168,18 +172,15 @@ public class CustomFish implements Fish {
 	public int getModel() {
 		return data.getInt(path+"."+name+".model");
 	}
-	
-	public String getHead() {
-		return data.getString(path+"."+name+".head");
-	}
-	public boolean isHead() {
-		return head;
+
+	@Override
+	public boolean isFood() {
+		return data.getBoolean(path+"."+name+".options.eatable");
 	}
 	
 	@Override
 	public ItemStack createItem(double weight, double length) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		fixHead(c);
+		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -197,6 +198,13 @@ public class CustomFish implements Fish {
 				.replace("%blockedbiomes%", bbc)
 				));
 		c.setLore(l);
+		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
+		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
+			try {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag));
+			}catch(Exception | NoSuchFieldError err) {
+				
+			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
@@ -205,8 +213,7 @@ public class CustomFish implements Fish {
 	
 	@Override
 	public ItemStack createItem(double weight, double length, double money, double points, double exp) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		fixHead(c);
+		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -236,6 +243,13 @@ public class CustomFish implements Fish {
 				.replace("%exp_boost%", Loader.ff.format(exp))
 				));
 		c.setLore(l);
+		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
+		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
+			try {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag));
+			}catch(Exception | NoSuchFieldError err) {
+				
+			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length,money,points,exp).toString(DataType.JSON));
@@ -244,8 +258,7 @@ public class CustomFish implements Fish {
 
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		fixHead(c);
+		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -263,6 +276,13 @@ public class CustomFish implements Fish {
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
+		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
+		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
+			try {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag));
+			}catch(Exception | NoSuchFieldError err) {
+				
+			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
@@ -271,8 +291,7 @@ public class CustomFish implements Fish {
 
 	@Override
 	public ItemStack createItem(double weight, double length, double money, double points, double exp, Player p, Location hook) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		fixHead(c);
+		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -302,6 +321,13 @@ public class CustomFish implements Fish {
 				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
+		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
+		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
+			try {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag));
+			}catch(Exception | NoSuchFieldError err) {
+				
+			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length,money,points,exp).toString(DataType.JSON));
@@ -310,8 +336,7 @@ public class CustomFish implements Fish {
 
 	@Override
 	public ItemStack preview(Player p) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(type.name(), type.ordinal()));
-		fixHead(c);
+		ItemCreatorAPI c = find(type.name(), type.ordinal(), showItem);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
 		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
@@ -325,6 +350,13 @@ public class CustomFish implements Fish {
 				.replace("%name%", getName())
 				.replace("%fishname%", getDisplayName()));
 		c.setDisplayName(nn);
+		c.setUnbreakable(data.exists(path+"."+name+".preview.unbreakable")?data.getBoolean(path+"."+name+".preview.unbreakable"):data.getBoolean(path+"."+name+".unbreakable"));
+		for(String itemFlag : data.exists(path+"."+name+".preview.flags")?data.getStringList(path+"."+name+".preview.flags"):data.getStringList(path+"."+name+".flags"))
+			try {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag));
+			}catch(Exception | NoSuchFieldError err) {
+				
+			}
 		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
 				.replace("%weight%", Loader.ff.format(getWeight()))
@@ -356,29 +388,51 @@ public class CustomFish implements Fish {
 				.replace("%world%", l.getWorld().getName()));
 	}
 	
-	private ItemStack find(String name, int id) {
-		if(this.head) {
-			String head = data.getString(path+"."+this.name+".head");
+	static Material mat;
+	static {
+		try {
+			mat = Material.PLAYER_HEAD;
+		} catch (NoSuchFieldError | Exception var1) {
+			mat = Material.getMaterial("SKULL_ITEM");
+		}
+	}
+	
+	public static ItemCreatorAPI find(String name, int id, String item) {
+		ItemCreatorAPI creator;
+		if(item.startsWith("head:")) {
+			String head = item.substring(5);
 			if(head.toLowerCase().startsWith("hdb:"))
-				return new ItemCreatorAPI( HDBSupport.parse(head)).create();
+				return new ItemCreatorAPI(HDBSupport.parse(head));
 			else
-			if(head.startsWith("https://")||head.startsWith("http://"))
-				return ItemCreatorAPI.createHeadByWeb(1, "&7Head from website", head);
+			if(head.startsWith("https://")||head.startsWith("http://")) {
+				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+				creator.setSkullType(SkullType.PLAYER);
+				creator.setOwnerFromWeb(head);
+				return creator;
+			}
 			else
 			if(head.length()>16) {
-				return ItemCreatorAPI.createHeadByValues(1, "&7Head from values", head);
-			}else
-				return ItemCreatorAPI.createHead(1, "&7" + head + "'s Head", head);
+				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+				creator.setSkullType(SkullType.PLAYER);
+				creator.setOwnerFromValues(head);
+				return creator;
+			}else {
+				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+				creator.setSkullType(SkullType.PLAYER);
+				creator.setOwner(head);
+				return creator;
+			}
 		}
-		if(Material.getMaterial(name)!=null)return new ItemStack(Material.getMaterial(name));
-		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id);
-	}
-	private ItemCreatorAPI fixHead(ItemCreatorAPI item) {
-		if(this.head) {
-			if(data.getString(path+"."+this.name+".head").length()>16)
-				item.setOwnerFromValues(data.getString(path+"."+this.name+".head"));
+		if(item!=null && Material.getMaterial(item.split(":")[0])!=null) {
+			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(item.split(":")[0]),1,(short)StringUtils.getShort(item.contains(":")?item.split(":")[1]:"0")));
+			return creator;
 		}
-		return item;
+		if(Material.getMaterial(name)!=null) {
+			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(name),1,(short)id));
+			return creator;
+		}
+		creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id));
+		return creator;
 	}
 
 	@Override
@@ -418,14 +472,10 @@ public class CustomFish implements Fish {
 	
 	@Override
 	public double getFood() {
-		if(data.exists(path+"."+name+".customvalues.addhunger"))
-			return data.getDouble(path+"."+name+".customvalues.addhunger");
+		if(data.exists(path+"."+name+".options.addhunger") )
+			return data.getDouble(path+"."+name+".options.addhunger");
 		else
 			return 1;
-	}
-	@Override
-	public boolean hasFoodSet() {
-		return data.exists(path+"."+name+".customvalues.addhunger");
 	}
 	
 	@Override

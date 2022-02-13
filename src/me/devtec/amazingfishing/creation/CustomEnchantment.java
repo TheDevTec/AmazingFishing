@@ -49,7 +49,7 @@ public class CustomEnchantment extends Enchant {
 		map.put("bonus_money", getMoneyBoost());
 		map.put("bonus_points", getPointsBoost());
 		map.put("bonus_exp", getExpBoost());
-		return Json.writer().write(map);
+		return Json.writer().simpleWrite(map);
 	}
 	
 	public boolean equals(Object o) {

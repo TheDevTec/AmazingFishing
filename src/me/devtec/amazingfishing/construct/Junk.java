@@ -3,7 +3,6 @@ package me.devtec.amazingfishing.construct;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -18,12 +17,6 @@ public interface Junk {
 	public String getDisplayName();
 	
 	public FishType getType();
-	
-	public Material getItem();
-	
-	public String getHead();
-	
-	public boolean isHead();
 
 	public int getAmount();
 	

@@ -31,7 +31,7 @@ public class CustomTreasure implements Treasure {
 		map.put("permission", getPermission());
 		map.put("catch_time", getCatchTime().name().toLowerCase());
 		map.put("catch_weather", getCatchWeather().name().toLowerCase());
-		return Json.writer().write(map);
+		return Json.writer().simpleWrite(map);
 	}
 	
 	public boolean equals(Object o) {

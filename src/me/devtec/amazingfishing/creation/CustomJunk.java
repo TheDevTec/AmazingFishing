@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -20,13 +19,10 @@ import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Junk;
-import me.devtec.amazingfishing.utils.HDBSupport;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.EnchantmentAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.json.Json;
@@ -36,18 +32,18 @@ public class CustomJunk implements Junk {
 	
 	final String name, path;
 	final Data data;
-	boolean head, item;
+	String item, showItem;
 	
 	public CustomJunk(String name, String path, Data data) {
 		this.name=name;
 		this.path=path.toLowerCase();
 		this.data=data;
-
-		if(data.exists(path+"."+name+".type") ||data.exists(path+"."+name+".head"))
-			this.item=true;
-		
-		if(data.exists(path+"."+name+".head")&&this.item==true)
-			this.head=true;
+		if(data.exists(path+"."+name+".head"))
+			this.item="head:"+data.getString(path+"."+name+".head");
+		else
+			this.item=data.getString(path+"."+name+".type");
+		this.showItem=data.getString(path+"."+name+".preview.type");
+		if(showItem==null)showItem=item;
 	}
 	
 	@Override
@@ -69,28 +65,8 @@ public class CustomJunk implements Junk {
 	}
 
 	@Override
-	public Material getItem() {
-		if(data.exists(path+"."+name+".type") && !isHead())
-			return Material.valueOf(data.getString(path+"."+name+".type"));
-		if(isHead())
-			return Material.PLAYER_HEAD;
-		else
-			return Material.AIR;
-	}
-
-	@Override
 	public List<String> getLore(){
 		return data.getStringList(path+"."+name+".lore");
-	}
-	
-	@Override
-	public String getHead() {
-		return data.getString(path+"."+name+".head");
-	}
-
-	@Override
-	public boolean isHead() {
-		return this.head;
 	}
 	
 	@Override
@@ -226,10 +202,7 @@ public class CustomJunk implements Junk {
 
 	@Override
 	public boolean isFood() {
-		if(data.exists(path+"."+name+".options.eatable"))
-			return data.getBoolean(path+"."+name+".options.eatable");
-		else
-			return false;
+		return data.getBoolean(path+"."+name+".options.eatable");
 	}
 	
 	@Override
@@ -259,34 +232,29 @@ public class CustomJunk implements Junk {
 	}
 	
 	@Override
+	public ItemStack createItem(Player p, Location hook) {
+		return createItem(-1, -1, p, hook);
+	}
+	
+	@Override
 	public ItemStack create(double weight, double length, Player p, Location hook) {
-		if(this.item==false)
-			return null;
-		
-		if(weight==0 || length==0)
-			return createItem(p, hook);
-		
-		if( !hasLength() || !hasWeight())
-			return createItem(p, hook);
-		
+		if(weight<=0 || length<=0 || !hasLength() || !hasWeight())
+			return createItem(-1, -1, p, hook);
 		return createItem(weight, length, p, hook);
 	}
 
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(getItem(), getType().ordinal()));
-		fixHead(c);
+		ItemCreatorAPI c = CustomFish.find("STICK", 0, item);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
-				cf= getDisplayName()!=null? s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
+				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc)
-				.replace("%name%", getName()) : null;
-		if(cf!=null)
-			c.setDisplayName(cf);
+				.replace("%name%", getName());
+		c.setDisplayName(cf);
 		List<String> l = data.getStringList(path+"."+name+".lore");
-		if(l!= null && !l.isEmpty())
 		l.replaceAll(a -> s(a
 				.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -294,21 +262,14 @@ public class CustomJunk implements Junk {
 				.replace("%name%", cf)
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc),p,hook));
-		if(l!= null && !l.isEmpty())
-		c.setLore(l);		
-		c.setAmount(getAmount());
-		
-		for(ItemFlag flag : getFlags())
-			c.addItemFlag(flag);
-		
-		for (String enchs : getEnchantments()) {
-			String nonum = enchs.replaceAll("[^A-Za-z_]+", "").toUpperCase();
-			if (EnchantmentAPI.byName(nonum)==null)
-				Bukkit.getLogger().warning("Error when getting junk: " + name + "!! Enchantment " + enchs + " (Converted to "+nonum+"), enchantment is invalid");
-			else
-				c.addEnchantment(nonum, StringUtils.getInt(enchs.replaceAll("[^+0-9]+", ""))<=0?1:StringUtils.getInt(enchs.replaceAll("[^+0-9]+", "")));
-		}
-		
+		c.setLore(l);
+		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
+		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
+			try {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag));
+			}catch(Exception | NoSuchFieldError err) {
+				
+			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
@@ -316,54 +277,10 @@ public class CustomJunk implements Junk {
 	}
 
 	@Override
-	public ItemStack createItem(Player p, Location hook) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(getItem(), getType().ordinal()));
-		fixHead(c);
-		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
-				cf=getDisplayName()!=null? s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(-1))
-				.replace("%length%", Loader.ff.format(-1))
-				.replace("%chance%", Loader.ff.format(getChance()))
-				.replace("%biomes%", bc)
-				.replace("%blockedbiomes%", bbc)
-				.replace("%name%", getName()):null;
-		if(cf!=null)
-			c.setDisplayName(cf);
-		List<String> l = data.getStringList(path+"."+name+".lore");
-		if(l!= null && !l.isEmpty())
-		l.replaceAll(a -> s(a
-				.replace("%weight%", Loader.ff.format(-1))
-				.replace("%length%", Loader.ff.format(-1))
-				.replace("%chance%", Loader.ff.format(getChance()))
-				.replace("%name%", cf)
-				.replace("%biomes%", bc)
-				.replace("%blockedbiomes%", bbc),p,hook));
-		if(l!= null && !l.isEmpty())
-		c.setLore(l);
-		c.setAmount(getAmount());
-		
-		for(ItemFlag flag : getFlags())
-			c.addItemFlag(flag);
-		
-		for (String enchs : getEnchantments()) {
-			String nonum = enchs.replaceAll("[^A-Za-z_]+", "").toUpperCase();
-			if (EnchantmentAPI.byName(nonum)==null)
-				Bukkit.getLogger().warning("Error when getting junk: " + name + "!! Enchantment " + enchs + " (Converted to "+nonum+"), enchantment is invalid");
-			else
-				c.addEnchantment(nonum, StringUtils.getInt(enchs.replaceAll("[^+0-9]+", ""))<=0?1:StringUtils.getInt(enchs.replaceAll("[^+0-9]+", "")));
-		}
-		
-		ItemStack stack = Utils.setModel(c.create(), getModel());
-		NBTEdit edit = new NBTEdit(stack);
-		edit.setString("af_data", createData().toString(DataType.JSON));
-		return TheAPI.getNmsProvider().setNBT(stack, edit);
-	}
-	
-	@Override
 	public ItemStack preview(Player p) {
-		ItemCreatorAPI c = new ItemCreatorAPI(find(getItem(), getType().ordinal()));
-		fixHead(c);
+		ItemCreatorAPI c = CustomFish.find("STICK", 0, showItem);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
-		String nn = getDisplayName()!=null? PlaceholderAPI.setPlaceholders(p, (data.exists(path+"."+name+".preview.name")?data.getString(path+"."+name+".preview.name"):getDisplayName())
+		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -372,12 +289,10 @@ public class CustomJunk implements Junk {
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
-				.replace("%name%", getName())):null;
-		if(nn!=null)
-			c.setDisplayName(nn);
-		
-		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):getLore();
-		if(l!= null && !l.isEmpty())
+				.replace("%name%", getName())
+				.replace("%fishname%", getDisplayName()));
+		c.setDisplayName(nn);
+		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");
 		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
@@ -388,49 +303,17 @@ public class CustomJunk implements Junk {
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())));
-		if(l!= null && !l.isEmpty())
 		c.setLore(l);
-		c.setAmount(getAmount());
-		
-		for(ItemFlag flag : getFlags())
-			c.addItemFlag(flag);
-		
-		for (String enchs : getEnchantments()) {
-			String nonum = enchs.replaceAll("[^A-Za-z_]+", "").toUpperCase();
-			if (EnchantmentAPI.byName(nonum)==null)
-				Bukkit.getLogger().warning("Error when getting junk: " + name + "!! Enchantment " + enchs + " (Converted to "+nonum+"), enchantment is invalid");
-			else
-				c.addEnchantment(nonum, StringUtils.getInt(enchs.replaceAll("[^+0-9]+", ""))<=0?1:StringUtils.getInt(enchs.replaceAll("[^+0-9]+", "")));
-		}
+		c.setUnbreakable(data.exists(path+"."+name+".preview.unbreakable")?data.getBoolean(path+"."+name+".preview.unbreakable"):data.getBoolean(path+"."+name+".unbreakable"));
+		for(String itemFlag : data.exists(path+"."+name+".preview.flags")?data.getStringList(path+"."+name+".preview.flags"):data.getStringList(path+"."+name+".flags"))
+			try {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag));
+			}catch(Exception | NoSuchFieldError err) {
+				
+			}
 		return Utils.setModel(c.create(), getModel());
 	}
 	
-	private ItemStack find(Material material, int id) {
-		if(this.head) {
-			String head = getHead();
-			if(head.toLowerCase().startsWith("hdb:"))
-				return new ItemCreatorAPI( HDBSupport.parse(head)).create();
-			else
-			if(head.startsWith("https://")||head.startsWith("http://"))
-				return ItemCreatorAPI.createHeadByWeb(1, "&7Head from website", head);
-			else
-			if(head.length()>16) {
-				return ItemCreatorAPI.createHeadByValues(1, "&7Head from values", head);
-			}else
-				return ItemCreatorAPI.createHead(1, "&7" + head + "'s Head", head);
-		}
-		if(material!=null)return new ItemStack(material);
-		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id);
-	}
-
-	private ItemCreatorAPI fixHead(ItemCreatorAPI item) {
-		if(this.head) {
-			if(data.getString(path+"."+this.name+".head").length()>16)
-				item.setOwnerFromValues(data.getString(path+"."+this.name+".head"));
-		}
-		return item;
-	}
-
 	private String sub(String s) {
 		return s.substring(1,s.length()-1);
 
@@ -449,11 +332,11 @@ public class CustomJunk implements Junk {
 	}
 	
 	public Data createData(double weight, double length) {
-		return new Data().set("junk", name).set("type", getType().name()).set("item", getItem().name()).set("weigth", weight).set("length", length);
+		return new Data().set("junk", name).set("type", getType().name()).set("item", item).set("weigth", weight).set("length", length);
 	}
 
 	public Data createData() {
-		return new Data().set("junk", name).set("type", getType().name()).set("item", getItem().name());
+		return new Data().set("junk", name).set("type", getType().name()).set("item", item);
 	}
 	
 	public String toString() {
@@ -470,10 +353,9 @@ public class CustomJunk implements Junk {
 		map.put("min_weight", getMinWeight());
 		map.put("length", getLength());
 		map.put("min_length", getMinLength());
-		map.put("item", getItem().name());
+		map.put("item", item);
 		map.put("model", getModel());
-		map.put("head", getHead());
-		return Json.writer().write(map);
+		return Json.writer().simpleWrite(map);
 	}
 	
 	public boolean equals(Object o) {

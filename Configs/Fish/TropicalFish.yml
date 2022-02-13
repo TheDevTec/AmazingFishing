@@ -12,6 +12,13 @@ tropical_fish:
     # Remove this to catch fish without perms
     # permission: "amazingfishing.fish.carp"
     
+    # Custom item material type (material:sub-id or head:<url / values / playername / hdb:ID>)
+    # type: diamond_block
+    # For example this icon head: https://minecraft-heads.com/custom-heads/animals/45707-pufferfish
+    # type: head:hdb:45707
+    # type: head:http://textures.minecraft.net/texture/292350c9f0993ed54db2c7113936325683ffc20104a9b622aa457d37e708d931
+    # type: head:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjkyMzUwYzlmMDk5M2VkNTRkYjJjNzExMzkzNjMyNTY4M2ZmYzIwMTA0YTliNjIyYWE0NTdkMzdlNzA4ZDkzMSJ9fX0=
+    
     # Lore placeholders: %length%, %weight%, %chance%, %name%, %biomes%, %biome%, %x%, %y%, %z%, %world%
     # Other placeholders: %player% - just players name, %displayname% - Players display name
     # lore:
