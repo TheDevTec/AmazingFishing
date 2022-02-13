@@ -112,8 +112,8 @@ public class API {
 		if(!isFishItem(stack))return null;
 		NBTEdit edit = new NBTEdit(stack);
 		Data data = new Data();
-		if(edit.getString("af_data")!=null)
-		data.reload(edit.getString("af_data"));
+		if(edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
 		for(Fish f : fish.values())
 			if(f.isInstance(data))return f;
 		return null;
@@ -123,8 +123,8 @@ public class API {
 		if(!isFishItem(stack))return null;
 		NBTEdit edit = new NBTEdit(stack);
 		Data data = new Data();
-		if(edit.getString("af_data")!=null)
-		data.reload(edit.getString("af_data"));
+		if(edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
 		String id = data.getString("type");
 		if(id!=null && id.equalsIgnoreCase("junk"))return null;
 		for(Fish f : fish.values())
@@ -137,8 +137,8 @@ public class API {
 		if(new NBTEdit(stack).hasKey("af_data")) {
 			NBTEdit edit = new NBTEdit(stack);
 			Data data = new Data();
-			if(edit.getString("af_data")!=null)
-			data.reload(edit.getString("af_data"));
+			if(edit.hasKey("af_data"))
+				data.reload(edit.getString("af_data"));
 			String id = data.getString("type");
 			return id!=null && id.equalsIgnoreCase("junk");
 		}
@@ -149,8 +149,8 @@ public class API {
 		if(!isJunk(stack))return null;
 		NBTEdit edit = new NBTEdit(stack);
 		Data data = new Data();
-		if(edit.getString("af_data")!=null)
-		data.reload(edit.getString("af_data"));
+		if(edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
 		for(Junk junk : junk.values())
 			if(junk.isInstance(data))return junk;
 		return null;

@@ -88,8 +88,8 @@ public class EnchantTable {
 	private static int getLevel(ItemStack rod, String enchant) {
 		NBTEdit edit = new NBTEdit(rod);
 		Data data = new Data();
-		if(edit.getString("af_data")!=null)
-		data.reload(edit.getString("af_data"));
+		if(edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
 		return data.getInt("enchants."+enchant.toLowerCase());
 	}
 	

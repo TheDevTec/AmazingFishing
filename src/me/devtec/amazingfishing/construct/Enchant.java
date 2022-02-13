@@ -101,8 +101,8 @@ public abstract class Enchant {
 	public boolean containsEnchant(ItemStack rod) {
 		NBTEdit edit = new NBTEdit(rod);
 		Data data = new Data();
-		if(edit.getString("af_data")!=null)
-		data.reload(edit.getString("af_data"));
+		if(edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
 		if(data.exists("enchant."+name.toLowerCase()))
 			return true;
 		return false;
