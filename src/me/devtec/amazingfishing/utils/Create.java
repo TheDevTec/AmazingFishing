@@ -1,17 +1,13 @@
 package me.devtec.amazingfishing.utils;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
-
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.theapi.apis.ItemCreatorAPI;
@@ -20,6 +16,7 @@ import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.utils.StringUtils;
 
 public class Create {
 	public static ItemStack createItem(String name, Material material) {
@@ -54,6 +51,56 @@ public class Create {
     	a.setDurability(material.getData());
     	return a.create();
     }
+	
+	static Material mat;
+	static {
+		try {
+			mat = Material.PLAYER_HEAD;
+		} catch (NoSuchFieldError | Exception var1) {
+			mat = Material.getMaterial("SKULL_ITEM");
+		}
+	}
+	
+	public static ItemCreatorAPI find(String item, String fallbackItem, int fallbackId) {
+		item=item.toUpperCase();
+		fallbackItem=fallbackItem.toUpperCase();
+		ItemCreatorAPI creator;
+		if(item.startsWith("head:")) {
+			String head = item.substring(5);
+			if(head.toLowerCase().startsWith("hdb:"))
+				return new ItemCreatorAPI(HDBSupport.parse(head));
+			else
+			if(head.startsWith("https://")||head.startsWith("http://")) {
+				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+				creator.setSkullType(SkullType.PLAYER);
+				creator.setOwnerFromWeb(head);
+				return creator;
+			}
+			else
+			if(head.length()>16) {
+				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+				creator.setSkullType(SkullType.PLAYER);
+				creator.setOwnerFromValues(head);
+				return creator;
+			}else {
+				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+				creator.setSkullType(SkullType.PLAYER);
+				creator.setOwner(head);
+				return creator;
+			}
+		}
+		String[] slit = item.split(":");
+		if(item!=null && Material.getMaterial(slit[0])!=null) {
+			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(slit[0]),1,slit.length>=2?(short)StringUtils.getShort(slit[1]):0));
+			return creator;
+		}
+		if(Material.getMaterial(fallbackItem)!=null) {
+			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(fallbackItem),1,(short)fallbackId));
+			return creator;
+		}
+		creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial("RAW_FISH"),1, (short)fallbackId));
+		return creator;
+	}
 	
 	public static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getItemType(), 1, "&c",Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getData()));
 	public static ItemGUI blue = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE").getItemType(), 1, "&c",Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE").getData()));
@@ -137,26 +184,14 @@ public class Create {
 	public static interface PRunnable {
 		public void run(Player p);
 	}
-	
-	public static ItemStack createSkull(String url) {
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
-        if (url==null)
-            return head;
 
-        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-
-        profile.getProperties().put("textures", new Property("textures", url));
-
-        try {
-            Field profileField = headMeta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(headMeta, profile);
-
-        } catch (IllegalArgumentException | NoSuchFieldException | SecurityException | IllegalAccessException error) {
-            error.printStackTrace();
-        }
-        head.setItemMeta(headMeta);
-        return head;
-    }
+	public static ItemStack createItem(String displayName, ItemCreatorAPI icon, List<String> description, int model, List<ItemFlag> flags, boolean unb) {
+		icon.setDisplayName(displayName);
+		icon.setLore(description);
+		icon.setUnbreakable(unb);
+		icon.addItemFlag(flags.toArray(new ItemFlag[0]));
+		ItemStack item = icon.create();
+		item=Utils.setModel(item, model);
+		return item;
+	}
 }

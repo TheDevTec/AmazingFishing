@@ -9,10 +9,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
+import org.bukkit.inventory.ItemFlag;
 
 import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.User;
@@ -33,21 +34,36 @@ public class Quests {
 		public String getDisplayName() {
 			return d.getString("quests."+name+".name");
 		}
-		public MaterialData getDisplayIcon() {
-			if(d.exists("quests."+name+".icon"))
-				return Utils.createType(d.getString("quests."+name+".icon"));
-			else return Utils.getCachedMaterial("SUNFLOWER");
-		}
 		
 		public List<String> getDescription() {
 			List<String> list = new ArrayList<String>();
 			for(String s: d.getStringList("quests."+name+".description"))
 				list.add(s.replace("%name%", getName())
 						.replace("%questname%", getDisplayName())
-						.replace("%icon%", getDisplayIcon().getItemType().name())
-						.replace("%stages%", ""+getStages())
-						);
+						.replace("%stages%", ""+getStages()));
 			return list;
+		}
+		
+		public List<ItemFlag> getFlags() {
+			List<ItemFlag> flags = new ArrayList<>();
+			for(String flag : d.getStringList("quests."+name+".flags")) {
+				flags.add(ItemFlag.valueOf(flag.toUpperCase()));
+			}
+			return flags;
+		}
+		
+		public boolean isUnbreakable() {
+			return d.getBoolean("quests."+name+".unbreakable");
+		}
+		
+		public int getModel() {
+			return d.getInt("quests."+name+".model");
+		}
+		
+		public ItemCreatorAPI getIcon() {
+			if(d.exists("quests."+name+".icon")||d.exists("quests."+name+".head"))
+				return Create.find(d.exists("quests."+name+".head")?"head:"+d.getString("quests."+name+".head"):d.getString("quests."+name+".icon"), "STONE", 0);
+			return new ItemCreatorAPI(Utils.getCachedMaterial("SUNFLOWER").toItemStack());
 		}
 		
 		public int getStages() {

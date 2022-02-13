@@ -26,6 +26,8 @@ public interface Fish {
 
 	public List<Biome> getBlockedBiomes();
 	
+	public List<String> getEnchantments();
+	
 	public double getChance();
 	
 	public String getPermission();

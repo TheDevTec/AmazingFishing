@@ -34,6 +34,7 @@ import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.EatFish;
+import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
 import me.devtec.amazingfishing.utils.Trans;
@@ -58,13 +59,13 @@ public class Loader extends JavaPlugin {
 	public static Loader plugin;
 	public static Config trans, config, gui, shop;
 	public static Data cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
-	static String prefix;
+	static String prefix=Manager.getPluginName();
 	protected static PlaceholderRegister reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public static ItemStack next, prev;
 	
 	public void onEnable() {
-		if(VersionChecker.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "6.9")==VersionChecker.Version.NEW) {
+		if(VersionChecker.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "8.3")==VersionChecker.Version.NEW) {
 			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", TheAPI.getConsole());
 			TheAPI.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", TheAPI.getConsole());
@@ -118,7 +119,6 @@ public class Loader extends JavaPlugin {
 				}.runRepeating(StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")), StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
 			}
 		}
-		plugin=this;
 	}
 	
 	public void onDisable() {

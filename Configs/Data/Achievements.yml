@@ -9,10 +9,26 @@ achievements:
       unfinished: "RED_WOOL"
       finished: "GREEN_WOOL"
     
+    model:
+      unfinished: 0
+      finished: 0
+    
+    unbreakable:
+      unfinished: false
+      finished: false
+    
+    flags:
+      unfinished:
+      - "HIDE_ATTRIBUTES"
+      finished:
+      - "HIDE_ATTRIBUTES"
+    
     # Description of achievement
     description:
-    - "&6&lSuperAchievement"
-    - "&7"
+      unfinished:
+      - "&6&lSuperAchievement"
+      finished:
+      - "&6&lFinished"
     
     # Placeholders: %player%, %achievement% (common), %achievement_name% (&6&lSuperAchievement)
     # Commands on finish

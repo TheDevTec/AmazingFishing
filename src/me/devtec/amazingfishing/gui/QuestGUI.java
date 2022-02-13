@@ -51,7 +51,7 @@ public class QuestGUI {
 		}
 		if(p!=null && !p.isEmpty()) {
 		for(Quest q: p.getPage(page)) {
-			a.add(new ItemGUI( Create.createItem(q.getDisplayName(), q.getDisplayIcon(), q.getDescription())) {
+			a.add(new ItemGUI( Create.createItem(q.getDisplayName(), q.getIcon(), q.getDescription(), q.getModel(), q.getFlags(), q.isUnbreakable())) {
 				
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
@@ -61,7 +61,6 @@ public class QuestGUI {
 						}else {
 							Loader.msg(Trans.s("Quests.CannotStart").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
 					}
@@ -70,13 +69,11 @@ public class QuestGUI {
 							Quests.cancel(player.getName(), q.getName());
 							Loader.msg(Trans.s("Quests.Cancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 							return;
 						}else {
 							Loader.msg(Trans.s("Quests.CannotCancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
 					}
@@ -127,7 +124,7 @@ public class QuestGUI {
 		
 		if(p!=null && !p.isEmpty()) {
 			for(Category category: p.getPage(page)) {
-				a.add(new ItemGUI( Create.createItem(category.getDisplayName(), category.getIcon(), category.getDescription())) {
+				a.add(new ItemGUI( Create.createItem(category.getDisplayName(), category.getIcon(), category.getDescription(), category.getModel(), category.getFlags(), category.isUnbreakable())) {
 					@Override
 					public void onClick(Player player, HolderGUI gui, ClickType click) {
 						openCategory(player, 0, category);
@@ -177,7 +174,7 @@ public class QuestGUI {
 		}
 		if(p!=null && !p.isEmpty()) {
 		for(Quest q: p.getPage(page)) {
-			a.add(new ItemGUI( Create.createItem(q.getDisplayName(), q.getDisplayIcon(), q.getDescription())) {
+			a.add(new ItemGUI( Create.createItem(q.getDisplayName(), q.getIcon(), q.getDescription(), q.getModel(), q.getFlags(), q.isUnbreakable())) {
 				
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
@@ -187,7 +184,6 @@ public class QuestGUI {
 						}else {
 							Loader.msg(Trans.s("Quests.CannotStart").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
 					}
@@ -196,13 +192,11 @@ public class QuestGUI {
 							Quests.cancel(player.getName(), q.getName());
 							Loader.msg(Trans.s("Quests.Cancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 							return;
 						}else {
 							Loader.msg(Trans.s("Quests.CannotCancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
-									.replace("%icon%", q.getDisplayIcon().getItemType().name())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
 					}

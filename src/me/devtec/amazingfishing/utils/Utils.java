@@ -43,7 +43,7 @@ public class Utils {
 		mat.put("BLUE_CONCRETE_POWDER", find("BLUE_CONCRETE_POWDER", "CONCRETE_POWDER", 11)==null?find("BLUE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 11):find("BLUE_CONCRETE_POWDER", "CONCRETE_POWDER", 11));
 		mat.put("GREEN_CONCRETE", find("GREEN_CONCRETE", "CONCRETE", 13)==null?find("GREEN_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 13):find("GREEN_CONCRETE", "CONCRETE", 13));
 		mat.put("RED_CONCRETE", find("RED_CONCRETE", "CONCRETE", 14)==null?find("RED_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 14):find("RED_CONCRETE", "CONCRETE", 14));
-		}
+	}
 	
 	static MaterialData find(String newName, String old, int data) {
 		try {

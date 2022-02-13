@@ -19,8 +19,10 @@ import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Junk;
+import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.EnchantmentAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -43,6 +45,7 @@ public class CustomJunk implements Junk {
 		else
 			this.item=data.getString(path+"."+name+".type");
 		this.showItem=data.getString(path+"."+name+".preview.type");
+		if(item==null)item="STONE";
 		if(showItem==null)showItem=item;
 	}
 	
@@ -245,7 +248,7 @@ public class CustomJunk implements Junk {
 
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
-		ItemCreatorAPI c = CustomFish.find("STICK", 0, item);
+		ItemCreatorAPI c = Create.find(item, "STONE", 0);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -264,6 +267,10 @@ public class CustomJunk implements Junk {
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
+		for(String enchant : getEnchantments()) {
+			if(EnchantmentAPI.byName(enchant)!=null)
+				c.addEnchantment(EnchantmentAPI.byName(enchant).getEnchantment(), 1);
+		}
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
 				c.addItemFlag(ItemFlag.valueOf(itemFlag));
@@ -278,7 +285,7 @@ public class CustomJunk implements Junk {
 
 	@Override
 	public ItemStack preview(Player p) {
-		ItemCreatorAPI c = CustomFish.find("STICK", 0, showItem);
+		ItemCreatorAPI c = Create.find(showItem, "STONE", 0);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
 		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
@@ -304,6 +311,10 @@ public class CustomJunk implements Junk {
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())));
 		c.setLore(l);
+		for(String enchant : data.exists(path+"."+name+".preview.enchants")?data.getStringList(path+"."+name+".preview.enchants"):data.getStringList(path+"."+name+".enchants")) {
+			if(EnchantmentAPI.byName(enchant)!=null)
+				c.addEnchantment(EnchantmentAPI.byName(enchant).getEnchantment(), 1);
+		}
 		c.setUnbreakable(data.exists(path+"."+name+".preview.unbreakable")?data.getBoolean(path+"."+name+".preview.unbreakable"):data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.exists(path+"."+name+".preview.flags")?data.getStringList(path+"."+name+".preview.flags"):data.getStringList(path+"."+name+".flags"))
 			try {

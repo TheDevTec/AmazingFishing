@@ -7,6 +7,14 @@ quests:
     # Icon of quest
     icon: "STONE"
     
+    model: 0
+    
+    unbreakable: false
+    
+    # flags:
+    # - HIDE_ATTRIBUTES
+    flags: []
+    
     # Description of quest
     description:
     - "&6Great super duper quest"

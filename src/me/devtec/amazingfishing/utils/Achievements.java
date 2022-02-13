@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
+import org.bukkit.inventory.ItemFlag;
 
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
@@ -16,6 +16,7 @@ import me.devtec.amazingfishing.utils.Statistics.CaughtTreasuresType;
 import me.devtec.amazingfishing.utils.Statistics.SavingType;
 import me.devtec.amazingfishing.utils.Statistics.gainedType;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.User;
@@ -39,15 +40,47 @@ public class Achievements {
 		public String getDisplayName() {
 			return d.getString("achievements."+name+".name");
 		}
-		public MaterialData getUnfinishedIcon() {
-			if(d.exists("achievements."+name+".icon.unfinished"))
-				return Utils.createType(d.getString("achievements."+name+".icon.unfinished"));
-			else return Utils.getCachedMaterial("SUNFLOWER");
+		
+		public List<ItemFlag> getFlags(Player p) {
+			List<ItemFlag> flags = new ArrayList<>();
+			if(isFinished(p, this) && d.exists("achievements."+name+".unbreakable.finished")) {
+				for(String flag : d.getStringList("achievements."+name+".flags.finished")) {
+					try {
+						flags.add(ItemFlag.valueOf(flag.toUpperCase()));
+					}catch(Exception | NoSuchFieldError e) {}
+				}
+			}else if(d.exists("achievements."+name+".flags.unfinished")) {
+				for(String flag : d.getStringList("achievements."+name+".flags.unfinished")) {
+					try {
+						flags.add(ItemFlag.valueOf(flag.toUpperCase()));
+					}catch(Exception | NoSuchFieldError e) {}
+				}
+			}
+			return flags;
 		}
-		public MaterialData getFinishedIcon() {
-			if(d.exists("achievements."+name+".icon.finished"))
-				return Utils.createType(d.getString("achievements."+name+".icon.finished"));
-			else return Utils.getCachedMaterial("GREEN_WOOL");
+		
+		public boolean isUnbreakable(Player p) {
+			if(isFinished(p, this) && d.exists("achievements."+name+".unbreakable.finished")) {
+				return d.getBoolean("achievements."+name+".unbreakable.finished");
+			}else if(d.exists("achievements."+name+".unbreakable.unfinished"))
+				return d.getBoolean("achievements."+name+".unbreakable.unfinished");
+			return false;
+		}
+		
+		public int getModel(Player p) {
+			if(isFinished(p, this) && d.exists("achievements."+name+".model.finished")) {
+				return d.getInt("achievements."+name+".model.finished");
+			}else if(d.exists("achievements."+name+".model.unfinished"))
+				return d.getInt("achievements."+name+".model.unfinished");
+			return 0;
+		}
+		
+		public ItemCreatorAPI getIcon(Player p) {
+			if(isFinished(p, this) && d.exists("achievements."+name+".icon.finished")) {
+				return Create.find(d.getString("achievements."+name+".icon.finished"), "STONE", 0);
+			}else if(d.exists("achievements."+name+".icon.unfinished"))
+				return Create.find(d.getString("achievements."+name+".icon.unfinished"), "STONE", 0);
+			return new ItemCreatorAPI(Utils.getCachedMaterial("GREEN_WOOL").toItemStack());
 		}
 		
 		public List<String> getDescription(Player p) {
@@ -56,28 +89,19 @@ public class Achievements {
 				for(String s: d.getStringList("achievements."+name+".description.finished"))
 					list.add(s.replace("%name%", getName())
 							.replace("%questname%", getDisplayName())
-							.replace("%unfinished_icon%", getUnfinishedIcon().getItemType().name())
-							.replace("%finished_icon%", getFinishedIcon().getItemType().name())
-							.replace("%requirement%", ""+getRequirement())
-							);
+							.replace("%requirement%", ""+getRequirement()));
 			}
 			else {
 				if(d.exists("achievements."+name+".description.unfinished"))
 				for(String s: d.getStringList("achievements."+name+".description.unfinished"))
 					list.add(s.replace("%name%", getName())
 							.replace("%questname%", getDisplayName())
-							.replace("%unfinished_icon%", getUnfinishedIcon().getItemType().name())
-							.replace("%finished_icon%", getFinishedIcon().getItemType().name())
-							.replace("%requirement%", ""+getRequirement())
-							);
+							.replace("%requirement%", ""+getRequirement()));
 				else
 					for(String s: d.getStringList("achievements."+name+".description"))
 						list.add(s.replace("%name%", getName())
 								.replace("%questname%", getDisplayName())
-								.replace("%unfinished_icon%", getUnfinishedIcon().getItemType().name())
-								.replace("%finished_icon%", getFinishedIcon().getItemType().name())
-								.replace("%requirement%", ""+getRequirement())
-								);
+								.replace("%requirement%", ""+getRequirement()));
 			}
 			return list;
 		}
@@ -296,11 +320,8 @@ public class Achievements {
 		}
 		return fin;
 	}
-	public static MaterialData getIcon(Player player, Achievement achievement) {
-		if(isFinished(player, achievement))
-			return achievement.getFinishedIcon();
-		else 
-			return achievement.getUnfinishedIcon();
+	public static ItemCreatorAPI getIcon(Player player, Achievement achievement) {
+		return achievement.getIcon(player);
 	}
 	/*
 	 dataLocation:

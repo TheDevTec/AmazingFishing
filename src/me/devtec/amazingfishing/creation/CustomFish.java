@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -21,12 +19,12 @@ import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
-import me.devtec.amazingfishing.utils.HDBSupport;
+import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.apis.EnchantmentAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.datakeeper.DataType;
 import me.devtec.theapi.utils.json.Json;
@@ -48,6 +46,7 @@ public class CustomFish implements Fish {
 		else
 			this.item=data.getString(path+"."+name+".type");
 		this.showItem=data.getString(path+"."+name+".preview.type");
+		if(item==null)item=type.name();
 		if(showItem==null)showItem=item;
 	}
 	
@@ -86,6 +85,11 @@ public class CustomFish implements Fish {
 	@Override
 	public String getName() {
 		return name;
+	}
+	
+	@Override
+	public List<String> getEnchantments() {
+		return data.getStringList(path+"."+name+".enchants");
 	}
 	
 	@Override
@@ -180,7 +184,7 @@ public class CustomFish implements Fish {
 	
 	@Override
 	public ItemStack createItem(double weight, double length) {
-		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
+		ItemCreatorAPI c = Create.find(item, type.name(), type.ordinal());
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -205,6 +209,10 @@ public class CustomFish implements Fish {
 			}catch(Exception | NoSuchFieldError err) {
 				
 			}
+		for(String enchant : getEnchantments()) {
+			if(EnchantmentAPI.byName(enchant)!=null)
+				c.addEnchantment(EnchantmentAPI.byName(enchant).getEnchantment(), 1);
+		}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
@@ -213,7 +221,7 @@ public class CustomFish implements Fish {
 	
 	@Override
 	public ItemStack createItem(double weight, double length, double money, double points, double exp) {
-		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
+		ItemCreatorAPI c = Create.find(item, type.name(), type.ordinal());
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf = getDisplayName().replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -243,6 +251,10 @@ public class CustomFish implements Fish {
 				.replace("%exp_boost%", Loader.ff.format(exp))
 				));
 		c.setLore(l);
+		for(String enchant : getEnchantments()) {
+			if(EnchantmentAPI.byName(enchant)!=null)
+				c.addEnchantment(EnchantmentAPI.byName(enchant).getEnchantment(), 1);
+		}
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
@@ -258,7 +270,7 @@ public class CustomFish implements Fish {
 
 	@Override
 	public ItemStack createItem(double weight, double length, Player p, Location hook) {
-		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
+		ItemCreatorAPI c = Create.find(item, type.name(), type.ordinal());
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -276,6 +288,10 @@ public class CustomFish implements Fish {
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
+		for(String enchant : getEnchantments()) {
+			if(EnchantmentAPI.byName(enchant)!=null)
+				c.addEnchantment(EnchantmentAPI.byName(enchant).getEnchantment(), 1);
+		}
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
@@ -291,7 +307,7 @@ public class CustomFish implements Fish {
 
 	@Override
 	public ItemStack createItem(double weight, double length, double money, double points, double exp, Player p, Location hook) {
-		ItemCreatorAPI c = find(type.name(), type.ordinal(), item);
+		ItemCreatorAPI c = Create.find(item, type.name(), type.ordinal());
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString()),
 				cf=s(getDisplayName(),p,hook).replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
@@ -321,6 +337,10 @@ public class CustomFish implements Fish {
 				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%blockedbiomes%", bbc),p,hook));
 		c.setLore(l);
+		for(String enchant : getEnchantments()) {
+			if(EnchantmentAPI.byName(enchant)!=null)
+				c.addEnchantment(EnchantmentAPI.byName(enchant).getEnchantment(), 1);
+		}
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
@@ -336,7 +356,7 @@ public class CustomFish implements Fish {
 
 	@Override
 	public ItemStack preview(Player p) {
-		ItemCreatorAPI c = find(type.name(), type.ordinal(), showItem);
+		ItemCreatorAPI c = Create.find(showItem, type.name(), type.ordinal());
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
 		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
@@ -369,6 +389,10 @@ public class CustomFish implements Fish {
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())));
 		c.setLore(l);
+		for(String enchant : data.exists(path+"."+name+".preview.enchants")?data.getStringList(path+"."+name+".preview.enchants"):data.getStringList(path+"."+name+".enchants")) {
+			if(EnchantmentAPI.byName(enchant)!=null)
+				c.addEnchantment(EnchantmentAPI.byName(enchant).getEnchantment(), 1);
+		}
 		return Utils.setModel(c.create(), data.exists(path+"."+name+".preview.model")?data.getInt(path+"."+name+".preview.model"):data.getInt(path+"."+name+".model"));
 		}
 
@@ -386,53 +410,6 @@ public class CustomFish implements Fish {
 				.replace("%y%", ""+l.getBlockY())
 				.replace("%z%", ""+l.getBlockZ())
 				.replace("%world%", l.getWorld().getName()));
-	}
-	
-	static Material mat;
-	static {
-		try {
-			mat = Material.PLAYER_HEAD;
-		} catch (NoSuchFieldError | Exception var1) {
-			mat = Material.getMaterial("SKULL_ITEM");
-		}
-	}
-	
-	public static ItemCreatorAPI find(String name, int id, String item) {
-		ItemCreatorAPI creator;
-		if(item.startsWith("head:")) {
-			String head = item.substring(5);
-			if(head.toLowerCase().startsWith("hdb:"))
-				return new ItemCreatorAPI(HDBSupport.parse(head));
-			else
-			if(head.startsWith("https://")||head.startsWith("http://")) {
-				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwnerFromWeb(head);
-				return creator;
-			}
-			else
-			if(head.length()>16) {
-				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwnerFromValues(head);
-				return creator;
-			}else {
-				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwner(head);
-				return creator;
-			}
-		}
-		if(item!=null && Material.getMaterial(item.split(":")[0])!=null) {
-			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(item.split(":")[0]),1,(short)StringUtils.getShort(item.contains(":")?item.split(":")[1]:"0")));
-			return creator;
-		}
-		if(Material.getMaterial(name)!=null) {
-			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(name),1,(short)id));
-			return creator;
-		}
-		creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)id));
-		return creator;
 	}
 
 	@Override

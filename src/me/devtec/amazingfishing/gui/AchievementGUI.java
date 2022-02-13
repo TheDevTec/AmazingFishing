@@ -50,8 +50,8 @@ public class AchievementGUI {
 			}
 		}
 		if(p!=null && !p.isEmpty()) {
-			for(Achievement ach: p.getPage(page)) {
-				a.add(new EmptyItemGUI( Create.createItem(ach.getDisplayName(), Achievements.getIcon(player, ach), ach.getDescription(player))));
+			for(Achievement category: p.getPage(page)) {
+				a.add(new EmptyItemGUI(Create.createItem(category.getDisplayName(), category.getIcon(player), category.getDescription(player), category.getModel(player), category.getFlags(player), category.isUnbreakable(player))));
 			}
 			
 			if(p.totalPages()>page+1) {
@@ -83,7 +83,7 @@ public class AchievementGUI {
 		
 		if(p!=null && !p.isEmpty()) {
 			for(Category category: p.getPage(page)) {
-				a.add(new ItemGUI( Create.createItem(category.getDisplayName(), category.getIcon(), category.getDescription())) {
+				a.add(new ItemGUI(Create.createItem(category.getDisplayName(), category.getIcon(), category.getDescription(), category.getModel(), category.getFlags(), category.isUnbreakable())) {
 					public void onClick(Player player, HolderGUI gui, ClickType click) {
 						openCategory(player, 0, category);
 					}
@@ -118,7 +118,7 @@ public class AchievementGUI {
 		}
 		if(p!=null && !p.isEmpty()) {
 			for(Achievement ach: p.getPage(page))
-				a.add(new EmptyItemGUI( Create.createItem(ach.getDisplayName(), Achievements.getIcon(player, ach), ach.getDescription(player))));
+				a.add(new EmptyItemGUI( Create.createItem(ach.getDisplayName(), ach.getIcon(player), ach.getDescription(player), ach.getModel(player), ach.getFlags(player), ach.isUnbreakable(player))));
 			if(p.totalPages()>page+1) {
 				a.setItem(51, new ItemGUI(Loader.next) {
 					public void onClick(Player player, HolderGUI gui, ClickType click) {
