@@ -11,13 +11,9 @@ import me.devtec.theapi.utils.datakeeper.User;
 
 public class Statistics {
 	
-	public static enum SavingType { //For Fishing, Eating, Selling (Shop)
+	public static enum SavingType {
 		GLOBAL, PER_TYPE, PER_FISH
 	}
-	
-	/*
-	 * 		Fishing:
-	 */
 	
 	public static int getCaught(Player p, Fish f, SavingType SavingType) {
 		User u = TheAPI.getUser(p);
@@ -65,13 +61,8 @@ public class Statistics {
 				if(length > old) {
 					setNewRecord(user, f, RecordType.LENGTH, length);
 					if(cansend && old!=0)
-						for(String msg : Loader.trans.getStringList("NewRecord"))
-							Loader.msg(msg
-									//.replace("%type%", "Length")
-									.replace("%type%", Trans.words_length())
-									.replace("%new%", Loader.ff.format(length))
-									.replace("%old%", Loader.ff.format(old))
-									, p);
+						for(String msg : Create.list("records.length"))
+							Loader.msg(msg.replace("%new%", Loader.ff.format(length)).replace("%old%", Loader.ff.format(old)), p);
 				}
 			}
 			if(weight!=0) {
@@ -79,13 +70,8 @@ public class Statistics {
 				if(weight > old) {
 					setNewRecord(user, f, RecordType.WEIGHT, weight);
 					if(cansend && old!=0)
-						for(String msg : Loader.trans.getStringList("NewRecord"))
-							Loader.msg(msg
-								//.replace("%type%", "Weight")
-								.replace("%type%", Trans.words_weight())
-								.replace("%new%", Loader.ff.format(weight))
-								.replace("%old%", Loader.ff.format(old))
-								, p);
+						for(String msg : Create.list("records.weight"))
+							Loader.msg(msg.replace("%new%", Loader.ff.format(weight)).replace("%old%", Loader.ff.format(old)), p);
 				}
 			}
 		}
@@ -301,42 +287,4 @@ public class Statistics {
 		u.set(Manager.getDataLocation()+".Statistics.Tournament.Played", getTournamentPlayed(p, null)+1);
 		u.save();
 	}
-	/*
-	  AmazingFishing:
-	    Statistics:
-	      Tournament:
-	        Played: int
-	        Placements: int //Počet kolikrát jsi se umístil na TOP 4 (dohromady)
-	        <TOURNAMENT>:
-	          Played: int
-	          Placement:
-	            <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
-	      Treasures:
-	        Caught: int
-	        <TREASURE>:
-	          Caught: int
-	      Shop:
-	       Gained:
-	         Exp: double
-	         Money: double
-	         Points: double
-	      Records:
-	        <TYP>:
-	          <RYBA>:
-	            WEIGHT: double
-	            LENGTH: double
-	      Fish:
-	        Caught: int
-	        Eaten: int
-	        Sold: int
-	        <TYP>:
-	          Caught: int
-	          Eaten: int
-	          Sold: int
-	          <RYBA>:
-	            Caught: int
-	            Eaten: int
-	            Sold: int
-	            
-	 */
 }

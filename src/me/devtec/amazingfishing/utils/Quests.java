@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
@@ -64,6 +67,18 @@ public class Quests {
 			if(d.exists("quests."+name+".icon")||d.exists("quests."+name+".head"))
 				return Create.find(d.exists("quests."+name+".head")?"head:"+d.getString("quests."+name+".head"):d.getString("quests."+name+".icon"), "STONE", 0);
 			return new ItemCreatorAPI(Utils.getCachedMaterial("SUNFLOWER").toItemStack());
+		}
+		
+		public ItemStack getFinishedIcon() {
+			ItemCreatorAPI item;
+			if(d.exists("quests."+name+".finished"))
+				item=Create.find(d.getString("quests."+name+".finished.icon"), "PAPER", 0);
+			else item=new ItemCreatorAPI(Material.BOOK);
+			List<ItemFlag> flags = new ArrayList<>();
+			for(String flag : d.getStringList("quests."+name+".finished.flags")) {
+				flags.add(ItemFlag.valueOf(flag.toUpperCase()));
+			}
+			return Create.createItem(d.getString("quests."+name+".finished.name"), item, d.getStringList("quests."+name+".finished.lore"), d.getInt("quests."+name+".finished.model"), flags, d.getBoolean("quests."+name+".finished.unbreakable"));
 		}
 		
 		public int getStages() {
@@ -148,9 +163,9 @@ public class Quests {
 				TheAPI.getNmsProvider().postToMainThread(new Runnable() {
 					public void run() {
 						for(String cmd : q.getCommands((int)a[1]))
-							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ) );
+							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Loader.getPrefix()) ) );
 						for(String cmd : q.getMessages((int)a[1]))
-							TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Trans.prefix()) ),player);
+							TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Loader.getPrefix()) ),player);
 					}
 				});
 				if(q.getStages()<((int)a[1]+1)) { //END OF QUEST
@@ -229,10 +244,10 @@ public class Quests {
 			public void run() {
 				for(String cmd : quest.getStartCommands() )
 					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName())
-							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Trans.prefix()) ) );
+							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Loader.getPrefix()) ) );
 				for(String cmd : quest.getStartMessages())
 					TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName())
-							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Trans.prefix()) ),player);
+							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Loader.getPrefix()) ),player);
 			}
 		});
 	}

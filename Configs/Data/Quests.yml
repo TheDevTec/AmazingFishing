@@ -13,7 +13,18 @@ quests:
     
     # flags:
     # - HIDE_ATTRIBUTES
+    # - HIDE_ENCHANTS
     flags: []
+    
+    finished:
+      icon: "DIAMOND"
+      # model: 0
+      name: "&6&lSuperQuest &aFinished"
+      flags:
+      - HIDE_ATTRIBUTES
+      - HIDE_ENCHANTS
+      enchants:
+      - UNBREAKING
     
     # Description of quest
     description:

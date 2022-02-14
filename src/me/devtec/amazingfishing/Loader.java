@@ -33,18 +33,17 @@ import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Configs;
+import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.EatFish;
 import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
-import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.placeholders.Placeholders;
 import me.devtec.amazingfishing.utils.points.UserPoints;
 import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 import me.devtec.theapi.placeholderapi.PlaceholderRegister;
@@ -57,7 +56,7 @@ import me.devtec.theapi.utils.reflections.Ref;
 public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
-	public static Config trans, config, gui, shop;
+	public static Config tran, config, gui, shop;
 	public static Data cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
 	static String prefix=Manager.getPluginName();
 	protected static PlaceholderRegister reg;
@@ -77,7 +76,7 @@ public class Loader extends JavaPlugin {
 		plugin=this;
 		Configs.load();
 		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
-		prefix = trans.getString("Prefix");
+		prefix = tran.getString("Prefix");
 		new me.devtec.theapi.utils.theapiutils.metrics.Metrics(this, 10630);
 		reload(TheAPI.getConsole(),false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
@@ -141,12 +140,12 @@ public class Loader extends JavaPlugin {
 			junk.reload(junk.getFile());
 			enchant.reload(enchant.getFile());
 			config.reload();
-			trans.reload();
-			prefix = trans.getString("Prefix");
-			Loader.next = ItemCreatorAPI.createHeadByValues(1, Trans.next(), Trans.head_next());
-			Loader.prev = ItemCreatorAPI.createHeadByValues(1, Trans.previous(), Trans.head_previous());
+			tran.reload();
+			prefix = tran.getString("Prefix");
+			Loader.next = Create.make("buttons.next").create();
+			Loader.prev = Create.make("buttons.previous").create();
 			API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
-			TheAPI.msg(prefix+" Configurations reloaded.", ss);
+			TheAPI.msg(Create.text("reload").replace("%prefix%", getPrefix()), ss);
 		}
 		AFKSystem.load();
 		Placeholders.loadTops();
@@ -372,12 +371,12 @@ public class Loader extends JavaPlugin {
 	}
 
 	public static void msg(String msg, CommandSender s) {
-		TheAPI.msg(msg.replace("%prefix%", Trans.s("Prefix")), s);
+		TheAPI.msg(msg.replace("%prefix%", getPrefix()), s);
 	}
 
 	public static boolean has(CommandSender s, String permission) {
 		if(s.hasPermission(permission)) return true;
-		msg(Trans.noPerms().replace("%permission%", permission), s);
+		msg(tran.getString("NoPerms").replace("%permission%", permission), s);
 		return false;
 	}
 

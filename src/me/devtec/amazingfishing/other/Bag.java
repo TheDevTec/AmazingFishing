@@ -92,7 +92,6 @@ public class Bag {
 			sql.execute("delete from amazingfishing where name='"+u.getName().toLowerCase()+"'");
 			for(ItemStack stack : list)
 				sql.set("amazingfishing", "bag", Json.writer().write(stack), u.getName().toLowerCase(), "name");
-			//sql.set("amazingfishing", "bag", Writer.write(stack), u.getName().toLowerCase(), "name");
 		}else {
 			List<ItemStack> list = new ArrayList<>();
 			for(int st = 0; st < 45; ++st) {

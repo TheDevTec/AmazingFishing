@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.devtec.amazingfishing.Loader;
-import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.configapi.Config;
 import me.devtec.theapi.utils.StreamUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -31,7 +30,7 @@ public class Configs {
 	    		c=Loader.gui;
 	    		break;
 	    	case "Translations.yml":
-	    		c=Loader.trans;
+	    		c=Loader.tran;
 	    		break;
 	    	}
 	    	if(c!=null) {
@@ -56,7 +55,7 @@ public class Configs {
 	    		Loader.gui=c;
 	    		break;
 	    	case "Translations.yml":
-	    		Loader.trans=c;
+	    		Loader.tran=c;
 	    		break;
 	    	}
 		}
@@ -72,8 +71,8 @@ public class Configs {
 		Loader.enchant=loadOrReload(data,Loader.enchant, "Data/Enchantments.yml");
 		Utils.convertFiles();
 		Utils.fixDefaultConfig();
-		Loader.next = ItemCreatorAPI.createHeadByValues(1, Trans.next(), Trans.head_next());
-		Loader.prev = ItemCreatorAPI.createHeadByValues(1, Trans.previous(), Trans.head_previous());
+		Loader.next = Create.make("buttons.next").create();
+		Loader.prev = Create.make("buttons.previous").create();
 	}
 
 	private static Data loadOrReload(Data data, Data d, String path) {

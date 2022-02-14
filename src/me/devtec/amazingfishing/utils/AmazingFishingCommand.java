@@ -60,7 +60,8 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			if(args.length==1) {
 				if(s instanceof Player) {
 					Help.open((Player)s);
-					TheAPI.msg("Opening menu..", s);
+					if(!Create.text("command.help.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.help.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Open <player>", s);
@@ -68,18 +69,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.help.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			Help.open(p);
-			TheAPI.msg("Opening menu for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.help.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("shop") && s.hasPermission("amazingfishing.command.shop")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					Shop.openShop((Player)s, ShopType.BUY);
-					TheAPI.msg("Opening shop..", s);
+					if(!Create.text("command.buy-shop.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.buy-shop.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Shop <player>", s);
@@ -87,18 +89,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.buy-shop.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			Shop.openShop(p, ShopType.BUY);
-			TheAPI.msg("Opening shop for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.buy-shop.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("sellshop") && s.hasPermission("amazingfishing.command.sellshop")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					Shop.openShop((Player)s, ShopType.SELL);
-					TheAPI.msg("Opening selling shop..", s);
+					if(!Create.text("command.sell-shop.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.sell-shop.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish SellShop <player>", s);
@@ -106,18 +109,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.sell-shop.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			Shop.openShop(p, ShopType.SELL);
-			TheAPI.msg("Opening selling shop for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.sell-shop.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("convertor") && s.hasPermission("amazingfishing.command.convertor")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					Shop.openShop((Player)s, ShopType.CONVERTOR);
-					TheAPI.msg("Opening convertor..", s);
+					if(!Create.text("command.convertor.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.convertor.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Convertor <player>", s);
@@ -125,18 +129,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.convertor.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			Shop.openShop(p, ShopType.CONVERTOR);
-			TheAPI.msg("Opening convertor for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.convertor.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("quests") && s.hasPermission("amazingfishing.command.quests")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					QuestGUI.open((Player)s);
-					TheAPI.msg("Opening quests menu..", s);
+					if(!Create.text("command.quests.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.quests.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Quests <player>", s);
@@ -144,18 +149,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.quests.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			QuestGUI.open(p);
-			TheAPI.msg("Opening quests menu for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.quests.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("achievements") && s.hasPermission("amazingfishing.command.achievements")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					AchievementGUI.open((Player)s);
-					TheAPI.msg("Opening achievements menu..", s);
+					if(!Create.text("command.achievements.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.achievements.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Achievements <player>", s);
@@ -163,18 +169,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.achievements.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			AchievementGUI.open(p);
-			TheAPI.msg("Opening achievements menu for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.achievements.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("index") && s.hasPermission("amazingfishing.command.index")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					Index.open((Player)s);
-					TheAPI.msg("Opening index menu..", s);
+					if(!Create.text("command.index.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.index.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Index <player>", s);
@@ -182,18 +189,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.index.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			Index.open(p);
-			TheAPI.msg("Opening index menu for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.index.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("settings") && s.hasPermission("amazingfishing.command.settings")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					Settings.open((Player)s);
-					TheAPI.msg("Opening settings menu..", s);
+					if(!Create.text("command.settings.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.settings.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Settings <player>", s);
@@ -201,18 +209,19 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.settings.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			Settings.open(p);
-			TheAPI.msg("Opening settings menu for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.settings.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if((args[0].equalsIgnoreCase("enchanttable")||args[0].equalsIgnoreCase("enchanter")) && s.hasPermission("amazingfishing.command.enchanter")) {
 			if(args.length==1) {
 				if(s instanceof Player) {
 					EnchantTable.openMain((Player)s);
-					TheAPI.msg("Opening enchanter menu..", s);
+					if(!Create.text("command.enchant-table.self").trim().isEmpty())
+					TheAPI.msg(Create.text("command.enchant-table.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Enchanter <player>", s);
@@ -220,11 +229,11 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+				TheAPI.msg(Create.text("command.enchant-table.offline").replace("%player%", args[1]), s);
 				return true;
 			}
 			EnchantTable.openMain(p);
-			TheAPI.msg("Opening enchanter menu for player "+p.getName(), s);
+			TheAPI.msg(Create.text("command.enchant-table.other").replace("%player%", p.getName()), s);
 			return true;
 		}
 		if((args[0].equalsIgnoreCase("tournament")||args[0].equalsIgnoreCase("tournaments")) && s.hasPermission("amazingfishing.command.tournaments")) {
@@ -246,22 +255,22 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 					try {
 						TournamentType g= TournamentType.valueOf(args[2].toUpperCase());
 						TournamentManager.start(null, g, StringUtils.timeFromString(args[3]));
-						TheAPI.msg("Started global tournament of type "+args[2].toUpperCase()+" on time "+StringUtils.timeFromString(args[3]), s);
-					}catch(Exception | NoSuchFieldError e) {
-						TheAPI.msg("Tournament type "+args[2]+" doesn't exist, valid types are: Amount, Length, Weight, Total_Length, Total_Weight", s);
-					}
+						TheAPI.msg(Create.text("command.tournaments.start.global").replace("%time%", StringUtils.timeToString(StringUtils.timeFromString(args[4]))).replace("%type%", args[3].toLowerCase()), s);
+						}catch(Exception | NoSuchFieldError e) {
+						TheAPI.msg(Create.text("command.tournaments.start.invalid").replace("%type%", args[3].toLowerCase()), s);
+						}
 					return true;
 				}
 				World w= Bukkit.getWorld(args[2]);
 				if(w==null) {
-					TheAPI.msg("World "+args[2]+" doesn't exist", s);
+					TheAPI.msg(Create.text("command.tournaments.invalid").replace("%world%", args[2]), s);
 					return true;
 				}
 				try {
 					TournamentManager.start(w, TournamentType.valueOf(args[3].toUpperCase()), StringUtils.timeFromString(args[4]));
-					TheAPI.msg("Started tournament in the world "+w.getName()+" of type "+args[3].toUpperCase()+" on time "+StringUtils.timeFromString(args[4]), s);
+					TheAPI.msg(Create.text("command.tournaments.start.world").replace("%world%", w.getName()).replace("%time%", StringUtils.timeToString(StringUtils.timeFromString(args[4]))).replace("%type%", args[3].toLowerCase()), s);
 				}catch(Exception | NoSuchFieldError e) {
-					TheAPI.msg("Tournament type "+args[3]+" doesn't exist, valid types are: Amount, Length, Weight, Total_Length, Total_Weight", s);
+					TheAPI.msg(Create.text("command.tournaments.start.invalid").replace("%type%", args[3].toLowerCase()), s);
 				}
 				return true;
 			}
@@ -272,16 +281,16 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 							TournamentManager.get(w).stop(true);
 					if(TournamentManager.getGlobal()!=null)
 						TournamentManager.getGlobal().stop(true);
-					TheAPI.msg("All tournaments stopped", s);
+					TheAPI.msg(Create.text("command.tournaments.stop.all"), s);
 					return true;
 				}
 				World w= Bukkit.getWorld(args[2]);
 				if(w==null) {
-					TheAPI.msg("World "+args[2]+" doesn't exist", s);
+					TheAPI.msg(Create.text("command.tournaments.invalid").replace("%world%", args[2]), s);
 					return true;
 				}
 				TournamentManager.get(w).stop(true);
-				TheAPI.msg("Tournament in the world "+w.getName()+" stopped", s);
+				TheAPI.msg(Create.text("command.tournaments.stop.world").replace("%world%", w.getName()), s);
 				return true;
 			}
 			TheAPI.msg("/Fish Tournament Start <type> <time>", s);
@@ -295,19 +304,35 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			if(args.length==1) {
 				if(s instanceof Player) {
 					Bag.openBag((Player)s);
-					TheAPI.msg("Opening bag..", s);
+					if(!Create.text("command.bag.self").trim().isEmpty())
+						TheAPI.msg(Create.text("command.bag.self"), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Bag <player>", s);
 				return true;
 			}
-			Player p = TheAPI.getPlayer(args[1]);
-			if(p==null) {
-				TheAPI.msg("Player "+args[1]+" isn't online", s);
+			if(args.length==2) {
+				Player p = TheAPI.getPlayer(args[1]);
+				if(p==null) {
+					TheAPI.msg(Create.text("command.bag.offline").replace("%player%", args[1]), s);
+					return true;
+				}
+				Bag.openBag(p);
+				TheAPI.msg(Create.text("command.bag.other").replace("%player%", p.getName()), s);
 				return true;
 			}
-			Bag.openBag(p);
-			TheAPI.msg("Opening bag for player "+p.getName(), s);
+			Player p = TheAPI.getPlayer(args[1]);
+			if(p==null) {
+				TheAPI.msg(Create.text("command.bag.offline").replace("%player%", args[1]), s);
+				return true;
+			}
+			Player t = TheAPI.getPlayer(args[2]);
+			if(t==null) {
+				TheAPI.msg(Create.text("command.bag.offline").replace("%player%", args[2]), s);
+				return true;
+			}
+			Bag.openBag(p,t);
+			TheAPI.msg(Create.text("command.bag.other-other").replace("%player%", p.getName()).replace("%target%", t.getName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("enchant") && s.hasPermission("amazingfishing.command.enchant")) {
@@ -316,14 +341,14 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				return true;
 			}
 			if(Enchant.enchants.get(args[1].toLowerCase())==null) {
-				TheAPI.msg("Enchantment with name "+args[1].toLowerCase()+" doesn't exist", s);
+				TheAPI.msg(Create.text("command.enchant.invalid").replace("%enchant%", args[1].toLowerCase()), s);
 				return true;
 			}
-			if(args.length==2) {
-				TheAPI.msg("Item in your hand enchanted with enchantment "+args[1].toLowerCase()+" to the level "+Enchant.enchants.get(args[1].toLowerCase()).enchant(((Player)s).getItemInHand(), 1), s);
-				return true;
-			}
-			TheAPI.msg("Item in your hand enchanted with enchantment "+args[1].toLowerCase()+" to the level "+Enchant.enchants.get(args[1].toLowerCase()).enchant(((Player)s).getItemInHand(), StringUtils.getInt(args[2])), s);
+			int level = 1;
+			if(args.length>2)level=StringUtils.getInt(args[2]);
+			if(level<=0)level=1;
+			int to = Enchant.enchants.get(args[1].toLowerCase()).enchant(((Player)s).getItemInHand(), level);
+			TheAPI.msg(Create.text("command.enchant.enchanted").replace("%enchant%", args[1].toLowerCase()).replace("%level%", ""+to), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("points") && s.hasPermission("amazingfishing.command.points")) {
@@ -337,16 +362,16 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				if(args.length==4) {
 					double points = StringUtils.getDouble(args[3]);
 					API.getPoints().add(args[2], points);
-					Loader.msg(Trans.s("Points.Add").replace("%player%", args[2]).replace("%add%", ""+points)
+					Loader.msg(Create.text("command.points.add").replace("%player%", args[2]).replace("%add%", ""+points)
 							.replace("%points%", ff.format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(args[2]) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") ), s);
 					return true;
 				}
 				TheAPI.msg("/Fish Points Add <player> <points>", s);
 				return true;
 			}
-			if(args[1].equalsIgnoreCase("get")) {
+			if(args[1].equalsIgnoreCase("get")||args[1].equalsIgnoreCase("balance")) {
 				if(args.length==3) {
-					Loader.msg(Trans.s("Points.Get").replace("%player%", args[2])
+					Loader.msg(Create.text("command.points.balance").replace("%player%", args[2])
 							.replace("%points%", ff.format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(args[2]) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") ), s);
 					return true;
 				}
@@ -357,7 +382,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				if(args.length==4) {
 					double points = StringUtils.getDouble(args[3]);
 					API.getPoints().set(args[2], points);
-					Loader.msg(Trans.s("Points.Set").replace("%player%", args[2]).replace("%add%", ff.format(StringUtils.getDouble(String.format("%.2f", points ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
+					Loader.msg(Create.text("command.points.set").replace("%player%", args[2]).replace("%add%", ff.format(StringUtils.getDouble(String.format("%.2f", points ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
 							.replace("%points%", ""+points) , s);
 					return true;
 				}

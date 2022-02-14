@@ -1,56 +1,101 @@
-Prefix: "&bAmazingFishing &8&l»&7"
-NoPerms: "%prefix% You do not have permissions for this! (&b%permission%)"
-Admin:
-  ConfigReloaded: "&aReloaded configs"
-  
-FishList:
-  Topic: "&eFish list:"
-  Format: "&7&l- %fish%"
-  
-Points:
-  Lack: "%prefix% &cYou have lack of points!"
-  Get: "%prefix% &3Player &b%player% &3has &b%points% &3points."
-  Add: "%prefix% &3You add &b%add% &3points to &b%player%&3. Player &b%player% &3now has &b%points% &3points."
-  Set: "%prefix% &3You set points of player &b%player% &3to &b%points%&3."
+prefix: "&9★ &bFishing &8»&7"
 
-SoldFish:
-- "&7&l-----------------------"
-- "&eYou sold:"
-- "&7Amount: &f%amount%"
-- "&7Money &7%money%$"
-- "&7Exp: &f%exp%"
-- "&7Points: &f%points%"
-- "&7&l-----------------------"
+words:
+  cod: "&7Cod"
+  salmon: "&7Salmon"
+  pufferfish: "Pufferfish"
+  tropical_fish: "&7Tropical fish"
 
-Tournaments:
-  Stop:
-    All: "%prefix% &9You have stopped all current tournaments!"
-    One: "%prefix% &9You have stopped current tournament!"
-    NoRunning: "%prefix% &cThere is no running tournament!"
-    
-NewRecord:
-- "&7&l-----------------------"
-- "&9You set a new record! &3Record type: %type%"
-- "&3New record: %new% &8&l| &7Old record: %old%"
-- "&7&l-----------------------"
+quests:
+  cancel: "%prefix% You have &3cancelled &7quest %questname%"
+  cannot-cancel: "%prefix% &9You &3can't &7cancel this quest!"
+  cannot-start: "%prefix% &9You &3can't &7start this quest!"
 
-Words:
-  Cod: "&7Cod"
-  Salmon: "&7Salmon"
-  PufferFish: "&7PufferFish"
-  TropicalFish: "&7TropicalFish"
-  Back: "&4Back"
-  Close: "&cClose"
-  Cancel: "&cCancel"
-  Sell: "&eSell fish"
-  Points: "&9%value% Points"
-  Bag: "&7Bag"
-  Convert: "&aConvert"
-  Junk: "&7Junk"
-  Length: "Length"
-  Weight: "Weight"
-  
-Quests:
-  Cancel: "%prefix% &9You have canceled quest %questname%"
-  CannotStart: "%prefix% &9You can't start this quest!"
-  CannotCancel: "%prefix% &9You can't cancel this quest!"
+records:
+  length:
+  - "%prefix% You beat the server fish &3length &7record!"
+  - "%prefix% New record: &3%new%"
+  - "%prefix% Previous record: &3%old%"
+  weight:
+  - "%prefix% You beat the server fish &3weight &7record!"
+  - "%prefix% New record: &3%new%g"
+  - "%prefix% Previous record: &3%old%g"
+
+command:
+  # Only for console.
+  index:
+    topic: "%prefix% Fish index:"
+    format: "&7- %fish%"
+  bag:
+    other: "%prefix% Opening backpack of player player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    other-other: "%prefix% Opening backpack of player &3%player% &7to player &3%target%"
+    self: "%prefix% Opening your backpack"
+  enchant-table:
+    other: "%prefix% Opening enchant table to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening enchant table"
+  settings:
+    other: "%prefix% Opening settings menu to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening settings menu"
+  index:
+    other: "%prefix% Opening index menu to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening index menu"
+  quests:
+    other: "%prefix% Opening quests menu to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening quests menu"
+  achievements:
+    other: "%prefix% Opening achievements menu to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening achievements menu"
+  convertor:
+    other: "%prefix% Opening convertor menu to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening convertor menu"
+  sell-shop:
+    other: "%prefix% Opening fish seller menu to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening fish seller"
+  buy-shop:
+    other: "%prefix% Opening online store to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening online store"
+  buy-shop:
+    other: "%prefix% Opening online store to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: "%prefix% Opening online store"
+  help:
+    other: "%prefix% Opening help menu to player &3%player%"
+    offline: "%prefix% Player &3%player% &7isn't online"
+    self: ""
+  enchant:
+    invalid: "%prefix% Enchantment with name &3%enchant% &7doesn't exist"
+    enchanted: "%prefix% Item enchanted with enchantment &3%enchant% &7to the level &3%level%"
+  tournaments:
+    invalid: "%prefix% World &3%world% &7doesn't exist"
+    start: 
+      world: "%prefix% You start new tournament of type &3%type% &7for &3%time% &7in the world &3%world%"
+      global: "%prefix% You start new &3global &7tournament of type &3%type% &7for &3%time%"
+      invalid: "%prefix% Tournament type &3%type% &7doesn't exist, valid types are: &3Amount, Length, Weight, Total_Length, Total_Weight"
+    stop:
+      world: "%prefix% You have &3stopped &7tournament in the world &3%world%"
+      all: "%prefix% You have &3stopped all &7running tournaments"
+  points:
+    lack: "%prefix% &cYou have &3lack &7of points!"
+    balance: "%prefix% Player &3%player% &7has &3%points% &7points"
+    add: "%prefix% You added &3%add% &7points to player &3%player%"
+    set: "%prefix% You set points balance of player &3%player% &7to &3%points% &7points"
+
+sold-fish:
+- "%prefix% Fish seller info:"
+- "&9• &7Amount: &3%amount%"
+- "&9• &7Money &3%money%$"
+- "&9• &7Exp: &3%exp%"
+- "&9• &7Points: &3%points%"
+
+perms: "%prefix% You do not have enought permissions. (&3%permission%&7)"
+
+reload: "%prefix% Configurations reloaded & registered fish, junk, enchants, quests and achievements"

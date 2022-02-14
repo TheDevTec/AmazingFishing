@@ -10,7 +10,6 @@ import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Pagination;
-import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
@@ -35,7 +34,7 @@ public class AchievementGUI {
 			openCategoryList(p, 0);
 	}
 	private static void openAchievements(Player player, int page) {
-		GUI a = Create.setup(new GUI(Trans.achievements_title(),54), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.text("achievements.title"),54), Create.make("achievements.close").create(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Achievement> p = new Pagination<Achievement>(28);
 		if(Achievements.categories.isEmpty()) {
 			for(Achievement q :  Achievements.achievements.values()) {
@@ -75,7 +74,7 @@ public class AchievementGUI {
 	}
 	
 	private static void openCategoryList(Player player, int page) {
-		GUI a = Create.setup(new GUI(Trans.achievements_title(),54), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.text("achievements.title"),54), Create.make("achievements.close").create(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Category> p = new Pagination<Category>(28);
 		for(Category category :  Achievements.categories.values()) {
 				p.add(category);
@@ -110,7 +109,7 @@ public class AchievementGUI {
 	}
 
 	private static void openCategory(Player player, int page, Category category) {
-		GUI a = Create.setup(new GUI(Trans.achievements_title_category().replace("%category%", category.getDisplayName()),54), f -> openCategoryList(player, 0), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.text("achievements.title-category").replace("%category%", category.getDisplayName()),54), Create.make("achievements.close").create(), f -> openCategoryList(player, 0), Settings.SIDES);
 		Pagination<Achievement> p = new Pagination<Achievement>(28);
 		for(String q: category.getContent()) {
 			if(Achievements.achievements.containsKey(q))

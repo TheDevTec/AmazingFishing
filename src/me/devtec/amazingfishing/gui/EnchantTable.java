@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.gui;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -12,29 +11,25 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.other.Rod;
 import me.devtec.amazingfishing.utils.Create;
-import me.devtec.amazingfishing.utils.Trans;
-import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
 import me.devtec.theapi.guiapi.ItemGUI;
-import me.devtec.theapi.utils.StringUtils;
 import me.devtec.theapi.utils.datakeeper.Data;
 import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public class EnchantTable {
 	public static void openMain(Player p) {
-		GUI a = Create.setup(new GUI(Trans.enchant_title(),54), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
-			a.setItem(20,new ItemGUI(Create.createItem(Trans.enchant_add(), Utils.getCachedMaterial("CRAFTING_TABLE"))){
+		GUI a = Create.setup(new GUI(Create.text("enchant.title"),54), Create.make("enchant.close").create(), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+			a.setItem(20,new ItemGUI(Create.make("enchant.add").create()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if(!Enchant.enchants.isEmpty())
 					openEnchanterPlace(p, 0);
 				}
 			});
-			a.setItem(24,new ItemGUI(Create.createItem(Trans.enchant_upgrade(), Material.ANVIL)){
+			a.setItem(24,new ItemGUI(Create.make("enchant.upgrade").create()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if(!Enchant.enchants.isEmpty())
@@ -45,7 +40,7 @@ public class EnchantTable {
 		}
 	
 	private static boolean openEnchanterPlace(Player p, int type) {
-		GUI a = Create.setup(new GUI(Trans.enchant_selectRod_title(),54), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.text("enchant.title-select"),54), Create.make("enchant.close").create(), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		int slot = -1;
 		boolean add = false;
 		if(p.getInventory().getContents()!=null)
@@ -94,22 +89,13 @@ public class EnchantTable {
 	}
 	
 	public static void openEnchantAdd(Player p) {
-		GUI a = Create.setup(new GUI(Trans.enchant_add_title(),54) {
+		GUI a = Create.setup(new GUI(Create.text("enchant.title-add"),54) {
 			public void onClose(Player arg0) {
 				if(Rod.saved(p))
 					Rod.retriveRod(p);
 			}
-		}, f -> openMain(f));
-		a.setItem(4,new ItemGUI( Create.createItem(Trans.words_points()
-				.replace("%value%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
-				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
-				, Utils.getCachedMaterial("LAPIS_LAZULI")) ) {
-			
-			@Override
-			public void onClick(Player player, HolderGUI gui, ClickType click) {
-				
-			}
-		});
+		}, Create.make("enchant.close").create(), f -> openMain(f));
+		a.setItem(4,Shop.replace(p,Create.make("enchant.points"), () -> {}));
 		for(Enchant enchant: Enchant.enchants.values()) {
 			 ItemStack rod = Rod.getRod(p);
 			 if(!enchant.containsEnchant(rod)) {
@@ -126,9 +112,8 @@ public class EnchantTable {
 							if(!openEnchanterPlace(p, 0))
 								openMain(p);
 							return;
-						}
-						else
-						Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
+						}else
+							Loader.msg(Create.text("points.lack").replace("%amount%", ""+cost), p);
 						return;
 					}
 				});
@@ -138,16 +123,13 @@ public class EnchantTable {
 	}
 	
 	public static void openEnchantUpgrade(Player p) {
-		GUI a = Create.setup(new GUI(Trans.enchant_upgrade_title(),54) {
+		GUI a = Create.setup(new GUI(Create.text("enchant.title-upgrade"),54) {
 			public void onClose(Player arg0) {
 				if(Rod.saved(p))
 					Rod.retriveRod(p);
 			}
-		}, f -> openMain(f));
-		a.setItem(4, new EmptyItemGUI(Create.createItem(Trans.words_points()
-				.replace("%value%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
-				.replace("%points%", new DecimalFormat("###,###.#").format(StringUtils.getDouble(String.format("%.2f",API.getPoints().get(p.getName()) ))).replace(",", ".").replaceAll("[^0-9.]+", ",") )
-						, Utils.getCachedMaterial("LAPIS_LAZULI"))));
+		}, Create.make("enchant.close").create(), f -> openMain(f));
+		a.setItem(4,Shop.replace(p,Create.make("enchant.points"), () -> {}));
 		for(Enchant enchant: Enchant.enchants.values()) {
 			 ItemStack rod = Rod.getRod(p);
 			 if(enchant.containsEnchant(rod)) {
@@ -164,8 +146,8 @@ public class EnchantTable {
 							if(!openEnchanterPlace(p, 1))
 								openMain(p);
 							return;
-					}
-					else Loader.msg(Trans.s("Points.Lack").replace("%amount%", ""+cost), p);
+					}else
+						Loader.msg(Create.text("points.lack").replace("%amount%", ""+cost), p);
 					return;
 					}
 				});

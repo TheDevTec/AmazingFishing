@@ -18,7 +18,6 @@ import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Statistics;
-import me.devtec.amazingfishing.utils.Trans;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.TheAPI.SudoType;
@@ -40,7 +39,7 @@ public class Shop {
 	}
 	
 	public static void openShop(Player p, ShopType t) {
-		GUI a = Create.setup(new GUI(Trans.shop_title(t),54) {
+		GUI a = Create.setup(new GUI(Create.text("shops."+(t==ShopType.BUY?"buy":"sell")+".title"),54) {
 			public void onClose(Player player) {
 				if(t==ShopType.SELL) {
 					for(int count =10; count < 17; ++count)
@@ -52,32 +51,32 @@ public class Shop {
 					for(int count =37; count < 44; ++count)
 						TheAPI.giveItem(p, getItem(count));
 				}
-			}},  s -> Help.open(s), Settings.SIDES);
+			}}, Create.make("shops."+(t==ShopType.BUY?"buy":"sell")+".close").create(),  s -> Help.open(s), Settings.SIDES);
 		if(t==ShopType.SELL)
 			a.setInsertable(true);
 		new Tasker() {
 			public void run() {
-				a.setItem(4,c(p,"Points",null));
+				a.setItem(4,replace(p,Create.make("shops.points"), ()->{}));
 				if(p.hasPermission("amazingfishing.bag"))
-					a.setItem(26,c(p,"Bag",() -> {
+					a.setItem(26,replace(p,Create.make("shops.points"),() -> {
 							Bag.openBag(p);
 						}));
 				if(p.hasPermission("amazingfishing.convertor"))
-					a.setItem(18,c(p,"Convertor",() -> {
+					a.setItem(18, replace(p,Create.make("shops.convertor"),() -> {
 							Convertor.open(p);
 						}));
 				if(t==ShopType.BUY) {
 				if(Loader.config.getBoolean("Options.Shop.SellFish"))
-					a.setItem(35,c(p,"SellShop",() -> {
+					a.setItem(35, replace(p,Create.make("shops.buy.sell-shop"),() -> {
 							openShop(p, ShopType.SELL);
 						}));
 					addItems(a);
 				}else {
 					//TODO - Fish OF Day
-					 a.setItem(35, c(p,"BuyShop",() -> {
+					 a.setItem(35, replace(p,Create.make("shops.sell.buy-shop"),() -> {
 								openShop(p, ShopType.BUY);
 							}));
-					a.setItem(49, new ItemGUI(cc(p,"Sell")) {
+					a.setItem(49, new ItemGUI(Create.make("shops.sell.sell").create()) {
 						public void onClick(Player player, HolderGUI gui, ClickType click) {
 							sellAll(p, gui, false);
 						}
@@ -107,12 +106,21 @@ public class Shop {
 			inv.addItem(new ItemGUI(Loader.shop.exists("Items."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("Items."+item+".ModelData")):a.create()){
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					giveItem(p, item);
-					arg.setItem(4,c(p,"Points",null));
+					arg.setItem(4,replace(p,Create.make("shops.points"), ()->{}));
 				}
 			});
 		}
 	}
 	
+	protected static ItemGUI replace(Player p, ItemCreatorAPI make, Runnable run) {
+		make.setDisplayName(make.getDisplayName().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))));
+		make.getLore().replaceAll(a -> a.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))));
+		return new ItemGUI(make.create()) {
+		public void onClick(Player var1, HolderGUI var2, ClickType var3) {
+			run.run();
+		}};
+	}
+
 	public static void giveItem(Player p,String kit) {
 		double cost = Loader.shop.getDouble("Items."+kit+".Cost");
 		if(API.getPoints().has(p.getName(), cost)) {
@@ -125,12 +133,12 @@ public class Shop {
 				TheAPI.msg(f.replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""),p);
 			for(String f:Loader.shop.getKeys("Items."+kit+".Item")) {
 				try {
-					Material icon = null;
+					ItemStack icon = null;
 					try{
 						String s = Loader.shop.getString("Items."+kit+".Item."+f+".Material").toUpperCase();
-						icon=s.contains(":")? new MaterialData(Material.matchMaterial(s.split(":")[0]), StringUtils.getByte(s.split(":")[1])).getItemType() : Material.matchMaterial(s);
+						icon=s.contains(":")? new MaterialData(Material.matchMaterial(s.split(":")[0]), StringUtils.getByte(s.split(":")[1])).toItemStack() : new ItemStack(Material.matchMaterial(s));
 					}catch(Exception | NoSuchFieldError err) {}
-					if(icon==null)icon=Material.STONE;
+					if(icon==null)icon=new ItemStack(Material.STONE);
 					ItemCreatorAPI a = new ItemCreatorAPI(icon);
 					a.setAmount(Loader.shop.getInt("Items."+kit+".Item."+f+".Amount")>0?Loader.shop.getInt("Items."+kit+".Item."+f+".Amount"):1);
 					a.setDisplayName(Loader.shop.getString("Items."+kit+".Item."+f+".Name").replace("%player%", p.getName()).replace("%item%", kit).replace("%cost%", cost+""));
@@ -256,44 +264,12 @@ public class Shop {
 
 			Statistics.addSellingValues(p, totalMoney, totalPoints, totalExp);
 			
-			for(String msg: Loader.trans.getStringList("SoldFish")) {
+			for(String msg: Create.list("sold-fish")) {
 				Loader.msg(msg.replace("%amount%", sel+"").replace("%exp%", Loader.ff.format(totalExp))
 				.replace("%money%", Loader.ff.format(totalMoney))
 				.replace("%points%", Loader.ff.format(totalPoints))
-				.replace("%prefix%", Trans.s("Prefix")),p);
+				.replace("%prefix%", Loader.getPrefix()),p);
 			}
 		}
-	}
-	
-	private static ItemGUI c(Player p, String item, Runnable r) {
-		String name = Loader.shop.getString("GUI."+item+".Name")
-				.replace("%player%", p.getName())
-				.replace("%playername%", p.getDisplayName())
-				.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName())));
-		List<String> lore = Loader.shop.getStringList("GUI."+item+".Lore");
-		lore.replaceAll(s->s.replace("%player%", p.getName())
-					.replace("%playername%", p.getDisplayName())
-					.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName()))));
-		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Utils.createType(Loader.shop.getString("GUI."+item+".Icon")), lore));
-		ItemGUI d = new ItemGUI(Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create()){
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				if(r!=null)
-					r.run();
-		}};
-		return d;
-	}
-	private static ItemStack cc(Player p, String item) {
-		String name = Loader.shop.getString("GUI."+item+".Name")
-				.replace("%player%", p.getName())
-				.replace("%playername%", p.getDisplayName())
-				.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName())));
-		List<String> lore = Loader.shop.getStringList("GUI."+item+".Lore");
-		lore.replaceAll(s->s.replace("%player%", p.getName())
-					.replace("%playername%", p.getDisplayName())
-					.replace("%points%", Loader.ff.format(API.getPoints().get(p.getName()))));
-		ItemCreatorAPI a = new ItemCreatorAPI(Create.createItem(name, Utils.createType(Loader.shop.getString("GUI."+item+".Icon")), lore));
-		
-		return Loader.shop.exists("GUI."+item+".ModelData")?Utils.setModel(a.create(), Loader.shop.getInt("GUI."+item+".ModelData")):a.create();
 	}
 }

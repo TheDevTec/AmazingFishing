@@ -7,9 +7,9 @@ import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import me.devtec.amazingfishing.Loader;
+import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.apis.ItemCreatorAPI;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
@@ -19,38 +19,30 @@ import me.devtec.theapi.guiapi.ItemGUI;
 import me.devtec.theapi.utils.StringUtils;
 
 public class Create {
-	public static ItemStack createItem(String name, Material material) {
-    	ItemCreatorAPI a = new ItemCreatorAPI(material);
-    	a.setDisplayName(name);
-    	return a.create();
-    }
-    
-	public static ItemStack createItem(String name, Material material, List<String> lore) {
-    	ItemCreatorAPI a = new ItemCreatorAPI(material);
-    	a.setDisplayName(name);
-    	a.setLore(lore);
-    	return a.create();
-    }
-	public static ItemStack createItem(String name, ItemStack item, List<String> lore) {
-    	ItemCreatorAPI a = new ItemCreatorAPI(item);
-    	a.setDisplayName(name);
-    	a.setLore(lore);
-    	return a.create();
-    }
-	public static ItemStack createItem(String name, MaterialData material) {
-    	ItemCreatorAPI a = new ItemCreatorAPI(material.getItemType());
-    	a.setDisplayName(name);
-    	a.setDurability(material.getData());
-    	return a.create();
-    }
-    
-	public static ItemStack createItem(String name, MaterialData material, List<String> lore) {
-    	ItemCreatorAPI a = new ItemCreatorAPI(material.getItemType());
-    	a.setDisplayName(name);
-    	a.setLore(lore);
-    	a.setDurability(material.getData());
-    	return a.create();
-    }
+	public static ItemCreatorAPI make(String path) {
+		ItemCreatorAPI create = find(Loader.gui.getString(path+".icon"), "STONE", 0);
+		create.setDisplayName(Loader.gui.getString(path+".name"));
+		create.setLore(Loader.gui.getStringList(path+".lore"));
+		for(String ench : Loader.gui.getStringList(path+".enchants"))
+			create.addEnchantment(ench, 1);
+		for(String flag : Loader.gui.getStringList(path+".flags")) {
+			try {
+				create.addItemFlag(ItemFlag.valueOf(flag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError er) {
+				TheAPI.msg("Invalid ItemFlag ("+flag+") of item in the section "+path, TheAPI.getConsole() );
+			}
+		}
+		create.setUnbreakable(Loader.gui.getBoolean(path+".unbreakable"));
+		return create;
+	}
+	
+	public static String text(String path) {
+		return Loader.gui.getString(path);
+	}
+	
+	public static List<String> list(String path) {
+		return Loader.gui.getStringList(path);
+	}
 	
 	static Material mat;
 	static {
@@ -110,11 +102,13 @@ public class Create {
 		inv.setItem(i, item);
 		return inv;
 	}
+	
 	public static GUI prepareInvSmall(GUI inv) {
 		for(int i = 9; i<18; ++i)
 		inv.setItem(i, item);
 		return inv;
 	}
+	
 	public static GUI prepareInvCount(GUI inv, int slots) {
 		for(int i = 0; i<slots; ++i)
 		inv.setItem(i, item);
@@ -129,9 +123,7 @@ public class Create {
 		CLEAR
 	}
 	
-	static ItemStack close = ItemCreatorAPI.create(Utils.getCachedMaterial("RED_STAINED_GLASS_PANE").getItemType(), 1, Loader.trans.getString("Words.Close"),Utils.getCachedMaterial("RED_STAINED_GLASS_PANE").getData());
-	
-	public static GUI setup(GUI inv, PRunnable backButton, Settings... settings) {
+	public static GUI setup(GUI inv, ItemStack close, PRunnable backButton, Settings... settings) {
 		boolean[] actions = {false, false,false};
 		for(Settings s : settings) {
 			switch (s) {
@@ -193,5 +185,9 @@ public class Create {
 		ItemStack item = icon.create();
 		item=Utils.setModel(item, model);
 		return item;
+	}
+
+	public static ItemStack createItem(String name, Material paper, List<String> lore) {
+		return ItemCreatorAPI.create(paper, 1, name, lore);
 	}
 }

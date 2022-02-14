@@ -147,4 +147,12 @@ public class API {
 		if(Material.getMaterial(name)!=null)return new ItemStack(Material.getMaterial(name));
 		return new ItemStack(Material.getMaterial("RAW_FISH"),1,(short)0,(byte)id);
 	}
+
+	public static boolean isConvertable(ItemStack convert) {
+		return false;
+	}
+
+	public static ItemStack getConvertion(ItemStack convert) {
+		return null;
+	}
 }

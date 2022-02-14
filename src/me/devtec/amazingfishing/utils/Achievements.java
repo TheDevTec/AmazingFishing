@@ -8,6 +8,7 @@ import java.util.Map;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.Treasure;
@@ -279,9 +280,9 @@ public class Achievements {
 			if (allStagesFinished(p, achievement)) {
 				setFinished(p, achievement);
 				for(String cmd : achievement.getFinishCommands())
-					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, cmd.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Trans.prefix()) ) );
+					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, cmd.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Loader.getPrefix()) ) );
 				for(String msg : achievement.getFinishMessages())
-					TheAPI.msg(PlaceholderAPI.setPlaceholders(p, msg.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Trans.prefix()) ), p);
+					TheAPI.msg(PlaceholderAPI.setPlaceholders(p, msg.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Loader.getPrefix()) ), p);
 			continue;
 			}
 			

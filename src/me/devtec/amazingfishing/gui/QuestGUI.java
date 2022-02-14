@@ -15,8 +15,6 @@ import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
-import me.devtec.amazingfishing.utils.Trans;
-import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.theapi.TheAPI;
 import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
@@ -44,7 +42,7 @@ public class QuestGUI {
 	}
 
 	private static void openQuests(Player player, int page) {
-		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.text("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Quest> p = new Pagination<Quest>(28);
 		for(Quest q :  Quests.getQuests(player.getName()).values()) {
 			p.add(q);
@@ -59,7 +57,7 @@ public class QuestGUI {
 						if(Quests.canStartNew(player.getName()) && !Quests.isInPorgress(player.getName(), q.getName()) ) {
 							Quests.start(player, q);
 						}else {
-							Loader.msg(Trans.s("Quests.CannotStart").replace("%name%", q.getName())
+							Loader.msg(Create.text("quests.cannot-start").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
@@ -67,12 +65,12 @@ public class QuestGUI {
 					if(click == ClickType.RIGHT_PICKUP) {
 						if(Quests.canCancel(player.getName(), q)) {
 							Quests.cancel(player.getName(), q.getName());
-							Loader.msg(Trans.s("Quests.Cancel").replace("%name%", q.getName())
+							Loader.msg(Create.text("quests.cancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
 									.replace("%stages%", ""+q.getStages()), player);
 							return;
 						}else {
-							Loader.msg(Trans.s("Quests.CannotCancel").replace("%name%", q.getName())
+							Loader.msg(Create.text("quests.cannot-cancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
@@ -103,7 +101,7 @@ public class QuestGUI {
 			});
 		}
 		}
-		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Utils.getCachedMaterial("BLUE_CONCRETE_POWDER"))) {
+		a.setItem(26, new ItemGUI(Create.make("quests.own").create()) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				openMyQuests(player, 0);
@@ -114,7 +112,7 @@ public class QuestGUI {
 	}
 	
 	private static void openCategoryList(Player player, int page) {
-		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.text("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
 
 		Pagination<Category> p = new Pagination<Category>(28);
 	
@@ -155,7 +153,7 @@ public class QuestGUI {
 				});
 			}
 		}
-		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Utils.getCachedMaterial("BLUE_CONCRETE_POWDER"))) {
+		a.setItem(26, new ItemGUI(Create.make("quests.own").create()) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				openMyQuests(player, 0);
@@ -166,7 +164,7 @@ public class QuestGUI {
 	}
 	
 	private static void openCategory(Player player, int page, Category category) {
-		GUI a = Create.setup(new GUI(Trans.quests_title_all().replace("%category%", category.getDisplayName()),54), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.text("quests.title-category").replace("%category%", category.getDisplayName()),54),Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Quest> p = new Pagination<Quest>(28);
 		for(String q :  category.getContent()) {
 			if(Quests.quests.containsKey(q))
@@ -182,7 +180,7 @@ public class QuestGUI {
 						if(Quests.canStartNew(player.getName()) && !Quests.isInPorgress(player.getName(), q.getName()) ) {
 							Quests.start(player, q);
 						}else {
-							Loader.msg(Trans.s("Quests.CannotStart").replace("%name%", q.getName())
+							Loader.msg(Create.text("quests.cannot-start").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
@@ -190,12 +188,12 @@ public class QuestGUI {
 					if(click == ClickType.RIGHT_PICKUP) {
 						if(Quests.canCancel(player.getName(), q)) {
 							Quests.cancel(player.getName(), q.getName());
-							Loader.msg(Trans.s("Quests.Cancel").replace("%name%", q.getName())
+							Loader.msg(Create.text("quests.cancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
 									.replace("%stages%", ""+q.getStages()), player);
 							return;
 						}else {
-							Loader.msg(Trans.s("Quests.CannotCancel").replace("%name%", q.getName())
+							Loader.msg(Create.text("quests.cannot-cancel").replace("%name%", q.getName())
 									.replace("%questname%", q.getDisplayName())
 									.replace("%stages%", ""+q.getStages()), player);
 						}
@@ -226,7 +224,7 @@ public class QuestGUI {
 			});
 		}
 		}
-		a.setItem(26, new ItemGUI(Create.createItem(Loader.gui.getString("GUI.Quests.MyQuests"), Utils.getCachedMaterial("BLUE_CONCRETE_POWDER"))) {
+		a.setItem(26, new ItemGUI(Create.make("quests.own").create()) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				openMyQuests(player, 0);
@@ -237,7 +235,7 @@ public class QuestGUI {
 	}
 	
 	private static void openMyQuests(Player p, int page) {
-		GUI a = Create.setup(new GUI(Trans.quests_title_all(),54), f -> Help.open(f));
+		GUI a = Create.setup(new GUI(Create.text("quests.title-own"),54),Create.make("quests.close").create(), f -> Help.open(f));
 		User u = TheAPI.getUser(p);
 		Pagination<String> pagi = new Pagination<String>(28);
 		List<String> finishpagi = new ArrayList<String>();
@@ -257,18 +255,8 @@ public class QuestGUI {
 			String[] ss = q.getValue(stage).split("\\.");
 			String name = API.getFish(FishType.valueOf(ss[0].toUpperCase()),ss[1]).getDisplayName();
 			List<String> lore = new ArrayList<String>();
-			if(Quests.isFinished(p.getName(), quest))
-				for(String s: Loader.gui.getStringList("GUI.Quests.Quest_finished"))
-					lore.add(s.replace("%stage%", ""+stage)
-							.replace("%action%", ""+q.getAction(stage))
-							.replace("%now%", ""+u.getInt("af-quests."+quest+".count")) 
-							.replace("%total%", ""+q.getCount(stage)) 
-							.replace("%fish%", name)
-							.replace("%type%", ss[0])
-							.replace("%stages_total%", ""+q.getStages()) 
-							);
-			else
-				for(String s: Loader.gui.getStringList("GUI.Quests.Quest_progress")) //Quest_finished
+			if(!Quests.isFinished(p.getName(), quest))
+				for(String s: Loader.gui.getStringList("quests.quest-progress")) //Quest_finished
 					lore.add(s.replace("%stage%", ""+stage)
 							.replace("%action%", ""+q.getAction(stage))
 							.replace("%now%", ""+u.getInt("af-quests."+quest+".count")) 
@@ -278,9 +266,9 @@ public class QuestGUI {
 							.replace("%stages_total%", ""+q.getStages()) 
 							);
 			if(Quests.isFinished(p.getName(), quest))
-				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Utils.getCachedMaterial("GREEN_CONCRETE"), lore)));
+				a.add(new EmptyItemGUI(q.getFinishedIcon()));
 			else
-				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(),  Utils.getCachedMaterial("RED_CONCRETE"), lore)));
+				a.add(new EmptyItemGUI(Create.createItem(q.getDisplayName(), q.getIcon(), lore, q.getModel(), q.getFlags(), q.isUnbreakable())));
 		}
 		if(pagi.totalPages()>page+1) {
 			a.setItem(51, new ItemGUI(Loader.next) {
