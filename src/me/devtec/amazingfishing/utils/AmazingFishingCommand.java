@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
+import me.devtec.amazingfishing.construct.Fish;
+import me.devtec.amazingfishing.construct.FishType;
+import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.gui.AchievementGUI;
 import me.devtec.amazingfishing.gui.Bag;
 import me.devtec.amazingfishing.gui.EnchantTable;
@@ -57,7 +60,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("open") && s.hasPermission("amazingfishing.command.open")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.open.other")) {
 				if(s instanceof Player) {
 					Help.open((Player)s);
 					if(!Create.text("command.help.self").trim().isEmpty())
@@ -77,7 +80,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("shop") && s.hasPermission("amazingfishing.command.shop")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.shop.other")) {
 				if(s instanceof Player) {
 					Shop.openShop((Player)s, ShopType.BUY);
 					if(!Create.text("command.buy-shop.self").trim().isEmpty())
@@ -97,7 +100,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("sellshop") && s.hasPermission("amazingfishing.command.sellshop")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.sellshop.other")) {
 				if(s instanceof Player) {
 					Shop.openShop((Player)s, ShopType.SELL);
 					if(!Create.text("command.sell-shop.self").trim().isEmpty())
@@ -117,7 +120,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("convertor") && s.hasPermission("amazingfishing.command.convertor")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.convertor.other")) {
 				if(s instanceof Player) {
 					Shop.openShop((Player)s, ShopType.CONVERTOR);
 					if(!Create.text("command.convertor.self").trim().isEmpty())
@@ -137,7 +140,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("quests") && s.hasPermission("amazingfishing.command.quests")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.quests.other")) {
 				if(s instanceof Player) {
 					QuestGUI.open((Player)s);
 					if(!Create.text("command.quests.self").trim().isEmpty())
@@ -157,7 +160,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("achievements") && s.hasPermission("amazingfishing.command.achievements")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.achievements.other")) {
 				if(s instanceof Player) {
 					AchievementGUI.open((Player)s);
 					if(!Create.text("command.achievements.self").trim().isEmpty())
@@ -177,7 +180,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("index") && s.hasPermission("amazingfishing.command.index")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.index.other")) {
 				if(s instanceof Player) {
 					Index.open((Player)s);
 					if(!Create.text("command.index.self").trim().isEmpty())
@@ -197,7 +200,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("settings") && s.hasPermission("amazingfishing.command.settings")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.settings.other")) {
 				if(s instanceof Player) {
 					Settings.open((Player)s);
 					if(!Create.text("command.settings.self").trim().isEmpty())
@@ -217,7 +220,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if((args[0].equalsIgnoreCase("enchanttable")||args[0].equalsIgnoreCase("enchanter")) && s.hasPermission("amazingfishing.command.enchanter")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.enchanter.other")) {
 				if(s instanceof Player) {
 					EnchantTable.openMain((Player)s);
 					if(!Create.text("command.enchant-table.self").trim().isEmpty())
@@ -301,7 +304,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("bag") && s.hasPermission("amazingfishing.command.bag")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.bag.other")) {
 				if(s instanceof Player) {
 					Bag.openBag((Player)s);
 					if(!Create.text("command.bag.self").trim().isEmpty())
@@ -336,7 +339,7 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("enchant") && s.hasPermission("amazingfishing.command.enchant")) {
-			if(args.length==1) {
+			if(args.length==1 || !s.hasPermission("amazingfishing.command.enchant.other")) {
 				TheAPI.msg("/Fish Enchant <enchant>", s);
 				return true;
 			}
@@ -349,6 +352,38 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 			if(level<=0)level=1;
 			int to = Enchant.enchants.get(args[1].toLowerCase()).enchant(((Player)s).getItemInHand(), level);
 			TheAPI.msg(Create.text("command.enchant.enchanted").replace("%enchant%", args[1].toLowerCase()).replace("%level%", ""+to), s);
+			return true;
+		}
+		if(args[0].equalsIgnoreCase("list") && s.hasPermission("amazingfishing.command.list")) {
+			if(args.length==1) {
+				TheAPI.msg("/Fish List <cod/salmon/pufferfish/tropical_fish/junk/enchants/treasure>", s);
+				return true;
+			}
+			TheAPI.msg(Create.text("words.list.header").replace("%type%", args[1].toLowerCase()), s);
+			if(args[1].toUpperCase().equals("ENCHANT")||args[1].toUpperCase().equals("ENCHANTS")) {
+				for(Enchant f : Enchant.enchants.values())
+					TheAPI.msg(Create.text("words.list.format").replace("%name%", f.getName()).replace("%customname%", Create.text("words.enchants")).replace("%display%", f.getDisplayName()), s);
+				return true;
+			}
+			if(args[1].toUpperCase().equals("TREASURE")||args[1].toUpperCase().equals("TREASURES")) {
+				for(Treasure f : API.getRegisteredTreasures().values())
+					TheAPI.msg(Create.text("words.list.format").replace("%name%", f.getName()).replace("%customname%", Create.text("words.treasure")).replace("%display%", f.getDisplayName()), s);
+				return true;
+			}
+			String fish = args[1].toUpperCase();
+			if(fish.equals("TROPICALFISH"))fish="TROPICAL_FISH";
+			try {
+				if(FishType.valueOf(fish)==null) {
+					TheAPI.msg(Create.text("words.list.uknown").replace("%type%", args[1]), s);
+					return true;
+				}
+			}catch(NoSuchFieldError e) {
+				TheAPI.msg(Create.text("words.list.uknown").replace("%type%", args[1]), s);
+				return true;
+			}
+			for(Fish f : API.getRegisteredFish().values())
+				if(f.getType().name().equals(fish))
+					TheAPI.msg(Create.text("words.list.format").replace("%name%", f.getName()).replace("%customname%", Create.text("words."+(fish.toLowerCase()))).replace("%display%", f.getDisplayName()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("points") && s.hasPermission("amazingfishing.command.points")) {

@@ -14,54 +14,48 @@ public class Help {
 	public static void open(Player p) {
 		GUI a = Create.setup(new GUI(Create.text("help.title"),54), Create.make("index.close").create(), null
 				, me.devtec.amazingfishing.utils.Create.Settings.SIDES, me.devtec.amazingfishing.utils.Create.Settings.CLOSE);
-		if(p.hasPermission("amazingfishing.shop") && Loader.config.getBoolean("Options.Shop.Enabled"))
+		if(p.hasPermission("amazingfishing.command."+(Loader.gui.getString("help.shop.type").toUpperCase().equals("SELL")?"sellshop":"shop")) && Loader.config.getBoolean("Options.Shop.Enabled"))
 			a.setItem(22,new ItemGUI(Create.make("help.shop").create()){
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-					if(p.hasPermission("amazingfishing.shop") && Loader.config.getBoolean("Options.Shop.Enabled"))
-						try {
-							Shop.openShop(p, ShopType.valueOf(Loader.gui.getString("help.shop.type").toUpperCase()));
-						}catch(NoSuchFieldError e) {
-							Shop.openShop(p, ShopType.BUY);
-						}
+					try {
+						Shop.openShop(p, ShopType.valueOf(Loader.gui.getString("help.shop.type").toUpperCase()));
+					}catch(NoSuchFieldError e) {
+						Shop.openShop(p, ShopType.BUY);
+					}
 				}});
-		if(p.hasPermission("amazingfishing.index"))
+		if(p.hasPermission("amazingfishing.command.index"))
 		a.setItem(33,new ItemGUI(Create.make("help.index").create()){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-				if(p.hasPermission("amazingfishing.index"))
 				Index.open(p);
 			}
 		});
-		if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled")) {
+		if(p.hasPermission("amazingfishing.command.enchanter") && Loader.config.getBoolean("Options.Enchants.Enabled")) {
 			a.setItem(31,new ItemGUI(Create.make("help.enchant").create()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-					if(p.hasPermission("amazingfishing.enchant") && Loader.config.getBoolean("Options.Enchants.Enabled"))
-						EnchantTable.openMain(p);
+					EnchantTable.openMain(p);
 				}}
 			);
 		}
-		if(p.hasPermission("amazingfishing.bag"))
+		if(p.hasPermission("amazingfishing.command.bag"))
 		a.setItem(27,new ItemGUI(Create.make("help.enchant").create()){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-				if(p.hasPermission("amazingfishing.bag"))
-					Bag.openBag(p);
+				Bag.openBag(p);
 			}
 		}
 		);
 	
-		if(p.hasPermission("amazingfishing.settings"))
+		if(p.hasPermission("amazingfishing.command.settings"))
 			a.setItem(24,new ItemGUI(Create.make("help.settings").create()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-					if(p.hasPermission("amazingfishing.settings")) {
-						Settings.open(p);
-					}
+					Settings.open(p);
 				}
 			});
 
-		if(p.hasPermission("amazingfishing.quests"))
+		if(p.hasPermission("amazingfishing.command.quests"))
 		a.setItem(20,new ItemGUI(Create.make("help.quests").create()){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
@@ -71,13 +65,11 @@ public class Help {
 			}
 		});
 
-		if(p.hasPermission("amazingfishing.achievements"))
+		if(p.hasPermission("amazingfishing.command.achievements"))
 		a.setItem(29,new ItemGUI(Create.make("help.achievements").create()){
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-				if(p.hasPermission("amazingfishing.achievements")) {
-					AchievementGUI.open(p);
-				}
+				AchievementGUI.open(p);
 			}
 		});
 		a.open(p);

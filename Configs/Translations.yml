@@ -1,10 +1,17 @@
 prefix: "&9★ &bFishing &8»&7"
 
 words:
-  cod: "&7Cod"
-  salmon: "&7Salmon"
-  pufferfish: "Pufferfish"
-  tropical_fish: "&7Tropical fish"
+  cod: "&3Cod"
+  salmon: "&3Salmon"
+  pufferfish: "&3Pufferfish"
+  tropical_fish: "&3Tropical fish"
+  junk: "&3Junk"
+  enchants: "&3Enchants"
+  treasure: "&3Treasure"
+  list:
+    header: "%prefix% List of &3%type%&7:"
+    format: "&8- &7%name%"
+    uknown: "%prefix% Uknown type of list &3%type%&7, valid types: &3Cod, Salmon, Pufferfish, Tropical_Fish, Junk, Enchants, Treasure"
 
 quests:
   cancel: "%prefix% You have &3cancelled &7quest %questname%"
