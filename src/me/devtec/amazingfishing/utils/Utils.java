@@ -62,16 +62,100 @@ public class Utils {
 		if(!TheAPI.isOlderThan(13))return;
 		Config c = Loader.gui;
 		boolean save = false;
-		if(c.getString("GUI.Settings.SendRecords.on.Item").equalsIgnoreCase("GREEN_CONCRETE")) {
-			c.set("GUI.Settings.SendRecords.on.Item", "CONCRETE:13");
+		if(c.getString("help.enchant.icon").equalsIgnoreCase("ENCHANTING_TABLE")) {
+			c.set("help.enchant.icon", "ENCHANTMENT_TABLE");
 			save=true;
 		}
-		if(c.getString("GUI.Settings.SendRecords.off.Item").equalsIgnoreCase("RED_CONCRETE")) {
-			c.set("GUI.Settings.SendRecords.off.Item", "CONCRETE:14");
+		if(c.getString("help.achievements.icon").equalsIgnoreCase("SUNFLOWER")) {
+			c.set("help.achievements.icon", "DOUBLE_PLANT");
+			save=true;
+		}
+		if(c.getString("help.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("help.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("convertor.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("convertor.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("index.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("index.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("index.cod.icon").equalsIgnoreCase("COD")) {
+			c.set("index.cod.icon", "RAW_FISH");
+			save=true;
+		}
+		if(c.getString("index.salmon.icon").equalsIgnoreCase("SALMON")) {
+			c.set("index.salmon.icon", "RAW_FISH:1");
+			save=true;
+		}
+		if(c.getString("index.pufferfish.icon").equalsIgnoreCase("PUFFERFISH")) {
+			c.set("index.pufferfish.icon", "RAW_FISH:2");
+			save=true;
+		}
+		if(c.getString("index.tropical_fish.icon").equalsIgnoreCase("TROPICAL_FISH")) {
+			c.set("index.tropical_fish.icon", "RAW_FISH:3");
+			save=true;
+		}
+		if(c.getString("shops.points.icon").equalsIgnoreCase("LAPIS_LAZULI")) {
+			c.set("shops.points.icon", "DYE:4");
+			save=true;
+		}
+		if(c.getString("shops.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("shops.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("shops.convertor.icon").equalsIgnoreCase("COD")) {
+			c.set("shops.convertor.icon", "RAW_FISH");
+			save=true;
+		}
+		if(c.getString("shops.sell.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("shops.sell.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("shops.buy.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("shops.buy.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("bag.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("bag.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("enchant.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("enchant.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("enchant.add.icon").equalsIgnoreCase("CRAFTING_TABLE")) {
+			c.set("enchant.add.icon", "WORKBENCH");
+			save=true;
+		}
+		if(c.getString("enchant.points.icon").equalsIgnoreCase("LAPIS_LAZULI")) {
+			c.set("enchant.points.icon", "DYE:4");
+			save=true;
+		}
+		if(c.getString("settings.records.on.icon").equalsIgnoreCase("GREEN_CONCRETE")) {
+			c.set("settings.records.on.icon", Material.getMaterial("CONCRETE")!=null?"CONCRETE:13":"STAINED_GLASS_PANE:13");
+			save=true;
+		}
+		if(c.getString("settings.records.off.icon").equalsIgnoreCase("RED_CONCRETE")) {
+			c.set("settings.records.off.icon", Material.getMaterial("CONCRETE")!=null?"CONCRETE:14":"STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("settings.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("settings.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("quests.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("quests.close.icon", "STAINED_GLASS_PANE:14");
+			save=true;
+		}
+		if(c.getString("achievements.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
+			c.set("achievements.close.icon", "STAINED_GLASS_PANE:14");
 			save=true;
 		}
 		if(save)
-		c.save();
+			c.save();
 	}
 	
 	public static MaterialData getCachedMaterial(String name) {
