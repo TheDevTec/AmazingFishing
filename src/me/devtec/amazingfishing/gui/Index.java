@@ -18,6 +18,7 @@ import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.Statistics.RecordType;
 import me.devtec.amazingfishing.utils.Statistics.SavingType;
 import me.devtec.theapi.TheAPI;
+import me.devtec.theapi.guiapi.EmptyItemGUI;
 import me.devtec.theapi.guiapi.GUI;
 import me.devtec.theapi.guiapi.GUI.ClickType;
 import me.devtec.theapi.guiapi.HolderGUI;
@@ -64,10 +65,10 @@ public class Index {
 	}
 	
 	public static void open(Player s, FishType type, int page) {
-		GUI c=Create.setup(new GUI(Loader.gui.getString("GUI.Index."+type.name().toLowerCase()),54),Create.make("index.close").create(), p -> open(p));
+		GUI c = Create.setup(new GUI(Create.title("index.title-"+type.name().toLowerCase()),54),Create.make("index.close").create(), p -> open(p));
 		if(type!=FishType.JUNK) {
 			Pagination<Fish> g = new Pagination<>(36, API.getRegisteredFish().values().stream().filter(a -> a.getType()==type).collect(Collectors.toList()));
-			if(g.isEmpty()||g.getPage(page).isEmpty())return;
+			if(g.isEmpty()||!g.exists(page))return;
 			for(Fish f : g.getPage(page)) {
 				c.addItem(new ItemGUI(f.preview(s)) {
 					public void onClick(Player player, HolderGUI gui, ClickType click) {
@@ -76,7 +77,7 @@ public class Index {
 								.replace("%length%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.LENGTH)))
 								.replace("%caught%", Loader.intt.format(Statistics.getCaught(player, f, SavingType.PER_FISH)))));
 						for(String sd : prew)
-						TheAPI.sendMessage(sd, player);
+							TheAPI.sendMessage(sd, player);
 					}
 				});
 			}
@@ -94,22 +95,11 @@ public class Index {
 					}
 				});
 			}
-		}
-		else {
-			Pagination<Junk> g = new Pagination<>(36, API.getRegisteredJunk().values().stream().collect(Collectors.toList()));
-			if(g.isEmpty()||g.getPage(page).isEmpty())return;
-			for(Junk f : g.getPage(page)) {
-				if(f.show()) {
-					c.addItem(new ItemGUI(f.preview(s)) {
-						public void onClick(Player player, HolderGUI gui, ClickType click) {
-							/*List<String> prew = Loader.config.getStringList("Preview");
-							prew.replaceAll(a -> PlaceholderAPI.setPlaceholders(player, a));
-							for(String sd : prew)
-							TheAPI.sendMessage(sd, player);*/
-						}
-					});
-				}
-			}
+		}else {
+			Pagination<Junk> g = new Pagination<>(36, API.getRegisteredJunk().values());
+			if(g.isEmpty()||!g.exists(page))return;
+			for(Junk f : g.getPage(page))
+				if(f.show())c.addItem(new EmptyItemGUI(f.preview(s)));
 			if(g.totalPages()-1!=page && g.totalPages()-1>page) {
 				c.setItem(51, new ItemGUI(Loader.next) {
 					public void onClick(Player var1, HolderGUI var2, ClickType var3) {

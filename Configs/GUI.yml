@@ -52,6 +52,11 @@ convertor:
     
 index:
   title: "&bIndex of fish"
+  title-cod: "&bIndex of fish type &ncod"
+  title-salmon: "&bIndex of fish type &nsalmon"
+  title-pufferfish: "&bIndex of fish type &npufferfish"
+  title-tropical_fish: "&bIndex of fish type &ntropical fish"
+  title-junk: "&bIndex of &njunk"
   cod:
     name: "&bIndex of fish type &ncod"
     # RAW_FISH

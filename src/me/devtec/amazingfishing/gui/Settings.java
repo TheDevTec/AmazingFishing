@@ -14,16 +14,11 @@ import me.devtec.theapi.utils.datakeeper.User;
 public class Settings {
 
 	public static void open(Player p) {
-		GUI a = Create.setup(new GUI(Create.title("settings.title"),54) {
-			public void onClose(Player player) {
-				clear();
-			}}, Create.make("settings.close").create(),  s -> Help.open(s), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
-		
+		GUI a = Create.setup(new GUI(Create.title("settings.title"),54), Create.make("settings.close").create(),  s -> Help.open(s), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		User u = TheAPI.getUser(p);
 		String records = "on";
 		if(u.exist(Manager.getDataLocation()+".Settings.SendRecords") && 
-				!u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords"))
-			records = "off";
+				!u.getBoolean(Manager.getDataLocation()+".Settings.SendRecords"))records = "off";
 		a.setItem(21, new ItemGUI(Create.make("settings.records."+records).create()) {
 			@Override
 			public void onClick(Player p, HolderGUI arg, ClickType click) {
@@ -34,7 +29,6 @@ public class Settings {
 				arg.setItem(21, this);
 			}
 		});
-		
 		a.open(p);
 	}
 }

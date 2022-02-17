@@ -28,14 +28,15 @@ public class Bag {
 				}
 			}
 		}, Create.make("bag.close").create(), f -> Help.open(f), Settings.WITHOUT_TOP);
-		if(Loader.config.getBoolean("Options.Shop.SellFish") && Loader.config.getBoolean("Options.Bag.SellFish")) {
+		
+		if(Loader.config.getBoolean("Options.Shop.SellFish") && Loader.config.getBoolean("Options.Bag.SellFish"))
 			a.setItem(49,new ItemGUI(Create.make("bag.sell").create()) {
 				public void onClick(Player p, HolderGUI gui, ClickType arg2) {
 					Shop.sellAll(p, gui, true);
 					bag.saveBag(a);
 				}
 			});
-		}
+		
 		for(ItemStack as : bag.getBag()) {
 			if(as==null||as.getType()==Material.AIR)continue;
 			a.addItem(new EmptyItemGUI(as).setUnstealable(false));

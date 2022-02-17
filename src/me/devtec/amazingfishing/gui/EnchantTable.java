@@ -26,14 +26,14 @@ public class EnchantTable {
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if(!Enchant.enchants.isEmpty())
-					openEnchanterPlace(p, 0);
+						openEnchanterPlace(p, 0);
 				}
 			});
 			a.setItem(24,new ItemGUI(Create.make("enchant.upgrade").create()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if(!Enchant.enchants.isEmpty())
-					openEnchanterPlace(p, 1);
+						openEnchanterPlace(p, 1);
 				}
 			});
 			a.open(p);
@@ -64,7 +64,7 @@ public class EnchantTable {
 			});
 		}
 		if(add)
-		a.open(p);
+			a.open(p);
 		else a.clear();
 		return add;
 	}
@@ -111,10 +111,8 @@ public class EnchantTable {
 							Rod.deleteRod(p);
 							if(!openEnchanterPlace(p, 0))
 								openMain(p);
-							return;
 						}else
 							Loader.msg(Create.text("points.lack").replace("%amount%", ""+cost), p);
-						return;
 					}
 				});
 			 }
@@ -145,10 +143,8 @@ public class EnchantTable {
 							Rod.deleteRod(p);
 							if(!openEnchanterPlace(p, 1))
 								openMain(p);
-							return;
-					}else
-						Loader.msg(Create.text("points.lack").replace("%amount%", ""+cost), p);
-					return;
+						}else
+							Loader.msg(Create.text("points.lack").replace("%amount%", ""+cost), p);
 					}
 				});
 			 }
