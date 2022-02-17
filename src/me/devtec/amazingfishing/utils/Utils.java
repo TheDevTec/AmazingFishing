@@ -50,56 +50,55 @@ public class Utils {
 	
 	public static void fixDefaultConfig() {
 		if(!TheAPI.isOlderThan(13))return;
-		Config c = Loader.gui;
 		boolean save = false;
-		for(String key : c.getKeys(true)) {
-			if(key.endsWith(".icon") && c.getString(key)!=null) {
-				switch(c.getString(key).toUpperCase()) {
+		for(String key : Loader.gui.getKeys(true)) {
+			if(key.endsWith(".icon") && Loader.gui.getString(key)!=null) {
+				switch(Loader.gui.getString(key).toUpperCase()) {
 				case "ENCHANTING_TABLE":
-					c.set(key, "ENCHANTMENT_TABLE");
+					Loader.gui.set(key, "ENCHANTMENT_TABLE");
 					save=true;
 					break;
 				case "SUNFLOWER":
-					c.set(key, "DOUBLE_PLANT");
+					Loader.gui.set(key, "DOUBLE_PLANT");
 					save=true;
 					break;
 				case "RED_STAINED_GLASS_PANE":
-					c.set(key, "STAINED_GLASS_PANE:14");
+					Loader.gui.set(key, "STAINED_GLASS_PANE:14");
 					save=true;
 					break;
 				case "COD":
-					c.set(key, "RAW_FISH");
+					Loader.gui.set(key, "RAW_FISH");
 					save=true;
 					break;
 				case "SALMON":
-					c.set(key, "RAW_FISH:1");
+					Loader.gui.set(key, "RAW_FISH:1");
 					save=true;
 					break;
 				case "PUFFERFISH":
-					c.set(key, "RAW_FISH:2");
+					Loader.gui.set(key, "RAW_FISH:2");
 					save=true;
 					break;
 				case "TROPICAL_FISH":
-					c.set(key, "RAW_FISH:3");
+					Loader.gui.set(key, "RAW_FISH:3");
 					save=true;
 					break;
 				case "CRAFTING_TABLE":
-					c.set(key, "WORKBENCH");
+					Loader.gui.set(key, "WORKBENCH");
 					save=true;
 					break;
 				case "GREEN_CONCRETE":
-					c.set(key, Material.getMaterial("CONCRETE")!=null?"CONCRETE:13":"STAINED_GLASS_PANE:13");
+					Loader.gui.set(key, Material.getMaterial("CONCRETE")!=null?"CONCRETE:13":"STAINED_GLASS_PANE:13");
 					save=true;
 					break;
 				case "RED_CONCRETE":
-					c.set(key, Material.getMaterial("CONCRETE")!=null?"CONCRETE:14":"STAINED_GLASS_PANE:14");
+					Loader.gui.set(key, Material.getMaterial("CONCRETE")!=null?"CONCRETE:14":"STAINED_GLASS_PANE:14");
 					save=true;
 					break;
 				}
 			}
 		}
 		if(save)
-			c.save();
+			Loader.gui.save();
 	}
 	
 	public static MaterialData getCachedMaterial(String name) {
