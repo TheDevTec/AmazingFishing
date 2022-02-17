@@ -39,7 +39,7 @@ public class Shop {
 	}
 	
 	public static void openShop(Player p, ShopType t) {
-		GUI a = Create.setup(new GUI(Create.text("shops."+(t==ShopType.BUY?"buy":"sell")+".title"),54) {
+		GUI a = Create.setup(new GUI(Create.title("shops."+(t==ShopType.BUY?"buy":"sell")+".title"),54) {
 			public void onClose(Player player) {
 				if(t==ShopType.SELL) {
 					for(int count =10; count < 17; ++count)

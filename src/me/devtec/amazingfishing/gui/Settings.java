@@ -14,7 +14,7 @@ import me.devtec.theapi.utils.datakeeper.User;
 public class Settings {
 
 	public static void open(Player p) {
-		GUI a = Create.setup(new GUI(Create.text("settings.title"),54) {
+		GUI a = Create.setup(new GUI(Create.title("settings.title"),54) {
 			public void onClose(Player player) {
 				clear();
 			}}, Create.make("settings.close").create(),  s -> Help.open(s), me.devtec.amazingfishing.utils.Create.Settings.SIDES);

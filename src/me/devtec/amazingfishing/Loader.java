@@ -76,7 +76,7 @@ public class Loader extends JavaPlugin {
 		plugin=this;
 		Configs.load();
 		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
-		prefix = tran.getString("Prefix");
+		prefix = tran.getString("prefix");
 		new me.devtec.theapi.utils.theapiutils.metrics.Metrics(this, 10630);
 		reload(TheAPI.getConsole(),false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
@@ -141,7 +141,7 @@ public class Loader extends JavaPlugin {
 			enchant.reload(enchant.getFile());
 			config.reload();
 			tran.reload();
-			prefix = tran.getString("Prefix");
+			prefix = tran.getString("prefix");
 			Loader.next = Create.make("buttons.next").create();
 			Loader.prev = Create.make("buttons.previous").create();
 			API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();

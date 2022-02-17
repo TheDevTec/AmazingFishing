@@ -21,7 +21,7 @@ import me.devtec.theapi.utils.nms.nbt.NBTEdit;
 
 public class EnchantTable {
 	public static void openMain(Player p) {
-		GUI a = Create.setup(new GUI(Create.text("enchant.title"),54), Create.make("enchant.close").create(), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("enchant.title"),54), Create.make("enchant.close").create(), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 			a.setItem(20,new ItemGUI(Create.make("enchant.add").create()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
@@ -40,7 +40,7 @@ public class EnchantTable {
 		}
 	
 	private static boolean openEnchanterPlace(Player p, int type) {
-		GUI a = Create.setup(new GUI(Create.text("enchant.title-select"),54), Create.make("enchant.close").create(), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"),54), Create.make("enchant.close").create(), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		int slot = -1;
 		boolean add = false;
 		if(p.getInventory().getContents()!=null)
@@ -89,7 +89,7 @@ public class EnchantTable {
 	}
 	
 	public static void openEnchantAdd(Player p) {
-		GUI a = Create.setup(new GUI(Create.text("enchant.title-add"),54) {
+		GUI a = Create.setup(new GUI(Create.title("enchant.title-add"),54) {
 			public void onClose(Player arg0) {
 				if(Rod.saved(p))
 					Rod.retriveRod(p);
@@ -123,7 +123,7 @@ public class EnchantTable {
 	}
 	
 	public static void openEnchantUpgrade(Player p) {
-		GUI a = Create.setup(new GUI(Create.text("enchant.title-upgrade"),54) {
+		GUI a = Create.setup(new GUI(Create.title("enchant.title-upgrade"),54) {
 			public void onClose(Player arg0) {
 				if(Rod.saved(p))
 					Rod.retriveRod(p);

@@ -32,17 +32,7 @@ public class Utils {
 	static {
 		mat.put("BLACK_STAINED_GLASS_PANE", find("BLACK_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 15));
 		mat.put("BLUE_STAINED_GLASS_PANE", find("BLUE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 11));
-		mat.put("RED_STAINED_GLASS_PANE", find("RED_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 14));
-		mat.put("LIME_STAINED_GLASS_PANE", find("LIME_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 5));
-		mat.put("COD_BUCKET", find("COD_BUCKET", "WATER_BUCKET", 0));
-		mat.put("KNOWLEDGE_BOOK", find("KNOWLEDGE_BOOK", "BOOK", 0));
-		mat.put("CRAFTING_TABLE", find("CRAFTING_TABLE", "WORKBENCH", 0));
-		mat.put("PURPLE_STAINED_GLASS_PANE", find("PURPLE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 10));
-		mat.put("LAPIS_LAZULI", find("LAPIS_LAZULI", "INK_SACK", 4));
 		mat.put("SUNFLOWER", find("SUNFLOWER", "DOUBLE_PLANT", 0));
-		mat.put("BLUE_CONCRETE_POWDER", find("BLUE_CONCRETE_POWDER", "CONCRETE_POWDER", 11)==null?find("BLUE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 11):find("BLUE_CONCRETE_POWDER", "CONCRETE_POWDER", 11));
-		mat.put("GREEN_CONCRETE", find("GREEN_CONCRETE", "CONCRETE", 13)==null?find("GREEN_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 13):find("GREEN_CONCRETE", "CONCRETE", 13));
-		mat.put("RED_CONCRETE", find("RED_CONCRETE", "CONCRETE", 14)==null?find("RED_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 14):find("RED_CONCRETE", "CONCRETE", 14));
 	}
 	
 	static MaterialData find(String newName, String old, int data) {
@@ -62,97 +52,51 @@ public class Utils {
 		if(!TheAPI.isOlderThan(13))return;
 		Config c = Loader.gui;
 		boolean save = false;
-		if(c.getString("help.enchant.icon").equalsIgnoreCase("ENCHANTING_TABLE")) {
-			c.set("help.enchant.icon", "ENCHANTMENT_TABLE");
-			save=true;
-		}
-		if(c.getString("help.achievements.icon").equalsIgnoreCase("SUNFLOWER")) {
-			c.set("help.achievements.icon", "DOUBLE_PLANT");
-			save=true;
-		}
-		if(c.getString("help.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("help.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("convertor.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("convertor.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("index.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("index.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("index.cod.icon").equalsIgnoreCase("COD")) {
-			c.set("index.cod.icon", "RAW_FISH");
-			save=true;
-		}
-		if(c.getString("index.salmon.icon").equalsIgnoreCase("SALMON")) {
-			c.set("index.salmon.icon", "RAW_FISH:1");
-			save=true;
-		}
-		if(c.getString("index.pufferfish.icon").equalsIgnoreCase("PUFFERFISH")) {
-			c.set("index.pufferfish.icon", "RAW_FISH:2");
-			save=true;
-		}
-		if(c.getString("index.tropical_fish.icon").equalsIgnoreCase("TROPICAL_FISH")) {
-			c.set("index.tropical_fish.icon", "RAW_FISH:3");
-			save=true;
-		}
-		if(c.getString("shops.points.icon").equalsIgnoreCase("LAPIS_LAZULI")) {
-			c.set("shops.points.icon", "DYE:4");
-			save=true;
-		}
-		if(c.getString("shops.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("shops.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("shops.convertor.icon").equalsIgnoreCase("COD")) {
-			c.set("shops.convertor.icon", "RAW_FISH");
-			save=true;
-		}
-		if(c.getString("shops.sell.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("shops.sell.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("shops.buy.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("shops.buy.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("bag.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("bag.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("enchant.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("enchant.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("enchant.add.icon").equalsIgnoreCase("CRAFTING_TABLE")) {
-			c.set("enchant.add.icon", "WORKBENCH");
-			save=true;
-		}
-		if(c.getString("enchant.points.icon").equalsIgnoreCase("LAPIS_LAZULI")) {
-			c.set("enchant.points.icon", "DYE:4");
-			save=true;
-		}
-		if(c.getString("settings.records.on.icon").equalsIgnoreCase("GREEN_CONCRETE")) {
-			c.set("settings.records.on.icon", Material.getMaterial("CONCRETE")!=null?"CONCRETE:13":"STAINED_GLASS_PANE:13");
-			save=true;
-		}
-		if(c.getString("settings.records.off.icon").equalsIgnoreCase("RED_CONCRETE")) {
-			c.set("settings.records.off.icon", Material.getMaterial("CONCRETE")!=null?"CONCRETE:14":"STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("settings.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("settings.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("quests.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("quests.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
-		}
-		if(c.getString("achievements.close.icon").equalsIgnoreCase("RED_STAINED_GLASS_PANE")) {
-			c.set("achievements.close.icon", "STAINED_GLASS_PANE:14");
-			save=true;
+		for(String key : c.getKeys(true)) {
+			if(key.endsWith(".icon") && c.getString(key)!=null) {
+				switch(c.getString(key).toUpperCase()) {
+				case "ENCHANTING_TABLE":
+					c.set(key, "ENCHANTMENT_TABLE");
+					save=true;
+					break;
+				case "SUNFLOWER":
+					c.set(key, "DOUBLE_PLANT");
+					save=true;
+					break;
+				case "RED_STAINED_GLASS_PANE":
+					c.set(key, "STAINED_GLASS_PANE:14");
+					save=true;
+					break;
+				case "COD":
+					c.set(key, "RAW_FISH");
+					save=true;
+					break;
+				case "SALMON":
+					c.set(key, "RAW_FISH:1");
+					save=true;
+					break;
+				case "PUFFERFISH":
+					c.set(key, "RAW_FISH:2");
+					save=true;
+					break;
+				case "TROPICAL_FISH":
+					c.set(key, "RAW_FISH:3");
+					save=true;
+					break;
+				case "CRAFTING_TABLE":
+					c.set(key, "WORKBENCH");
+					save=true;
+					break;
+				case "GREEN_CONCRETE":
+					c.set(key, Material.getMaterial("CONCRETE")!=null?"CONCRETE:13":"STAINED_GLASS_PANE:13");
+					save=true;
+					break;
+				case "RED_CONCRETE":
+					c.set(key, Material.getMaterial("CONCRETE")!=null?"CONCRETE:14":"STAINED_GLASS_PANE:14");
+					save=true;
+					break;
+				}
+			}
 		}
 		if(save)
 			c.save();

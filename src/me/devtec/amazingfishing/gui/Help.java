@@ -12,7 +12,7 @@ import me.devtec.theapi.guiapi.ItemGUI;
 
 public class Help {
 	public static void open(Player p) {
-		GUI a = Create.setup(new GUI(Create.text("help.title"),54), Create.make("index.close").create(), null
+		GUI a = Create.setup(new GUI(Create.title("help.title"),54), Create.make("index.close").create(), null
 				, me.devtec.amazingfishing.utils.Create.Settings.SIDES, me.devtec.amazingfishing.utils.Create.Settings.CLOSE);
 		if(p.hasPermission("amazingfishing.command."+(Loader.gui.getString("help.shop.type").toUpperCase().equals("SELL")?"sellshop":"shop")) && Loader.config.getBoolean("Options.Shop.Enabled"))
 			a.setItem(22,new ItemGUI(Create.make("help.shop").create()){

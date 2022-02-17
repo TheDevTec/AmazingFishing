@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
@@ -88,22 +87,6 @@ public class CustomJunk implements Junk {
 	@Override
 	public List<String> getEnchantments() {
 		return data.getStringList(path+"."+name+".enchants");
-	}
-	
-	@Override
-	public List<ItemFlag> getFlags() {
-		List<ItemFlag> list = new ArrayList<>();
-		if(data.exists(path+"."+name+".flags")) {
-			for(String flag: data.getStringList(path+"."+name+".flags")) {
-				try {
-					list.add(ItemFlag.valueOf(flag));
-				}catch (Exception | NoSuchFieldError | NoSuchMethodError | NoClassDefFoundError er) {
-					Bukkit.getLogger().warning("Error when getting junk:" + name + "! Itemflag " + flag + ", itemflag is invalid");
-				}
-			}
-			return list;
-		}
-		return list;
 	}
 	
 	@Override
@@ -273,8 +256,8 @@ public class CustomJunk implements Junk {
 		}
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
-				c.addItemFlag(ItemFlag.valueOf(itemFlag));
-			}catch(Exception | NoSuchFieldError err) {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError err) {
 				
 			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
@@ -318,8 +301,8 @@ public class CustomJunk implements Junk {
 		c.setUnbreakable(data.exists(path+"."+name+".preview.unbreakable")?data.getBoolean(path+"."+name+".preview.unbreakable"):data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.exists(path+"."+name+".preview.flags")?data.getStringList(path+"."+name+".preview.flags"):data.getStringList(path+"."+name+".flags"))
 			try {
-				c.addItemFlag(ItemFlag.valueOf(itemFlag));
-			}catch(Exception | NoSuchFieldError err) {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError err) {
 				
 			}
 		return Utils.setModel(c.create(), data.exists(path+"."+name+".preview.model")?data.getInt(path+"."+name+".preview.model"):data.getInt(path+"."+name+".model"));

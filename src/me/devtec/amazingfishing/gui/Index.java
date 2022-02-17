@@ -25,7 +25,7 @@ import me.devtec.theapi.guiapi.ItemGUI;
 import me.devtec.theapi.placeholderapi.PlaceholderAPI;
 
 public class Index {
-	static GUI g=Create.setup(new GUI(Create.text("index.title"),54), Create.make("index.close").create(), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+	static GUI g=Create.setup(new GUI(Create.title("index.title"),54), Create.make("index.close").create(), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 	static {
 
 		if(CatchFish.isEnabled(Fishing.FISH)) {

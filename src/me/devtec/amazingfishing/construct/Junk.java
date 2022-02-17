@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.theapi.utils.datakeeper.Data;
@@ -71,8 +70,6 @@ public interface Junk {
 	boolean show();
 	
 	public List<String> getEnchantments();
-	
-	public List<ItemFlag> getFlags();
 
 	public default boolean isAllowedToCatch(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {
 		return (getPermission()==null || getPermission()!=null && player.hasPermission(getPermission())) &&

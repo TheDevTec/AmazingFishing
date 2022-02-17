@@ -205,8 +205,8 @@ public class CustomFish implements Fish {
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
-				c.addItemFlag(ItemFlag.valueOf(itemFlag));
-			}catch(Exception | NoSuchFieldError err) {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError err) {
 				
 			}
 		for(String enchant : getEnchantments()) {
@@ -258,8 +258,8 @@ public class CustomFish implements Fish {
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
-				c.addItemFlag(ItemFlag.valueOf(itemFlag));
-			}catch(Exception | NoSuchFieldError err) {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError err) {
 				
 			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
@@ -295,8 +295,8 @@ public class CustomFish implements Fish {
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
-				c.addItemFlag(ItemFlag.valueOf(itemFlag));
-			}catch(Exception | NoSuchFieldError err) {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError err) {
 				
 			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
@@ -344,8 +344,8 @@ public class CustomFish implements Fish {
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
 			try {
-				c.addItemFlag(ItemFlag.valueOf(itemFlag));
-			}catch(Exception | NoSuchFieldError err) {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError err) {
 				
 			}
 		ItemStack stack = Utils.setModel(c.create(), getModel());
@@ -373,8 +373,8 @@ public class CustomFish implements Fish {
 		c.setUnbreakable(data.exists(path+"."+name+".preview.unbreakable")?data.getBoolean(path+"."+name+".preview.unbreakable"):data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.exists(path+"."+name+".preview.flags")?data.getStringList(path+"."+name+".preview.flags"):data.getStringList(path+"."+name+".flags"))
 			try {
-				c.addItemFlag(ItemFlag.valueOf(itemFlag));
-			}catch(Exception | NoSuchFieldError err) {
+				c.addItemFlag(ItemFlag.valueOf(itemFlag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError err) {
 				
 			}
 		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");

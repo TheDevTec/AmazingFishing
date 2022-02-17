@@ -42,7 +42,7 @@ public class QuestGUI {
 	}
 
 	private static void openQuests(Player player, int page) {
-		GUI a = Create.setup(new GUI(Create.text("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Quest> p = new Pagination<Quest>(28);
 		for(Quest q :  Quests.getQuests(player.getName()).values()) {
 			p.add(q);
@@ -112,7 +112,7 @@ public class QuestGUI {
 	}
 	
 	private static void openCategoryList(Player player, int page) {
-		GUI a = Create.setup(new GUI(Create.text("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
 
 		Pagination<Category> p = new Pagination<Category>(28);
 	
@@ -164,7 +164,7 @@ public class QuestGUI {
 	}
 	
 	private static void openCategory(Player player, int page, Category category) {
-		GUI a = Create.setup(new GUI(Create.text("quests.title-category").replace("%category%", category.getDisplayName()),54),Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("quests.title-category").replace("%category%", category.getDisplayName()),54),Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Quest> p = new Pagination<Quest>(28);
 		for(String q :  category.getContent()) {
 			if(Quests.quests.containsKey(q))
@@ -235,7 +235,7 @@ public class QuestGUI {
 	}
 	
 	private static void openMyQuests(Player p, int page) {
-		GUI a = Create.setup(new GUI(Create.text("quests.title-own"),54),Create.make("quests.close").create(), f -> Help.open(f));
+		GUI a = Create.setup(new GUI(Create.title("quests.title-own"),54),Create.make("quests.close").create(), f -> Help.open(f));
 		User u = TheAPI.getUser(p);
 		Pagination<String> pagi = new Pagination<String>(28);
 		List<String> finishpagi = new ArrayList<String>();

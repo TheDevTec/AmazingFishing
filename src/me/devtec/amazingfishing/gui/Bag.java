@@ -19,7 +19,7 @@ public class Bag {
 	}
 	public static void openBag(Player p, Player target) {
 		me.devtec.amazingfishing.other.Bag bag = new me.devtec.amazingfishing.other.Bag(p);
-		GUI a = Create.setup(new GUI(Create.text("bag.title"),54) {
+		GUI a = Create.setup(new GUI(Create.title("bag.title"),54) {
 			public void onClose(Player arg0) {
 				try {
 					bag.saveBag(this);

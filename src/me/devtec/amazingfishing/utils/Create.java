@@ -35,13 +35,17 @@ public class Create {
 		create.setUnbreakable(Loader.gui.getBoolean(path+".unbreakable"));
 		return create;
 	}
-	
-	public static String text(String path) {
+
+	public static String title(String path) {
 		return Loader.gui.getString(path);
 	}
 	
+	public static String text(String path) {
+		return Loader.tran.getString(path);
+	}
+	
 	public static List<String> list(String path) {
-		return Loader.gui.getStringList(path);
+		return Loader.tran.getStringList(path);
 	}
 	
 	static Material mat;
