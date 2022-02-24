@@ -190,13 +190,34 @@ public class AmazingFishingCommand implements CommandExecutor/*, TabCompleter*/ 
 				TheAPI.msg("/Fish Index <player>", s);
 				return true;
 			}
+			if(args.length==2) {
+				Player p = TheAPI.getPlayer(args[1]);
+				if(p==null) {
+					TheAPI.msg(Create.text("command.index.offline").replace("%player%", args[1]), s);
+					return true;
+				}
+				Index.open(p);
+				TheAPI.msg(Create.text("command.index.other").replace("%player%", p.getName()), s);
+				return true;
+			}
 			Player p = TheAPI.getPlayer(args[1]);
 			if(p==null) {
 				TheAPI.msg(Create.text("command.index.offline").replace("%player%", args[1]), s);
 				return true;
 			}
-			Index.open(p);
-			TheAPI.msg(Create.text("command.index.other").replace("%player%", p.getName()), s);
+			FishType type;
+			try {
+				type = FishType.valueOf(args[2].toUpperCase());
+				if(type==null) {
+					TheAPI.msg(Create.text("command.index.wrong-category").replace("%category%", args[2]), s);
+					return true;
+				}
+			}catch(NoSuchFieldError e) {
+				TheAPI.msg(Create.text("command.index.wrong-category").replace("%category%", args[2]), s);
+				return true;
+			}
+			Index.open(p, type, 0);
+			TheAPI.msg(Create.text("command.index.other-category").replace("%player%", p.getName()).replace("%category%", type.name().toLowerCase()), s);
 			return true;
 		}
 		if(args[0].equalsIgnoreCase("settings") && s.hasPermission("amazingfishing.command.settings")) {

@@ -50,6 +50,8 @@ command:
     other: "%prefix% Opening index menu to player &3%player%"
     offline: "%prefix% Player &3%player% &7isn't online"
     self: "%prefix% Opening index menu"
+    other-category: "%prefix% Opening index menu to player &3%player% &7category &3%category%"
+    wrong-category: "%prefix% Category &3%category% &7doesn't exist.\nValid categories are: &3Cod, Salmon, Pufferfish, Tropical_Fish, Junk"
   quests:
     other: "%prefix% Opening quests menu to player &3%player%"
     offline: "%prefix% Player &3%player% &7isn't online"

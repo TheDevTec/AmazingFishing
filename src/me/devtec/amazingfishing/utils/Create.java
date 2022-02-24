@@ -62,11 +62,13 @@ public class Create {
 	}
 	
 	public static String text(String path) {
-		return Loader.tran.getString(path);
+		return Loader.tran.getString(path).replace("%prefix%", Loader.getPrefix());
 	}
 	
 	public static List<String> list(String path) {
-		return Loader.tran.getStringList(path);
+		List<String> list = Loader.tran.getStringList(path);
+		list.replaceAll(a -> a.replace("%prefix%", Loader.getPrefix()));
+		return list;
 	}
 	
 	static Material mat;
