@@ -87,7 +87,7 @@ public class Create {
 			if(head.startsWith("hdb:")) {
 				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
 				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwnerFromValues(HDBSupport.parse(head));
+				creator.setOwnerFromValues(HDBSupport.parse(head.substring(4)));
 				return creator;
 			}else
 			if(head.startsWith("https://")||head.startsWith("http://")) {
@@ -108,6 +108,18 @@ public class Create {
 				creator.setOwner(head);
 				return creator;
 			}
+		}
+		if(item.startsWith("hdb:")) {
+			creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+			creator.setSkullType(SkullType.PLAYER);
+			creator.setOwnerFromValues(HDBSupport.parse(item.substring(4)));
+			return creator;
+		}
+		if(item.startsWith("https://")||item.startsWith("http://")) {
+			creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+			creator.setSkullType(SkullType.PLAYER);
+			creator.setOwnerFromWeb(item);
+			return creator;
 		}
 		String[] slit = item.split(":");
 		if(item!=null && Material.getMaterial(slit[0])!=null) {
