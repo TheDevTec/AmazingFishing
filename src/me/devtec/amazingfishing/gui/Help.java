@@ -40,7 +40,7 @@ public class Help {
 			});
 		
 		if(p.hasPermission("amazingfishing.command.bag"))
-			a.setItem(27,new ItemGUI(Create.make("help.enchant").create()){
+			a.setItem(27,new ItemGUI(Create.make("help.bag").create()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					Bag.openBag(p);

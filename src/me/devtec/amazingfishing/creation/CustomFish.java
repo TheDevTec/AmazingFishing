@@ -44,8 +44,12 @@ public class CustomFish implements Fish {
 		if(data.exists(path+"."+name+".head"))
 			this.item="head:"+data.getString(path+"."+name+".head");
 		else
-			this.item=data.getString(path+"."+name+".type");
-		this.showItem=data.getString(path+"."+name+".preview.type");
+			if(data.exists(path+"."+name+".icon"))
+				this.item=data.getString(path+"."+name+".icon");
+			else
+				this.item=data.getString(path+"."+name+".type");
+		this.showItem=data.getString(path+"."+name+".preview.type")!=null?
+				data.getString(path+"."+name+".preview.type"):data.getString(path+"."+name+".preview.icon");
 		if(item==null)item=type.name();
 		if(showItem==null)showItem=item;
 	}

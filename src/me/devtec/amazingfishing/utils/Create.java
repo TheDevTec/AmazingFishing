@@ -23,16 +23,37 @@ public class Create {
 		ItemCreatorAPI create = find(Loader.gui.getString(path+".icon"), "STONE", 0);
 		create.setDisplayName(Loader.gui.getString(path+".name"));
 		create.setLore(Loader.gui.getStringList(path+".lore"));
-		for(String ench : Loader.gui.getStringList(path+".enchants"))
-			create.addEnchantment(ench, 1);
+		for(String ench : Loader.gui.getStringList(path+".enchants")) {
+			String[] split = ench.split(":");
+			create.addEnchantment(split[0], split.length==1?1:StringUtils.getInt(split[1]));
+		}
 		for(String flag : Loader.gui.getStringList(path+".flags")) {
 			try {
 				create.addItemFlag(ItemFlag.valueOf(flag.toUpperCase()));
 			}catch(Exception | NoSuchFieldError er) {
-				TheAPI.msg("Invalid ItemFlag ("+flag+") of item in the section "+path, TheAPI.getConsole() );
+				TheAPI.msg("[GUI] Invalid ItemFlag ("+flag+") of item in the section "+path, TheAPI.getConsole() );
 			}
 		}
 		create.setUnbreakable(Loader.gui.getBoolean(path+".unbreakable"));
+		return create;
+	}
+	
+	public static ItemCreatorAPI makeShop(String path) {
+		ItemCreatorAPI create = find(Loader.shop.getString(path+".icon"), "STONE", 0);
+		create.setDisplayName(Loader.shop.getString(path+".name"));
+		create.setLore(Loader.shop.getStringList(path+".lore"));
+		for(String ench : Loader.shop.getStringList(path+".enchants")) {
+			String[] split = ench.split(":");
+			create.addEnchantment(split[0], split.length==1?1:StringUtils.getInt(split[1]));
+		}
+		for(String flag : Loader.shop.getStringList(path+".flags")) {
+			try {
+				create.addItemFlag(ItemFlag.valueOf(flag.toUpperCase()));
+			}catch(Exception | NoSuchFieldError er) {
+				TheAPI.msg("[Shop] Invalid ItemFlag ("+flag+") of item in the section "+path, TheAPI.getConsole() );
+			}
+		}
+		create.setUnbreakable(Loader.shop.getBoolean(path+".unbreakable"));
 		return create;
 	}
 
@@ -63,9 +84,12 @@ public class Create {
 		ItemCreatorAPI creator;
 		if(item.startsWith("head:")) {
 			String head = item.substring(5);
-			if(head.toLowerCase().startsWith("hdb:"))
-				return new ItemCreatorAPI(HDBSupport.parse(head));
-			else
+			if(head.startsWith("hdb:")) {
+				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
+				creator.setSkullType(SkullType.PLAYER);
+				creator.setOwnerFromValues(HDBSupport.parse(head));
+				return creator;
+			}else
 			if(head.startsWith("https://")||head.startsWith("http://")) {
 				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
 				creator.setSkullType(SkullType.PLAYER);

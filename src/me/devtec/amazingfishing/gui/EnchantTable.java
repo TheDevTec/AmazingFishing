@@ -112,7 +112,7 @@ public class EnchantTable {
 							if(!openEnchanterPlace(p, 0))
 								openMain(p);
 						}else
-							Loader.msg(Create.text("points.lack").replace("%amount%", ""+cost), p);
+							Loader.msg(Create.text("command.points.lack").replace("%amount%", ""+cost), p);
 					}
 				});
 			 }
@@ -144,7 +144,7 @@ public class EnchantTable {
 							if(!openEnchanterPlace(p, 1))
 								openMain(p);
 						}else
-							Loader.msg(Create.text("points.lack").replace("%amount%", ""+cost), p);
+							Loader.msg(Create.text("command.points.lack").replace("%amount%", ""+cost), p);
 					}
 				});
 			 }
