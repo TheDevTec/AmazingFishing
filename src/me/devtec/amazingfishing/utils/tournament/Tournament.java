@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -14,13 +15,14 @@ import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.tournament.bossbar.BossBarManager;
 import me.devtec.amazingfishing.utils.tournament.bossbar.SBossBar;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.scheduler.Scheduler;
-import me.devtec.theapi.scheduler.Tasker;
-import me.devtec.theapi.sortedmap.RankingAPI;
-import me.devtec.theapi.sortedmap.SortedMap.ComparableObject;
-import me.devtec.theapi.utils.StringUtils;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.shared.scheduler.Scheduler;
+import me.devtec.shared.scheduler.Tasker;
+import me.devtec.shared.sorting.RankingAPI;
+import me.devtec.shared.sorting.SortingAPI.ComparableObject;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.nms.NmsProvider.TitleAction;
 
 public class Tournament {
 	private static Random r = new Random();
@@ -36,18 +38,18 @@ public class Tournament {
 		t=type;
 		total=time;
 		
-		for(Player p : TheAPI.getOnlinePlayers()) {
+		for(Player p : BukkitLoader.getOnlinePlayers()) {
 			if(world!=null)
 				if(world != p.getWorld())
 					continue;
-			TheAPI.getNmsProvider().postToMainThread(new Runnable() {
+			BukkitLoader.getNmsProvider().postToMainThread(new Runnable() {
 				public void run() {
 					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Commands"))
-						TheAPI.sudoConsole(replace(cmd,p));
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,p));
 				}
 			});
 			for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Messages"))
-				TheAPI.msg(replace(msg.replace("%time%", StringUtils.setTimeToString(time)) ,p), p);
+				Loader.msg(replace(msg.replace("%time%", StringUtils.setTimeToString(time)) ,p), p);
 		}
 		
 		runOut = time;
@@ -66,7 +68,7 @@ public class Tournament {
 						}
 					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
 						for(Player p : values.keySet())
-							TheAPI.sendActionBar(p, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Actionbar.Text"),p));
+							BukkitLoader.getPacketHandler().send(p, BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Actionbar.Text"),p)));
 					}
 			}
 		}.runRepeating(0, 20);
@@ -79,12 +81,12 @@ public class Tournament {
 					.replace("%displayname%", p.getDisplayName()+"")
 					.replace("%customanem%", p.getCustomName()+"");
 		}
-		return PlaceholderAPI.setPlaceholders(p, s
+		return PlaceholderAPI.apply(s
 				.replace("%type%", t.formatted()+"").
 				replace("%time%", total+"")
 				.replace("%participants%", values.size()+"")
 				.replace("%formatted_time%", StringUtils.timeToString(runOut))
-				.replace("%remaining%", runOut+""));
+				.replace("%remaining%", runOut+""), p.getUniqueId());
 	}
 	
 	public long getTime() {
@@ -111,13 +113,10 @@ public class Tournament {
 		if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
 			for(Player p : values.keySet())
 				BossBarManager.remove(p);
-		if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
-			for(Player p : values.keySet())
-				TheAPI.removeActionBar(p);
 		RankingAPI<Player, Double> top = new RankingAPI<>(values);
 		if(giveRewards) {
 			int pos = 0;
-			String f = PlaceholderAPI.setPlaceholders(null,Loader.config.getString("Tournament.Type."+t.configPath()+".Positions").replace("%participants%", values.size()+""));
+			String f = PlaceholderAPI.apply(Loader.config.getString("Tournament.Type."+t.configPath()+".Positions").replace("%participants%", values.size()+""), null);
 			int wins = (int) StringUtils.calculate(f);
 			for(ComparableObject<Player, Double> d : top.all()) {
 				++pos;
@@ -128,8 +127,8 @@ public class Tournament {
 								.replace("%playername%", d.getKey().getDisplayName()+"")
 								.replace("%displayname%", d.getKey().getDisplayName()+"")
 								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-						TheAPI.getNmsProvider().postToMainThread(() -> {
-								TheAPI.sudoConsole(cfmd);
+						BukkitLoader.getNmsProvider().postToMainThread(() -> {
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cfmd);
 							});
 					}
 					for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Position.Other.Messages")) {
@@ -149,7 +148,7 @@ public class Tournament {
 								.replace("%top4_name%", top.size()>=4 ? top.get(3).getKey().getName() : "-")
 								.replace("%top4_displayname%", top.size()>=4?top.get(3).getKey().getDisplayName():"-")
 								.replace("%top4_value%", top.size()>=4?""+top.get(3).getValue():"-");
-						TheAPI.msg(msg,d.getKey());
+						Loader.msg(msg,d.getKey());
 					}
 					continue;
 				}
@@ -158,8 +157,8 @@ public class Tournament {
 							.replace("%playername%", d.getKey().getDisplayName()+"")
 							.replace("%displayname%", d.getKey().getDisplayName()+"")
 							.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
-					TheAPI.getNmsProvider().postToMainThread(() -> {
-							TheAPI.sudoConsole(cfmd);
+					BukkitLoader.getNmsProvider().postToMainThread(() -> {
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cfmd);
 						});
 				}
 				for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Position."+pos+".Messages")) {
@@ -179,16 +178,16 @@ public class Tournament {
 							.replace("%top4_name%", top.size()>=4 ? top.get(3).getKey().getName() : "-")
 							.replace("%top4_displayname%", top.size()>=4?top.get(3).getKey().getDisplayName():"-")
 							.replace("%top4_value%", top.size()>=4?""+top.get(3).getValue():"-");
-					TheAPI.msg(msg,d.getKey());
+					Loader.msg(msg,d.getKey());
 				}
 			}
 		}else {
 			for(ComparableObject<Player, Double> d : top.all()) {
 				for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Messages"))
-					TheAPI.msg(replace(cmd,d.getKey()),d.getKey());
-				TheAPI.getNmsProvider().postToMainThread(() -> {
+					Loader.msg(replace(cmd,d.getKey()),d.getKey());
+				BukkitLoader.getNmsProvider().postToMainThread(() -> {
 						for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Commands"))
-							TheAPI.sudoConsole(replace(cmd,d.getKey()));
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,d.getKey()));
 					});
 			}
 		}
@@ -198,12 +197,12 @@ public class Tournament {
 
 	public void catchFish(Player p, Fish f, double weight, double length) {
 		if(!values.containsKey(p)) {
-			TheAPI.getNmsProvider().postToMainThread(() -> {
+			BukkitLoader.getNmsProvider().postToMainThread(() -> {
 					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Commands"))
-						TheAPI.sudoConsole(replace(cmd,p));
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,p));
 				});
 			for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Messages"))
-				TheAPI.msg(replace(msg,p), p);
+				Loader.msg(replace(msg,p), p);
 		}
 		switch(t) {
 		case AMOUNT:

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 
@@ -16,20 +17,18 @@ import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Statistics.CaughtTreasuresType;
 import me.devtec.amazingfishing.utils.Statistics.SavingType;
 import me.devtec.amazingfishing.utils.Statistics.gainedType;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.datakeeper.User;
+import me.devtec.shared.API;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.placeholders.PlaceholderAPI;
 
 public class Achievements {
 	//TODO udělat více potřebných věcí na dokončení ÚSPECHU
 	// TODO - progress bar?
 	
 	public static class Achievement {
-		private Data d;
+		private Config d;
 		private String name;
-		public Achievement(String name, Data data) {
+		public Achievement(String name, Config data) {
 			this.name=name;
 			d=data;
 		}
@@ -280,9 +279,9 @@ public class Achievements {
 			if (allStagesFinished(p, achievement)) {
 				setFinished(p, achievement);
 				for(String cmd : achievement.getFinishCommands())
-					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, cmd.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Loader.getPrefix()) ) );
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(cmd.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Loader.getPrefix()), p.getUniqueId() ) );
 				for(String msg : achievement.getFinishMessages())
-					TheAPI.msg(PlaceholderAPI.setPlaceholders(p, msg.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Loader.getPrefix()) ), p);
+					Loader.msg(PlaceholderAPI.apply(msg.replace("%player%", p.getName()).replace("%achievement%", achievement.getName()).replace("%achievement_name%", achievement.getDisplayName()).replace("%prefix%", Loader.getPrefix()), p.getUniqueId() ), p);
 			continue;
 			}
 			
@@ -291,25 +290,21 @@ public class Achievements {
 	}
 	
 	public static boolean isFinished(Player player, Achievement achievement) {
-		User u = TheAPI.getUser(player);
-		if( !u.exist(Manager.getDataLocation()+".achievements."+achievement.getName()+".finished") )
-			return false;
-		else return u.getBoolean(Manager.getDataLocation()+".achievements."+achievement.getName()+".finished");
+		Config u = API.getUser(player.getUniqueId());
+		return u.getBoolean(Manager.getDataLocation()+".achievements."+achievement.getName()+".finished");
 	}
 	private static void setFinished(Player player, Achievement achievement) {
-		User u = TheAPI.getUser(player);
+		Config u = API.getUser(player.getUniqueId());
 		u.set(Manager.getDataLocation()+".achievements."+achievement.getName()+".finished", true);
 		u.save();
 	}
 	private static boolean stageIsFinished(Player player, Achievement achievement, int stage) {
-		User u = TheAPI.getUser(player);
-		if( !u.exist(Manager.getDataLocation()+".achievements."+achievement.getName()+"."+stage) )
-			return false;
-		else return u.getBoolean(Manager.getDataLocation()+".achievements."+achievement.getName()+"."+stage);
+		Config u = API.getUser(player.getUniqueId());
+		return u.getBoolean(Manager.getDataLocation()+".achievements."+achievement.getName()+"."+stage);
 	}
 	
 	private static void setStageFinished(Player player, Achievement achievement, int stage) {
-		User u = TheAPI.getUser(player);
+		Config u = API.getUser(player.getUniqueId());
 		u.set(Manager.getDataLocation()+".achievements."+achievement.getName()+"."+stage, true);
 		u.save();
 	}

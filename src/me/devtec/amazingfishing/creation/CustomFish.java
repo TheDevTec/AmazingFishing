@@ -20,23 +20,23 @@ import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.EnchantmentAPI;
+import me.devtec.amazingfishing.utils.ItemCreatorAPI;
 import me.devtec.amazingfishing.utils.Utils;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.EnchantmentAPI;
-import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.datakeeper.DataType;
-import me.devtec.theapi.utils.json.Json;
-import me.devtec.theapi.utils.nms.nbt.NBTEdit;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
+import me.devtec.shared.json.Json;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class CustomFish implements Fish {
 	final String name, path;
-	final Data data;
+	final Config data;
 	final FishType type;
 	String item, showItem;
 	
-	public CustomFish(String name, String path, FishType type, Data data) {
+	public CustomFish(String name, String path, FishType type, Config data) {
 		this.name=name;
 		this.type=type;
 		this.path=path.toLowerCase();
@@ -164,16 +164,16 @@ public class CustomFish implements Fish {
 		return FishWeather.EVERY;
 	}
 	
-	public Data createData(double weight, double length) {
-		return new Data().set("fish", name).set("type", type.name()).set("weigth", weight).set("length", length);
+	public Config createData(double weight, double length) {
+		return new Config().set("fish", name).set("type", type.name()).set("weigth", weight).set("length", length);
 	}
 	
-	public Data createData(double weight, double length, double money, double points, double exp) {
-		return new Data().set("fish", name).set("type", type.name()).set("weigth", weight)
+	public Config createData(double weight, double length, double money, double points, double exp) {
+		return new Config().set("fish", name).set("type", type.name()).set("weigth", weight)
 				.set("length", length).set("money", money).set("points", points).set("exp", exp);
 	}
 	
-	public boolean isInstance(Data data) {
+	public boolean isInstance(Config data) {
 		return data.exists("fish") && data.exists("type") && data.getString("fish").equals(name) && data.getString("type").equals(type.name());
 	}
 	
@@ -198,13 +198,13 @@ public class CustomFish implements Fish {
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
 		List<String> l = data.getStringList(path+"."+name+".lore");
-		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(null, a.replace("%weight%", Loader.ff.format(weight))
+		l.replaceAll(a -> PlaceholderAPI.apply(a.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%name%", cf)
 				.replace("%biomes%", bc)
 				.replace("%blockedbiomes%", bbc)
-				));
+				,null));
 		c.setLore(l);
 		c.setUnbreakable(data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.getStringList(path+"."+name+".flags"))
@@ -220,7 +220,7 @@ public class CustomFish implements Fish {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
-		return TheAPI.getNmsProvider().setNBT(stack, edit);
+		return BukkitLoader.getNmsProvider().setNBT(stack, edit);
 	}
 	
 	@Override
@@ -241,7 +241,7 @@ public class CustomFish implements Fish {
 				.replace("%name%", getName());
 		c.setDisplayName(cf);
 		List<String> l = data.getStringList(path+"."+name+".lore");
-		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(null, a.replace("%weight%", Loader.ff.format(weight))
+		l.replaceAll(a -> PlaceholderAPI.apply(a.replace("%weight%", Loader.ff.format(weight))
 				.replace("%length%", Loader.ff.format(length))
 				.replace("%chance%", Loader.ff.format(getChance()))
 				.replace("%name%", cf)
@@ -253,7 +253,7 @@ public class CustomFish implements Fish {
 				.replace("%points_bonus%", Loader.ff.format(points))
 				.replace("%exp_bonus%", Loader.ff.format(exp))
 				.replace("%exp_boost%", Loader.ff.format(exp))
-				));
+				, null));
 		c.setLore(l);
 		for(String enchant : getEnchantments()) {
 			if(EnchantmentAPI.byName(enchant)!=null)
@@ -269,7 +269,7 @@ public class CustomFish implements Fish {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length,money,points,exp).toString(DataType.JSON));
-		return TheAPI.getNmsProvider().setNBT(stack, edit);
+		return BukkitLoader.getNmsProvider().setNBT(stack, edit);
 	}
 
 	@Override
@@ -306,7 +306,7 @@ public class CustomFish implements Fish {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
-		return TheAPI.getNmsProvider().setNBT(stack, edit);
+		return BukkitLoader.getNmsProvider().setNBT(stack, edit);
 	}
 
 	@Override
@@ -355,14 +355,14 @@ public class CustomFish implements Fish {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length,money,points,exp).toString(DataType.JSON));
-		return TheAPI.getNmsProvider().setNBT(stack, edit);
+		return BukkitLoader.getNmsProvider().setNBT(stack, edit);
 	}
 
 	@Override
 	public ItemStack preview(Player p) {
 		ItemCreatorAPI c = Create.find(showItem, type.name(), type.ordinal());
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
-		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
+		String nn = PlaceholderAPI.apply((data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -372,7 +372,7 @@ public class CustomFish implements Fish {
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
 				.replace("%name%", getName())
-				.replace("%fishname%", getDisplayName()));
+				.replace("%fishname%", getDisplayName()), p.getUniqueId());
 		c.setDisplayName(nn);
 		c.setUnbreakable(data.exists(path+"."+name+".preview.unbreakable")?data.getBoolean(path+"."+name+".preview.unbreakable"):data.getBoolean(path+"."+name+".unbreakable"));
 		for(String itemFlag : data.exists(path+"."+name+".preview.flags")?data.getStringList(path+"."+name+".preview.flags"):data.getStringList(path+"."+name+".flags"))
@@ -382,7 +382,7 @@ public class CustomFish implements Fish {
 				
 			}
 		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");
-		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
+		l.replaceAll(a -> PlaceholderAPI.apply(a
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -391,7 +391,7 @@ public class CustomFish implements Fish {
 				.replace("%blockedbiomes%", bbc)
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
-				.replace("%displayname%", p.getDisplayName())));
+				.replace("%displayname%", p.getDisplayName()), p.getUniqueId()));
 		c.setLore(l);
 		for(String enchant : data.exists(path+"."+name+".preview.enchants")?data.getStringList(path+"."+name+".preview.enchants"):data.getStringList(path+"."+name+".enchants")) {
 			if(EnchantmentAPI.byName(enchant)!=null)
@@ -405,7 +405,7 @@ public class CustomFish implements Fish {
 	}
 	
 	private String s(String s, Player p, Location l) {
-		return PlaceholderAPI.setPlaceholders(p, s
+		return PlaceholderAPI.apply(s
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
@@ -413,7 +413,7 @@ public class CustomFish implements Fish {
 				.replace("%x%", ""+l.getBlockX())
 				.replace("%y%", ""+l.getBlockY())
 				.replace("%z%", ""+l.getBlockZ())
-				.replace("%world%", l.getWorld().getName()));
+				.replace("%world%", l.getWorld().getName()), p.getUniqueId());
 	}
 
 	@Override
@@ -460,7 +460,7 @@ public class CustomFish implements Fish {
 	}
 	
 	@Override
-	public CatchFish createCatchFish(Data data) {
+	public CatchFish createCatchFish(Config data) {
 		return new CatchFish() {
 			
 			@Override

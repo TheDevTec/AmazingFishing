@@ -10,14 +10,14 @@ import org.bukkit.block.Biome;
 import me.devtec.amazingfishing.construct.FishTime;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Treasure;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.json.Json;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.json.Json;
 
 public class CustomTreasure implements Treasure {
 	final String name;
-	final Data data;
+	final Config data;
 	
-	public CustomTreasure(String name, Data data) {
+	public CustomTreasure(String name, Config data) {
 		this.name=name;
 		this.data=data;
 	}

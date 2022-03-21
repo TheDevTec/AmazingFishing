@@ -5,8 +5,6 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.devtec.theapi.TheAPI;
-
 public class Rod {
 	private static HashMap<Player, ItemStack> rod = new HashMap<Player, ItemStack>();
 	
@@ -23,7 +21,7 @@ public class Rod {
 		rod.remove(p);
 	}
 	public static void retriveRod(Player p) {
-		TheAPI.giveItem(p, rod.remove(p));
+		p.getInventory().addItem(rod.remove(p));
 	}
 }
 

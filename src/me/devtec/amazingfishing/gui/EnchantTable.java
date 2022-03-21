@@ -11,13 +11,12 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.other.Rod;
 import me.devtec.amazingfishing.utils.Create;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
-import me.devtec.theapi.guiapi.ItemGUI;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.nms.nbt.NBTEdit;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
+import me.devtec.theapi.bukkit.gui.HolderGUI;
+import me.devtec.theapi.bukkit.gui.ItemGUI;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class EnchantTable {
 	public static void openMain(Player p) {
@@ -82,7 +81,7 @@ public class EnchantTable {
 	
 	private static int getLevel(ItemStack rod, String enchant) {
 		NBTEdit edit = new NBTEdit(rod);
-		Data data = new Data();
+		Config data = new Config();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
 		return data.getInt("enchants."+enchant.toLowerCase());
@@ -107,7 +106,7 @@ public class EnchantTable {
 						if(API.getPoints().has(p.getName(), cost)) {
 							API.getPoints().remove(p.getName(), cost);
 							enchant.enchant(rod, 1);
-							TheAPI.giveItem(p, rod);
+							p.getInventory().addItem(rod);
 							Rod.deleteRod(p);
 							if(!openEnchanterPlace(p, 0))
 								openMain(p);
@@ -139,7 +138,7 @@ public class EnchantTable {
 						if(API.getPoints().has(p.getName(), cost)) {
 							API.getPoints().remove(p.getName(), cost);
 							enchant.enchant(rod, 1);
-							TheAPI.giveItem(p, rod);
+							p.getInventory().addItem(rod);
 							Rod.deleteRod(p);
 							if(!openEnchanterPlace(p, 1))
 								openMain(p);

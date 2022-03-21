@@ -14,9 +14,9 @@ import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.points.PointsManager;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.nms.nbt.NBTEdit;
+import me.devtec.shared.Ref;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class API {
 	public static Map<String, Fish> fish = new HashMap<>();
@@ -100,15 +100,15 @@ public class API {
 	public static boolean isFishItem(ItemStack stack) {
 		if(stack.getType()==head.getType())
 			return true;
-		return stack.getType() == cod.getType() && TheAPI.isNewVersion() || (stack.getData().getData() == cod.getData().getData() ||
-				stack.getType() == salmon.getType() && TheAPI.isNewVersion() || (stack.getData().getData() == salmon.getData().getData() ||
-				stack.getType() == pufferfish.getType() && TheAPI.isNewVersion() || (stack.getData().getData() == pufferfish.getData().getData() ||
-				stack.getType() == tropical_fish.getType() && TheAPI.isNewVersion() || stack.getData().getData() == tropical_fish.getData().getData())));
+		return stack.getType() == cod.getType() && Ref.isNewerThan(12) || (stack.getData().getData() == cod.getData().getData() ||
+				stack.getType() == salmon.getType() && Ref.isNewerThan(12) || (stack.getData().getData() == salmon.getData().getData() ||
+				stack.getType() == pufferfish.getType() && Ref.isNewerThan(12) || (stack.getData().getData() == pufferfish.getData().getData() ||
+				stack.getType() == tropical_fish.getType() && Ref.isNewerThan(12) || stack.getData().getData() == tropical_fish.getData().getData())));
 	}
 	
 	public static Fish getFish(ItemStack stack) {
 		NBTEdit edit = new NBTEdit(stack);
-		Data data = new Data();
+		Config data = new Config();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
 		if(data.getKeys().isEmpty())return null;
@@ -119,7 +119,7 @@ public class API {
 	
 	public static CatchFish getCatchFish(ItemStack stack) {
 		NBTEdit edit = new NBTEdit(stack);
-		Data data = new Data();
+		Config data = new Config();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
 		if(data.getKeys().isEmpty())return null;
@@ -133,7 +133,7 @@ public class API {
 	
 	public static Junk getJunk(ItemStack stack) {
 		NBTEdit edit = new NBTEdit(stack);
-		Data data = new Data();
+		Config data = new Config();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
 		if(data.getKeys().isEmpty())return null;

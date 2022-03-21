@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing;
 
+import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -12,9 +13,15 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.construct.Enchant;
@@ -43,45 +50,110 @@ import me.devtec.amazingfishing.utils.points.UserPoints;
 import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.configapi.Config;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderRegister;
-import me.devtec.theapi.scheduler.Tasker;
-import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.VersionChecker;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.reflections.Ref;
+import me.devtec.shared.Ref;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.shared.placeholders.PlaceholderExpansion;
+import me.devtec.shared.scheduler.Tasker;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.versioning.VersionUtils;
+import me.devtec.theapi.bukkit.BukkitLoader;
 
 public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
+	private static final Constructor<?> constructor = Ref.constructor(PluginCommand.class, String.class, Plugin.class);
 	public static Config tran, config, gui, shop;
-	public static Data cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
-	static String prefix=Manager.getPluginName();
-	protected static PlaceholderRegister reg;
+	public static Config cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
+	protected static String prefix=Manager.getPluginName();
+	protected static PlaceholderExpansion reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public static ItemStack next, prev;
 	
+	public static void createAndRegisterCommand(String commandName, String permission, CommandExecutor commandExecutor,
+			List<String> aliases) {
+		PluginCommand cmd = createCommand(commandName.toLowerCase(), plugin);
+		if (permission != null)
+			Ref.set(cmd, "permission", permission.toLowerCase());
+		cmd.setPermissionMessage("");
+		List<String> lowerCase = new ArrayList<>();
+		if (aliases != null)
+			for (String s : aliases)
+				lowerCase.add(s.toLowerCase());
+		cmd.setAliases(lowerCase);
+		cmd.setUsage("");
+		Ref.set(cmd, "executor", commandExecutor);
+		registerCommand(cmd);
+	}
+	
+	public static PluginCommand createCommand(String name, Plugin plugin) {
+		return (PluginCommand) Ref.newInstance(constructor, name, plugin);
+	}
+
+	public static CommandMap cmdMap = (CommandMap)Ref.get(Bukkit.getPluginManager(), "commandMap");
+	@SuppressWarnings("unchecked")
+	public static Map<String, Command> knownCommands = (Map<String, Command>) Ref.get(cmdMap, "knownCommands");
+
+	public static void registerCommand(PluginCommand command) {
+		String label = command.getName().toLowerCase(Locale.ENGLISH).trim();
+		String sd = command.getPlugin().getName().toLowerCase(Locale.ENGLISH).trim();
+		command.setLabel(sd + ":" + label);
+		command.register(cmdMap);
+		if (command.getTabCompleter() == null) {
+			if (command.getExecutor() instanceof TabCompleter) {
+				command.setTabCompleter((TabCompleter) command.getExecutor());
+			} else
+				command.setTabCompleter(new TabCompleter() {
+					public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+						return null;
+					}
+				});
+		}
+		if (command.getExecutor() == null) {
+			if (command.getTabCompleter() instanceof CommandExecutor) {
+				command.setExecutor((CommandExecutor) command.getTabCompleter());
+			} else
+				return; // exectutor can't be null
+		}
+		List<String> low = new ArrayList<>();
+		for (String s : command.getAliases()) {
+			s = s.toLowerCase(Locale.ENGLISH).trim();
+			low.add(s);
+		}
+		command.setAliases(low);
+		command.setPermission("");
+		if (!low.contains(label))
+			low.add(label);
+		for (String s : low)
+			knownCommands.put(s, command);
+	}
+	
+	
+	//TODO Vault intergration
+	
 	public void onEnable() {
-		if(VersionChecker.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "8.3")==VersionChecker.Version.NEW) {
-			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
-			TheAPI.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", TheAPI.getConsole());
-			TheAPI.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", TheAPI.getConsole());
-			TheAPI.msg(prefix+"        &6https://www.spigotmc.org/resources/72679/", TheAPI.getConsole());
-			TheAPI.msg(prefix+" &8*********************************************", TheAPI.getConsole());
+		if(VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "9.1")==VersionUtils.Version.NEWER_VERSION) {
+			Loader.msg(prefix+" &8*********************************************", Bukkit.getConsoleSender());
+			Loader.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", Bukkit.getConsoleSender());
+			Loader.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", Bukkit.getConsoleSender());
+			Loader.msg(prefix+"        &6https://www.spigotmc.org/resources/72679/", Bukkit.getConsoleSender());
+			Loader.msg(prefix+" &8*********************************************", Bukkit.getConsoleSender());
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
 		plugin=this;
+		if(Ref.field(Command.class, "timings")!=null && Ref.isOlderThan(9)) {
+			Ref.set(Bukkit.getServer(), "commandMap", new Old1_8SimpleCommandMap(Bukkit.getServer(), knownCommands));
+		}
+		
 		Configs.load();
 		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
 		prefix = tran.getString("prefix");
-		new me.devtec.theapi.utils.theapiutils.metrics.Metrics(this, 10630);
-		reload(TheAPI.getConsole(),false);
+		new Metrics(this, 10630);
+		reload(Bukkit.getConsoleSender(),false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
-		TheAPI.createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
+		createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
 		
 		if(Placeholders.isEnabledPlaceholderAPI())
 			PAPISupport.load();
@@ -92,11 +164,11 @@ public class Loader extends JavaPlugin {
 					public void run() {
 						if(TournamentManager.start(null, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 							String format = TournamentManager.get(null).getType().formatted(), path = TournamentManager.get(null).getType().configPath();
-							for(Player p : TheAPI.getOnlinePlayers()) {
+							for(Player p : BukkitLoader.getOnlinePlayers()) {
 								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Messages"))
-									TheAPI.msg(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)), p);
+									Loader.msg(PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()), p);
 								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Commands"))
-									TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)));
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()));
 							}
 						}
 					}
@@ -104,14 +176,14 @@ public class Loader extends JavaPlugin {
 			}else {
 				new Tasker() {
 					public void run() {
-						World w = Bukkit.getWorld(TheAPI.getRandomFromList(config.getStringList("Tournament.Automatic.Worlds")));
+						World w = Bukkit.getWorld(StringUtils.getRandomFromList(config.getStringList("Tournament.Automatic.Worlds")));
 						if(TournamentManager.start(w, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 							String format = TournamentManager.get(w).getType().formatted(), path = TournamentManager.get(w).getType().configPath();
 							for(Player p : w.getPlayers()) {
 								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Messages"))
-									TheAPI.msg(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)), p);
+									Loader.msg(PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()), p);
 								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Commands"))
-									TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, f.replace("%type%", format)));
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()));
 							}
 						}
 					}
@@ -139,13 +211,13 @@ public class Loader extends JavaPlugin {
 			treasur.reload(treasur.getFile());
 			junk.reload(junk.getFile());
 			enchant.reload(enchant.getFile());
-			config.reload();
-			tran.reload();
+			config.reload(config.getFile());
+			tran.reload(tran.getFile());
 			prefix = tran.getString("prefix");
 			Loader.next = Create.make("buttons.next").create();
 			Loader.prev = Create.make("buttons.previous").create();
 			API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
-			TheAPI.msg(Create.text("reload").replace("%prefix%", getPrefix()), ss);
+			Loader.msg(Create.text("reload").replace("%prefix%", getPrefix()), ss);
 		}
 		AFKSystem.load();
 		Placeholders.loadTops();
@@ -194,7 +266,7 @@ public class Loader extends JavaPlugin {
 			API.register(new CustomFish(s.getKey().substring(0, s.getKey().length()-2), s.getValue().name().toLowerCase(), s.getValue(), getData(s.getValue())));
 		
 		//CLEAR-CACHE
-		TheAPI.msg(prefix+" Fish registered ("+toRegister.size()+") & removed unregistered ("+remove.size()+").", ss);
+		Loader.msg(prefix+" Fish registered ("+toRegister.size()+") & removed unregistered ("+remove.size()+").", ss);
 		toRegister.clear();
 		remove.clear();
 		
@@ -219,7 +291,7 @@ public class Loader extends JavaPlugin {
 			API.register(new CustomTreasure(s, treasur));
 		
 		//CLEAR-CACHE
-		TheAPI.msg(prefix+" Treasures registered ("+toReg.size()+") & removed unregistered ("+removeT.size()+").", ss);
+		Loader.msg(prefix+" Treasures registered ("+toReg.size()+") & removed unregistered ("+removeT.size()+").", ss);
 		toReg.clear();
 		removeT.clear();
 		
@@ -253,7 +325,7 @@ public class Loader extends JavaPlugin {
 		
 		}
 		//CLEAR-CACHE
-		TheAPI.msg(prefix+" Enchantments registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+		Loader.msg(prefix+" Enchantments registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();
 		removeE.clear();
 		
@@ -275,7 +347,7 @@ public class Loader extends JavaPlugin {
 			Quests.register(new Quest(s, quest));
 			
 		//CLEAR-CACHE
-		TheAPI.msg(prefix+" Quests registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+		Loader.msg(prefix+" Quests registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();
 		removeE.clear();
 		
@@ -290,7 +362,7 @@ public class Loader extends JavaPlugin {
 				Quests.addToCategory( new Category(category, quest));
 			}
 			
-			TheAPI.msg(prefix+" Quests categories registered ("+Quests.categories.size()+") & removed unregistered ("+old+").", ss);
+			Loader.msg(prefix+" Quests categories registered ("+Quests.categories.size()+") & removed unregistered ("+old+").", ss);
 		}
 		
 		//ACHIEVEMENTS
@@ -312,7 +384,7 @@ public class Loader extends JavaPlugin {
 				Achievements.register(new Achievement(s, achievements));
 		
 		//CLEAR-CACHE
-		TheAPI.msg(prefix+" Achievements registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+		Loader.msg(prefix+" Achievements registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
 		toReg.clear();
 		removeE.clear();
 		
@@ -322,7 +394,7 @@ public class Loader extends JavaPlugin {
 			for(String category : achievements.getKeys("categories"))
 				Achievements.addToCategory( new Category(category, achievements));
 			
-			TheAPI.msg(prefix+" Achievements categories registered ("+Achievements.categories.size()+") & removed unregistered ("+old+").", ss);
+			Loader.msg(prefix+" Achievements categories registered ("+Achievements.categories.size()+") & removed unregistered ("+old+").", ss);
 			
 		}
 		
@@ -347,14 +419,14 @@ public class Loader extends JavaPlugin {
 			API.register(new CustomJunk(s, "items", junk));
 		
 		//CLEAR-CACHE
-		TheAPI.msg(prefix+" Junk registered ("+toReg.size()+") & removed unregistered ("+removeJ.size()+").", ss);
+		Loader.msg(prefix+" Junk registered ("+toReg.size()+") & removed unregistered ("+removeJ.size()+").", ss);
 		toReg.clear();
 		removeJ.clear();
 				
 		API.onReload.forEach(a->a.run());
 	}
 	
-	public static Data getData(FishType type) {
+	public static Config getData(FishType type) {
 		switch(type) {
 		case COD:
 			return cod;
@@ -371,7 +443,11 @@ public class Loader extends JavaPlugin {
 	}
 
 	public static void msg(String msg, CommandSender s) {
-		TheAPI.msg(msg.replace("%prefix%", getPrefix()), s);
+		s.sendMessage(replace(msg, s));
+	}
+	
+	public static String replace(String text, CommandSender s) {
+		return StringUtils.colorize(PlaceholderAPI.apply(text.replace("%prefix%", getPrefix()).replace("%player%", s.getName()), s instanceof Player? ((Player)s).getUniqueId() : null));
 	}
 
 	public static boolean has(CommandSender s, String permission) {
@@ -382,19 +458,19 @@ public class Loader extends JavaPlugin {
 
 	public static void onAfk(Player p) {
 		for(String s : Loader.config.getStringList("Options.AFK.Action.Afking")) {
-			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(s, p));
 		}
 	}
 
 	public static void onAfkStart(Player p) {
 		for(String s : Loader.config.getStringList("Options.AFK.Action.Start")) {
-			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(s, p));
 		}
 	}
 
 	public static void onAfkStop(Player p) {
 		for(String s : Loader.config.getStringList("Options.AFK.Action.Stop")) {
-			TheAPI.sudoConsole(StringUtils.colorize(PlaceholderAPI.setPlaceholders(p, s.replace("%player%", p.getName()))));
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(s, p));
 		}
 	}
    	/*

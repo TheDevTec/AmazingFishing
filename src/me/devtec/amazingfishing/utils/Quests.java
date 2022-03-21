@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -15,17 +16,16 @@ import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.utils.Categories.Category;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.datakeeper.User;
+import me.devtec.shared.API;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.theapi.bukkit.BukkitLoader;
 
 public class Quests {
 	public static class Quest {
-		private Data d;
+		private Config d;
 		private String name;
-		public Quest(String name, Data data) {
+		public Quest(String name, Config data) {
 			this.name=name;
 			d=data;
 		}
@@ -160,12 +160,12 @@ public class Quests {
 			int c = q.getCount((int)a[1]);
 			a[2]=(int)a[2]+amount;
 			if(c<=(int)a[2]) {
-				TheAPI.getNmsProvider().postToMainThread(new Runnable() {
+				BukkitLoader.getNmsProvider().postToMainThread(new Runnable() {
 					public void run() {
 						for(String cmd : q.getCommands((int)a[1]))
-							TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Loader.getPrefix()) ) );
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Loader.getPrefix()), player.getUniqueId() ) );
 						for(String cmd : q.getMessages((int)a[1]))
-							TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Loader.getPrefix()) ),player);
+							Loader.msg(PlaceholderAPI.apply(cmd.replace("%player%", player.getName()).replace("%quest%", q.getDisplayName()).replace("%questname%", q.getName()).replace("%prefix%", Loader.getPrefix()), player.getUniqueId() ),player);
 					}
 				});
 				if(q.getStages()<((int)a[1]+1)) { //END OF QUEST
@@ -189,7 +189,7 @@ public class Quests {
 	}
 
 	public static void save(String name) {
-		User a = TheAPI.getUser(name);
+		Config a = API.getUser(name);
 		Iterator<Object[]> it = progress.get(name).iterator();
 		while(it.hasNext()) {
 			Object[] o = it.next();
@@ -206,7 +206,7 @@ public class Quests {
 	}
 	
 	public static void load(String name) {
-		User a = TheAPI.getUser(name);
+		Config a = API.getUser(name);
 		Set<Object[]> set = new HashSet<>();
 		for(String s : a.getKeys("af-quests"))
 			if(quests.containsKey(s) && !isFinished(name, s))
@@ -215,7 +215,7 @@ public class Quests {
 	}
 	
 	public static void unload(String name) {
-		User a = TheAPI.getUser(name);
+		Config a = API.getUser(name);
 		Iterator<Object[]> it = progress.remove(name).iterator();
 		a.remove("af-quests");
 		while(it.hasNext()) {
@@ -231,7 +231,7 @@ public class Quests {
 	}
 	
 	public static void start(Player player, Quest quest) {
-		User a = TheAPI.getUser(player);
+		Config a = API.getUser(player.getUniqueId());
 		a.set("af-quests."+quest.getName()+".finished", false);
 		int i = 0;
 		if(quest.getAction(0)==null || quest.getAction(0).equalsIgnoreCase("")) i =1;
@@ -240,24 +240,24 @@ public class Quests {
 		a.save();
 		load(player.getName());
 		
-		TheAPI.getNmsProvider().postToMainThread(new Runnable() {
+		BukkitLoader.getNmsProvider().postToMainThread(new Runnable() {
 			public void run() {
 				for(String cmd : quest.getStartCommands() )
-					TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName())
-							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Loader.getPrefix()) ) );
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(cmd.replace("%player%", player.getName())
+							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Loader.getPrefix()), player.getUniqueId() ) );
 				for(String cmd : quest.getStartMessages())
-					TheAPI.msg(PlaceholderAPI.setPlaceholders(player, cmd.replace("%player%", player.getName())
-							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Loader.getPrefix()) ),player);
+					Loader.msg(PlaceholderAPI.apply(cmd.replace("%player%", player.getName())
+							.replace("%quest%", quest.getDisplayName()).replace("%questname%", quest.getName()).replace("%prefix%", Loader.getPrefix()), player.getUniqueId() ),player);
 			}
 		});
 	}
 	public static void finish(String name, String quest) {
-		User a = TheAPI.getUser(name);
+		Config a = API.getUser(name);
 		a.set("af-quests."+quest+".finished", true);
 		a.save();
 	}
 	public static void cancel(String name, String quest) {
-		User a = TheAPI.getUser(name);
+		Config a = API.getUser(name);
 		a.remove("af-quests."+quest );
 		a.save();
 	}
@@ -266,11 +266,11 @@ public class Quests {
 		return false;
 	}
 	public static boolean isFinished(String player, String quest) {
-		return TheAPI.getUser(player).getBoolean("af-quests."+quest+".finished");
+		return API.getUser(player).getBoolean("af-quests."+quest+".finished");
 	}	
 	public static boolean isInPorgress(String player, String quest) {
-		User u = TheAPI.getUser(player);
-		if(u.exist("af-quests."+quest) ) return true;
+		Config u = API.getUser(player);
+		if(u.exists("af-quests."+quest) ) return true;
 		return false;
 	}	
 	public static boolean canStartNew(String player) {
@@ -278,7 +278,7 @@ public class Quests {
 		return true;
 	}	
 	public static boolean canCancel(String player, Quest quest) {
-		if(!TheAPI.getUser(player).exist("af-quests."+quest.getName()) ) return false;
+		if(!API.getUser(player).exists("af-quests."+quest.getName()) ) return false;
 		if(isFinished(player, quest.getName())) return false;
 		else return true;
 	}
@@ -292,7 +292,7 @@ public class Quests {
 	}
 	public static Map<String, Quest> getActiveQuests(String player) {
 		Map<String, Quest> q = new HashMap<>();
-		User u = TheAPI.getUser(player);
+		Config u = API.getUser(player);
 		for(String quest: u.getKeys("af-quests")) {
 			if(!isFinished(player, quest))
 				q.put(quest, quests.get(quest));

@@ -3,6 +3,7 @@ package me.devtec.amazingfishing.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,21 +15,21 @@ import me.devtec.amazingfishing.construct.CatchFish;
 import me.devtec.amazingfishing.utils.Achievements;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
+import me.devtec.amazingfishing.utils.ItemCreatorAPI;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.Utils;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.economyapi.EconomyAPI;
-import me.devtec.theapi.guiapi.EmptyItemGUI;
-import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
-import me.devtec.theapi.guiapi.ItemGUI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.scheduler.Tasker;
-import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.reflections.Ref;
+import me.devtec.amazingfishing.utils.points.EconomyAPI;
+import me.devtec.shared.Ref;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.shared.scheduler.Tasker;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
+import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
+import me.devtec.theapi.bukkit.gui.HolderGUI;
+import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class Shop {
 	public static enum ShopType {
@@ -42,13 +43,13 @@ public class Shop {
 			public void onClose(Player player) {
 				if(t==ShopType.SELL) {
 					for(int count =10; count < 17; ++count)
-						TheAPI.giveItem(p, getItem(count));
+						p.getInventory().addItem(getItem(count));
 					for(int count =19; count < 26; ++count)
-						TheAPI.giveItem(p, getItem(count));
+						p.getInventory().addItem(getItem(count));
 					for(int count =28; count < 34; ++count)
-						TheAPI.giveItem(p, getItem(count));
+						p.getInventory().addItem(getItem(count));
 					for(int count =37; count < 44; ++count)
-						TheAPI.giveItem(p, getItem(count));
+						p.getInventory().addItem(getItem(count));
 				}
 			}}, Create.make("shops."+(t==ShopType.BUY?"buy":"sell")+".close").create(),  s -> Help.open(s), Settings.SIDES);
 		if(t==ShopType.SELL)
@@ -92,16 +93,16 @@ public class Shop {
 			int costExp = Loader.shop.getInt(item+".cost.exp");
 			inv.addItem(new ItemGUI(Utils.setModel(Create.makeShop(item).create(), Loader.shop.getInt(item+".model"))){
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
-					if(API.getPoints().get(p.getName()) >= costPoints && EconomyAPI.has(p, costVault) && p.getTotalExperience() >= costExp) {
+					if(API.getPoints().get(p.getName()) >= costPoints && EconomyAPI.has(p.getName(), costVault) && p.getTotalExperience() >= costExp) {
 						API.getPoints().remove(p.getName(), costPoints);
-						EconomyAPI.withdrawPlayer(p, costVault);
+						EconomyAPI.withdrawPlayer(p.getName(), costVault);
 						p.giveExp(-costExp);
 						for(String msg : Loader.shop.getStringList(item+".actions.messages"))
-							TheAPI.msg(PlaceholderAPI.setPlaceholders(p, msg.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))), p);
+							Loader.msg(PlaceholderAPI.apply(msg.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()), p);
 						List<String> cmds = Loader.shop.getStringList(item+".actions.commands");
-						TheAPI.getNmsProvider().postToMainThread(() -> {
+						BukkitLoader.getNmsProvider().postToMainThread(() -> {
 							for(String cmd : cmds)
-								TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(p, cmd.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))));
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(cmd.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()));
 						});
 						arg.setItem(4,replace(p, Create.make("shops.points"), ()->{}));
 					}
@@ -111,8 +112,8 @@ public class Shop {
 	}
 	
 	protected static ItemGUI replace(Player p, ItemCreatorAPI make, Runnable run) {
-		make.setDisplayName(PlaceholderAPI.setPlaceholders(p, Ref.get(make,"name").toString().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))));
-		make.getLore().replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName())))));
+		make.setDisplayName(PlaceholderAPI.apply(Ref.get(make,"name").toString().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()));
+		make.getLore().replaceAll(a -> PlaceholderAPI.apply(a.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()));
 		return new ItemGUI(make.create()) {
 		public void onClick(Player var1, HolderGUI var2, ClickType var3) {
 			run.run();
@@ -171,7 +172,7 @@ public class Shop {
 						totalPoints+= Loader.config.getDouble("Options.Sell.DefaultFish.Points");
 					sel=sel+d.getAmount();
 				}else
-					TheAPI.giveItem(p, d);
+					p.getInventory().addItem(d);
 				continue;
 			}
 			double length = 0, weight = 0;
@@ -201,7 +202,7 @@ public class Shop {
 					.replace("%money_bonus%", ""+f.getMoneyBoost()).replace("%points_bonus%", ""+f.getPointsBoost()).replace("%exp_bonus%", ""+f.getExpBoost()))*d.getAmount();
 			//a.remove(d);
 			Statistics.addSelling(p, f.getFish(), d.getAmount()); //Adding fish to Selling statistics
-			TheAPI.getNmsProvider().postToMainThread(() -> {
+			BukkitLoader.getNmsProvider().postToMainThread(() -> {
 			        Achievements.check(p, f);
 			        Quests.addProgress(p, "sell_fish", f.getType().name().toLowerCase()+"."+f.getName(), d.getAmount());
 				});
@@ -212,7 +213,7 @@ public class Shop {
 			if(Loader.config.getBoolean("Options.SellFish.DisableXP")) totalExp=0;
 			if(Loader.config.getBoolean("Options.SellFish.DisablePoints")) totalPoints=0;
 			API.getPoints().add(p.getName(), totalPoints);
-			EconomyAPI.depositPlayer(p, totalMoney);
+			EconomyAPI.depositPlayer(p.getName(), totalMoney);
 			p.giveExp((int)totalExp);
 
 			Statistics.addSellingValues(p, totalMoney, totalPoints, totalExp);

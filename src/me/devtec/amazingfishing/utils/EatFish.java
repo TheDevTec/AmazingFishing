@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,11 +12,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 import me.devtec.amazingfishing.API;
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.Junk;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
+import me.devtec.shared.placeholders.PlaceholderAPI;
 
 public class EatFish implements Listener {
 	
@@ -92,16 +93,16 @@ public class EatFish implements Listener {
         Statistics.addEating(who, f);
         Achievements.check(who, f);
 		for(String s : f.getMessages(FishAction.EAT))
-			TheAPI.msg(PlaceholderAPI.setPlaceholders(who, s
+			Loader.msg(PlaceholderAPI.apply(s
 					.replace("%name%", f.getDisplayName())
 					.replace("%player%", who.getName())
-					.replace("%displayname%", who.getDisplayName())
+					.replace("%displayname%", who.getDisplayName()), who.getUniqueId()
 					), who);
 		for(String s : f.getCommands(FishAction.EAT))
-			TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(who, s
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(s
 					.replace("%name%", f.getDisplayName())
 					.replace("%player%", who.getName())
-					.replace("%displayname%", who.getDisplayName())));
+					.replace("%displayname%", who.getDisplayName()), who.getUniqueId()));
 	}
 	
 	public void eat(Junk f, Player who) {
@@ -109,15 +110,15 @@ public class EatFish implements Listener {
 			who.setFoodLevel( (int) Math.max( (who.getFoodLevel()+f.getFood()) , 20));
 		}
 		for(String s : f.getMessages(FishAction.EAT))
-			TheAPI.msg(PlaceholderAPI.setPlaceholders(who, s
+			Loader.msg(PlaceholderAPI.apply(s
 					.replace("%name%", f.getDisplayName())
 					.replace("%player%", who.getName())
-					.replace("%displayname%", who.getDisplayName())
+					.replace("%displayname%", who.getDisplayName()), who.getUniqueId()
 					), who);
 		for(String s : f.getCommands(FishAction.EAT))
-			TheAPI.sudoConsole(PlaceholderAPI.setPlaceholders(who, s
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(s
 					.replace("%name%", f.getDisplayName())
 					.replace("%player%", who.getName())
-					.replace("%displayname%", who.getDisplayName())));
+					.replace("%displayname%", who.getDisplayName()), who.getUniqueId()));
 	}
 }

@@ -17,13 +17,12 @@ import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.Statistics.RecordType;
 import me.devtec.amazingfishing.utils.Statistics.SavingType;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.guiapi.EmptyItemGUI;
-import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
-import me.devtec.theapi.guiapi.ItemGUI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
+import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
+import me.devtec.theapi.bukkit.gui.HolderGUI;
+import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class Index {
 	static GUI g=Create.setup(new GUI(Create.title("index.title"),54), Create.make("index.close").create(), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
@@ -73,11 +72,11 @@ public class Index {
 				c.addItem(new ItemGUI(f.preview(s)) {
 					public void onClick(Player player, HolderGUI gui, ClickType click) {
 						List<String> prew = Loader.config.getStringList("Preview");
-						prew.replaceAll(a -> PlaceholderAPI.setPlaceholders(player, a.replace("%weight%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.WEIGHT)))
+						prew.replaceAll(a -> PlaceholderAPI.apply(a.replace("%weight%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.WEIGHT)))
 								.replace("%length%", Loader.ff.format(Statistics.getRecord(player, f, RecordType.LENGTH)))
-								.replace("%caught%", Loader.intt.format(Statistics.getCaught(player, f, SavingType.PER_FISH)))));
+								.replace("%caught%", Loader.intt.format(Statistics.getCaught(player, f, SavingType.PER_FISH))), player.getUniqueId()));
 						for(String sd : prew)
-							TheAPI.sendMessage(sd, player);
+							Loader.msg(sd, player);
 					}
 				});
 			}

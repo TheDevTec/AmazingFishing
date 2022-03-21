@@ -19,23 +19,23 @@ import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.EnchantmentAPI;
+import me.devtec.amazingfishing.utils.ItemCreatorAPI;
 import me.devtec.amazingfishing.utils.Utils;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.EnchantmentAPI;
-import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.datakeeper.DataType;
-import me.devtec.theapi.utils.json.Json;
-import me.devtec.theapi.utils.nms.nbt.NBTEdit;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
+import me.devtec.shared.json.Json;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class CustomJunk implements Junk {
 	
 	final String name, path;
-	final Data data;
+	final Config data;
 	String item, showItem;
 	
-	public CustomJunk(String name, String path, Data data) {
+	public CustomJunk(String name, String path, Config data) {
 		this.name=name;
 		this.path=path.toLowerCase();
 		this.data=data;
@@ -212,7 +212,7 @@ public class CustomJunk implements Junk {
 	}
 	
 	@Override
-	public boolean isInstance(Data data) {
+	public boolean isInstance(Config data) {
 		return data.exists("junk") && data.exists("type") && data.getString("junk").equals(name) && data.getString("type").equals("JUNK");
 	}
 	
@@ -267,14 +267,14 @@ public class CustomJunk implements Junk {
 		ItemStack stack = Utils.setModel(c.create(), getModel());
 		NBTEdit edit = new NBTEdit(stack);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
-		return TheAPI.getNmsProvider().setNBT(stack, edit);
+		return BukkitLoader.getNmsProvider().setNBT(stack, edit);
 	}
 
 	@Override
 	public ItemStack preview(Player p) {
 		ItemCreatorAPI c = Create.find(showItem, "STONE", 0);
 		String bc = sub(getBiomes().toString()), bbc = sub(getBlockedBiomes().toString());
-		String nn = PlaceholderAPI.setPlaceholders(p, (data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
+		String nn = PlaceholderAPI.apply((data.getString(path+"."+name+".preview.name")!=null?data.getString(path+"."+name+".preview.name"):getDisplayName())
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -284,10 +284,10 @@ public class CustomJunk implements Junk {
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
 				.replace("%name%", getName())
-				.replace("%fishname%", getDisplayName()));
+				.replace("%fishname%", getDisplayName()), p.getUniqueId());
 		c.setDisplayName(nn);
 		List<String> l = data.exists(path+"."+name+".preview.lore")?data.getStringList(path+"."+name+".preview.lore"):data.getStringList(path+"."+name+".lore");
-		l.replaceAll(a -> PlaceholderAPI.setPlaceholders(p, a
+		l.replaceAll(a -> PlaceholderAPI.apply(a
 				.replace("%weight%", Loader.ff.format(getWeight()))
 				.replace("%length%", Loader.ff.format(getLength()))
 				.replace("%chance%", Loader.ff.format(getChance()))
@@ -296,7 +296,7 @@ public class CustomJunk implements Junk {
 				.replace("%blockedbiomes%", bbc)
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
-				.replace("%displayname%", p.getDisplayName())));
+				.replace("%displayname%", p.getDisplayName()), p.getUniqueId()));
 		c.setLore(l);
 		for(String enchant : data.exists(path+"."+name+".preview.enchants")?data.getStringList(path+"."+name+".preview.enchants"):data.getStringList(path+"."+name+".enchants")) {
 			if(EnchantmentAPI.byName(enchant)!=null)
@@ -318,7 +318,7 @@ public class CustomJunk implements Junk {
 	}
 
 	private String s(String s, Player p, Location l) {
-		return PlaceholderAPI.setPlaceholders(p, s
+		return PlaceholderAPI.apply(s
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
@@ -326,15 +326,15 @@ public class CustomJunk implements Junk {
 				.replace("%x%", ""+l.getBlockX())
 				.replace("%y%", ""+l.getBlockY())
 				.replace("%z%", ""+l.getBlockZ())
-				.replace("%world%", l.getWorld().getName()));
+				.replace("%world%", l.getWorld().getName()), p.getUniqueId());
 	}
 	
-	public Data createData(double weight, double length) {
-		return new Data().set("junk", name).set("type", getType().name()).set("item", item).set("weigth", weight).set("length", length);
+	public Config createData(double weight, double length) {
+		return new Config().set("junk", name).set("type", getType().name()).set("item", item).set("weigth", weight).set("length", length);
 	}
 
-	public Data createData() {
-		return new Data().set("junk", name).set("type", getType().name()).set("item", item);
+	public Config createData() {
+		return new Config().set("junk", name).set("type", getType().name()).set("item", item);
 	}
 	
 	public String toString() {

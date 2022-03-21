@@ -5,15 +5,14 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemFlag;
 
-import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.shared.dataholder.Config;
 
 public class Categories {
 
 	public static class Category {
-		private Data d;
+		private Config d;
 		private String name; // Category Name
-		public Category(String name, Data data) {
+		public Category(String name, Config data) {
 			this.name=name;
 			d=data;
 		}

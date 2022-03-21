@@ -7,12 +7,11 @@ import org.bukkit.inventory.ItemStack;
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.guiapi.EmptyItemGUI;
-import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
-import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
+import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
+import me.devtec.theapi.bukkit.gui.HolderGUI;
+import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class Convertor {
 	public static void open(Player p) {
@@ -20,7 +19,7 @@ public class Convertor {
 			public void onClose(Player arg0) {
 				for(int count =0; count < 44; ++count)
 					if(count!=4 && count!=13 && count!=22 && count!=31 && count!=40)
-						TheAPI.giveItem(p, getItem(count));
+						p.getInventory().addItem(getItem(count));
 			}
 		}, Create.make("convertor.close").create(), f -> Help.open(f), Settings.WITHOUT_TOP);
 		a.setItem(49,new ItemGUI(Create.make("convertor.convert").create()) {

@@ -1,15 +1,15 @@
 package me.devtec.amazingfishing.utils.points;
 
-import me.devtec.theapi.TheAPI;
+import me.devtec.shared.API;
 
 public class UserPoints implements PointsManager {
 
 	public double get(String player) {
-		return TheAPI.getUser(player).getDouble("af.points");
+		return API.getUser(player).getDouble("af.points");
 	}
 
 	public void set(String player, double points) {
-		TheAPI.getUser(player).set("af.points", points);
+		API.getUser(player).set("af.points", points);
 	}
 
 	public void add(String player, double points) {

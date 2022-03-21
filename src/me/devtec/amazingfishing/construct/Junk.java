@@ -7,7 +7,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.shared.dataholder.Config;
 
 public interface Junk {
 
@@ -57,7 +57,7 @@ public interface Junk {
 	
 	boolean hasLength();
 	
-	boolean isInstance(Data data);
+	boolean isInstance(Config data);
 	
 	public ItemStack create(double weight, double length, Player p, Location hook);
 

@@ -10,11 +10,11 @@ import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Pagination;
-import me.devtec.theapi.guiapi.EmptyItemGUI;
-import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
-import me.devtec.theapi.guiapi.ItemGUI;
+import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
+import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
+import me.devtec.theapi.bukkit.gui.HolderGUI;
+import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class AchievementGUI {
 

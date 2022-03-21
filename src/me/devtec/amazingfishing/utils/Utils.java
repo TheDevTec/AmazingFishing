@@ -10,9 +10,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import me.devtec.amazingfishing.Loader;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.configapi.Config;
-import me.devtec.theapi.utils.StringUtils;
+import me.devtec.shared.Ref;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.utility.StringUtils;
 
 public class Utils {
 	public static ItemStack setModel(ItemStack s, int model) {
@@ -49,7 +49,7 @@ public class Utils {
 	}
 	
 	public static void fixDefaultConfig() {
-		if(!TheAPI.isOlderThan(13))return;
+		if(!Ref.isOlderThan(13))return;
 		boolean save = false;
 		for(String key : Loader.gui.getKeys(true)) {
 			if(key.endsWith(".icon") && Loader.gui.getString(key)!=null) {
@@ -108,7 +108,7 @@ public class Utils {
 	public static void convertFiles() {
 		if(new File("plugins/AmazingFishing/Data.yml").exists()) {
 			Config c = new Config("AmazingFishing/Data.yml");
-			c.getData().getFile().renameTo(new File("plugins/AmazingFishing/Data.yml-Backup"));
+			c.getFile().renameTo(new File("plugins/AmazingFishing/Data.yml-Backup"));
 			//FISH
 			for(String s : c.getKeys("fish.cod",true)) {
 				Loader.cod.set("cod."+s, c.get("fish.cod."+s));

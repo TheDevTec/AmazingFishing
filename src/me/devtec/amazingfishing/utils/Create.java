@@ -2,6 +2,7 @@ package me.devtec.amazingfishing.utils;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
@@ -9,14 +10,12 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.Loader;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.apis.ItemCreatorAPI;
-import me.devtec.theapi.guiapi.EmptyItemGUI;
-import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
-import me.devtec.theapi.guiapi.ItemGUI;
-import me.devtec.theapi.utils.StringUtils;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
+import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
+import me.devtec.theapi.bukkit.gui.HolderGUI;
+import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class Create {
 	public static ItemCreatorAPI make(String path) {
@@ -31,7 +30,7 @@ public class Create {
 			try {
 				create.addItemFlag(ItemFlag.valueOf(flag.toUpperCase()));
 			}catch(Exception | NoSuchFieldError er) {
-				TheAPI.msg("[GUI] Invalid ItemFlag ("+flag+") of item in the section "+path, TheAPI.getConsole() );
+				Loader.msg("[GUI] Invalid ItemFlag ("+flag+") of item in the section "+path, Bukkit.getConsoleSender() );
 			}
 		}
 		create.setUnbreakable(Loader.gui.getBoolean(path+".unbreakable"));
@@ -50,7 +49,7 @@ public class Create {
 			try {
 				create.addItemFlag(ItemFlag.valueOf(flag.toUpperCase()));
 			}catch(Exception | NoSuchFieldError er) {
-				TheAPI.msg("[Shop] Invalid ItemFlag ("+flag+") of item in the section "+path, TheAPI.getConsole() );
+				Loader.msg("[Shop] Invalid ItemFlag ("+flag+") of item in the section "+path, Bukkit.getConsoleSender() );
 			}
 		}
 		create.setUnbreakable(Loader.shop.getBoolean(path+".unbreakable"));

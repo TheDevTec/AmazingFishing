@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
-import me.devtec.theapi.TheAPI;
+import me.devtec.shared.Ref;
 
 public class BossBarManager {
 	static Map<Player, SBossBar> bar = new HashMap<>();
@@ -15,7 +15,7 @@ public class BossBarManager {
 	
 	public static SBossBar getOrCreate(Player player) {
 		SBossBar bar = get(player);
-		if(bar==null)BossBarManager.bar.put(player,bar=TheAPI.isOlderThan(9)?new LegacyBossBar(player, "", 100):new ModernBossBar(player, ""));
+		if(bar==null)BossBarManager.bar.put(player,bar=Ref.isOlderThan(9)?new LegacyBossBar(player, "", 100):new ModernBossBar(player, ""));
 		return bar;
 	}
 	

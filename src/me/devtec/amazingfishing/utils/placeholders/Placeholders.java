@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.utils.placeholders;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -8,12 +9,12 @@ import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.utils.Manager;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.scheduler.Tasker;
-import me.devtec.theapi.sortedmap.RankingAPI;
-import me.devtec.theapi.sortedmap.SortedMap.ComparableObject;
-import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.datakeeper.User;
+import me.devtec.shared.API;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.scheduler.Tasker;
+import me.devtec.shared.sorting.RankingAPI;
+import me.devtec.shared.sorting.SortingAPI.ComparableObject;
+import me.devtec.shared.utility.StringUtils;
 
 public class Placeholders {
 	
@@ -79,9 +80,9 @@ public class Placeholders {
 					path=path+s.substring(0, 1).toUpperCase() + s.substring(1);
 			}
 		}
-		if(!TheAPI.getUser(player).exist(path))
+		if(!API.getUser(player.getUniqueId()).exists(path))
 			return "0";
-		return TheAPI.getUser(player).getString(path);
+		return API.getUser(player.getUniqueId()).getString(path);
 	}
 	
 	/*
@@ -130,13 +131,14 @@ public class Placeholders {
 				HashMap<UUID, Integer> t_wins = new HashMap<>();
 				HashMap<UUID, Integer> f_caught = new HashMap<>();
 				
-				for(UUID uuid : TheAPI.getUsers()) {
-					User u = TheAPI.getUser(uuid);
-					if(u.exist(Manager.getDataLocation()+".Statistics.Tournament.Placements")) {
+				for(File uuidfile : new File("plugins/TheAPI/Users").listFiles()) {
+					UUID uuid = UUID.fromString(uuidfile.getName().replace(".yml", ""));
+					Config u = API.getUser(uuid);
+					if(u.exists(Manager.getDataLocation()+".Statistics.Tournament.Placements")) {
 						int i = u.getInt(Manager.getDataLocation()+".Statistics.Tournament.Placements");
 						t_wins.put(uuid, i);
 					}
-					if(u.exist(Manager.getDataLocation()+".Statistics.Fish.Caught")) {
+					if(u.exists(Manager.getDataLocation()+".Statistics.Fish.Caught")) {
 						int i = u.getInt(Manager.getDataLocation()+".Statistics.Fish.Caught");
 						f_caught.put(uuid, i);
 					}

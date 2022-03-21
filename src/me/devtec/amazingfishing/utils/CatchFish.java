@@ -6,6 +6,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
@@ -30,13 +31,12 @@ import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.construct.Treasure;
 import me.devtec.amazingfishing.utils.tournament.Tournament;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.placeholderapi.PlaceholderAPI;
-import me.devtec.theapi.utils.PercentageList;
-import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.nms.nbt.NBTEdit;
-import me.devtec.theapi.utils.reflections.Ref;
+import me.devtec.shared.Ref;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.placeholders.PlaceholderAPI;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utils.PercentageList;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class CatchFish implements Listener {
 
@@ -62,7 +62,7 @@ public class CatchFish implements Listener {
 						
 						FishCatchList list = new FishCatchList();
 						NBTEdit edit = new NBTEdit(e.getPlayer().getItemInHand());
-						Data data = new Data();
+						Config data = new Config();
 						if(edit.hasKey("af_data"))
 							data.reload(edit.getString("af_data"));
 						for(String s : data.getKeys("enchants")) {
@@ -111,14 +111,14 @@ public class CatchFish implements Listener {
 					        Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
 					        Achievements.check(e.getPlayer(), f);
 							for(String s : f.getMessages(FishAction.CATCH))
-								TheAPI.msg(s(s,e.getPlayer(), loc)
+								Loader.msg(s(s,e.getPlayer(), loc)
 										.replace("%chance%", fs.format(f.getChance()))
 										.replace("%weight%", fs.format(weight))
 										.replace("%length%", fs.format(length))
 										.replace("%name%", s(f.getDisplayName(),e.getPlayer(), loc))
 										.replace("%biomes%", sub(f.getBiomes().toString())),e.getPlayer());
 							for(String s : f.getCommands(FishAction.CATCH))
-								TheAPI.sudoConsole(s(s,e.getPlayer(), loc)
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s(s,e.getPlayer(), loc)
 										.replace("%chance%", fs.format(f.getChance()))
 										.replace("%weight%", fs.format(weight))
 										.replace("%length%", fs.format(length))
@@ -139,12 +139,12 @@ public class CatchFish implements Listener {
 							Statistics.addTreasure(e.getPlayer(), treas);
 							 Achievements.check(e.getPlayer(), treas);
 							for(String s : treas.getMessages())
-								TheAPI.msg(s(s,e.getPlayer(), loc)
+								Loader.msg(s(s,e.getPlayer(), loc)
 										.replace("%chance%", fs.format(treas.getChance()))
 										.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), loc))
 										.replace("%biomes%", sub(treas.getBiomes().toString())),e.getPlayer());
 							for(String s : treas.getCommands())
-								TheAPI.sudoConsole(s(s,e.getPlayer(), loc)
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s(s,e.getPlayer(), loc)
 										.replace("%chance%", fs.format(treas.getChance()))
 										.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), loc))
 										.replace("%biomes%", sub(treas.getBiomes().toString())));
@@ -185,14 +185,14 @@ public class CatchFish implements Listener {
 						if(i!=null)
 							giveItem(item, i, e.getPlayer(), loc);
 						for(String s : junk.getMessages(FishAction.CATCH))
-							TheAPI.msg(s(s,e.getPlayer(), loc)
+							Loader.msg(s(s,e.getPlayer(), loc)
 									.replace("%chance%", fs.format(junk.getChance()))
 									.replace("%weight%", fs.format(weight))
 									.replace("%length%", fs.format(length))
 									.replace("%name%", s(junk.getDisplayName(),e.getPlayer(), loc))
 									.replace("%biomes%", sub(junk.getBiomes().toString())),e.getPlayer());
 						for(String s : junk.getCommands(FishAction.CATCH))
-							TheAPI.sudoConsole(s(s,e.getPlayer(), loc)
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s(s,e.getPlayer(), loc)
 									.replace("%chance%", fs.format(junk.getChance()))
 									.replace("%weight%", fs.format(weight))
 									.replace("%length%", fs.format(length))
@@ -219,7 +219,7 @@ public class CatchFish implements Listener {
 	}
 	
 	private String s(String s, Player p, Location l) {
-		return PlaceholderAPI.setPlaceholders(p, s
+		return PlaceholderAPI.apply(s
 				.replace("%player%", p.getName())
 				.replace("%playername%", p.getDisplayName())
 				.replace("%displayname%", p.getDisplayName())
@@ -227,7 +227,7 @@ public class CatchFish implements Listener {
 				.replace("%x%", ""+l.getBlockX())
 				.replace("%y%", ""+l.getBlockY())
 				.replace("%z%", ""+l.getBlockZ())
-				.replace("%world%", l.getWorld().getName()));
+				.replace("%world%", l.getWorld().getName()), p.getUniqueId());
 	}
 	
 	public PercentageList<Fish> generateRandom(Player player, Biome biome, boolean hasStorm, boolean thunder, long time) {

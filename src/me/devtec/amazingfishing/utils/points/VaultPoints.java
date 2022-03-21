@@ -1,7 +1,5 @@
 package me.devtec.amazingfishing.utils.points;
 
-import me.devtec.theapi.economyapi.EconomyAPI;
-
 public class VaultPoints implements PointsManager {
 
 	public double get(String player) {

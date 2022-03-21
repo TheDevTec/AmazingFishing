@@ -11,10 +11,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.scheduler.Scheduler;
-import me.devtec.theapi.scheduler.Tasker;
-import me.devtec.theapi.utils.StringUtils;
+import me.devtec.shared.scheduler.Scheduler;
+import me.devtec.shared.scheduler.Tasker;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.theapi.bukkit.BukkitLoader;
 
 public class AFKSystem {
 	private static int i;
@@ -29,7 +29,7 @@ public class AFKSystem {
 		i=new Tasker() {
 			public void run() {
 				try {
-					for(Player p : TheAPI.getOnlinePlayers()) {
+					for(Player p : BukkitLoader.getOnlinePlayers()) {
 						Location stand = where.get(p.getUniqueId());
 						if(stand==null) {
 							where.put(p.getUniqueId(), p.getLocation());
@@ -42,16 +42,16 @@ public class AFKSystem {
 								standing.put(p.getUniqueId(), 0);
 								if(noticed.contains(p.getUniqueId())) {
 									noticed.remove(p.getUniqueId());
-									TheAPI.getNmsProvider().postToMainThread(() -> Loader.onAfkStop(p));
+									BukkitLoader.getNmsProvider().postToMainThread(() -> Loader.onAfkStop(p));
 								}
 							}else {
 								standing.put(p.getUniqueId(), standing.getOrDefault(p.getUniqueId(), 0)+1);
 								if(isAFK(p.getUniqueId())) {
 									if(!noticed.contains(p.getUniqueId())) {
 										noticed.add(p.getUniqueId());
-										TheAPI.getNmsProvider().postToMainThread(() -> Loader.onAfkStart(p));
+										BukkitLoader.getNmsProvider().postToMainThread(() -> Loader.onAfkStart(p));
 									}else
-										TheAPI.getNmsProvider().postToMainThread(() -> Loader.onAfk(p));
+										BukkitLoader.getNmsProvider().postToMainThread(() -> Loader.onAfk(p));
 								}
 							}
 						}

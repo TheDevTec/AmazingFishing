@@ -5,16 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.devtec.amazingfishing.Loader;
-import me.devtec.theapi.configapi.Config;
-import me.devtec.theapi.utils.StreamUtils;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.datakeeper.DataType;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
+import me.devtec.shared.utility.StreamUtils;
 
 public class Configs {
 	static List<String> datas = Arrays.asList("Config.yml","GUI.yml","Shop.yml","Translations.yml");
 	
 	public static void load() {
-		Data data = new Data();
+		Config data = new Config();
     	boolean change = false;
 		for(String s : datas) {
 			data.reset();
@@ -34,14 +33,14 @@ public class Configs {
 	    		break;
 	    	}
 	    	if(c!=null) {
-	    		c.reload();
+	    		c.reload(c.getFile());
 	    	}else c=new Config("AmazingFishing/"+s);
     		try {
     		URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/"+s).openConnection();
     		u.setUseCaches(false);
     		data.reload(StreamUtils.fromStream(u.getInputStream()));
     		}catch(Exception e) {e.printStackTrace();}
-	    	change = c.getData().merge(data, true, true);
+	    	change = c.merge(data, true, true);
 	    	if(change)
 	    	c.save();
 	    	switch(s) {
@@ -75,11 +74,11 @@ public class Configs {
 		Loader.prev = Create.make("buttons.previous").create();
 	}
 
-	private static Data loadOrReload(Data data, Data d, String path) {
+	private static Config loadOrReload(Config data, Config d, String path) {
 		if(d!=null) {
 			d.reload(d.getFile());
 		}else {
-			d = new Data("plugins/AmazingFishing/"+path);
+			d = new Config("plugins/AmazingFishing/"+path);
 			try{
 				d.getFile().getParentFile().mkdirs();
 				}catch(Exception er) {}

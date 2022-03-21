@@ -7,7 +7,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.devtec.theapi.utils.datakeeper.Data;
+import me.devtec.shared.dataholder.Config;
 
 public interface Fish {
 	public String getName();
@@ -38,11 +38,11 @@ public interface Fish {
 	
 	public int getModel();
 	
-	public Data createData(double weight, double length);
+	public Config createData(double weight, double length);
 	
-	public Data createData(double weight, double length, double money, double points, double exp);
+	public Config createData(double weight, double length, double money, double points, double exp);
 	
-	public boolean isInstance(Data data);
+	public boolean isInstance(Config data);
 
 	public ItemStack createItem(double height, double length);
 
@@ -70,7 +70,7 @@ public interface Fish {
 	
 	public double getFood();
 	
-	public CatchFish createCatchFish(Data data);
+	public CatchFish createCatchFish(Config data);
 
 	boolean isFood();
 

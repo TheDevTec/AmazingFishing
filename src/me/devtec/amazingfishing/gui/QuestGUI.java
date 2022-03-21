@@ -15,13 +15,12 @@ import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.guiapi.EmptyItemGUI;
-import me.devtec.theapi.guiapi.GUI;
-import me.devtec.theapi.guiapi.GUI.ClickType;
-import me.devtec.theapi.guiapi.HolderGUI;
-import me.devtec.theapi.guiapi.ItemGUI;
-import me.devtec.theapi.utils.datakeeper.User;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
+import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
+import me.devtec.theapi.bukkit.gui.HolderGUI;
+import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class QuestGUI {
 	
@@ -207,7 +206,7 @@ public class QuestGUI {
 	
 	private static void openMyQuests(Player p, int page) {
 		GUI a = Create.setup(new GUI(Create.title("quests.title-own"),54),Create.make("quests.close").create(), f -> Help.open(f));
-		User u = TheAPI.getUser(p);
+		Config u = me.devtec.shared.API.getUser(p.getUniqueId());
 		Pagination<String> pagi = new Pagination<String>(28);
 		List<String> finishpagi = new ArrayList<String>();
 		for(String quest: u.getKeys("af-quests")) {

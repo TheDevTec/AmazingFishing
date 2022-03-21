@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
-import me.devtec.theapi.utils.json.Json;
+import me.devtec.shared.json.Json;
 
 public class CustomEnchantment extends Enchant {
 	final int level;

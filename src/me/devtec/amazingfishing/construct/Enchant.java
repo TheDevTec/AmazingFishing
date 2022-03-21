@@ -9,11 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.devtec.theapi.TheAPI;
-import me.devtec.theapi.utils.StringUtils;
-import me.devtec.theapi.utils.datakeeper.Data;
-import me.devtec.theapi.utils.datakeeper.DataType;
-import me.devtec.theapi.utils.nms.nbt.NBTEdit;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public abstract class Enchant {
 	
@@ -50,7 +50,7 @@ public abstract class Enchant {
 	
 	public int enchant(ItemStack rod, int amount) {
 		NBTEdit edit = new NBTEdit(rod);
-		Data data = new Data();
+		Config data = new Config();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
 		String remove = data.getString("enchant."+name.toLowerCase());
@@ -60,7 +60,7 @@ public abstract class Enchant {
 				data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
 						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount);
 		edit.setString("af_data", data.toString(DataType.JSON));
-		rod=TheAPI.getNmsProvider().setNBT(rod, edit);
+		rod=BukkitLoader.getNmsProvider().setNBT(rod, edit);
 		ItemMeta m = rod.getItemMeta();
 		List<String> l = m.getLore() != null ? m.getLore() : new ArrayList<>();
 		if(remove!=null)
@@ -100,7 +100,7 @@ public abstract class Enchant {
 	}
 	public boolean containsEnchant(ItemStack rod) {
 		NBTEdit edit = new NBTEdit(rod);
-		Data data = new Data();
+		Config data = new Config();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
 		if(data.exists("enchant."+name.toLowerCase()))
