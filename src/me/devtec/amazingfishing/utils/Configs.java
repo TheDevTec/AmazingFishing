@@ -34,7 +34,7 @@ public class Configs {
 	    	}
 	    	if(c!=null) {
 	    		c.reload(c.getFile());
-	    	}else c=new Config("AmazingFishing/"+s);
+	    	}else c=new Config("plugins/AmazingFishing/"+s);
     		try {
     		URLConnection u = Loader.plugin.getClass().getClassLoader().getResource("Configs/"+s).openConnection();
     		u.setUseCaches(false);

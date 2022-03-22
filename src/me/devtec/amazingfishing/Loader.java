@@ -155,8 +155,7 @@ public class Loader extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
 		createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
 		
-		if(Placeholders.isEnabledPlaceholderAPI())
-			PAPISupport.load();
+		PAPISupport.load();
 		
 		if(config.getBoolean("Tournament.Automatic.Use")) {
 			if(config.getBoolean("Tournament.Automatic.AllWorlds")) {

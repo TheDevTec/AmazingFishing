@@ -130,7 +130,7 @@ public class Placeholders {
 				fish_caught.clear();
 				HashMap<UUID, Integer> t_wins = new HashMap<>();
 				HashMap<UUID, Integer> f_caught = new HashMap<>();
-				
+				if(new File("plugins/TheAPI/Users").exists())
 				for(File uuidfile : new File("plugins/TheAPI/Users").listFiles()) {
 					UUID uuid = UUID.fromString(uuidfile.getName().replace(".yml", ""));
 					Config u = API.getUser(uuid);
@@ -145,7 +145,7 @@ public class Placeholders {
 				}		
 				int pos=1;		
 				if(!t_wins.isEmpty()) {
-				RankingAPI<UUID, Integer> ranks = new RankingAPI<UUID, Integer>(t_wins);
+				RankingAPI<UUID, Integer> ranks = new RankingAPI<>(t_wins);
 				for(ComparableObject<UUID, Integer> data: ranks.all()) {
 					if(pos==5)break;
 					tournaments_wins.put(pos, data);
@@ -153,7 +153,7 @@ public class Placeholders {
 				};
 				}
 				if(!f_caught.isEmpty()) {
-				RankingAPI<UUID, Integer> ranks2 = new RankingAPI<UUID, Integer>(f_caught);
+				RankingAPI<UUID, Integer> ranks2 = new RankingAPI<>(f_caught);
 				pos=1;
 				for(ComparableObject<UUID, Integer> data: ranks2.all()) {
 					if(pos==5)break;
@@ -164,10 +164,6 @@ public class Placeholders {
 			}
 		}.runRepeating(1, StringUtils.getTimeFromString(Loader.config.getString("Options.Placeholders.Settings.Reload_of_data_time"))*20 );
 		
-	}
-	
-	public static boolean isEnabledPlaceholderAPI() {
-		return Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null;
 	}
 	
 }
