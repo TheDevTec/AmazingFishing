@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing.utils;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 import org.bukkit.Material;
@@ -28,7 +28,7 @@ public class Utils {
 		}
 	}
 	
-	static Map<String, MaterialData> mat = new HashMap<>();
+	static Map<String, MaterialData> mat = new ConcurrentHashMap<>();
 	static {
 		mat.put("BLACK_STAINED_GLASS_PANE", find("BLACK_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 15));
 		mat.put("BLUE_STAINED_GLASS_PANE", find("BLUE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 11));

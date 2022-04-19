@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing.utils.placeholders;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -92,8 +92,8 @@ public class Placeholders {
 	 *  fish caught
 	 *  
 	 */
-	private static HashMap<Integer, ComparableObject<UUID, Integer>> tournaments_wins = new HashMap<>(); // position - <UUID, Chyceno>
-	private static HashMap<Integer, ComparableObject<UUID, Integer>> fish_caught = new HashMap<>(); // position - < UUID, Chyceno>
+	private static ConcurrentHashMap<Integer, ComparableObject<UUID, Integer>> tournaments_wins = new ConcurrentHashMap<>(); // position - <UUID, Chyceno>
+	private static ConcurrentHashMap<Integer, ComparableObject<UUID, Integer>> fish_caught = new ConcurrentHashMap<>(); // position - < UUID, Chyceno>
 	public static enum TopType {
 		FISH_CAUGHT,
 		TOURNAMENTS_WINS;
@@ -128,8 +128,8 @@ public class Placeholders {
 			public void run() {	
 				tournaments_wins.clear();
 				fish_caught.clear();
-				HashMap<UUID, Integer> t_wins = new HashMap<>();
-				HashMap<UUID, Integer> f_caught = new HashMap<>();
+				ConcurrentHashMap<UUID, Integer> t_wins = new ConcurrentHashMap<>();
+				ConcurrentHashMap<UUID, Integer> f_caught = new ConcurrentHashMap<>();
 				if(new File("plugins/TheAPI/Users").exists())
 				for(File uuidfile : new File("plugins/TheAPI/Users").listFiles()) {
 					UUID uuid = UUID.fromString(uuidfile.getName().replace(".yml", ""));

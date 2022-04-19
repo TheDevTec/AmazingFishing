@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +19,9 @@ import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class API {
-	public static Map<String, Fish> fish = new HashMap<>();
-	public static Map<String, Junk> junk = new HashMap<>();
-	protected static Map<String, Treasure> treasure = new HashMap<>();
+	public static Map<String, Fish> fish = new ConcurrentHashMap<>();
+	public static Map<String, Junk> junk = new ConcurrentHashMap<>();
+	protected static Map<String, Treasure> treasure = new ConcurrentHashMap<>();
 	protected static ItemStack cod = find("COD",0), salmon = find("SALMON",1)
 			, pufferfish = find("PUFFERFISH",2), tropical_fish = find("TROPICAL_FISH",3)
 			,head = find("PLAYER_HEAD", 0);

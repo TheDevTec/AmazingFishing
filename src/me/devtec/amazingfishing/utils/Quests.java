@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -115,8 +115,8 @@ public class Quests {
 		}
 	}
 	
-	public static Map<String, Quest> quests = new HashMap<>();
-	public static Map<String, Category> categories = new HashMap<>(); // name, Category
+	public static Map<String, Quest> quests = new ConcurrentHashMap<>();
+	public static Map<String, Category> categories = new ConcurrentHashMap<>(); // name, Category
 	
 	public static void register(Quest quest) {
 		quests.put(quest.getName(), quest);
@@ -134,7 +134,7 @@ public class Quests {
 	}
 	
 	//PlayerName, Set<Object[QuestName, Stage]>
-	private static Map<String, Set<Object[]>> progress = new HashMap<>();
+	private static Map<String, Set<Object[]>> progress = new ConcurrentHashMap<>();
 	
 	//action = catch_fish, eat_fish, sell_fish
 	//value = type_of_fish.name_of_fish -> cod.nazev
@@ -283,7 +283,7 @@ public class Quests {
 		else return true;
 	}
 	public static Map<String, Quest> getQuests(String player) {
-		Map<String, Quest> q = new HashMap<>();
+		Map<String, Quest> q = new ConcurrentHashMap<>();
 		for(Quest quest: quests.values()) {
 			if(!isFinished(player, quest.getName()))
 				q.put(quest.getName(), quest);
@@ -291,7 +291,7 @@ public class Quests {
 		return q;
 	}
 	public static Map<String, Quest> getActiveQuests(String player) {
-		Map<String, Quest> q = new HashMap<>();
+		Map<String, Quest> q = new ConcurrentHashMap<>();
 		Config u = API.getUser(player);
 		for(String quest: u.getKeys("af-quests")) {
 			if(!isFinished(player, quest))

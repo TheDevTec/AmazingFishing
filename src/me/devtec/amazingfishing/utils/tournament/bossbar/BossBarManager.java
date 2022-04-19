@@ -1,6 +1,6 @@
 package me.devtec.amazingfishing.utils.tournament.bossbar;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import me.devtec.shared.Ref;
 
 public class BossBarManager {
-	static Map<Player, SBossBar> bar = new HashMap<>();
+	static Map<Player, SBossBar> bar = new ConcurrentHashMap<>();
 	public static SBossBar get(Player player) {
 		return bar.get(player);
 	}

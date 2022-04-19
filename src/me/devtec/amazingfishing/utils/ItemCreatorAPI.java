@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -203,10 +203,10 @@ public class ItemCreatorAPI implements Cloneable {
 	private Color c;
 	private boolean unb;
 	private SkullType type;
-	private final HashMap<Attribute, AttributeModifier> w = new HashMap<>();
+	private final ConcurrentHashMap<Attribute, AttributeModifier> w = new ConcurrentHashMap<>();
 	private int s, model, dur;
-	private final HashMap<PotionEffectType, String> ef = new HashMap<>();
-	private final HashMap<Enchantment, Integer> enchs = new HashMap<>();
+	private final ConcurrentHashMap<PotionEffectType, String> ef = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<Enchantment, Integer> enchs = new ConcurrentHashMap<>();
 	private final List<Object> pages = new ArrayList<>();
 	private List<Object> lore = new ArrayList<>();
 	private final List<Object> map = new ArrayList<>();
@@ -453,7 +453,7 @@ public class ItemCreatorAPI implements Cloneable {
 	}
 
 	public Map<Enchantment, Integer> getEnchantments() {
-		HashMap<Enchantment, Integer> e = new HashMap<>();
+		ConcurrentHashMap<Enchantment, Integer> e = new ConcurrentHashMap<>();
 		for (Enchantment d : a.getEnchantments().keySet())
 			e.put(d, a.getEnchantments().get(d).intValue());
 		return e;
@@ -558,7 +558,7 @@ public class ItemCreatorAPI implements Cloneable {
 
 	public Map<Attribute, AttributeModifier> getAttributeModifiers() {
 		try {
-			Map<Attribute, AttributeModifier> h = new HashMap<>();
+			Map<Attribute, AttributeModifier> h = new ConcurrentHashMap<>();
 			try {
 				if (hasAttributeModifiers()) {
 					Multimap<Attribute, AttributeModifier> map = a.getItemMeta().getAttributeModifiers();
@@ -1006,7 +1006,7 @@ public class ItemCreatorAPI implements Cloneable {
 		}
 		
 		public String toString() {
-			HashMap<String, String> data = new HashMap<>();
+			ConcurrentHashMap<String, String> data = new ConcurrentHashMap<>();
 			data.put("texture.value", value);
 			data.put("texture.signature", signature);
 			return Json.writer().simpleWrite(data);

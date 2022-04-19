@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing.creation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -338,7 +338,7 @@ public class CustomJunk implements Junk {
 	}
 	
 	public String toString() {
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new ConcurrentHashMap<>();
 		map.put("type", "Junk");
 		map.put("name", getName());
 		map.put("chance", getChance());

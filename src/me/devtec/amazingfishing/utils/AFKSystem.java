@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -19,8 +19,8 @@ import me.devtec.theapi.bukkit.BukkitLoader;
 public class AFKSystem {
 	private static int i;
 	private static long afkTime;
-	protected static Map<UUID, Integer> standing = new HashMap<>();
-	protected static Map<UUID, Location> where = new HashMap<>();
+	protected static Map<UUID, Integer> standing = new ConcurrentHashMap<>();
+	protected static Map<UUID, Location> where = new ConcurrentHashMap<>();
 	protected static List<UUID> noticed = new ArrayList<>();
 	public static void load() {
 		if(!Loader.config.getBoolean("Options.AFK.Enabled"))return;

@@ -24,6 +24,7 @@ import me.devtec.shared.Ref;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.StringUtils.FormatType;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
 import me.devtec.theapi.bukkit.gui.GUI;
@@ -98,11 +99,11 @@ public class Shop {
 						EconomyAPI.withdrawPlayer(p.getName(), costVault);
 						p.giveExp(-costExp);
 						for(String msg : Loader.shop.getStringList(item+".actions.messages"))
-							Loader.msg(PlaceholderAPI.apply(msg.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()), p);
+							Loader.msg(PlaceholderAPI.apply(msg.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.formatDouble(FormatType.NORMAL,API.getPoints().get(p.getName()))), p.getUniqueId()), p);
 						List<String> cmds = Loader.shop.getStringList(item+".actions.commands");
 						BukkitLoader.getNmsProvider().postToMainThread(() -> {
 							for(String cmd : cmds)
-								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(cmd.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()));
+								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(cmd.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.formatDouble(FormatType.NORMAL,API.getPoints().get(p.getName()))), p.getUniqueId()));
 						});
 						arg.setItem(4,replace(p, Create.make("shops.points"), ()->{}));
 					}
@@ -112,8 +113,8 @@ public class Shop {
 	}
 	
 	protected static ItemGUI replace(Player p, ItemCreatorAPI make, Runnable run) {
-		make.setDisplayName(PlaceholderAPI.apply(Ref.get(make,"name").toString().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()));
-		make.getLore().replaceAll(a -> PlaceholderAPI.apply(a.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.fixedFormatDouble(API.getPoints().get(p.getName()))), p.getUniqueId()));
+		make.setDisplayName(PlaceholderAPI.apply(Ref.get(make,"name").toString().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.formatDouble(FormatType.NORMAL,API.getPoints().get(p.getName()))), p.getUniqueId()));
+		make.getLore().replaceAll(a -> PlaceholderAPI.apply(a.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.formatDouble(FormatType.NORMAL,API.getPoints().get(p.getName()))), p.getUniqueId()));
 		return new ItemGUI(make.create()) {
 		public void onClick(Player var1, HolderGUI var2, ClickType var3) {
 			run.run();

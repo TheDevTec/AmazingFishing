@@ -1,6 +1,6 @@
 package me.devtec.amazingfishing.utils.tournament;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -29,7 +29,7 @@ public class Tournament {
 	
 	private final int task;
 	private long runOut,total;
-	private final Map<Player, Double> values = new HashMap<>();
+	private final Map<Player, Double> values = new ConcurrentHashMap<>();
 	private final TournamentType t;
 	public Tournament(TournamentType type, long time, World world) {
 		while(type==TournamentType.RANDOM) {

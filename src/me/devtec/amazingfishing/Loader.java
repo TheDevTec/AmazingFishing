@@ -1,27 +1,21 @@
 package me.devtec.amazingfishing;
 
-import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.construct.Enchant;
@@ -58,76 +52,17 @@ import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.utility.StringUtils;
 import me.devtec.shared.versioning.VersionUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.commands.hooker.BukkitCommandManager;
 
 public class Loader extends JavaPlugin {
 
 	public static Loader plugin;
-	private static final Constructor<?> constructor = Ref.constructor(PluginCommand.class, String.class, Plugin.class);
 	public static Config tran, config, gui, shop;
 	public static Config cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
 	protected static String prefix=Manager.getPluginName();
 	protected static PlaceholderExpansion reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public static ItemStack next, prev;
-	
-	public static void createAndRegisterCommand(String commandName, String permission, CommandExecutor commandExecutor,
-			List<String> aliases) {
-		PluginCommand cmd = createCommand(commandName.toLowerCase(), plugin);
-		if (permission != null)
-			Ref.set(cmd, "permission", permission.toLowerCase());
-		cmd.setPermissionMessage("");
-		List<String> lowerCase = new ArrayList<>();
-		if (aliases != null)
-			for (String s : aliases)
-				lowerCase.add(s.toLowerCase());
-		cmd.setAliases(lowerCase);
-		cmd.setUsage("");
-		Ref.set(cmd, "executor", commandExecutor);
-		registerCommand(cmd);
-	}
-	
-	public static PluginCommand createCommand(String name, Plugin plugin) {
-		return (PluginCommand) Ref.newInstance(constructor, name, plugin);
-	}
-
-	public static CommandMap cmdMap = (CommandMap)Ref.get(Bukkit.getPluginManager(), "commandMap");
-	@SuppressWarnings("unchecked")
-	public static Map<String, Command> knownCommands = (Map<String, Command>) Ref.get(cmdMap, "knownCommands");
-
-	public static void registerCommand(PluginCommand command) {
-		String label = command.getName().toLowerCase(Locale.ENGLISH).trim();
-		String sd = command.getPlugin().getName().toLowerCase(Locale.ENGLISH).trim();
-		command.setLabel(sd + ":" + label);
-		command.register(cmdMap);
-		if (command.getTabCompleter() == null) {
-			if (command.getExecutor() instanceof TabCompleter) {
-				command.setTabCompleter((TabCompleter) command.getExecutor());
-			} else
-				command.setTabCompleter(new TabCompleter() {
-					public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-						return null;
-					}
-				});
-		}
-		if (command.getExecutor() == null) {
-			if (command.getTabCompleter() instanceof CommandExecutor) {
-				command.setExecutor((CommandExecutor) command.getTabCompleter());
-			} else
-				return; // exectutor can't be null
-		}
-		List<String> low = new ArrayList<>();
-		for (String s : command.getAliases()) {
-			s = s.toLowerCase(Locale.ENGLISH).trim();
-			low.add(s);
-		}
-		command.setAliases(low);
-		command.setPermission("");
-		if (!low.contains(label))
-			low.add(label);
-		for (String s : low)
-			knownCommands.put(s, command);
-	}
-	
 	
 	//TODO Vault intergration
 	
@@ -142,9 +77,6 @@ public class Loader extends JavaPlugin {
 			return;
 		}
 		plugin=this;
-		if(Ref.field(Command.class, "timings")!=null && Ref.isOlderThan(9)) {
-			Ref.set(Bukkit.getServer(), "commandMap", new Old1_8SimpleCommandMap(Bukkit.getServer(), knownCommands));
-		}
 		
 		Configs.load();
 		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
@@ -153,7 +85,13 @@ public class Loader extends JavaPlugin {
 		reload(Bukkit.getConsoleSender(),false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
-		createAndRegisterCommand(config.getString("Command.Name"),config.getString("Command.Permission"), new AmazingFishingCommand(), config.getStringList("Command.Aliases"));
+		PluginCommand cmd = BukkitCommandManager.createCommand(config.getString("Command.Name"),this);
+		cmd.setPermission(config.getString("Command.Permission"));
+		AmazingFishingCommand amf = new AmazingFishingCommand();
+		cmd.setExecutor(amf);
+		cmd.setAliases(config.getStringList("Command.Aliases"));
+		//cmd.setTabCompleter(amf);
+		BukkitCommandManager.registerCommand(cmd);
 		
 		PAPISupport.load();
 		
@@ -223,7 +161,7 @@ public class Loader extends JavaPlugin {
 		//FISH
 		
 		//PRE-LOAD
-		Map<String, FishType> toRegister = new HashMap<>();
+		Map<String, FishType> toRegister = new ConcurrentHashMap<>();
 		FishType type = FishType.COD;
 		for(String fish : cod.getKeys("cod")) {
 			try {

@@ -1,6 +1,6 @@
 package me.devtec.amazingfishing.utils.tournament;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import org.bukkit.World;
 
 public class TournamentManager {
-	private static Map<World, Tournament> t = new HashMap<>();
+	private static Map<World, Tournament> t = new ConcurrentHashMap<>();
 	private static Tournament global;
 	
 	public static boolean isRunning(World world) {

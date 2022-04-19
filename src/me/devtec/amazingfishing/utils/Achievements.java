@@ -1,7 +1,7 @@
 package me.devtec.amazingfishing.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -146,8 +146,8 @@ public class Achievements {
 	
 	
 	
-	public static Map<String, Achievement> achievements = new HashMap<>();
-	public static Map<String, Category> categories = new HashMap<>();  // name, Category
+	public static Map<String, Achievement> achievements = new ConcurrentHashMap<>();
+	public static Map<String, Category> categories = new ConcurrentHashMap<>();  // name, Category
 	
 	public static void register(Achievement achievement) {
 		achievements.put(achievement.getName(), achievement);
