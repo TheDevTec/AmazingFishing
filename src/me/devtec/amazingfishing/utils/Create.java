@@ -81,7 +81,6 @@ public class Create {
 	
 	public static ItemCreatorAPI find(String item, String fallbackItem, int fallbackId) {
 		item=item.toUpperCase();
-		fallbackItem=fallbackItem.toUpperCase();
 		ItemCreatorAPI creator;
 		if(item.startsWith("head:")) {
 			String head = item.substring(5);
@@ -110,6 +109,7 @@ public class Create {
 				return creator;
 			}
 		}
+		//legacy
 		if(item.startsWith("hdb:")) {
 			creator = new ItemCreatorAPI(new ItemStack(mat, 1));
 			creator.setSkullType(SkullType.PLAYER);
@@ -123,16 +123,16 @@ public class Create {
 			return creator;
 		}
 		String[] slit = item.split(":");
-		if(item!=null && Material.getMaterial(slit[0])!=null) {
-			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(slit[0]),1,slit.length>=2?(short)StringUtils.getShort(slit[1]):0));
+		if(Material.getMaterial(slit[0])!=null) {
+			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(slit[0]), 1, slit.length >= 2 ? StringUtils.getShort(slit[1]) : 0));
 			return creator;
 		}
+		fallbackItem=fallbackItem.toUpperCase();
 		if(Material.getMaterial(fallbackItem)!=null) {
-			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(fallbackItem),1,(short)fallbackId));
+			creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial(fallbackItem), 1, (short)fallbackId));
 			return creator;
 		}
-		creator = new ItemCreatorAPI(new ItemStack(Material.getMaterial("RAW_FISH"),1, (short)fallbackId));
-		return creator;
+		return new ItemCreatorAPI(new ItemStack(Material.getMaterial("RAW_FISH"), 1, (short)fallbackId));
 	}
 	
 	public static ItemGUI item = new EmptyItemGUI(ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getItemType(), 1, "&c",Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getData()));

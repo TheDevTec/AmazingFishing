@@ -44,13 +44,17 @@ public class Shop {
 			public void onClose(Player player) {
 				if(t==ShopType.SELL) {
 					for(int count =10; count < 17; ++count)
-						p.getInventory().addItem(getItem(count));
+						if(getItem(count)!=null)
+							p.getInventory().addItem(getItem(count));
 					for(int count =19; count < 26; ++count)
-						p.getInventory().addItem(getItem(count));
+						if(getItem(count)!=null)
+							p.getInventory().addItem(getItem(count));
 					for(int count =28; count < 34; ++count)
-						p.getInventory().addItem(getItem(count));
+						if(getItem(count)!=null)
+							p.getInventory().addItem(getItem(count));
 					for(int count =37; count < 44; ++count)
-						p.getInventory().addItem(getItem(count));
+						if(getItem(count)!=null)
+							p.getInventory().addItem(getItem(count));
 				}
 			}}, Create.make("shops."+(t==ShopType.BUY?"buy":"sell")+".close").create(),  s -> Help.open(s), Settings.SIDES);
 		if(t==ShopType.SELL)
@@ -127,23 +131,28 @@ public class Shop {
 		item.setUnstealable(false);
 		if(!expand) {
 			for(int count =10; count < 17; ++count) {
+				if(gui.getItem(count)==null)continue;
 				a.add(gui.getItem(count));
 				gui.setItem(count, item );
 			}
 			for(int count =19; count < 26; ++count) {
+				if(gui.getItem(count)==null)continue;
 				a.add(gui.getItem(count));
 				gui.setItem(count, item );
 			}
 			for(int count =28; count < 35; ++count) {
+				if(gui.getItem(count)==null)continue;
 				a.add(gui.getItem(count));
 				gui.setItem(count, item );
 			}
 			for(int count =37; count < 44; ++count) {
+				if(gui.getItem(count)==null)continue;
 				a.add(gui.getItem(count));
 				gui.setItem(count, item );
 			}
 		}else {
 			for(int count = 0; count < 45; ++count) {
+				if(gui.getItem(count)==null)continue;
 				a.add(gui.getItem(count));
 				gui.setItem(count, item );
 			}

@@ -1,9 +1,14 @@
 item1:
   enabled: true
-  name: "&7TestingItem &e| %cost%"
+  name: "&fTestingItem"
   icon: "STONE"
   amount: 1
-  lore: []
+  lore:
+  - "&7» &fCost:"
+  - "  &7| &fPoints: &b2"
+  - ""
+  - "&7» &fItems:"
+  - "  &7| &fStone 3x"
   cost:
     vault: 0
     points: 2
@@ -15,5 +20,5 @@ item1:
   
   actions:
     commands:
-    - "give %player% STONE 1"
+    - "give %player% STONE 3"
     messages: []
