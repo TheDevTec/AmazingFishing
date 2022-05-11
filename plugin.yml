@@ -1,6 +1,6 @@
 name: AmazingFishing
 main: me.devtec.amazingfishing.Loader
-version: 5.2
+version: 5.3
 author: DevTec
 depend: [TheAPI]
 softdepend: [HeadDatabase,Vault]
