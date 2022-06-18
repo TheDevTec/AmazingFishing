@@ -1,10 +1,10 @@
 package me.devtec.amazingfishing.utils.tournament;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -26,61 +26,55 @@ import me.devtec.theapi.bukkit.nms.NmsProvider.TitleAction;
 
 public class Tournament {
 	private static Random r = new Random();
-	
+
 	private final int task;
 	private long runOut,total;
 	private final Map<Player, Double> values = new ConcurrentHashMap<>();
 	private final TournamentType t;
 	public Tournament(TournamentType type, long time, World world) {
-		while(type==TournamentType.RANDOM) {
-			type=TournamentType.values()[r.nextInt(TournamentType.values().length)];
-		}
+		while(type==TournamentType.RANDOM)
+			type=TournamentType.values()[Tournament.r.nextInt(TournamentType.values().length)];
 		t=type;
 		total=time;
-		
+
 		for(Player p : BukkitLoader.getOnlinePlayers()) {
 			if(world!=null)
 				if(world != p.getWorld())
 					continue;
-			BukkitLoader.getNmsProvider().postToMainThread(new Runnable() {
-				public void run() {
-					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Commands"))
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,p));
-				}
+			BukkitLoader.getNmsProvider().postToMainThread(() -> {
+				for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Commands"))
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,p));
 			});
 			for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Start.Messages"))
-				Loader.msg(replace(msg.replace("%time%", StringUtils.setTimeToString(time)) ,p), p);
+				Loader.msg(replace(msg.replace("%time%", StringUtils.timeToString(time)) ,p), p);
 		}
-		
+
 		runOut = time;
 		task = new Tasker() {
+			@Override
 			public void run() {
-				if(runOut-- <= 0) {
+				if(runOut-- <= 0)
 					stop(true);
-					return;
-				}else {
-					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
-						for(Player p : values.keySet()) {
-							SBossBar bar = BossBarManager.getOrCreate(p);
-							bar.show();
-							bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)));
-							bar.setTitle(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p));
-						}
-					if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
-						for(Player p : values.keySet())
-							BukkitLoader.getPacketHandler().send(p, BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Actionbar.Text"),p)));
+				if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
+					for(Player p : values.keySet()) {
+						SBossBar bar = BossBarManager.getOrCreate(p);
+						bar.show();
+						bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Counter"),p)));
+						bar.setTitle(replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Bossbar.Text"),p));
 					}
+				if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Actionbar.Use"))
+					for(Player p : values.keySet())
+						BukkitLoader.getPacketHandler().send(p, BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR, replace(Loader.config.getString("Tournament.Type."+t.configPath()+".Actionbar.Text"),p)));
 			}
 		}.runRepeating(0, 20);
 	}
-	
+
 	private String replace(String s, Player p) {
-		if(p!=null) {
+		if(p!=null)
 			s=s.replace("%value%", values.getOrDefault(p,0.0)+"").replace("%player%", p.getName())
-					.replace("%playername%", p.getDisplayName()+"")
-					.replace("%displayname%", p.getDisplayName()+"")
-					.replace("%customanem%", p.getCustomName()+"");
-		}
+			.replace("%playername%", p.getDisplayName()+"")
+			.replace("%displayname%", p.getDisplayName()+"")
+			.replace("%customanem%", p.getCustomName()+"");
 		return PlaceholderAPI.apply(s
 				.replace("%type%", t.formatted()+"").
 				replace("%time%", total+"")
@@ -88,27 +82,27 @@ public class Tournament {
 				.replace("%formatted_time%", StringUtils.timeToString(runOut))
 				.replace("%remaining%", runOut+""), p.getUniqueId());
 	}
-	
+
 	public long getTime() {
 		return runOut;
 	}
-	
+
 	public TournamentType getType() {
 		return t;
 	}
-	
+
 	public Set<Player> getPlayers() {
 		return values.keySet();
 	}
-	
+
 	public double getValue(Player player) {
 		return values.get(player);
 	}
-	
+
 	public Set<Entry<Player,Double>> getValues() {
 		return values.entrySet();
 	}
-	
+
 	public void stop(boolean giveRewards) {
 		if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
 			for(Player p : values.keySet())
@@ -128,8 +122,8 @@ public class Tournament {
 								.replace("%displayname%", d.getKey().getDisplayName()+"")
 								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
 						BukkitLoader.getNmsProvider().postToMainThread(() -> {
-								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cfmd);
-							});
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cfmd);
+						});
 					}
 					for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Position.Other.Messages")) {
 						msg=replace(msg.replace("%player%", d.getKey().getName())
@@ -158,8 +152,8 @@ public class Tournament {
 							.replace("%displayname%", d.getKey().getDisplayName()+"")
 							.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"");
 					BukkitLoader.getNmsProvider().postToMainThread(() -> {
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cfmd);
-						});
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cfmd);
+					});
 				}
 				for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Position."+pos+".Messages")) {
 					msg=replace(msg.replace("%player%", d.getKey().getName())
@@ -181,16 +175,15 @@ public class Tournament {
 					Loader.msg(msg,d.getKey());
 				}
 			}
-		}else {
+		} else
 			for(ComparableObject<Player, Double> d : top.all()) {
 				for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Messages"))
 					Loader.msg(replace(cmd,d.getKey()),d.getKey());
 				BukkitLoader.getNmsProvider().postToMainThread(() -> {
-						for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Commands"))
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,d.getKey()));
-					});
+					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Commands"))
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,d.getKey()));
+				});
 			}
-		}
 		TournamentManager.remove(this);
 		Scheduler.cancelTask(task);
 	}
@@ -198,9 +191,9 @@ public class Tournament {
 	public void catchFish(Player p, Fish f, double weight, double length) {
 		if(!values.containsKey(p)) {
 			BukkitLoader.getNmsProvider().postToMainThread(() -> {
-					for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Commands"))
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,p));
-				});
+				for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Commands"))
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd,p));
+			});
 			for(String msg : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Participated.Messages"))
 				Loader.msg(replace(msg,p), p);
 		}

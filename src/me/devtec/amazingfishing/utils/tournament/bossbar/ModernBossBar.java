@@ -6,7 +6,6 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
-import me.devtec.shared.API;
 import me.devtec.shared.utility.StringUtils;
 
 public class ModernBossBar implements SBossBar {
@@ -18,7 +17,7 @@ public class ModernBossBar implements SBossBar {
 		bar = Bukkit.createBossBar(StringUtils.colorize(title), BarColor.PURPLE, BarStyle.SEGMENTED_20);
 		bar.addPlayer(player);
 	}
-	
+
 	@Override
 	public void setTitle(String title) {
 		bar.setTitle(StringUtils.colorize(title));
@@ -62,12 +61,12 @@ public class ModernBossBar implements SBossBar {
 
 	@Override
 	public void setRandomStyle() {
-		setStyle(BarStyle.values()[API.generateRandomInt(BarStyle.values().length-1)].name());
+		setStyle(BarStyle.values()[StringUtils.generateRandomInt(BarStyle.values().length-1)].name());
 	}
 
 	@Override
 	public void setRandomColor() {
-		setColor(BarColor.values()[API.generateRandomInt(BarColor.values().length-1)].name());
+		setColor(BarColor.values()[StringUtils.generateRandomInt(BarColor.values().length-1)].name());
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import me.devtec.shared.dataholder.Config;
 
 public interface Fish {
 	public String getName();
-	
+
 	public FishType getType();
 
 	public String getDisplayName();
@@ -21,27 +21,27 @@ public interface Fish {
 	public List<String> getMessages(FishAction action);
 
 	public List<String> getCommands(FishAction action);
-	
+
 	public List<Biome> getBiomes();
 
 	public List<Biome> getBlockedBiomes();
-	
+
 	public List<String> getEnchantments();
-	
+
 	public double getChance();
-	
+
 	public String getPermission();
-	
+
 	public FishTime getCatchTime();
-	
+
 	public FishWeather getCatchWeather();
-	
+
 	public int getModel();
-	
+
 	public Config createData(double weight, double length);
-	
+
 	public Config createData(double weight, double length, double money, double points, double exp);
-	
+
 	public boolean isInstance(Config data);
 
 	public ItemStack createItem(double height, double length);
@@ -53,7 +53,7 @@ public interface Fish {
 	public ItemStack createItem(double weight, double length, double money, double points, double exp, Player p, Location hook);
 
 	public ItemStack preview(Player p);
-	
+
 	public double getWeight();
 
 	public double getLength();
@@ -61,15 +61,15 @@ public interface Fish {
 	public double getMinWeight();
 
 	public double getMinLength();
-	
+
 	public double getMoney();
 
 	public double getPoints();
-	
+
 	public double getXp();
-	
+
 	public double getFood();
-	
+
 	public CatchFish createCatchFish(Config data);
 
 	boolean isFood();
@@ -79,7 +79,7 @@ public interface Fish {
 				(getBiomes().isEmpty()||getBiomes().contains(biome)) &&
 				(getBlockedBiomes().isEmpty()|| !getBlockedBiomes().contains(biome)) &&
 				(getCatchTime()==FishTime.DAY && time <= 12000 || getCatchTime()==FishTime.NIGHT && time > 12000 || getCatchTime()==FishTime.EVERY)
-				&& (getCatchWeather()==FishWeather.EVERY|| hasStorm&&getCatchWeather()==FishWeather.RAIN|| thunder&&getCatchWeather()==FishWeather.THUNDER|| !hasStorm&&getCatchWeather()==FishWeather.SUN);
+				&& (getCatchWeather()==FishWeather.EVERY|| hasStorm&&getCatchWeather()==FishWeather.RAIN|| thunder&&getCatchWeather()==FishWeather.THUNDER|| !thunder && !hasStorm && getCatchWeather()==FishWeather.SUN);
 	}
 
 }
