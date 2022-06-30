@@ -1,9 +1,6 @@
 package me.devtec.amazingfishing.utils;
 
 import java.lang.reflect.Method;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -42,7 +39,6 @@ public class CatchFish implements Listener {
 
 	private static Method acc = Ref.method(PlayerFishEvent.class,"getHook");
 	private Random random = new Random();
-	private DecimalFormat fs = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
 	@EventHandler
 	public void onCatchRemake(PlayerFishEvent e) {
@@ -111,17 +107,15 @@ public class CatchFish implements Listener {
 								Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
 								Achievements.check(e.getPlayer(), f);
 								for(String s : f.getMessages(FishAction.CATCH))
-									Loader.msg(s(s,e.getPlayer(), loc)
-											.replace("%chance%", fs.format(f.getChance()))
-											.replace("%weight%", fs.format(weight))
-											.replace("%length%", fs.format(length))
+									Loader.msg(s(s.replace("%weight%", Loader.ff.format(weight))
+											.replace("%length%", Loader.ff.format(length)),e.getPlayer(), loc)
+											.replace("%chance%", Loader.ff.format(f.getChance()))
 											.replace("%name%", s(f.getDisplayName(),e.getPlayer(), loc))
 											.replace("%biomes%", sub(f.getBiomes().toString())),e.getPlayer());
 								for(String s : f.getCommands(FishAction.CATCH))
-									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s(s,e.getPlayer(), loc)
-											.replace("%chance%", fs.format(f.getChance()))
-											.replace("%weight%", fs.format(weight))
-											.replace("%length%", fs.format(length))
+									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s(s.replace("%weight%", Loader.ff.format(weight))
+											.replace("%length%", Loader.ff.format(length)),e.getPlayer(), loc)
+											.replace("%chance%", Loader.ff.format(f.getChance()))
 											.replace("%name%", s(f.getDisplayName(),e.getPlayer(), loc))
 											.replace("%biomes%", sub(f.getBiomes().toString())));
 							}catch(Exception er) {
@@ -141,12 +135,12 @@ public class CatchFish implements Listener {
 						Achievements.check(e.getPlayer(), treas);
 						for(String s : treas.getMessages())
 							Loader.msg(s(s,e.getPlayer(), loc)
-									.replace("%chance%", fs.format(treas.getChance()))
+									.replace("%chance%", Loader.ff.format(treas.getChance()))
 									.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), loc))
 									.replace("%biomes%", sub(treas.getBiomes().toString())),e.getPlayer());
 						for(String s : treas.getCommands())
 							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s(s,e.getPlayer(), loc)
-									.replace("%chance%", fs.format(treas.getChance()))
+									.replace("%chance%", Loader.ff.format(treas.getChance()))
 									.replace("%name%", s(treas.getDisplayName(),e.getPlayer(), loc))
 									.replace("%biomes%", sub(treas.getBiomes().toString())));
 					}else type= Fishing.JUNK;
@@ -185,16 +179,16 @@ public class CatchFish implements Listener {
 							CatchFish.giveItem(item, i, e.getPlayer(), loc);
 						for(String s : junk.getMessages(FishAction.CATCH))
 							Loader.msg(s(s,e.getPlayer(), loc)
-									.replace("%chance%", fs.format(junk.getChance()))
-									.replace("%weight%", fs.format(weight))
-									.replace("%length%", fs.format(length))
+									.replace("%chance%", Loader.ff.format(junk.getChance()))
+									.replace("%weight%", Loader.ff.format(weight))
+									.replace("%length%", Loader.ff.format(length))
 									.replace("%name%", s(junk.getDisplayName(),e.getPlayer(), loc))
 									.replace("%biomes%", sub(junk.getBiomes().toString())),e.getPlayer());
 						for(String s : junk.getCommands(FishAction.CATCH))
 							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s(s,e.getPlayer(), loc)
-									.replace("%chance%", fs.format(junk.getChance()))
-									.replace("%weight%", fs.format(weight))
-									.replace("%length%", fs.format(length))
+									.replace("%chance%", Loader.ff.format(junk.getChance()))
+									.replace("%weight%", Loader.ff.format(weight))
+									.replace("%length%", Loader.ff.format(length))
 									.replace("%name%", s(junk.getDisplayName(),e.getPlayer(), loc))
 									.replace("%biomes%", sub(junk.getBiomes().toString())) );
 					}
