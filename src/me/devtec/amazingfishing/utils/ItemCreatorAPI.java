@@ -953,7 +953,7 @@ public class ItemCreatorAPI implements Cloneable {
 				? Ref.getClass("com.mojang.authlib.properties.Property")
 				: Ref.getClass("net.minecraft.util.com.mojang.authlib.properties.Property"),
 		String.class, String.class, String.class);
-	private static final Class<?> playerInfoData = Ref.nmsOrOld("network.protocol.game.PacketPlayOutPlayerInfo$PlayerInfoData",
+	private static final Class<?> playerInfoData = Ref.nms("network.protocol.game.PacketPlayOutPlayerInfo$PlayerInfoData",
 		"PacketPlayOutPlayerInfo$PlayerInfoData");
 	private static Constructor<?> playerInfo;
 	static {
@@ -975,7 +975,7 @@ public class ItemCreatorAPI implements Cloneable {
 		if (playerInfo != null)
 			return Ref.newInstance(playerInfo, packet, profile, ping,
 					Ref.get(null,
-							Ref.field(Ref.nmsOrOld("world.level.EnumGamemode", "EnumGamemode"),
+							Ref.field(Ref.nms("world.level.EnumGamemode", "EnumGamemode"),
 									gamemode.toUpperCase())),
 					((Object[]) Ref.invokeNulled(
 							Ref.method(Ref.craft("util.CraftChatMessage"), "fromString", String.class),

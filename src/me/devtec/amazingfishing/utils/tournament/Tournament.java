@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.utils.tournament;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -18,7 +19,7 @@ import me.devtec.amazingfishing.utils.tournament.bossbar.SBossBar;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 import me.devtec.shared.scheduler.Scheduler;
 import me.devtec.shared.scheduler.Tasker;
-import me.devtec.shared.sorting.RankingAPI;
+import me.devtec.shared.sorting.SortingAPI;
 import me.devtec.shared.sorting.SortingAPI.ComparableObject;
 import me.devtec.shared.utility.StringUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
@@ -103,16 +104,25 @@ public class Tournament {
 		return values.entrySet();
 	}
 
+	@SuppressWarnings("static-access")
 	public void stop(boolean giveRewards) {
 		if(Loader.config.getBoolean("Tournament.Type."+t.configPath()+".Bossbar.Use"))
 			for(Player p : values.keySet())
 				BossBarManager.remove(p);
-		RankingAPI<Player, Double> top = new RankingAPI<>(values);
+		//Map<Player, Double> att = new SortingAPI().sortByValue(values, true);
+		Map <Integer, Entry<Player, Double>> top = new HashMap<>();
+		int i = 0;
+		for (Entry<Player, Double> data : SortingAPI.sortByValue(values, true).entrySet()) {
+			top.put(i, data);
+			i=i+1;
+			continue;
+		}
+		
 		if(giveRewards) {
 			int pos = 0;
 			String f = PlaceholderAPI.apply(Loader.config.getString("Tournament.Type."+t.configPath()+".Positions").replace("%participants%", values.size()+""), null);
 			int wins = (int) StringUtils.calculate(f);
-			for(ComparableObject<Player, Double> d : top.all()) {
+			for(ComparableObject<Player, Double> d : SortingAPI.sortByValueArray(values, true)) {
 				++pos;
 				Statistics.addTournamentData(d.getKey(), getType(), pos);
 				if(pos>wins) {
@@ -130,7 +140,7 @@ public class Tournament {
 								.replace("%playername%", d.getKey().getDisplayName()+"")
 								.replace("%displayname%", d.getKey().getDisplayName()+"")
 								.replace("%customname%", d.getKey().getCustomName()+""),d.getKey()).replace("%position%", pos+"")
-								.replace("%top1_name%", top.get(0).getKey().getName())
+								.replace("%top1_name%", top.get(0).getKey().getName() )
 								.replace("%top1_displayname%", top.get(0).getKey().getDisplayName())
 								.replace("%top1_value%",""+top.get(0).getValue())
 								.replace("%top2_name%", top.size()>=2 ? top.get(1).getKey().getName() : "-")
@@ -176,7 +186,7 @@ public class Tournament {
 				}
 			}
 		} else
-			for(ComparableObject<Player, Double> d : top.all()) {
+			for(ComparableObject<Player, Double> d : SortingAPI.sortByValueArray(values, true)) {
 				for(String cmd : Loader.config.getStringList("Tournament.Type."+t.configPath()+".Stop.Messages"))
 					Loader.msg(replace(cmd,d.getKey()),d.getKey());
 				BukkitLoader.getNmsProvider().postToMainThread(() -> {

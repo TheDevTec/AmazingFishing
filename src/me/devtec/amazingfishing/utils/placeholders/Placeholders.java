@@ -12,7 +12,7 @@ import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.shared.API;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.scheduler.Tasker;
-import me.devtec.shared.sorting.RankingAPI;
+import me.devtec.shared.sorting.SortingAPI;
 import me.devtec.shared.sorting.SortingAPI.ComparableObject;
 import me.devtec.shared.utility.StringUtils;
 
@@ -123,6 +123,7 @@ public class Placeholders {
 		if(Placeholders.task!=0)
 			Bukkit.getScheduler().cancelTask(Placeholders.task);
 		Placeholders.task = new Tasker() {
+			@SuppressWarnings("static-access")
 			@Override
 			public void run() {
 				Placeholders.tournaments_wins.clear();
@@ -144,17 +145,17 @@ public class Placeholders {
 					}
 				int pos=1;
 				if(!t_wins.isEmpty()) {
-					RankingAPI<UUID, Integer> ranks = new RankingAPI<>(t_wins);
-					for(ComparableObject<UUID, Integer> data: ranks.all()) {
+					//RankingAPI<UUID, Integer> ranks = new SortingAPI().sortByValueArray(t_wins, true);
+					for(ComparableObject<UUID, Integer> data: SortingAPI.sortByValueArray(t_wins, true)) {
 						if(pos==5)break;
 						Placeholders.tournaments_wins.put(pos, data);
 						++pos;
 					}
 				}
 				if(!f_caught.isEmpty()) {
-					RankingAPI<UUID, Integer> ranks2 = new RankingAPI<>(f_caught);
+					//RankingAPI<UUID, Integer> ranks2 = new RankingAPI<>(f_caught);
 					pos=1;
-					for(ComparableObject<UUID, Integer> data: ranks2.all()) {
+					for(ComparableObject<UUID, Integer> data: SortingAPI.sortByValueArray(f_caught, true)) {
 						if(pos==5)break;
 						Placeholders.fish_caught.put(pos, data);
 						++pos;

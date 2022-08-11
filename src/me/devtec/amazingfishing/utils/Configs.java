@@ -40,7 +40,7 @@ public class Configs {
     		u.setUseCaches(false);
     		data.reload(StreamUtils.fromStream(u.getInputStream()));
     		}catch(Exception e) {e.printStackTrace();}
-	    	change = c.merge(data, true, true);
+	    	change = c.merge(data);
 	    	if(change)
 	    	c.save();
 	    	switch(s) {
@@ -92,7 +92,7 @@ public class Configs {
         			u.setUseCaches(false);
         			data.reload(StreamUtils.fromStream(u.getInputStream()));
         		}catch(Exception es) {es.printStackTrace();}
-        	    boolean change = d.merge(data, true, true);
+        	    boolean change = d.merge(data);
         	    if(change)
         	    	d.save(DataType.YAML);
 		}
