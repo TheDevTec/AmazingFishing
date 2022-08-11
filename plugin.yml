@@ -1,7 +1,7 @@
 name: AmazingFishing
 main: me.devtec.amazingfishing.Loader
-version: 5.4
-author: DevTec
+version: 5.5
+author: DevTec, Houska02
 depend: [TheAPI]
 softdepend: [HeadDatabase,Vault]
 api-version: 1.13
