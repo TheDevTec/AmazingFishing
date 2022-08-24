@@ -6,11 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
@@ -75,18 +75,15 @@ public class ItemCreatorAPI implements Cloneable {
 		return createPotion(material, amount, displayName, null, null, effects);
 	}
 
-	public static ItemStack createPotion(Material material, int amount, String displayName, List<String> lore,
-			PotionEffect... effects) {
+	public static ItemStack createPotion(Material material, int amount, String displayName, List<String> lore, PotionEffect... effects) {
 		return createPotion(material, amount, displayName, lore, null, effects);
 	}
 
-	public static ItemStack createPotion(Material material, int amount, String displayName, Color color,
-			PotionEffect... effects) {
+	public static ItemStack createPotion(Material material, int amount, String displayName, Color color, PotionEffect... effects) {
 		return createPotion(material, amount, displayName, null, color, effects);
 	}
 
-	public static ItemStack createPotion(Material material, int amount, String displayName, List<String> lore,
-			Color color, PotionEffect... effects) {
+	public static ItemStack createPotion(Material material, int amount, String displayName, List<String> lore, Color color, PotionEffect... effects) {
 		ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(material, amount));
 		a.setDisplayName(displayName);
 		a.setLore(lore);
@@ -100,8 +97,7 @@ public class ItemCreatorAPI implements Cloneable {
 		return createLeatherArmor(material, amount, displayName, null, color);
 	}
 
-	public static ItemStack createLeatherArmor(Material material, int amount, String displayName, List<String> lore,
-			Color color) {
+	public static ItemStack createLeatherArmor(Material material, int amount, String displayName, List<String> lore, Color color) {
 		ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(material, amount));
 		a.setDisplayName(displayName);
 		a.setLore(lore);
@@ -109,32 +105,28 @@ public class ItemCreatorAPI implements Cloneable {
 		return a.create();
 	}
 
-	public static ItemStack createBook(Material material, int amount, String displayName, String author, String title,
-			List<String> pages) {
+	public static ItemStack createBook(Material material, int amount, String displayName, String author, String title, List<String> pages) {
 		return createBook(material, amount, displayName, null, author, title, pages, null);
 	}
 
-	public static ItemStack createBook(Material material, int amount, String displayName, List<String> lore,
-			String author, String title, List<String> pages) {
+	public static ItemStack createBook(Material material, int amount, String displayName, List<String> lore, String author, String title, List<String> pages) {
 		return createBook(material, amount, displayName, lore, author, title, pages, null);
 	}
 
 	// Only for newer minecraft versions
-	public static ItemStack createBook(Material material, int amount, String displayName, String author, String title,
-			List<String> pages, Generation gen) {
+	public static ItemStack createBook(Material material, int amount, String displayName, String author, String title, List<String> pages, String gen) {
 		return createBook(material, amount, displayName, null, author, title, pages, gen);
 	}
 
 	// Only for newer minecraft versions
-	public static ItemStack createBook(Material material, int amount, String displayName, List<String> lore,
-			String author, String title, List<String> pages, Generation gen) {
+	public static ItemStack createBook(Material material, int amount, String displayName, List<String> lore, String author, String title, List<String> pages, String gen) {
 		ItemCreatorAPI a = new ItemCreatorAPI(new ItemStack(material, amount));
 		a.setDisplayName(displayName);
 		a.setLore(lore);
 		a.setBookAuthor(author);
 		a.setBookTitle(title);
 		a.setBookPages(pages);
-		a.setBookGeneration(gen);
+		a.setBookGeneration(gen.toUpperCase());
 		return a.create();
 	}
 
@@ -199,7 +191,7 @@ public class ItemCreatorAPI implements Cloneable {
 	}
 
 	private ItemStack a;
-	private String author = "", title = "", name, owner, url, text;
+	public String author = "", title = "", name, owner, url, text;
 	private Color c;
 	private boolean unb;
 	private SkullType type;
@@ -211,7 +203,7 @@ public class ItemCreatorAPI implements Cloneable {
 	private List<Object> lore = new ArrayList<>();
 	private final List<Object> map = new ArrayList<>();
 	private MaterialData data = null;
-	private Generation gen;
+	private String gen;
 
 	private int getSkullInt(String w) {
 		return SkullType.valueOf(w).ordinal();
@@ -225,9 +217,8 @@ public class ItemCreatorAPI implements Cloneable {
 		a = icon != null ? icon : new ItemStack(Material.AIR);
 		unb = isUnbreakable();
 		if (hasPotionEffects())
-			for (PotionEffect e : getPotionEffects()) {
+			for (PotionEffect e : getPotionEffects())
 				addPotionEffect(e.getType(), e.getDuration(), e.getAmplifier());
-			}
 		if (hasColor())
 			c = getColor();
 		if (hasDisplayName())
@@ -235,9 +226,8 @@ public class ItemCreatorAPI implements Cloneable {
 		owner = getOwner();
 		text = getOwnerByValues();
 		if (hasLore())
-			for (String s : getLore()) {
+			for (String s : getLore())
 				addLore(s);
-			}
 		if (hasEnchants())
 			for (Enchantment e : getEnchantments().keySet())
 				addEnchantment(e, getEnchantments().get(e));
@@ -262,9 +252,8 @@ public class ItemCreatorAPI implements Cloneable {
 		}
 		if (hasBookAuthor())
 			author = getBookAuthor();
-		for (String s : getBookPages()) {
+		for (String s : getBookPages())
 			addBookPage(s);
-		}
 		if (hasBookTitle())
 			title = getBookTitle();
 		try {
@@ -280,19 +269,18 @@ public class ItemCreatorAPI implements Cloneable {
 
 	private static Method get = Ref.method(Ref.getClass("com.google.common.collect.ForwardingMultimap"), "get", Object.class);
 	private static Method set = Ref.method(Ref.getClass("com.google.common.collect.ForwardingMultimap"), "put", Object.class, Object.class);
-	
+
 	static {
-		if(get==null)
+		if (get == null)
 			get = Ref.method(Ref.getClass("net.minecraft.util.com.google.common.collect.ForwardingMultimap"), "get", Object.class);
-		if(set==null)
+		if (set == null)
 			set = Ref.method(Ref.getClass("net.minecraft.util.com.google.common.collect.ForwardingMultimap"), "put", Object.class, Object.class);
 	}
-	
+
 	public String getOwnerByValues() {
 		if (a.hasItemMeta())
 			if (a.getItemMeta() instanceof SkullMeta)
-				return (String) Ref.invoke(Ref
-								.invoke(Ref.invoke(Ref.get(a.getItemMeta(), "profile"), "getProperties"),get,"textures"),"getValue");
+				return (String) Ref.invoke(Ref.invoke(Ref.invoke(Ref.get(a.getItemMeta(), "profile"), "getProperties"), get, "textures"), "getValue");
 		return text;
 	}
 
@@ -301,20 +289,18 @@ public class ItemCreatorAPI implements Cloneable {
 	}
 
 	public void setMaterial(Material mat) {
-		if(mat!=null)
+		if (mat != null)
 			a.setType(mat);
 	}
 
 	public boolean isItem(boolean canBeLegacy) {
 		String s = a.getType().name();
-		return !s.contains("WALL_") && !isAir() && !s.contains("_STEM") && !s.contains("POTTED_")
-				&& (canBeLegacy || !s.contains("LEGACY_")) && !s.equals("END_PORTAL") && !s.equals("END_GATEWAY")
+		return !s.contains("WALL_") && !isAir() && !s.contains("_STEM") && !s.contains("POTTED_") && (canBeLegacy || !s.contains("LEGACY_")) && !s.equals("END_PORTAL") && !s.equals("END_GATEWAY")
 				&& !s.equals("NETHER_PORTAL") || isVisibleBlock();
 	}
 
 	public boolean isAir() {
-		return a.getType().name().equals("AIR") || a.getType().name().equals("VOID_AIR")
-				|| a.getType().name().equals("STRUCTURE_VOID");
+		return a.getType().name().equals("AIR") || a.getType().name().equals("VOID_AIR") || a.getType().name().equals("STRUCTURE_VOID");
 	}
 
 	public boolean isBlock() {
@@ -482,7 +468,8 @@ public class ItemCreatorAPI implements Cloneable {
 			this.lore.clear();
 			for (String s : lore)
 				addLore(s);
-		}else this.lore =null;
+		} else
+			this.lore = null;
 	}
 
 	public int getCustomModelData() {
@@ -498,13 +485,14 @@ public class ItemCreatorAPI implements Cloneable {
 	}
 
 	public boolean isUnbreakable() {
-		if(!a.hasItemMeta())return false;
+		if (!a.hasItemMeta())
+			return false;
 		try {
 			return a.getItemMeta().isUnbreakable();
 		} catch (Exception | NoSuchMethodError er) {
 			try {
-			return (boolean) Ref.invoke(Ref.invoke(a.getItemMeta(), "spigot"),"isUnbreakable");
-			} catch (Exception | NoSuchMethodError err) { //use our own wave
+				return (boolean) Ref.invoke(Ref.invoke(a.getItemMeta(), "spigot"), "isUnbreakable");
+			} catch (Exception | NoSuchMethodError err) { // use our own wave
 				return new NBTEdit(a).getBoolean("unbreakable");
 			}
 		}
@@ -515,9 +503,8 @@ public class ItemCreatorAPI implements Cloneable {
 	}
 
 	public SkullType getSkullType() {
-		if (a.getItemMeta() instanceof SkullMeta) {
+		if (a.getItemMeta() instanceof SkullMeta)
 			return getSkullFromInt(a.getDurability());
-		}
 		return null;
 	}
 
@@ -584,9 +571,8 @@ public class ItemCreatorAPI implements Cloneable {
 
 	public void addAttributeModifiers(Map<Attribute, AttributeModifier> s) {
 		if (Ref.isNewerThan(13) && s != null)
-			for (Attribute r : s.keySet()) {
+			for (Attribute r : s.keySet())
 				addAttributeModifier(r, s.get(r));
-			}
 	}
 
 	public short getDurability() {
@@ -665,17 +651,15 @@ public class ItemCreatorAPI implements Cloneable {
 
 	public String getBookAuthor() {
 		if (a.hasItemMeta())
-			if (a.getItemMeta() instanceof BookMeta) {
+			if (a.getItemMeta() instanceof BookMeta)
 				return ((BookMeta) a.getItemMeta()).getAuthor();
-			}
 		return null;
 	}
 
 	public boolean hasBookAuthor() {
 		if (a.hasItemMeta())
-			if (a.getItemMeta() instanceof BookMeta) {
+			if (a.getItemMeta() instanceof BookMeta)
 				return ((BookMeta) a.getItemMeta()).hasAuthor();
-			}
 		return false;
 	}
 
@@ -686,17 +670,15 @@ public class ItemCreatorAPI implements Cloneable {
 
 	public boolean hasBookTitle() {
 		if (a.hasItemMeta())
-			if (a.getItemMeta() instanceof BookMeta) {
+			if (a.getItemMeta() instanceof BookMeta)
 				return ((BookMeta) a.getItemMeta()).hasTitle();
-			}
 		return false;
 	}
 
 	public String getBookTitle() {
 		if (a.hasItemMeta())
-			if (a.getItemMeta() instanceof BookMeta) {
+			if (a.getItemMeta() instanceof BookMeta)
 				return ((BookMeta) a.getItemMeta()).getTitle();
-			}
 		return null;
 	}
 
@@ -707,25 +689,22 @@ public class ItemCreatorAPI implements Cloneable {
 
 	public List<String> getBookPages() {
 		if (a.hasItemMeta())
-			if (a.getItemMeta() instanceof BookMeta) {
+			if (a.getItemMeta() instanceof BookMeta)
 				return ((BookMeta) a.getItemMeta()).getPages();
-			}
 		return new ArrayList<>();
 	}
 
 	public String getBookPage(int page) {
 		if (a.hasItemMeta())
-			if (a.getItemMeta() instanceof BookMeta) {
+			if (a.getItemMeta() instanceof BookMeta)
 				return ((BookMeta) a.getItemMeta()).getPage(page);
-			}
 		return null;
 	}
 
 	public int getBookPageCount() {
 		if (a.hasItemMeta())
-			if (a.getItemMeta() instanceof BookMeta) {
+			if (a.getItemMeta() instanceof BookMeta)
 				return ((BookMeta) a.getItemMeta()).getPageCount();
-			}
 		return 0;
 	}
 
@@ -751,31 +730,29 @@ public class ItemCreatorAPI implements Cloneable {
 	public boolean hasBookGeneration() {
 		try {
 			if (a.hasItemMeta())
-				if (a.getItemMeta() instanceof BookMeta) {
+				if (a.getItemMeta() instanceof BookMeta)
 					return ((BookMeta) a.getItemMeta()).hasGeneration();
-				}
 			return false;
 		} catch (Exception | NoClassDefFoundError er) {
 			return false;
 		}
 	}
 
-	public Generation getBookGeneration() {
+	public String getBookGeneration() {
 		try {
 			if (a.hasItemMeta())
-				if (a.getItemMeta() instanceof BookMeta) {
-					return ((BookMeta) a.getItemMeta()).getGeneration();
-				}
+				if (a.getItemMeta() instanceof BookMeta)
+					return ((BookMeta) a.getItemMeta()).getGeneration().name();
 			return null;
 		} catch (Exception | NoClassDefFoundError er) {
 			return null;
 		}
 	}
 
-	public void setBookGeneration(Generation generation) {
+	public void setBookGeneration(String generation) {
 		try {
 			if (generation != null)
-				gen = generation;
+				gen = generation.toUpperCase();
 		} catch (Exception | NoSuchMethodError e) {
 
 		}
@@ -783,20 +760,18 @@ public class ItemCreatorAPI implements Cloneable {
 
 	public ItemStack create() {
 		ItemStack i = a;
-		if(i.getType().name().equals("LEGACY_SKULL_ITEM")||i.getType().name().equals("LEGACY_SKULL")||i.getType().name().equals("SKULL_ITEM")||i.getType().name().equals("SKULL")||i.getType().name().contains("_HEAD")) {
-			if(type==null)
+		if (i.getType().name().equals("LEGACY_SKULL_ITEM") || i.getType().name().equals("LEGACY_SKULL") || i.getType().name().equals("SKULL_ITEM") || i.getType().name().equals("SKULL")
+				|| i.getType().name().contains("_HEAD"))
+			if (type == null)
 				setSkullType(dur);
-		}
-		
+
 		try {
-			if (type != null) {
+			if (type != null)
 				a.setDurability((short) type.ordinal());
-			} else if (owner != null) {
+			else if (owner != null)
 				a.setDurability((short) SkullType.PLAYER.ordinal());
-			} else {
-				if (dur != -1)
-					a.setDurability((short) dur);
-			}
+			else if (dur != -1)
+				a.setDurability((short) dur);
 			i.setAmount(s);
 			ItemMeta mf = i.getItemMeta();
 			if (data != null)
@@ -805,37 +780,36 @@ public class ItemCreatorAPI implements Cloneable {
 				mf.setDisplayName(name);
 			if (model != -1 && Ref.isNewerThan(13))
 				mf.setCustomModelData(model);
-			if (unb) {
+			if (unb)
 				if (Ref.isNewerThan(10))
 					mf.setUnbreakable(unb);
-				else {
-					try { //spigot version
-						Ref.invoke(Ref.invoke(mf, "spigot"),"setUnbreakable", unb);
-					} catch (Exception | NoSuchMethodError errr) { //use our own wave - craft bukkit
+				else
+					try { // spigot version
+						Ref.invoke(Ref.invoke(mf, "spigot"), "setUnbreakable", unb);
+					} catch (Exception | NoSuchMethodError errr) { // use our own wave - craft bukkit
 						a.setItemMeta(mf);
 						NBTEdit edit = new NBTEdit(a);
 						edit.setBoolean("unbreakable", unb);
-						a=BukkitLoader.getNmsProvider().setNBT(a, edit);
-						mf=a.getItemMeta();
+						a = BukkitLoader.getNmsProvider().setNBT(a, edit);
+						mf = a.getItemMeta();
 					}
-				}
-			}
 			if (lore != null && !lore.isEmpty()) {
 				List<String> lor = new ArrayList<>();
 				for (Object o : lore)
-					lor.add(o+"");
+					lor.add(o + "");
 				mf.setLore(lor);
 			}
 			try {
 				try {
-				if (map != null)
-					for (Object f : map)
-						mf.addItemFlags((ItemFlag) f);
-				}catch(Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError e) {}
+					if (map != null)
+						for (Object f : map)
+							mf.addItemFlags((ItemFlag) f);
+				} catch (Exception | NoSuchFieldError | NoClassDefFoundError | NoSuchMethodError e) {
+				}
 				if (w != null && !w.isEmpty() && Ref.isNewerThan(13)) {// 1.14+
 					Multimap<Attribute, AttributeModifier> multimap = HashMultimap.create();
-					for(Entry<Attribute, AttributeModifier> e : w.entrySet())
-					multimap.put(e.getKey(), e.getValue());
+					for (Entry<Attribute, AttributeModifier> e : w.entrySet())
+						multimap.put(e.getKey(), e.getValue());
 					mf.setAttributeModifiers(multimap);
 				}
 			} catch (Exception | NoSuchMethodError er) {
@@ -851,23 +825,20 @@ public class ItemCreatorAPI implements Cloneable {
 						m.addStoredEnchant(e, enchs.get(e), true);
 				i.setItemMeta(m);
 			}
-			if (i.getType().name().equalsIgnoreCase("WRITABLE_BOOK")
-					|| i.getType().name().equalsIgnoreCase("BOOK_AND_QUILL")) {
+			if (i.getType().name().equalsIgnoreCase("WRITABLE_BOOK") || i.getType().name().equalsIgnoreCase("BOOK_AND_QUILL")) {
 				BookMeta m = (BookMeta) i.getItemMeta();
 				m.setAuthor(author);
 				List<String> page = new ArrayList<>();
 				for (Object o : pages)
-					page.add(o+"");
+					page.add(o + "");
 				m.setPages(page);
 				m.setTitle(title);
 				try {
-					m.setGeneration(gen);
+					m.setGeneration(Generation.valueOf(gen));
 				} catch (Exception | NoSuchMethodError e) {
 				}
 				i.setItemMeta(m);
-			} else if (i.getType().name().startsWith("LINGERING_POTION_OF_")
-					|| i.getType().name().startsWith("SPLASH_POTION_OF_")
-					|| i.getType().name().startsWith("POTION_OF_")) {
+			} else if (i.getType().name().startsWith("LINGERING_POTION_OF_") || i.getType().name().startsWith("SPLASH_POTION_OF_") || i.getType().name().startsWith("POTION_OF_")) {
 				PotionMeta meta = (PotionMeta) i.getItemMeta();
 				try {
 					meta.setColor(c);
@@ -878,133 +849,116 @@ public class ItemCreatorAPI implements Cloneable {
 						if (t == null)
 							continue;
 						int amp = StringUtils.getInt(ef.get(t).split(":")[1]);
-						meta.addCustomEffect(
-								new PotionEffect(t, StringUtils.getInt(ef.get(t).split(":")[0]), (amp <= 0 ? 1 : amp)),
-								true);
+						meta.addCustomEffect(new PotionEffect(t, StringUtils.getInt(ef.get(t).split(":")[0]), amp <= 0 ? 1 : amp), true);
 					}
 				i.setItemMeta(meta);
-			} else if (i.getType().name().startsWith("LEATHER_")) {
+			} else if (i.getType().name().startsWith("LEATHER_"))
 				try {
 					LeatherArmorMeta meta = (LeatherArmorMeta) i.getItemMeta();
 					meta.setColor(c);
 					i.setItemMeta(meta);
 				} catch (Exception | NoSuchMethodError er) {
 				}
-			} else if (type != null && type == SkullType.PLAYER) {
+			else if (type != null && type == SkullType.PLAYER) {
 				SkullMeta m = (SkullMeta) i.getItemMeta();
-				if (owner != null && !owner.trim().isEmpty() && url == null && text == null) {
-					if(Bukkit.getOfflinePlayer(owner)!=null && Bukkit.getOfflinePlayer(owner).getFirstPlayed()>0)
+				if (owner != null && !owner.trim().isEmpty() && url == null && text == null)
+					if (Bukkit.getOfflinePlayer(owner) != null && Bukkit.getOfflinePlayer(owner).getFirstPlayed() > 0)
 						m.setOwningPlayer(Bukkit.getOfflinePlayer(owner));
 					else {
 						SkinData data = generateSkin(owner);
-						if(data!=null) {
-							if(Ref.isOlderThan(8)) {
-								Object profile = createGameProfile(null, owner!=null && !owner.trim().isEmpty()?owner:"TheAPI");
+						if (data != null)
+							if (Ref.isOlderThan(8)) {
+								Object profile = createGameProfile(null, owner != null && !owner.trim().isEmpty() ? owner : "TheAPI");
 								Ref.invoke(Ref.invoke(profile, "getProperties"), set, "textures", createProperty("textures", data.value, data.signature));
 								Ref.set(m, "profile", profile);
-							}else {
+							} else {
 								GameProfile profile = new GameProfile(UUID.randomUUID(), owner);
 								profile.getProperties().put("textures", new Property("textures", data.value, data.signature));
 								Ref.set(m, "profile", profile);
-								if(Ref.isNewerThan(15))
+								if (Ref.isNewerThan(15))
 									Ref.invoke(m, setProfile, profile);
 							}
-						}
 					}
-				}
-				if (url != null || text != null) {
-					if(Ref.isOlderThan(8)) {
-						Object profile = createGameProfile(null, owner!=null && !owner.trim().isEmpty()?owner:"TheAPI");
-						if(url!=null) {
+				if (url != null || text != null)
+					if (Ref.isOlderThan(8)) {
+						Object profile = createGameProfile(null, owner != null && !owner.trim().isEmpty() ? owner : "TheAPI");
+						if (url != null) {
 							SkinData data = generateSkin(url);
-							if(data!=null)
-							Ref.invoke(Ref.invoke(profile, "getProperties"), set, "textures", createProperty("textures", data.value, data.signature));
-						}else
+							if (data != null)
+								Ref.invoke(Ref.invoke(profile, "getProperties"), set, "textures", createProperty("textures", data.value, data.signature));
+						} else
 							Ref.invoke(Ref.invoke(profile, "getProperties"), set, "textures", createProperty("textures", text));
 						Ref.set(m, "profile", profile);
-					}else {
-						GameProfile profile = new GameProfile(UUID.randomUUID(), owner!=null && !owner.trim().isEmpty()?owner:"TheAPI");
-						if(url!=null) {
+					} else {
+						GameProfile profile = new GameProfile(UUID.randomUUID(), owner != null && !owner.trim().isEmpty() ? owner : "TheAPI");
+						if (url != null) {
 							SkinData data = generateSkin(url);
-							if(data!=null)
-							profile.getProperties().put("textures", new Property("textures", data.value, data.signature));
-						}else
+							if (data != null)
+								profile.getProperties().put("textures", new Property("textures", data.value, data.signature));
+						} else
 							profile.getProperties().put("textures", new Property("textures", text));
 						Ref.set(m, "profile", profile);
-						if(Ref.isNewerThan(15))
+						if (Ref.isNewerThan(15))
 							Ref.invoke(m, setProfile, profile);
 					}
-				}
 				i.setItemMeta(m);
 			}
 		} catch (Exception | NoSuchMethodError err) {
 		}
-		a=i;
+		a = i;
 		return i;
 	}
-	
+
 	private static final Constructor<?> cc = Ref.constructor(
-			Ref.getClass("com.mojang.authlib.GameProfile") != null
-			? Ref.getClass("com.mojang.authlib.GameProfile")
-			: Ref.getClass("net.minecraft.util.com.mojang.authlib.GameProfile"),
-	UUID.class, String.class);
-	private static final Constructor<?> d = Ref.constructor(
-		Ref.getClass("com.mojang.authlib.properties.Property") != null
-				? Ref.getClass("com.mojang.authlib.properties.Property")
-				: Ref.getClass("net.minecraft.util.com.mojang.authlib.properties.Property"),
-		String.class, String.class, String.class);
-	private static final Class<?> playerInfoData = Ref.nms("network.protocol.game.PacketPlayOutPlayerInfo$PlayerInfoData",
-		"PacketPlayOutPlayerInfo$PlayerInfoData");
+			Ref.getClass("com.mojang.authlib.GameProfile") != null ? Ref.getClass("com.mojang.authlib.GameProfile") : Ref.getClass("net.minecraft.util.com.mojang.authlib.GameProfile"), UUID.class,
+			String.class);
+	private static final Constructor<?> d = Ref.constructor(Ref.getClass("com.mojang.authlib.properties.Property") != null ? Ref.getClass("com.mojang.authlib.properties.Property")
+			: Ref.getClass("net.minecraft.util.com.mojang.authlib.properties.Property"), String.class, String.class, String.class);
+	private static final Class<?> playerInfoData = Ref.nms("network.protocol.game.PacketPlayOutPlayerInfo$PlayerInfoData", "PacketPlayOutPlayerInfo$PlayerInfoData");
 	private static Constructor<?> playerInfo;
 	static {
 		try {
-		playerInfo = Ref.getConstructors(playerInfoData)[0].getParameterTypes()[0].getName().contains("Packet")
-			? Ref.getConstructors(playerInfoData)[0]
-			: null;
+			playerInfo = Ref.getConstructors(playerInfoData)[0].getParameterTypes()[0].getName().contains("Packet") ? Ref.getConstructors(playerInfoData)[0] : null;
 		} catch (Exception err) {
 		}
 	}
-	
+
 	public static Object createGameProfile(UUID id, String name) {
 		if (id == null)
 			id = UUID.randomUUID();
 		return Ref.newInstance(cc, id, name);
 	}
-	public static Object createPlayerInfoData(Object packet, Object profile, int ping, String gamemode,
-			String playerName) {
+
+	public static Object createPlayerInfoData(Object packet, Object profile, int ping, String gamemode, String playerName) {
 		if (playerInfo != null)
-			return Ref.newInstance(playerInfo, packet, profile, ping,
-					Ref.get(null,
-							Ref.field(Ref.nms("world.level.EnumGamemode", "EnumGamemode"),
-									gamemode.toUpperCase())),
-					((Object[]) Ref.invokeNulled(
-							Ref.method(Ref.craft("util.CraftChatMessage"), "fromString", String.class),
-							playerName))[0]);
+			return Ref.newInstance(playerInfo, packet, profile, ping, Ref.get(null, Ref.field(Ref.nms("world.level.EnumGamemode", "EnumGamemode"), gamemode.toUpperCase())),
+					((Object[]) Ref.invokeNulled(Ref.method(Ref.craft("util.CraftChatMessage"), "fromString", String.class), playerName))[0]);
 		return null;
 	}
-	
+
 	public static Object createProperty(String key, String texture, String signature) {
 		if (key == null || texture == null)
 			return null;
 		return Ref.newInstance(d, key, texture, signature);
 	}
-	
+
 	public static Object createProperty(String key, String texture) {
 		if (key == null || texture == null)
 			return null;
 		return Ref.newInstance(d, key, texture, null);
 	}
-	
+
 	public static class SkinData {
 		public String value;
 		public String signature;
-		
-		public long lastUpdate = System.currentTimeMillis()/1000;
-		
+
+		public long lastUpdate = System.currentTimeMillis() / 1000;
+
 		public boolean isFinite() {
 			return value != null && signature != null;
 		}
-		
+
+		@Override
 		public String toString() {
 			ConcurrentHashMap<String, String> data = new ConcurrentHashMap<>();
 			data.put("texture.value", value);
@@ -1013,24 +967,26 @@ public class ItemCreatorAPI implements Cloneable {
 		}
 	}
 
-	private static final String URL_FORMAT = "https://api.mineskin.org/generate/url?url=%s&%s",
-			USER_FORMAT="https://api.ashcon.app/mojang/v2/user/%s";
+	private static final String URL_FORMAT = "https://api.mineskin.org/generate/url?url=%s&%s", USER_FORMAT = "https://api.ashcon.app/mojang/v2/user/%s";
+
 	private static String getSkinType(java.awt.image.BufferedImage image) {
 		final byte[] pixels = ((java.awt.image.DataBufferByte) image.getRaster().getDataBuffer()).getData();
-		int argb = ((int) pixels[4002] & 0xff);
-		argb += (((int) pixels[4003] & 0xff) << 8);
-		argb += (((int) pixels[4004] & 0xff) << 16);
-		return argb==2631720?"steve":"alex";
-    }
-	
+		int argb = pixels[4002] & 0xff;
+		argb += (pixels[4003] & 0xff) << 8;
+		argb += (pixels[4004] & 0xff) << 16;
+		return argb == 2631720 ? "steve" : "alex";
+	}
+
 	@SuppressWarnings("unchecked")
 	public static synchronized SkinData generateSkin(String urlOrName) {
-		if(urlOrName==null)return null;
-		if(urlOrName.toLowerCase().startsWith("https://")||urlOrName.toLowerCase().startsWith("http://")) {
+		if (urlOrName == null)
+			return null;
+		if (urlOrName.toLowerCase().startsWith("https://") || urlOrName.toLowerCase().startsWith("http://"))
 			try {
 				java.net.URLConnection connection = new URL(urlOrName).openConnection();
 				connection.setRequestProperty("User-Agent", "ServerControlReloaded-JavaClient");
-				HttpURLConnection conn = (HttpURLConnection)new URL(String.format(URL_FORMAT, urlOrName, "name=DevTec&model="+getSkinType(ImageIO.read(connection.getInputStream()))+"&visibility=1")).openConnection();
+				HttpURLConnection conn = (HttpURLConnection) new URL(
+						String.format(URL_FORMAT, urlOrName, "name=DevTec&model=" + getSkinType(ImageIO.read(connection.getInputStream())) + "&visibility=1")).openConnection();
 				conn.setRequestProperty("User-Agent", "TheAPI-JavaClient");
 				conn.setRequestProperty("Accept-Encoding", "gzip");
 				conn.setRequestMethod("POST");
@@ -1039,15 +995,15 @@ public class ItemCreatorAPI implements Cloneable {
 				conn.connect();
 				Map<String, Object> text = (Map<String, Object>) Json.reader().simpleRead(StreamUtils.fromStream(new GZIPInputStream(conn.getInputStream())));
 				SkinData data = new SkinData();
-				if(!text.containsKey("error")) {
-					data.signature=(String) ((Map<String, Object>)((Map<String, Object>)text.get("data")).get("texture")).get("signature");
-					data.value=(String) ((Map<String, Object>)((Map<String, Object>)text.get("data")).get("texture")).get("value");
+				if (!text.containsKey("error")) {
+					data.signature = (String) ((Map<String, Object>) ((Map<String, Object>) text.get("data")).get("texture")).get("signature");
+					data.value = (String) ((Map<String, Object>) ((Map<String, Object>) text.get("data")).get("texture")).get("value");
 				}
 				return data;
-			}catch(Exception err) {}
-		}
+			} catch (Exception err) {
+			}
 		try {
-			HttpURLConnection conn = (HttpURLConnection)new URL(String.format(USER_FORMAT, urlOrName)).openConnection();
+			HttpURLConnection conn = (HttpURLConnection) new URL(String.format(USER_FORMAT, urlOrName)).openConnection();
 			conn.setRequestProperty("User-Agent", "TheAPI-JavaClient");
 			conn.setRequestMethod("GET");
 			conn.setConnectTimeout(10000);
@@ -1055,18 +1011,18 @@ public class ItemCreatorAPI implements Cloneable {
 			conn.connect();
 			Map<String, Object> text = (Map<String, Object>) Json.reader().simpleRead(StreamUtils.fromStream(conn.getInputStream()));
 			SkinData data = new SkinData();
-			if(!text.containsKey("error")) {
-				data.signature=(String) ((Map<String, Object>)((Map<String, Object>)text.get("textures")).get("raw")).get("signature");
-				data.value=(String) ((Map<String, Object>)((Map<String, Object>)text.get("textures")).get("raw")).get("value");
+			if (!text.containsKey("error")) {
+				data.signature = (String) ((Map<String, Object>) ((Map<String, Object>) text.get("textures")).get("raw")).get("signature");
+				data.value = (String) ((Map<String, Object>) ((Map<String, Object>) text.get("textures")).get("raw")).get("value");
 			}
 			return data;
-		}catch(Exception err) {}
+		} catch (Exception err) {
+		}
 		return null;
 	}
-	
-	static Method setProfile = Ref.method(Ref.craft("inventory.CraftMetaSkull"), "setProfile", Ref.getClass("com.mojang.authlib.GameProfile") != null
-			? Ref.getClass("com.mojang.authlib.GameProfile")
-			: Ref.getClass("net.minecraft.util.com.mojang.authlib.GameProfile"));
+
+	static Method setProfile = Ref.method(Ref.craft("inventory.CraftMetaSkull"), "setProfile",
+			Ref.getClass("com.mojang.authlib.GameProfile") != null ? Ref.getClass("com.mojang.authlib.GameProfile") : Ref.getClass("net.minecraft.util.com.mojang.authlib.GameProfile"));
 
 	@Override
 	public ItemCreatorAPI clone() {
