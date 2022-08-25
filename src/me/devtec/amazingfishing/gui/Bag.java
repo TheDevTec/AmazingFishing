@@ -27,10 +27,10 @@ public class Bag {
 					err.printStackTrace();
 				}
 			}
-		}, Create.make("bag.close").create(), f -> Help.open(f), Settings.WITHOUT_TOP);
+		}, Create.make("bag.close").build(), f -> Help.open(f), Settings.WITHOUT_TOP);
 		
 		if(Loader.config.getBoolean("Options.Shop.SellFish") && Loader.config.getBoolean("Options.Bag.SellFish"))
-			a.setItem(49,new ItemGUI(Create.make("bag.sell").create()) {
+			a.setItem(49,new ItemGUI(Create.make("bag.sell").build()) {
 				public void onClick(Player p, HolderGUI gui, ClickType arg2) {
 					Shop.sellAll(p, gui, true);
 					bag.saveBag(a);

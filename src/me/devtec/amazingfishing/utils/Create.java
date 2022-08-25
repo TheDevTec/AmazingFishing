@@ -1,56 +1,48 @@
 package me.devtec.amazingfishing.utils;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.shared.utility.StringUtils;
+import me.devtec.theapi.bukkit.game.ItemMaker;
 import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
 import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
 import me.devtec.theapi.bukkit.gui.ItemGUI;
+import me.devtec.theapi.bukkit.xseries.XMaterial;
 
 public class Create {
-	public static ItemCreatorAPI make(String path) {
-		ItemCreatorAPI create = find(Loader.gui.getString(path + ".icon"), "STONE", 0);
-		create.setDisplayName(Loader.gui.getString(path + ".name"));
-		create.setLore(Loader.gui.getStringList(path + ".lore"));
+	public static ItemMaker make(String path) {
+		ItemMaker create = find(Loader.gui.getString(path + ".icon"), "STONE", 0);
+		create.displayName(Loader.gui.getString(path + ".name"));
+		create.lore(Loader.gui.getStringList(path + ".lore"));
 		for (String ench : Loader.gui.getStringList(path + ".enchants")) {
 			String[] split = ench.split(":");
-			create.addEnchantment(split[0], split.length == 1 ? 1 : StringUtils.getInt(split[1]));
+			if (EnchantmentAPI.byName(split[0]) != null)
+				create.enchant(EnchantmentAPI.byName(split[0]).getEnchantment(), split.length == 1 ? 1 : StringUtils.getInt(split[1]));
 		}
-		for (String flag : Loader.gui.getStringList(path + ".flags"))
-			try {
-				create.addItemFlag(ItemFlag.valueOf(flag.toUpperCase()));
-			} catch (Exception | NoSuchFieldError er) {
-				Loader.msg("[GUI] Invalid ItemFlag (" + flag + ") of item in the section " + path, Bukkit.getConsoleSender());
-			}
-		create.setUnbreakable(Loader.gui.getBoolean(path + ".unbreakable"));
+		create.itemFlags(Loader.gui.getStringList(path + ".flags"));
+		create.unbreakable(Loader.gui.getBoolean(path + ".unbreakable"));
 		return create;
 	}
 
-	public static ItemCreatorAPI makeShop(String path) {
-		ItemCreatorAPI create = find(Loader.shop.getString(path + ".icon"), "STONE", 0);
-		create.setDisplayName(Loader.shop.getString(path + ".name"));
-		create.setLore(Loader.shop.getStringList(path + ".lore"));
+	public static ItemMaker makeShop(String path) {
+		ItemMaker create = find(Loader.shop.getString(path + ".icon"), "STONE", 0);
+		create.displayName(Loader.shop.getString(path + ".name"));
+		create.lore(Loader.shop.getStringList(path + ".lore"));
 		for (String ench : Loader.shop.getStringList(path + ".enchants")) {
 			String[] split = ench.split(":");
-			create.addEnchantment(split[0], split.length == 1 ? 1 : StringUtils.getInt(split[1]));
+			if (EnchantmentAPI.byName(split[0]) != null)
+				create.enchant(EnchantmentAPI.byName(split[0]).getEnchantment(), split.length == 1 ? 1 : StringUtils.getInt(split[1]));
 		}
-		for (String flag : Loader.shop.getStringList(path + ".flags"))
-			try {
-				create.addItemFlag(ItemFlag.valueOf(flag.toUpperCase()));
-			} catch (Exception | NoSuchFieldError er) {
-				Loader.msg("[Shop] Invalid ItemFlag (" + flag + ") of item in the section " + path, Bukkit.getConsoleSender());
-			}
-		create.setUnbreakable(Loader.shop.getBoolean(path + ".unbreakable"));
+		create.itemFlags(Loader.shop.getStringList(path + ".flags"));
+		create.unbreakable(Loader.shop.getBoolean(path + ".unbreakable"));
 		return create;
 	}
 
@@ -68,69 +60,36 @@ public class Create {
 		return list;
 	}
 
-	static Material mat;
-	static {
-		try {
-			mat = Material.PLAYER_HEAD;
-		} catch (NoSuchFieldError | Exception var1) {
-			mat = Material.getMaterial("SKULL_ITEM");
-		}
-	}
-
-	public static ItemCreatorAPI find(String item, String fallbackItem, int fallbackId) {
-		item = item.toUpperCase();
-		ItemCreatorAPI creator;
+	public static ItemMaker find(String item, String fallbackItem, int fallbackId) {
+		// head
 		if (item.startsWith("head:")) {
 			String head = item.substring(5);
-			if (head.startsWith("hdb:")) {
-				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwnerFromValues(HDBSupport.parse(head.substring(4)));
-				return creator;
+			if (head.startsWith("hdb:"))
+				return ItemMaker.ofHead().skinValues(HDBSupport.parse(head.substring(4)));
+			if (head.startsWith("https://") || head.startsWith("http://"))
+				return ItemMaker.ofHead().skinUrl(head);
+			if (head.length() > 16) {
 			}
-			if (head.startsWith("https://") || head.startsWith("http://")) {
-				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwnerFromWeb(head);
-			} else if (head.length() > 16) {
-				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwnerFromValues(head);
-			} else {
-				creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-				creator.setSkullType(SkullType.PLAYER);
-				creator.setOwner(head);
-			}
-			return creator;
+			return ItemMaker.ofHead().skinName(head);
 		}
 		// legacy
-		if (item.startsWith("hdb:")) {
-			creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-			creator.setSkullType(SkullType.PLAYER);
-			creator.setOwnerFromValues(HDBSupport.parse(item.substring(4)));
-			return creator;
-		}
-		if (item.startsWith("https://") || item.startsWith("http://")) {
-			creator = new ItemCreatorAPI(new ItemStack(mat, 1));
-			creator.setSkullType(SkullType.PLAYER);
-			creator.setOwnerFromWeb(item);
-			return creator;
-		}
-		String[] slit = item.split(":");
-		if (Material.getMaterial(slit[0]) != null) {
-			return new ItemCreatorAPI(new ItemStack(Material.getMaterial(slit[0]), 1, slit.length >= 2 ? StringUtils.getShort(slit[1]) : 0));
-		}
+		if (item.startsWith("hdb:"))
+			return ItemMaker.ofHead().skinValues(HDBSupport.parse(item.substring(4)));
+		if (item.startsWith("https://") || item.startsWith("http://"))
+			return ItemMaker.ofHead().skinUrl(item);
+		// normal item
+		item = item.toUpperCase();
+		Optional<XMaterial> material = XMaterial.matchXMaterial(item);
+		if (material.isPresent())
+			return ItemMaker.of(material.get().parseMaterial()).data(material.get().getData());
 		fallbackItem = fallbackItem.toUpperCase();
-		if (Material.getMaterial(fallbackItem) != null) {
-			return new ItemCreatorAPI(new ItemStack(Material.getMaterial(fallbackItem), 1, (short) fallbackId));
-		}
-		return new ItemCreatorAPI(new ItemStack(Material.getMaterial("RAW_FISH"), 1, (short) fallbackId));
+		if (Material.getMaterial(fallbackItem) != null)
+			return ItemMaker.of(Material.getMaterial(fallbackItem)).damage(fallbackId);
+		return ItemMaker.of(Material.getMaterial("RAW_FISH")).damage(fallbackId);
 	}
 
-	public static ItemGUI item = new EmptyItemGUI(
-			ItemCreatorAPI.create(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getItemType(), 1, "&c", Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").getData()));
-	public static ItemGUI blue = new EmptyItemGUI(
-			ItemCreatorAPI.create(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE").getItemType(), 1, "&c", Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE").getData()));
+	public static ItemGUI item = new EmptyItemGUI(Utils.getCachedMaterial("BLACK_STAINED_GLASS_PANE").displayName("§c").build());
+	public static ItemGUI blue = new EmptyItemGUI(Utils.getCachedMaterial("BLUE_STAINED_GLASS_PANE").displayName("§c").build());
 
 	public static GUI prepareInvBig(GUI inv) {
 		for (int i = 45; i < 54; ++i)
@@ -209,16 +168,16 @@ public class Create {
 		public void run(Player p);
 	}
 
-	public static ItemStack createItem(String displayName, ItemCreatorAPI icon, List<String> description, int model, List<ItemFlag> flags, boolean unb) {
-		icon.setDisplayName(displayName);
-		icon.setLore(description);
-		icon.setUnbreakable(unb);
-		icon.addItemFlag(flags.toArray(new ItemFlag[0]));
-		ItemStack item = icon.create();
+	public static ItemStack createItem(String displayName, ItemMaker icon, List<String> description, int model, List<String> flags, boolean unb) {
+		icon.displayName(displayName);
+		icon.lore(description);
+		icon.unbreakable(unb);
+		icon.itemFlags(flags);
+		ItemStack item = icon.build();
 		return Utils.setModel(item, model);
 	}
 
 	public static ItemStack createItem(String name, Material paper, List<String> lore) {
-		return ItemCreatorAPI.create(paper, 1, name, lore);
+		return ItemMaker.of(paper).displayName(name).lore(lore).build();
 	}
 }

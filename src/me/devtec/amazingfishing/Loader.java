@@ -59,85 +59,89 @@ public class Loader extends JavaPlugin {
 	public static Loader plugin;
 	public static Config tran, config, gui, shop;
 	public static Config cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
-	protected static String prefix=Manager.getPluginName();
+	protected static String prefix = Manager.getPluginName();
 	protected static PlaceholderExpansion reg;
-	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)), intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)),
+			intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 	public static ItemStack next, prev;
-	
-	//TODO Vault intergration
-	
+
+	// TODO Vault intergration
+
+	@Override
 	public void onEnable() {
-		if(VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "9.1")==VersionUtils.Version.NEWER_VERSION) {
-			Loader.msg(prefix+" &8*********************************************", Bukkit.getConsoleSender());
-			Loader.msg(prefix+" &4SECURITY: &cYou are running on outdated version of plugin TheAPI", Bukkit.getConsoleSender());
-			Loader.msg(prefix+" &4SECURITY: &cPlease update plugin TheAPI to latest version.", Bukkit.getConsoleSender());
-			Loader.msg(prefix+"        &6https://www.spigotmc.org/resources/72679/", Bukkit.getConsoleSender());
-			Loader.msg(prefix+" &8*********************************************", Bukkit.getConsoleSender());
+		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "9.1") == VersionUtils.Version.NEWER_VERSION) {
+			Loader.msg(prefix + " &8*********************************************", Bukkit.getConsoleSender());
+			Loader.msg(prefix + " &4SECURITY: &cYou are running on outdated version of plugin TheAPI", Bukkit.getConsoleSender());
+			Loader.msg(prefix + " &4SECURITY: &cPlease update plugin TheAPI to latest version.", Bukkit.getConsoleSender());
+			Loader.msg(prefix + "        &6https://www.spigotmc.org/resources/72679/", Bukkit.getConsoleSender());
+			Loader.msg(prefix + " &8*********************************************", Bukkit.getConsoleSender());
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
-		plugin=this;
-		
+		plugin = this;
+
 		Configs.load();
-		API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
+		API.points = config.getString("Options.PointsManager").equalsIgnoreCase("vault") ? new VaultPoints() : new UserPoints();
 		prefix = tran.getString("prefix");
 		new Metrics(this, 10630);
-		reload(Bukkit.getConsoleSender(),false);
+		reload(Bukkit.getConsoleSender(), false);
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
-		PluginCommand cmd = BukkitCommandManager.createCommand(config.getString("Command.Name"),this);
+		PluginCommand cmd = BukkitCommandManager.createCommand(config.getString("Command.Name"), this);
 		cmd.setPermission(config.getString("Command.Permission"));
 		AmazingFishingCommand amf = new AmazingFishingCommand();
 		cmd.setExecutor(amf);
 		cmd.setAliases(config.getStringList("Command.Aliases"));
-		//cmd.setTabCompleter(amf);
+		// cmd.setTabCompleter(amf);
 		BukkitCommandManager.registerCommand(cmd);
-		
+
 		PAPISupport.load();
-		
-		if(config.getBoolean("Tournament.Automatic.Use")) {
-			if(config.getBoolean("Tournament.Automatic.AllWorlds")) {
+
+		if (config.getBoolean("Tournament.Automatic.Use"))
+			if (config.getBoolean("Tournament.Automatic.AllWorlds"))
 				new Tasker() {
+					@Override
 					public void run() {
-						if(TournamentManager.start(null, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
+						if (TournamentManager.start(null, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 							String format = TournamentManager.get(null).getType().formatted(), path = TournamentManager.get(null).getType().configPath();
-							for(Player p : BukkitLoader.getOnlinePlayers()) {
-								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Messages"))
+							for (Player p : BukkitLoader.getOnlinePlayers()) {
+								for (String f : config.getStringList("Tournament.Start." + path + ".Broadcast.Messages"))
 									Loader.msg(PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()), p);
-								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Commands"))
+								for (String f : config.getStringList("Tournament.Start." + path + ".Broadcast.Commands"))
 									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()));
 							}
 						}
 					}
 				}.runRepeating(100, StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
-			}else {
+			else
 				new Tasker() {
+					@Override
 					public void run() {
 						World w = Bukkit.getWorld(StringUtils.getRandomFromList(config.getStringList("Tournament.Automatic.Worlds")));
-						if(TournamentManager.start(w, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
+						if (TournamentManager.start(w, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 							String format = TournamentManager.get(w).getType().formatted(), path = TournamentManager.get(w).getType().configPath();
-							for(Player p : w.getPlayers()) {
-								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Messages"))
+							for (Player p : w.getPlayers()) {
+								for (String f : config.getStringList("Tournament.Start." + path + ".Broadcast.Messages"))
 									Loader.msg(PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()), p);
-								for(String f : config.getStringList("Tournament.Start."+path+".Broadcast.Commands"))
+								for (String f : config.getStringList("Tournament.Start." + path + ".Broadcast.Commands"))
 									Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PlaceholderAPI.apply(f.replace("%type%", format), p.getUniqueId()));
 							}
 						}
 					}
 				}.runRepeating(StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")), StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
-			}
-		}
 	}
-	
+
+	@Override
 	public void onDisable() {
-		if(reg!=null)reg.unregister();
+		if (reg != null)
+			reg.unregister();
 		AFKSystem.unload();
 		Bukkit.getScheduler().cancelTask(Placeholders.task);
 	}
-	
+
 	public static void reload(CommandSender ss, boolean reload) {
-		//RELOAD-CONFIG
-		if(reload) {
+		// RELOAD-CONFIG
+		if (reload) {
 			AFKSystem.unload();
 			cod.reload(cod.getFile());
 			salmon.reload(salmon.getFile());
@@ -151,220 +155,209 @@ public class Loader extends JavaPlugin {
 			config.reload(config.getFile());
 			tran.reload(tran.getFile());
 			prefix = tran.getString("prefix");
-			Loader.next = Create.make("buttons.next").create();
-			Loader.prev = Create.make("buttons.previous").create();
-			API.points=config.getString("Options.PointsManager").equalsIgnoreCase("vault")?new VaultPoints():new UserPoints();
+			Loader.next = Create.make("buttons.next").build();
+			Loader.prev = Create.make("buttons.previous").build();
+			API.points = config.getString("Options.PointsManager").equalsIgnoreCase("vault") ? new VaultPoints() : new UserPoints();
 			Loader.msg(Create.text("reload").replace("%prefix%", getPrefix()), ss);
 		}
 		AFKSystem.load();
 		Placeholders.loadTops();
-		//FISH
-		
-		//PRE-LOAD
+		// FISH
+
+		// PRE-LOAD
 		Map<String, FishType> toRegister = new ConcurrentHashMap<>();
 		FishType type = FishType.COD;
-		for(String fish : cod.getKeys("cod")) {
+		for (String fish : cod.getKeys("cod"))
 			try {
-				toRegister.put(fish+":"+type.ordinal(), type);
-			}catch(Exception | NoSuchFieldError err) {}
-		}
+				toRegister.put(fish + ":" + type.ordinal(), type);
+			} catch (Exception | NoSuchFieldError err) {
+			}
 		type = FishType.SALMON;
-		for(String fish : salmon.getKeys("salmon")) {
+		for (String fish : salmon.getKeys("salmon"))
 			try {
-				toRegister.put(fish+":"+type.ordinal(), type);
-			}catch(Exception | NoSuchFieldError err) {}
-		}
+				toRegister.put(fish + ":" + type.ordinal(), type);
+			} catch (Exception | NoSuchFieldError err) {
+			}
 		type = FishType.PUFFERFISH;
-		for(String fish : puffer.getKeys("pufferfish")) {
+		for (String fish : puffer.getKeys("pufferfish"))
 			try {
-				toRegister.put(fish+":"+type.ordinal(), type);
-			}catch(Exception | NoSuchFieldError err) {}
-		}
+				toRegister.put(fish + ":" + type.ordinal(), type);
+			} catch (Exception | NoSuchFieldError err) {
+			}
 		type = FishType.TROPICAL_FISH;
-		for(String fish : tropic.getKeys("tropical_fish")) {
+		for (String fish : tropic.getKeys("tropical_fish"))
 			try {
-				toRegister.put(fish+":"+type.ordinal(), type);
-			}catch(Exception | NoSuchFieldError err) {}
-		}
-		
-		//REMOVE-NOT-LOADED
+				toRegister.put(fish + ":" + type.ordinal(), type);
+			} catch (Exception | NoSuchFieldError err) {
+			}
+
+		// REMOVE-NOT-LOADED
 		List<Fish> remove = new ArrayList<>();
-		for(Entry<String, Fish> fish : API.fish.entrySet())
-			if(fish.getValue() instanceof CustomFish && Ref.get(fish.getValue(), "data").equals(getData(fish.getValue().getType())))
-				if(toRegister.containsKey(fish.getValue().getName()+":"+fish.getValue().getType().ordinal()))
-					toRegister.remove(fish.getValue().getName()+":"+fish.getValue().getType().ordinal());
+		for (Entry<String, Fish> fish : API.fish.entrySet())
+			if (fish.getValue() instanceof CustomFish && Ref.get(fish.getValue(), "data").equals(getData(fish.getValue().getType())))
+				if (toRegister.containsKey(fish.getValue().getName() + ":" + fish.getValue().getType().ordinal()))
+					toRegister.remove(fish.getValue().getName() + ":" + fish.getValue().getType().ordinal());
 				else
 					remove.add(fish.getValue());
-		for(Fish s : remove)
+		for (Fish s : remove)
 			API.unregister(s);
-		
-		//REGISTER-NOT-LOADED
-		for(Entry<String, FishType> s : toRegister.entrySet())
-			API.register(new CustomFish(s.getKey().substring(0, s.getKey().length()-2), s.getValue().name().toLowerCase(), s.getValue(), getData(s.getValue())));
-		
-		//CLEAR-CACHE
-		Loader.msg(prefix+" Fish registered ("+toRegister.size()+") & removed unregistered ("+remove.size()+").", ss);
+
+		// REGISTER-NOT-LOADED
+		for (Entry<String, FishType> s : toRegister.entrySet())
+			API.register(new CustomFish(s.getKey().substring(0, s.getKey().length() - 2), s.getValue().name().toLowerCase(), s.getValue(), getData(s.getValue())));
+
+		// CLEAR-CACHE
+		Loader.msg(prefix + " Fish registered (" + toRegister.size() + ") & removed unregistered (" + remove.size() + ").", ss);
 		toRegister.clear();
 		remove.clear();
-		
-		//TREASURE
-		
-		//PRE-LOAD
+
+		// TREASURE
+
+		// PRE-LOAD
 		Set<String> toReg = treasur.getKeys("treasures");
-		
-		//REMOVE-NOT-LOADED
+
+		// REMOVE-NOT-LOADED
 		List<Treasure> removeT = new ArrayList<>();
-		for(Entry<String, Treasure> fish : API.treasure.entrySet())
-			if(fish.getValue() instanceof CustomTreasure && Ref.get(fish.getValue(), "data").equals(treasur))
-				if(toReg.contains(fish.getValue().getName()))
+		for (Entry<String, Treasure> fish : API.treasure.entrySet())
+			if (fish.getValue() instanceof CustomTreasure && Ref.get(fish.getValue(), "data").equals(treasur))
+				if (toReg.contains(fish.getValue().getName()))
 					toReg.remove(fish.getValue().getName());
 				else
 					removeT.add(fish.getValue());
-		for(Treasure s : removeT)
+		for (Treasure s : removeT)
 			API.unregister(s);
-		
-		//REGISTER-NOT-LOADED
-		for(String s : toReg)
+
+		// REGISTER-NOT-LOADED
+		for (String s : toReg)
 			API.register(new CustomTreasure(s, treasur));
-		
-		//CLEAR-CACHE
-		Loader.msg(prefix+" Treasures registered ("+toReg.size()+") & removed unregistered ("+removeT.size()+").", ss);
+
+		// CLEAR-CACHE
+		Loader.msg(prefix + " Treasures registered (" + toReg.size() + ") & removed unregistered (" + removeT.size() + ").", ss);
 		toReg.clear();
 		removeT.clear();
-		
-		//ENCHANTMENT
-		
-		//PRE-LOAD
+
+		// ENCHANTMENT
+
+		// PRE-LOAD
 		toReg = enchant.getKeys("enchantments");
-		//REMOVE-NOT-LOADED
+		// REMOVE-NOT-LOADED
 		List<String> removeE = new ArrayList<>();
-		for(Entry<String, Enchant> fish : Enchant.enchants.entrySet())
-			if(fish.getValue() !=null && fish.getValue() instanceof CustomEnchantment)
-				if(toReg.contains(fish.getValue().getName()))
+		for (Entry<String, Enchant> fish : Enchant.enchants.entrySet())
+			if (fish.getValue() != null && fish.getValue() instanceof CustomEnchantment)
+				if (toReg.contains(fish.getValue().getName()))
 					toReg.remove(fish.getValue().getName());
 				else
 					removeE.add(fish.getKey());
-		for(String s : removeE)
+		for (String s : removeE)
 			Enchant.enchants.remove(s);
-		
-		//REGISTER-NOT-LOADED
-		for(String s : toReg) {
-			new CustomEnchantment(s, 
-					enchant.getString("enchantments."+s+".name"),
-					enchant.getInt("enchantments."+s+".maxlevel"), 
-					enchant.getDouble("enchantments."+s+".bonus.chance"),
-					enchant.getDouble("enchantments."+s+".bonus.amount"),
-					enchant.getDouble("enchantments."+s+".bonus.money"),
-					enchant.getDouble("enchantments."+s+".bonus.points"),
-					enchant.getDouble("enchantments."+s+".bonus.exp"),
-					enchant.getStringList("enchantments."+s+".description"),
-					enchant.getDouble("enchantments."+s+".cost"));
-		
-		}
-		//CLEAR-CACHE
-		Loader.msg(prefix+" Enchantments registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+
+		// REGISTER-NOT-LOADED
+		for (String s : toReg)
+			new CustomEnchantment(s, enchant.getString("enchantments." + s + ".name"), enchant.getInt("enchantments." + s + ".maxlevel"), enchant.getDouble("enchantments." + s + ".bonus.chance"),
+					enchant.getDouble("enchantments." + s + ".bonus.amount"), enchant.getDouble("enchantments." + s + ".bonus.money"), enchant.getDouble("enchantments." + s + ".bonus.points"),
+					enchant.getDouble("enchantments." + s + ".bonus.exp"), enchant.getStringList("enchantments." + s + ".description"), enchant.getDouble("enchantments." + s + ".cost"));
+		// CLEAR-CACHE
+		Loader.msg(prefix + " Enchantments registered (" + toReg.size() + ") & removed unregistered (" + removeE.size() + ").", ss);
 		toReg.clear();
 		removeE.clear();
-		
-		//QUESTS
-		
-		//PRE-LOAD
+
+		// QUESTS
+
+		// PRE-LOAD
 		toReg = quest.getKeys("quests");
-			
-		//REMOVE-NOT-LOADED
-		for(Entry<String, Quest> quest : Quests.quests.entrySet())
-			if(quest.getValue().getClass()==Quest.class)
-				if(!toReg.contains(quest.getKey()))
+
+		// REMOVE-NOT-LOADED
+		for (Entry<String, Quest> quest : Quests.quests.entrySet())
+			if (quest.getValue().getClass() == Quest.class)
+				if (!toReg.contains(quest.getKey()))
 					removeE.add(quest.getKey());
-		for(String s : removeE)
+		for (String s : removeE)
 			Quests.quests.remove(s);
 
-		//REGISTER-NOT-LOADED
-		for(String s : toReg)
+		// REGISTER-NOT-LOADED
+		for (String s : toReg)
 			Quests.register(new Quest(s, quest));
-			
-		//CLEAR-CACHE
-		Loader.msg(prefix+" Quests registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+
+		// CLEAR-CACHE
+		Loader.msg(prefix + " Quests registered (" + toReg.size() + ") & removed unregistered (" + removeE.size() + ").", ss);
 		toReg.clear();
 		removeE.clear();
-		
-		if(quest.exists("categories")) {
+
+		if (quest.exists("categories")) {
 			int old = 0;
-			if(!Quests.categories.isEmpty()) {
+			if (!Quests.categories.isEmpty()) {
 				old = Quests.categories.size();
 				Quests.categories.clear();
 			}
-			
-			for(String category : quest.getKeys("categories")) {
-				Quests.addToCategory( new Category(category, quest));
-			}
-			
-			Loader.msg(prefix+" Quests categories registered ("+Quests.categories.size()+") & removed unregistered ("+old+").", ss);
+
+			for (String category : quest.getKeys("categories"))
+				Quests.addToCategory(new Category(category, quest));
+
+			Loader.msg(prefix + " Quests categories registered (" + Quests.categories.size() + ") & removed unregistered (" + old + ").", ss);
 		}
-		
-		//ACHIEVEMENTS
-		
-		//PRE-LOAD
+
+		// ACHIEVEMENTS
+
+		// PRE-LOAD
 		toReg = achievements.getKeys("achievements");
-			
-		//REMOVE-NOT-LOADED
-		for(Entry<String, Achievement> ach : Achievements.achievements.entrySet())
-			if(ach.getValue().getClass()==Achievement.class)
-				if(!toReg.contains(ach.getKey()))
+
+		// REMOVE-NOT-LOADED
+		for (Entry<String, Achievement> ach : Achievements.achievements.entrySet())
+			if (ach.getValue().getClass() == Achievement.class)
+				if (!toReg.contains(ach.getKey()))
 					removeE.add(ach.getKey());
-		for(String s : removeE) {
+		for (String s : removeE)
 			Achievements.achievements.remove(s);
-		}
-		//REGISTER-NOT-LOADED
-		for(String s : toReg)
-			if(Loader.achievements.exists("achievements."+s+".icon"))
+		// REGISTER-NOT-LOADED
+		for (String s : toReg)
+			if (Loader.achievements.exists("achievements." + s + ".icon"))
 				Achievements.register(new Achievement(s, achievements));
-		
-		//CLEAR-CACHE
-		Loader.msg(prefix+" Achievements registered ("+toReg.size()+") & removed unregistered ("+removeE.size()+").", ss);
+
+		// CLEAR-CACHE
+		Loader.msg(prefix + " Achievements registered (" + toReg.size() + ") & removed unregistered (" + removeE.size() + ").", ss);
 		toReg.clear();
 		removeE.clear();
-		
-		if(achievements.exists("categories")) {
+
+		if (achievements.exists("categories")) {
 			int old = Achievements.categories.size();
 			Achievements.categories.clear();
-			for(String category : achievements.getKeys("categories"))
-				Achievements.addToCategory( new Category(category, achievements));
-			
-			Loader.msg(prefix+" Achievements categories registered ("+Achievements.categories.size()+") & removed unregistered ("+old+").", ss);
-			
+			for (String category : achievements.getKeys("categories"))
+				Achievements.addToCategory(new Category(category, achievements));
+
+			Loader.msg(prefix + " Achievements categories registered (" + Achievements.categories.size() + ") & removed unregistered (" + old + ").", ss);
+
 		}
-		
-		//JUNK
-		
-		//PRE-LOAD
+
+		// JUNK
+
+		// PRE-LOAD
 		toReg = junk.getKeys("items");
-		
-		//REMOVE-NOT-LOADED
+
+		// REMOVE-NOT-LOADED
 		List<Junk> removeJ = new ArrayList<>();
-		for(Entry<String, Junk> junk : API.junk.entrySet())
-			if(junk.getValue() instanceof CustomJunk && Ref.get(junk.getValue(), "data").equals(junk))
-				if(toReg.contains(junk.getValue().getName()))
+		for (Entry<String, Junk> junk : API.junk.entrySet())
+			if (junk.getValue() instanceof CustomJunk && Ref.get(junk.getValue(), "data").equals(junk))
+				if (toReg.contains(junk.getValue().getName()))
 					toReg.remove(junk.getValue().getName());
 				else
 					removeJ.add(junk.getValue());
-		for(Junk s : removeJ)
+		for (Junk s : removeJ)
 			API.unregister(s);
-		
-		//REGISTER-NOT-LOADED
-		for(String s : toReg)
+
+		// REGISTER-NOT-LOADED
+		for (String s : toReg)
 			API.register(new CustomJunk(s, "items", junk));
-		
-		//CLEAR-CACHE
-		Loader.msg(prefix+" Junk registered ("+toReg.size()+") & removed unregistered ("+removeJ.size()+").", ss);
+
+		// CLEAR-CACHE
+		Loader.msg(prefix + " Junk registered (" + toReg.size() + ") & removed unregistered (" + removeJ.size() + ").", ss);
 		toReg.clear();
 		removeJ.clear();
-				
-		API.onReload.forEach(a->a.run());
+
+		API.onReload.forEach(Runnable::run);
 	}
-	
+
 	public static Config getData(FishType type) {
-		switch(type) {
+		switch (type) {
 		case COD:
 			return cod;
 		case PUFFERFISH:
@@ -382,72 +375,43 @@ public class Loader extends JavaPlugin {
 	public static void msg(String msg, CommandSender s) {
 		s.sendMessage(replace(msg, s));
 	}
-	
+
 	public static String replace(String text, CommandSender s) {
-		return StringUtils.colorize(PlaceholderAPI.apply(text.replace("%prefix%", getPrefix()).replace("%player%", s.getName()), s instanceof Player? ((Player)s).getUniqueId() : null));
+		return StringUtils.colorize(PlaceholderAPI.apply(text.replace("%prefix%", getPrefix()).replace("%player%", s.getName()), s instanceof Player ? ((Player) s).getUniqueId() : null));
 	}
 
 	public static boolean has(CommandSender s, String permission) {
-		if(s.hasPermission(permission)) return true;
+		if (s.hasPermission(permission))
+			return true;
 		msg(tran.getString("NoPerms").replace("%permission%", permission), s);
 		return false;
 	}
 
 	public static void onAfk(Player p) {
-		for(String s : Loader.config.getStringList("Options.AFK.Action.Afking")) {
+		for (String s : Loader.config.getStringList("Options.AFK.Action.Afking"))
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(s, p));
-		}
 	}
 
 	public static void onAfkStart(Player p) {
-		for(String s : Loader.config.getStringList("Options.AFK.Action.Start")) {
+		for (String s : Loader.config.getStringList("Options.AFK.Action.Start"))
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(s, p));
-		}
 	}
 
 	public static void onAfkStop(Player p) {
-		for(String s : Loader.config.getStringList("Options.AFK.Action.Stop")) {
+		for (String s : Loader.config.getStringList("Options.AFK.Action.Stop"))
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(s, p));
-		}
 	}
-   	/*
- 	  AmazingFishing:
- 	    Statistics:
- 	      Tournament:
- 	        Played: int
- 	        Placements: int //Počet kolikrát jsi se umístil na TOP 4 (dohromady)
- 	        <TOURNAMENT>:
- 	          Played: int
- 	          Placement:
- 	            <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
- 	      Treasures:
- 	        Caught: int
- 	        <TREASURE>:
- 	          Caught: int
- 	      Shop:
- 	       Gained:
- 	         Exp: double
- 	         Money: double
- 	         Points: double
- 	      Records:
- 	        <TYP>:
- 	          <RYBA>:
- 	            WEIGHT: double
- 	            LENGTH: double
- 	      Fish:
- 	        Caught: int
- 	        Eaten: int
- 	        Sold: int
- 	        <TYP>:
- 	          Caught: int
- 	          Eaten: int
- 	          Sold: int
- 	          <RYBA>:
- 	            Caught: int
- 	            Eaten: int
- 	            Sold: int
- 	            
- 	 */
+
+	/*
+	 * AmazingFishing: Statistics: Tournament: Played: int Placements: int //Počet
+	 * kolikrát jsi se umístil na TOP 4 (dohromady) <TOURNAMENT>: Played: int
+	 * Placement: <pozice 1-4>: int //Počet kolikrát jsi se umístil na určité pozici
+	 * Treasures: Caught: int <TREASURE>: Caught: int Shop: Gained: Exp: double
+	 * Money: double Points: double Records: <TYP>: <RYBA>: WEIGHT: double LENGTH:
+	 * double Fish: Caught: int Eaten: int Sold: int <TYP>: Caught: int Eaten: int
+	 * Sold: int <RYBA>: Caught: int Eaten: int Sold: int
+	 * 
+	 */
 	public static String getPrefix() {
 		return prefix;
 	}

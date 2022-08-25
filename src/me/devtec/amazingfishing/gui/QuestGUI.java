@@ -34,7 +34,7 @@ public class QuestGUI {
 	}
 
 	private static void openQuests(Player player, int page) {
-		GUI a = Create.setup(new GUI(Create.title("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("quests.title"),54), Create.make("quests.close").build(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Quest> p = new Pagination<Quest>(28, Quests.getQuests(player.getName()).values());
 		if(!p.isEmpty()) {
 			for(Quest q: p.getPage(page)) {
@@ -87,7 +87,7 @@ public class QuestGUI {
 			});
 		}
 		}
-		a.setItem(26, new ItemGUI(Create.make("quests.own").create()) {
+		a.setItem(26, new ItemGUI(Create.make("quests.own").build()) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				openMyQuests(player, 0);
@@ -97,7 +97,7 @@ public class QuestGUI {
 	}
 	
 	private static void openCategoryList(Player player, int page) {
-		GUI a = Create.setup(new GUI(Create.title("quests.title"),54), Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("quests.title"),54), Create.make("quests.close").build(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Category> p = new Pagination<Category>(28, Quests.categories.values());
 		if(!p.isEmpty()) {
 			for(Category category: p.getPage(page)) {
@@ -127,7 +127,7 @@ public class QuestGUI {
 				});
 			}
 		}
-		a.setItem(26, new ItemGUI(Create.make("quests.own").create()) {
+		a.setItem(26, new ItemGUI(Create.make("quests.own").build()) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				openMyQuests(player, 0);
@@ -138,7 +138,7 @@ public class QuestGUI {
 	}
 	
 	private static void openCategory(Player player, int page, Category category) {
-		GUI a = Create.setup(new GUI(Create.title("quests.title-category").replace("%category%", category.getDisplayName()),54),Create.make("quests.close").create(), f -> Help.open(f), Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("quests.title-category").replace("%category%", category.getDisplayName()),54),Create.make("quests.close").build(), f -> Help.open(f), Settings.SIDES);
 		Pagination<Quest> p = new Pagination<Quest>(28);
 		for(String q :  category.getContent()) {
 			Quest quest = Quests.quests.get(q);
@@ -195,7 +195,7 @@ public class QuestGUI {
 				});
 			}
 		}
-		a.setItem(26, new ItemGUI(Create.make("quests.own").create()) {
+		a.setItem(26, new ItemGUI(Create.make("quests.own").build()) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				openMyQuests(player, 0);
@@ -205,7 +205,7 @@ public class QuestGUI {
 	}
 	
 	private static void openMyQuests(Player p, int page) {
-		GUI a = Create.setup(new GUI(Create.title("quests.title-own"),54),Create.make("quests.close").create(), f -> Help.open(f));
+		GUI a = Create.setup(new GUI(Create.title("quests.title-own"),54),Create.make("quests.close").build(), f -> Help.open(f));
 		Config u = me.devtec.shared.API.getUser(p.getUniqueId());
 		Pagination<String> pagi = new Pagination<String>(28);
 		List<String> finishpagi = new ArrayList<String>();

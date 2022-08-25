@@ -20,15 +20,15 @@ import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class EnchantTable {
 	public static void openMain(Player p) {
-		GUI a = Create.setup(new GUI(Create.title("enchant.title"),54), Create.make("enchant.close").create(), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
-			a.setItem(20,new ItemGUI(Create.make("enchant.add").create()){
+		GUI a = Create.setup(new GUI(Create.title("enchant.title"),54), Create.make("enchant.close").build(), f -> Help.open(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+			a.setItem(20,new ItemGUI(Create.make("enchant.add").build()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if(!Enchant.enchants.isEmpty())
 						openEnchanterPlace(p, 0);
 				}
 			});
-			a.setItem(24,new ItemGUI(Create.make("enchant.upgrade").create()){
+			a.setItem(24,new ItemGUI(Create.make("enchant.upgrade").build()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if(!Enchant.enchants.isEmpty())
@@ -39,7 +39,7 @@ public class EnchantTable {
 		}
 	
 	private static boolean openEnchanterPlace(Player p, int type) {
-		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"),54), Create.make("enchant.close").create(), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"),54), Create.make("enchant.close").build(), f -> openMain(f), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		int slot = -1;
 		boolean add = false;
 		if(p.getInventory().getContents()!=null)
@@ -93,7 +93,7 @@ public class EnchantTable {
 				if(Rod.saved(p))
 					Rod.retriveRod(p);
 			}
-		}, Create.make("enchant.close").create(), f -> openMain(f));
+		}, Create.make("enchant.close").build(), f -> openMain(f));
 		a.setItem(4,Shop.replace(p,Create.make("enchant.points"), () -> {}));
 		for(Enchant enchant: Enchant.enchants.values()) {
 			 ItemStack rod = Rod.getRod(p);
@@ -125,7 +125,7 @@ public class EnchantTable {
 				if(Rod.saved(p))
 					Rod.retriveRod(p);
 			}
-		}, Create.make("enchant.close").create(), f -> openMain(f));
+		}, Create.make("enchant.close").build(), f -> openMain(f));
 		a.setItem(4,Shop.replace(p,Create.make("enchant.points"), () -> {}));
 		for(Enchant enchant: Enchant.enchants.values()) {
 			 ItemStack rod = Rod.getRod(p);

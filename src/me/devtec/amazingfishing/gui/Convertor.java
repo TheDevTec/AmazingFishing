@@ -22,8 +22,8 @@ public class Convertor {
 						if(getItem(count)!=null)
 							p.getInventory().addItem(getItem(count));
 			}
-		}, Create.make("convertor.close").create(), f -> Help.open(f), Settings.WITHOUT_TOP);
-		a.setItem(49,new ItemGUI(Create.make("convertor.convert").create()) {
+		}, Create.make("convertor.close").build(), f -> Help.open(f), Settings.WITHOUT_TOP);
+		a.setItem(49,new ItemGUI(Create.make("convertor.convert").build()) {
 			public void onClick(Player p, HolderGUI arg1, ClickType arg2) {
 				convert(arg1);
 			}

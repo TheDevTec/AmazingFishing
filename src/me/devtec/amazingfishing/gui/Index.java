@@ -25,33 +25,33 @@ import me.devtec.theapi.bukkit.gui.HolderGUI;
 import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class Index {
-	static GUI g=Create.setup(new GUI(Create.title("index.title"),54), Create.make("index.close").create(), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+	static GUI g=Create.setup(new GUI(Create.title("index.title"),54), Create.make("index.close").build(), p -> Help.open(p), me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 	static {
 
 		if(CatchFish.isEnabled(Fishing.FISH)) {
-			g.setItem(20, new ItemGUI(Create.make("index.cod").create()) {
+			g.setItem(20, new ItemGUI(Create.make("index.cod").build()) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					open(player, FishType.COD, 0);
 				}
 			});
-			g.setItem(24, new ItemGUI(Create.make("index.salmon").create()) {
+			g.setItem(24, new ItemGUI(Create.make("index.salmon").build()) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					open(player, FishType.SALMON, 0);
 				}
 			});
-			g.setItem(30, new ItemGUI(Create.make("index.tropical_fish").create()) {
+			g.setItem(30, new ItemGUI(Create.make("index.tropical_fish").build()) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					open(player, FishType.TROPICAL_FISH, 0);
 				}
 			});
-			g.setItem(32, new ItemGUI(Create.make("index.pufferfish").create()) {
+			g.setItem(32, new ItemGUI(Create.make("index.pufferfish").build()) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					open(player, FishType.PUFFERFISH, 0);
 				}
 			});
 		}
 		if(CatchFish.isEnabled(Fishing.JUNK)) {
-			g.setItem(22, new ItemGUI(Create.make("index.junk").create()) {
+			g.setItem(22, new ItemGUI(Create.make("index.junk").build()) {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					open(player, FishType.JUNK, 0);
 				}
@@ -64,7 +64,7 @@ public class Index {
 	}
 	
 	public static void open(Player s, FishType type, int page) {
-		GUI c = Create.setup(new GUI(Create.title("index.title-"+type.name().toLowerCase()),54),Create.make("index.close").create(), p -> open(p));
+		GUI c = Create.setup(new GUI(Create.title("index.title-"+type.name().toLowerCase()),54),Create.make("index.close").build(), p -> open(p));
 		if(type!=FishType.JUNK) {
 			Pagination<Fish> g = new Pagination<>(36, API.getRegisteredFish().values().stream().filter(a -> a.getType()==type).collect(Collectors.toList()));
 			if(g.isEmpty()||!g.exists(page))return;
