@@ -28,7 +28,7 @@ help:
     flags:
     - "HIDE_ATTRIBUTES"
     - "HIDE_ENCHANTS"
-  achievements:
+  achievementsOpen:
     name: "&bAchievements"
     # DOUBLE_PLANT
     icon: SUNFLOWER
