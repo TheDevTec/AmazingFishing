@@ -28,7 +28,7 @@ help:
     flags:
     - "HIDE_ATTRIBUTES"
     - "HIDE_ENCHANTS"
-  achievementsOpen:
+  achievements:
     name: "&bAchievements"
     # DOUBLE_PLANT
     icon: SUNFLOWER
@@ -144,7 +144,7 @@ bag:
     name: "&bSell all fish in the bag"
     icon: GOLD_INGOT
   close:
-    name: "&cLeave the store"
+    name: "&cLeave the bag"
     # STAINED_GLASS_PANE:14
     icon: RED_STAINED_GLASS_PANE
 

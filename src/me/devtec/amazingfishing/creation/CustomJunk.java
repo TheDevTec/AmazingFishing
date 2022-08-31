@@ -210,7 +210,10 @@ public class CustomJunk implements Junk {
 
 	@Override
 	public boolean isInstance(Config data) {
-		return data.exists("junk") && data.exists("type") && data.getString("junk").equals(name) && data.getString("type").equals("JUNK");
+		return data.exists("junk") && 
+				data.exists("type") && 
+				data.getString("junk").replace("\"", "").equals(name) && 
+				data.getString("type").replace("\"", "").equals("JUNK");
 	}
 
 	@Override

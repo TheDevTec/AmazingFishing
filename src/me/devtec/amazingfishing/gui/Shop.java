@@ -38,7 +38,8 @@ public class Shop {
 	}
 
 	public static void openShop(Player p, ShopType t) {
-		GUI a = Create.setup(new GUI(Create.title("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".title"), 54) {
+		GUI a = Create.setup(
+				new GUI(Create.title("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".title"), 54) {
 			@Override
 			public void onClose(Player player) {
 				if (t == ShopType.SELL) {
@@ -56,12 +57,14 @@ public class Shop {
 							p.getInventory().addItem(getItem(count));
 				}
 			}
-		}, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".close").build(), Help::open, Settings.SIDES);
+		}, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".close").build(), 
+				Help::open, Settings.SIDES);
+		
 		if (t == ShopType.SELL)
 			a.setInsertable(true);
-		new Tasker() {
-			@Override
-			public void run() {
+		//new Tasker() {
+		//	@Override
+		//	public void run() {
 				a.setItem(4, replace(p, Create.make("shops.points"), () -> {
 				}));
 				if (p.hasPermission("amazingfishing.command.bag"))
@@ -91,8 +94,8 @@ public class Shop {
 					});
 				}
 				a.open(p);
-			}
-		}.runTask();
+		//	}
+		//}.runTask();
 	}
 
 	private static void addItems(GUI inv) {
@@ -124,7 +127,7 @@ public class Shop {
 	}
 
 	protected static ItemGUI replace(Player p, ItemMaker make, Runnable run) {
-		make.displayName(PlaceholderAPI.apply(Ref.get(make, "name").toString().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%",
+		make.displayName(PlaceholderAPI.apply(make.getDisplayName().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%",
 				StringUtils.formatDouble(FormatType.NORMAL, API.getPoints().get(p.getName()))), p.getUniqueId()));
 
 		make.getLore().replaceAll(a -> PlaceholderAPI.apply(

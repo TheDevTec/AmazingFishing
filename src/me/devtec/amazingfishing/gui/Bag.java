@@ -27,7 +27,7 @@ public class Bag {
 					err.printStackTrace();
 				}
 			}
-		}, Create.make("bag.close").build(), f -> Help.open(f), Settings.WITHOUT_TOP);
+		}, Create.make("bag.close").build(), f -> Help.open(f), Settings.WITHOUT_TOP, Settings.CLOSE);
 		
 		if(Loader.config.getBoolean("Options.Shop.SellFish") && Loader.config.getBoolean("Options.Bag.SellFish"))
 			a.setItem(49,new ItemGUI(Create.make("bag.sell").build()) {

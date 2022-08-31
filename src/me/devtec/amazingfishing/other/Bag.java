@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -113,7 +114,8 @@ public class Bag {
 			List<ItemStack> list = new ArrayList<>();
 			for(int st = 0; st < 45; ++st) {
 				int slot = st;
-				if(i.getItem(slot)==null)continue;
+				if(i.getItem(slot)==null)
+					continue;
 				if(!API.isFishItem(i.getItem(slot))) {
 					BukkitLoader.getNmsProvider().postToMainThread(() -> player.getInventory().addItem(i.getItem(slot)));
 					continue;

@@ -1,10 +1,11 @@
 package me.devtec.amazingfishing;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -100,10 +101,10 @@ public class API {
 	public static boolean isFishItem(ItemStack stack) {
 		if(stack.getType()==head.getType())
 			return true;
-		return stack.getType() == cod.getType() && Ref.isNewerThan(12) || (stack.getData().getData() == cod.getData().getData() ||
-				stack.getType() == salmon.getType() && Ref.isNewerThan(12) || (stack.getData().getData() == salmon.getData().getData() ||
-				stack.getType() == pufferfish.getType() && Ref.isNewerThan(12) || (stack.getData().getData() == pufferfish.getData().getData() ||
-				stack.getType() == tropical_fish.getType() && Ref.isNewerThan(12) || stack.getData().getData() == tropical_fish.getData().getData())));
+		return (stack.getType() == cod.getType() && Ref.isNewerThan(12)) || (stack.getData().getData() == cod.getData().getData()) ||
+				(stack.getType() == salmon.getType() && Ref.isNewerThan(12)) || (stack.getData().getData() == salmon.getData().getData()) ||
+				(stack.getType() == pufferfish.getType() && Ref.isNewerThan(12)) || (stack.getData().getData() == pufferfish.getData().getData()) ||
+				(stack.getType() == tropical_fish.getType() && Ref.isNewerThan(12)) || (stack.getData().getData() == tropical_fish.getData().getData());
 	}
 	
 	public static Fish getFish(ItemStack stack) {
@@ -111,9 +112,13 @@ public class API {
 		Config data = new Config();
 		if(edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
-		if(data.getKeys().isEmpty())return null;
-		for(Fish f : fish.values())
-			if(f.isInstance(data))return f;
+		
+		if(data.getKeys().isEmpty())
+			return null;
+		for(Fish f : fish.values()) {
+			if(f.isInstance(data))
+				return f;
+		}
 		return null;
 	}
 	
