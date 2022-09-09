@@ -19,9 +19,7 @@ import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.amazingfishing.utils.points.EconomyAPI;
-import me.devtec.shared.Ref;
 import me.devtec.shared.placeholders.PlaceholderAPI;
-import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.utility.StringUtils;
 import me.devtec.shared.utility.StringUtils.FormatType;
 import me.devtec.theapi.bukkit.BukkitLoader;
@@ -38,8 +36,7 @@ public class Shop {
 	}
 
 	public static void openShop(Player p, ShopType t) {
-		GUI a = Create.setup(
-				new GUI(Create.title("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".title"), 54) {
+		GUI a = Create.setup(new GUI(Create.title("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".title"), 54) {
 			@Override
 			public void onClose(Player player) {
 				if (t == ShopType.SELL) {
@@ -57,45 +54,44 @@ public class Shop {
 							p.getInventory().addItem(getItem(count));
 				}
 			}
-		}, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".close").build(), 
-				Help::open, Settings.SIDES);
-		
+		}, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".close").build(), Help::open, Settings.SIDES);
+
 		if (t == ShopType.SELL)
 			a.setInsertable(true);
-		//new Tasker() {
-		//	@Override
-		//	public void run() {
-				a.setItem(4, replace(p, Create.make("shops.points"), () -> {
+		// new Tasker() {
+		// @Override
+		// public void run() {
+		a.setItem(4, replace(p, Create.make("shops.points"), () -> {
+		}));
+		if (p.hasPermission("amazingfishing.command.bag"))
+			a.setItem(26, replace(p, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".bag"), () -> {
+				Bag.openBag(p);
+			}));
+		if (p.hasPermission("amazingfishing.command.convertor"))
+			a.setItem(18, replace(p, Create.make("shops.convertor"), () -> {
+				Convertor.open(p);
+			}));
+		if (t == ShopType.BUY) {
+			if (Loader.config.getBoolean("Options.Shop.SellFish"))
+				a.setItem(35, replace(p, Create.make("shops.buy.sell-shop"), () -> {
+					openShop(p, ShopType.SELL);
 				}));
-				if (p.hasPermission("amazingfishing.command.bag"))
-					a.setItem(26, replace(p, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".bag"), () -> {
-						Bag.openBag(p);
-					}));
-				if (p.hasPermission("amazingfishing.command.convertor"))
-					a.setItem(18, replace(p, Create.make("shops.convertor"), () -> {
-						Convertor.open(p);
-					}));
-				if (t == ShopType.BUY) {
-					if (Loader.config.getBoolean("Options.Shop.SellFish"))
-						a.setItem(35, replace(p, Create.make("shops.buy.sell-shop"), () -> {
-							openShop(p, ShopType.SELL);
-						}));
-					addItems(a);
-				} else {
-					// TODO - Fish OF Day
-					a.setItem(35, replace(p, Create.make("shops.sell.buy-shop"), () -> {
-						openShop(p, ShopType.BUY);
-					}));
-					a.setItem(49, new ItemGUI(Create.make("shops.sell.sell").build()) {
-						@Override
-						public void onClick(Player player, HolderGUI gui, ClickType click) {
-							sellAll(p, gui, false);
-						}
-					});
+			addItems(a);
+		} else {
+			// TODO - Fish OF Day
+			a.setItem(35, replace(p, Create.make("shops.sell.buy-shop"), () -> {
+				openShop(p, ShopType.BUY);
+			}));
+			a.setItem(49, new ItemGUI(Create.make("shops.sell.sell").build()) {
+				@Override
+				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					sellAll(p, gui, false);
 				}
-				a.open(p);
-		//	}
-		//}.runTask();
+			});
+		}
+		a.open(p);
+		// }
+		// }.runTask();
 	}
 
 	private static void addItems(GUI inv) {
@@ -186,24 +182,7 @@ public class Shop {
 				continue;
 			CatchFish f = API.getCatchFish(d);
 			if (f == null) {
-				if (API.isFishItem(d) && Loader.config.getBoolean("Options.Shop.SellDefaultFish")) {
-					if (Loader.config.exists("Options.Sell.DefaultFish." + d.getType().name() + ".Money"))
-						totalMoney += Loader.config.getDouble("Options.Sell.DefaultFish." + d.getType() + ".Money");
-					else
-						totalMoney += Loader.config.getDouble("Options.Sell.DefaultFish.Money");
-
-					if (Loader.config.exists("Options.Sell.DefaultFish." + d.getType().name() + ".Exps"))
-						totalExp += Loader.config.getDouble("Options.Sell.DefaultFish." + d.getType() + ".Exps");
-					else
-						totalExp += Loader.config.getDouble("Options.Sell.DefaultFish.Exps");
-
-					if (Loader.config.exists("Options.Sell.DefaultFish." + d.getType().name() + ".Points"))
-						totalPoints += Loader.config.getDouble("Options.Sell.DefaultFish." + d.getType() + ".Points");
-					else
-						totalPoints += Loader.config.getDouble("Options.Sell.DefaultFish.Points");
-					sel = sel + d.getAmount();
-				} else
-					p.getInventory().addItem(d);
+				p.getInventory().addItem(d);
 				continue;
 			}
 			double length = 0, weight = 0;

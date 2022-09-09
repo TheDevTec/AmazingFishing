@@ -16,63 +16,62 @@ import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public abstract class Enchant {
-	
+
 	public static class FishCatchList {
-		public double max_amount = 1, chance, points,money,exp;
+		public double max_amount = 1, chance, points, money, exp;
 	}
-	
+
 	public static Map<String, Enchant> enchants = new LinkedHashMap<>();
 	final String name;
+
 	public Enchant(String name) {
-		this.name=name;
+		this.name = name;
 		enchants.put(name.toLowerCase(), this);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public abstract String getDisplayName();
-	
+
 	public abstract List<String> getDescription();
 
 	public abstract int getMaxLevel();
-	
+
 	public abstract double getCost();
-	
+
 	public abstract double getMoneyBoost();
-	
+
 	public abstract double getExpBoost();
-	
+
 	public abstract double getPointsBoost();
-	
+
 	public abstract FishCatchList onCatch(Player player, int level, FishCatchList catchList);
-	
-	public int enchant(ItemStack rod, int amount) {
+
+	public ItemStack enchant(ItemStack rod, int amount) {
 		NBTEdit edit = new NBTEdit(rod);
 		Config data = new Config();
-		if(edit.hasKey("af_data"))
+		if (edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
-		String remove = data.getString("enchant."+name.toLowerCase());
-		data.set("enchant."+name.toLowerCase(), StringUtils.colorize(getDisplayName()+style(data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
-						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount)));
-		data.set("enchants."+name.toLowerCase(), 
-				data.getInt("enchants."+name.toLowerCase())+amount > getMaxLevel() ? 
-						getMaxLevel() : data.getInt("enchants."+name.toLowerCase())+amount);
+		String remove = data.getString("enchant." + name.toLowerCase());
+		data.set("enchant." + name.toLowerCase(), StringUtils
+				.colorize(getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount)));
+		data.set("enchants." + name.toLowerCase(), data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount);
 		edit.setString("af_data", data.toString(DataType.JSON));
-		rod=BukkitLoader.getNmsProvider().setNBT(rod, edit);
+		rod = BukkitLoader.getNmsProvider().setNBT(rod, edit);
 		ItemMeta m = rod.getItemMeta();
 		List<String> l = m.getLore() != null ? m.getLore() : new ArrayList<>();
-		if(remove!=null)
+		if (remove != null)
 			l.remove(remove);
-		l.add(data.getString("enchant."+name.toLowerCase()));
+		l.add(data.getString("enchant." + name.toLowerCase()));
 		m.setLore(l);
 		rod.setItemMeta(m);
-		return data.getInt("enchants."+name.toLowerCase());
+		return rod;
 	}
-	
+
 	private String style(int i) {
-		switch(i) {
+		switch (i) {
 		case 0:
 			return "";
 		case 1:
@@ -96,14 +95,15 @@ public abstract class Enchant {
 		case 10:
 			return " X";
 		}
-		return " "+i;
+		return " " + i;
 	}
+
 	public boolean containsEnchant(ItemStack rod) {
 		NBTEdit edit = new NBTEdit(rod);
 		Config data = new Config();
-		if(edit.hasKey("af_data"))
+		if (edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
-		if(data.exists("enchant."+name.toLowerCase()))
+		if (data.exists("enchant." + name.toLowerCase()))
 			return true;
 		return false;
 	}
