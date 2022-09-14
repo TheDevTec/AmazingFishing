@@ -69,6 +69,7 @@ public class Create {
 			if (head.startsWith("https://") || head.startsWith("http://"))
 				return ItemMaker.ofHead().skinUrl(head);
 			if (head.length() > 16) {
+				return ItemMaker.ofHead().skinValues(head);
 			}
 			return ItemMaker.ofHead().skinName(head);
 		}
