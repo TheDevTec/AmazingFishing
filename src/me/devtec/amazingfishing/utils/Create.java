@@ -2,23 +2,52 @@ package me.devtec.amazingfishing.utils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.BookMeta.Generation;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import me.devtec.amazingfishing.Loader;
+import me.devtec.shared.Ref;
+import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.utility.StringUtils;
+import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import me.devtec.theapi.bukkit.game.ItemMaker.HeadItemMaker;
 import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
 import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
 import me.devtec.theapi.bukkit.gui.ItemGUI;
+import me.devtec.theapi.bukkit.nms.GameProfileHandler;
+import me.devtec.theapi.bukkit.nms.GameProfileHandler.PropertyHandler;
 import me.devtec.theapi.bukkit.xseries.XMaterial;
 
 public class Create {
 	public static ItemMaker make(String path) {
+		ItemStack item = ItemMaker.loadFromConfig(Loader.gui, path);
+		return ItemMaker.of(item);
+	}
+	/*public static ItemMaker make(String path) {		
 		ItemMaker create = find(Loader.gui.getString(path + ".icon"), "STONE", 0);
 		create.displayName(Loader.gui.getString(path + ".name"));
 		create.lore(Loader.gui.getStringList(path + ".lore"));
@@ -30,9 +59,13 @@ public class Create {
 		create.itemFlags(Loader.gui.getStringList(path + ".flags"));
 		create.unbreakable(Loader.gui.getBoolean(path + ".unbreakable"));
 		return create;
-	}
+	}*/
 
 	public static ItemMaker makeShop(String path) {
+		ItemStack item = ItemMaker.loadFromConfig(Loader.shop, path);
+		return ItemMaker.of(item);
+	}
+	/*public static ItemMaker makeShop(String path) {
 		ItemMaker create = find(Loader.shop.getString(path + ".icon"), "STONE", 0);
 		create.displayName(Loader.shop.getString(path + ".name"));
 		create.lore(Loader.shop.getStringList(path + ".lore"));
@@ -44,7 +77,7 @@ public class Create {
 		create.itemFlags(Loader.shop.getStringList(path + ".flags"));
 		create.unbreakable(Loader.shop.getBoolean(path + ".unbreakable"));
 		return create;
-	}
+	}*/
 
 	public static String title(String path) {
 		return Loader.gui.getString(path);
@@ -181,4 +214,5 @@ public class Create {
 	public static ItemStack createItem(String name, Material paper, List<String> lore) {
 		return ItemMaker.of(paper).displayName(name).lore(lore).build();
 	}
+	
 }

@@ -53,6 +53,7 @@ import me.devtec.shared.utility.StringUtils;
 import me.devtec.shared.versioning.VersionUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.commands.hooker.BukkitCommandManager;
+import me.devtec.theapi.bukkit.game.ItemMaker;
 
 public class Loader extends JavaPlugin {
 
@@ -63,13 +64,14 @@ public class Loader extends JavaPlugin {
 	protected static PlaceholderExpansion reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)),
 			intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+	
 	public static ItemStack next, prev;
 
 	// TODO Vault intergration
 
 	@Override
 	public void onEnable() {
-		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "9.1") == VersionUtils.Version.NEWER_VERSION) {
+		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "10.4") == VersionUtils.Version.NEWER_VERSION) {
 			Loader.msg(prefix + " &8*********************************************", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cYou are running on outdated version of plugin TheAPI", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cPlease update plugin TheAPI to latest version.", Bukkit.getConsoleSender());
@@ -82,9 +84,13 @@ public class Loader extends JavaPlugin {
 
 		Configs.load();
 		API.points = config.getString("Options.PointsManager").equalsIgnoreCase("vault") ? new VaultPoints() : new UserPoints();
+		
 		prefix = tran.getString("prefix");
+		
 		new Metrics(this, 10630);
 		reload(Bukkit.getConsoleSender(), false);
+		
+		//COMMAND
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
 		PluginCommand cmd = BukkitCommandManager.createCommand(config.getString("Command.Name"), this);
@@ -94,9 +100,11 @@ public class Loader extends JavaPlugin {
 		cmd.setAliases(config.getStringList("Command.Aliases"));
 		// cmd.setTabCompleter(amf);
 		BukkitCommandManager.registerCommand(cmd);
-
+		
+		//PlaceholderAPI
 		PAPISupport.load();
 
+		//Automatic Tournaments
 		if (config.getBoolean("Tournament.Automatic.Use"))
 			if (config.getBoolean("Tournament.Automatic.AllWorlds"))
 				new Tasker() {
@@ -117,7 +125,7 @@ public class Loader extends JavaPlugin {
 				new Tasker() {
 					@Override
 					public void run() {
-						World w = Bukkit.getWorld(StringUtils.getRandomFromList(config.getStringList("Tournament.Automatic.Worlds")));
+						World w = Bukkit.getWorld(StringUtils.randomFromList(config.getStringList("Tournament.Automatic.Worlds")));
 						if (TournamentManager.start(w, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 							String format = TournamentManager.get(w).getType().formatted(), path = TournamentManager.get(w).getType().configPath();
 							for (Player p : w.getPlayers()) {
@@ -155,13 +163,14 @@ public class Loader extends JavaPlugin {
 			config.reload(config.getFile());
 			tran.reload(tran.getFile());
 			prefix = tran.getString("prefix");
-			Loader.next = Create.make("buttons.next").build();
-			Loader.prev = Create.make("buttons.previous").build();
+			Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.next");
+			Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.previous");
 			API.points = config.getString("Options.PointsManager").equalsIgnoreCase("vault") ? new VaultPoints() : new UserPoints();
 			Loader.msg(Create.text("reload").replace("%prefix%", getPrefix()), ss);
 		}
 		AFKSystem.load();
 		Placeholders.loadTops();
+		
 		// FISH
 
 		// PRE-LOAD

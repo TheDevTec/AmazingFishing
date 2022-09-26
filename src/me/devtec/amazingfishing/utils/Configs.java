@@ -8,6 +8,7 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.dataholder.DataType;
 import me.devtec.shared.utility.StreamUtils;
+import me.devtec.theapi.bukkit.game.ItemMaker;
 
 public class Configs {
 	static List<String> datas = Arrays.asList("Config.yml", "GUI.yml", "Shop.yml", "Translations.yml");
@@ -73,8 +74,11 @@ public class Configs {
 		Loader.enchant = loadOrReload(data, Loader.enchant, "Data/Enchantments.yml");
 		Utils.convertFiles();
 		Utils.fixDefaultConfig();
-		Loader.next = Create.make("buttons.next").build();
-		Loader.prev = Create.make("buttons.previous").build();
+		
+		Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.next");
+		Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.previous");
+		//Loader.next = Create.make("buttons.next").build();
+		//Loader.prev = Create.make("buttons.previous").build();
 	}
 
 	private static Config loadOrReload(Config data, Config d, String path) {

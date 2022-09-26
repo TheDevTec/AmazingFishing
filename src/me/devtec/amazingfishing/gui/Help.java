@@ -23,7 +23,7 @@ public class Help {
 			a.setItem(22,new ItemGUI(Create.make("help.shop").build()){
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 					try {
-						Shop.openShop(p, ShopType.valueOf(Loader.gui.getString("help.shop.type").toUpperCase()));
+						Shop.openShop(p, ShopType.valueOf(Loader.gui.getString("help.shop.open").toUpperCase()));
 					}catch(NoSuchFieldError e) {
 						Shop.openShop(p, ShopType.BUY);
 					}
