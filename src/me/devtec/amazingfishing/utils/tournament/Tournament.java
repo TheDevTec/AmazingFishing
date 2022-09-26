@@ -56,18 +56,25 @@ public class Tournament {
 			@Override
 			public void run() {
 				if (runOut-- <= 0)
-					stop(true);
+					BukkitLoader.getNmsProvider().postToMainThread(() -> {
+						stop(true);
+					});
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Bossbar.Use"))
 					for (Player p : values.keySet()) {
+						BukkitLoader.getNmsProvider().postToMainThread(() -> {
 						SBossBar bar = BossBarManager.getOrCreate(p);
 						bar.show();
 						bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Counter"), p)));
 						bar.setTitle(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Text"), p));
+						});
 					}
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Actionbar.Use"))
-					for (Player p : values.keySet())
-						BukkitLoader.getPacketHandler().send(p,
+					for (Player p : values.keySet()) {
+						BukkitLoader.getNmsProvider().postToMainThread(() -> {
+							BukkitLoader.getPacketHandler().send(p,
 								BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR, replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Actionbar.Text"), p)));
+						});
+					}
 			}
 		}.runRepeating(0, 20);
 	}

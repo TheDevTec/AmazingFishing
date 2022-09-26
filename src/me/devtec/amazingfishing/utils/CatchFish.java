@@ -103,7 +103,9 @@ public class CatchFish implements Listener {
 								Statistics.addFish(e.getPlayer(), f);
 								Statistics.addRecord(e.getPlayer(), f, length, weight);
 								Tournament t = TournamentManager.get(e.getPlayer().getWorld());
-								if(t!=null)t.catchFish(e.getPlayer(), f, weight, length);
+								if(t!=null)
+									t.catchFish(e.getPlayer(), f, weight, length);
+								
 								Quests.addProgress(e.getPlayer(), "catch_fish", f.getType().name().toLowerCase()+"."+f.getName(), 1);
 								Achievements.check(e.getPlayer(), f);
 								for(String s : f.getMessages(FishAction.CATCH))

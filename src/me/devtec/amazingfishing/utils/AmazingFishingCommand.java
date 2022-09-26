@@ -280,10 +280,11 @@ public class AmazingFishingCommand implements CommandExecutor/* , TabCompleter *
 					try {
 						TournamentType g = TournamentType.valueOf(args[2].toUpperCase());
 						TournamentManager.start(null, g, StringUtils.timeFromString(args[3]));
-						Loader.msg(Create.text("command.tournaments.start.global").replace("%time%", StringUtils.timeToString(StringUtils.timeFromString(args[4]))).replace("%type%",
-								args[3].toLowerCase()), s);
+						Loader.msg(Create.text("command.tournaments.start.global").replace("%time%", StringUtils.timeToString(StringUtils.timeFromString(args[3]))).replace("%type%",
+								args[2].toLowerCase()), s);
 					} catch (Exception | NoSuchFieldError e) {
-						Loader.msg(Create.text("command.tournaments.start.invalid").replace("%type%", args[3].toLowerCase()), s);
+						//e.printStackTrace();
+						Loader.msg(Create.text("command.tournaments.start.invalid").replace("%type%", args[2].toLowerCase()), s);
 					}
 					return true;
 				}

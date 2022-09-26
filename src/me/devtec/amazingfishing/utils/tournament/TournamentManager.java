@@ -25,7 +25,8 @@ public class TournamentManager {
 	}
 
 	public static Tournament get(World w) {
-		if(w==null)return global;
+		if(w==null)
+			return global;
 		if(t.containsKey(w))
 			return t.get(w);
 		return global;
