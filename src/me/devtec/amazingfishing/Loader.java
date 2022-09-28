@@ -71,7 +71,7 @@ public class Loader extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "10.4") == VersionUtils.Version.NEWER_VERSION) {
+		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "9") == VersionUtils.Version.NEWER_VERSION) {
 			Loader.msg(prefix + " &8*********************************************", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cYou are running on outdated version of plugin TheAPI", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cPlease update plugin TheAPI to latest version.", Bukkit.getConsoleSender());
