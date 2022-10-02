@@ -15,7 +15,6 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.tournament.bossbar.BossBarManager;
-import me.devtec.amazingfishing.utils.tournament.bossbar.SBossBar;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 import me.devtec.shared.scheduler.Scheduler;
 import me.devtec.shared.scheduler.Tasker;
@@ -61,23 +60,23 @@ public class Tournament {
 						stop(true);
 					});
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Bossbar.Use"))
-					for (Player p : values.keySet()) {
+					for (Player p : values.keySet())
 						BukkitLoader.getNmsProvider().postToMainThread(() -> {
-						BossBar bar = new BossBar(p, StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Text"), p)),
-								StringUtils.calculate(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Counter"), p)));
-						//SBossBar bar = BossBarManager.getOrCreate(p);
-						//bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Counter"), p)));
-						//bar.setTitle(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Text"), p));
-						bar.show();
+							BossBar bar = new BossBar(p, StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Text"), p)),
+									StringUtils.calculate(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Counter"), p)));
+							// SBossBar bar = BossBarManager.getOrCreate(p);
+							// bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type."
+							// + t.configPath() + ".Bossbar.Counter"), p)));
+							// bar.setTitle(replace(Loader.config.getString("Tournament.Type." +
+							// t.configPath() + ".Bossbar.Text"), p));
+							bar.show();
 						});
-					}
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Actionbar.Use"))
-					for (Player p : values.keySet()) {
+					for (Player p : values.keySet())
 						BukkitLoader.getNmsProvider().postToMainThread(() -> {
-							BukkitLoader.getPacketHandler().send(p,
-								BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR, StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Actionbar.Text"), p)) ));
+							BukkitLoader.getPacketHandler().send(p, BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR,
+									StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Actionbar.Text"), p))));
 						});
-					}
 			}
 		}.runRepeating(0, 20);
 	}

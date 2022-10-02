@@ -125,10 +125,10 @@ public class Shop {
 	protected static ItemGUI replace(Player p, ItemMaker make, Runnable run) {
 		make.displayName(PlaceholderAPI.apply(make.getDisplayName().replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%",
 				StringUtils.formatDouble(FormatType.NORMAL, API.getPoints().get(p.getName()))), p.getUniqueId()));
-
-		make.getLore().replaceAll(a -> PlaceholderAPI.apply(
-				a.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.formatDouble(FormatType.NORMAL, API.getPoints().get(p.getName()))),
-				p.getUniqueId()));
+		if (make.getLore() != null)
+			make.getLore().replaceAll(a -> PlaceholderAPI.apply(
+					a.replace("%player%", p.getName()).replace("%playername%", p.getDisplayName()).replace("%points%", StringUtils.formatDouble(FormatType.NORMAL, API.getPoints().get(p.getName()))),
+					p.getUniqueId()));
 		return new ItemGUI(make.build()) {
 			@Override
 			public void onClick(Player var1, HolderGUI var2, ClickType var3) {

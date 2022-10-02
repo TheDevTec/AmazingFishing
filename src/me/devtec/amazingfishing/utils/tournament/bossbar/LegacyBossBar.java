@@ -8,10 +8,11 @@ import me.devtec.theapi.bukkit.bossbar.BossBar;
 public class LegacyBossBar implements SBossBar {
 
 	public BossBar bar;
-	public LegacyBossBar(Player player, String title, double progress) {
+
+	protected LegacyBossBar(Player player, String title, double progress) {
 		bar = new BossBar(player, title, progress);
 	}
-	
+
 	@Override
 	public void setTitle(String title) {
 		bar.setTitle(StringUtils.colorize(title));
@@ -24,22 +25,22 @@ public class LegacyBossBar implements SBossBar {
 
 	@Override
 	public void setStyle(String styleName) {
-		
+
 	}
 
 	@Override
 	public void setColor(String colorName) {
-		
+
 	}
 
 	@Override
 	public void setRandomStyle() {
-		
+
 	}
 
 	@Override
 	public void setRandomColor() {
-		
+
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class LegacyBossBar implements SBossBar {
 
 	@Override
 	public void hide() {
-		bar.hide();;
+		bar.hide();
 	}
 
 	@Override

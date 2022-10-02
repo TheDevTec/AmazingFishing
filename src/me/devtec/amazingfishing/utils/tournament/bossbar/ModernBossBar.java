@@ -12,8 +12,9 @@ public class ModernBossBar implements SBossBar {
 
 	public BossBar bar;
 	private Player player;
-	public ModernBossBar(Player player, String title) {
-		this.player=player;
+
+	protected ModernBossBar(Player player, String title) {
+		this.player = player;
 		bar = Bukkit.createBossBar(StringUtils.colorize(title), BarColor.PURPLE, BarStyle.SEGMENTED_20);
 		bar.addPlayer(player);
 	}
@@ -32,14 +33,16 @@ public class ModernBossBar implements SBossBar {
 	public void setStyle(String styleName) {
 		try {
 			bar.setStyle(BarStyle.valueOf(styleName));
-		}catch(NoSuchFieldError er) {
+		} catch (NoSuchFieldError er) {
 			try {
 				bar.setStyle(BarStyle.valueOf(fromLegacy(styleName)));
-			}catch(NoSuchFieldError err) {}
+			} catch (NoSuchFieldError err) {
+			}
 		}
 	}
+
 	private String fromLegacy(String styleName) {
-		switch(styleName) {
+		switch (styleName) {
 		case "PROGRESS":
 			return "SOLID";
 		case "NOTCHED_6":
@@ -61,12 +64,12 @@ public class ModernBossBar implements SBossBar {
 
 	@Override
 	public void setRandomStyle() {
-		setStyle(BarStyle.values()[StringUtils.randomInt(BarStyle.values().length-1)].name());
+		setStyle(BarStyle.values()[StringUtils.randomInt(BarStyle.values().length - 1)].name());
 	}
 
 	@Override
 	public void setRandomColor() {
-		setColor(BarColor.values()[StringUtils.randomInt(BarColor.values().length-1)].name());
+		setColor(BarColor.values()[StringUtils.randomInt(BarColor.values().length - 1)].name());
 	}
 
 	@Override

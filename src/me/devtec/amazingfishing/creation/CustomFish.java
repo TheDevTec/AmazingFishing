@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
@@ -176,21 +175,12 @@ public class CustomFish implements Fish {
 
 	@Override
 	public Config createData(double weight, double length, double money, double points, double exp) {
-		return new Config()
-				.set("fish", name)
-				.set("type", type.name())
-				.set("weigth", weight)
-				.set("length", length)
-				.set("money", money)
-				.set("points", points).set("exp", exp);
+		return new Config().set("fish", name).set("type", type.name()).set("weigth", weight).set("length", length).set("money", money).set("points", points).set("exp", exp);
 	}
 
 	@Override
 	public boolean isInstance(Config data) {
-		return data.exists("fish") 
-				&& data.exists("type") && 
-				data.getString("fish").replace("\"", "").equalsIgnoreCase(name) && 
-				data.getString("type").replace("\"", "").equalsIgnoreCase(type.name());
+		return data.exists("fish") && data.exists("type") && data.getString("fish").replace("\"", "").equalsIgnoreCase(name) && data.getString("type").replace("\"", "").equalsIgnoreCase(type.name());
 	}
 
 	@Override
