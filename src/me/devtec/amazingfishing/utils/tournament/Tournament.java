@@ -55,10 +55,12 @@ public class Tournament {
 		task = new Tasker() {
 			@Override
 			public void run() {
-				if (runOut-- <= 0)
+				if (runOut-- <= 0) {
 					BukkitLoader.getNmsProvider().postToMainThread(() -> {
 						stop(true);
 					});
+					return;
+				}
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Bossbar.Use"))
 					for (Player p : values.keySet())
 						BukkitLoader.getNmsProvider().postToMainThread(() -> {

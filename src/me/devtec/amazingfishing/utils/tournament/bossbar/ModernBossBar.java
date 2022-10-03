@@ -91,7 +91,6 @@ public class ModernBossBar implements SBossBar {
 
 	@Override
 	public void remove() {
-		bar.setVisible(false);
-		bar.removeAll();
+		hide();
 	}
 }
