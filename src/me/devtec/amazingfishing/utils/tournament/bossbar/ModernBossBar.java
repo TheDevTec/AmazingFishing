@@ -26,6 +26,8 @@ public class ModernBossBar implements SBossBar {
 
 	@Override
 	public void setProgress(double progress) {
+		if (progress <= 0)
+			progress = 0;
 		bar.setProgress(progress);
 	}
 
