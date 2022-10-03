@@ -63,7 +63,7 @@ public class Shop {
 		// public void run() {
 		a.setItem(4, replace(p, Create.make("shops.points"), () -> {
 		}));
-		if (p.hasPermission("amazingfishing.command.bag"))
+		if (p.hasPermission("amazingfishing.command.bag") && Loader.config.getBoolean("Options.Bag.Enabled"))
 			a.setItem(26, replace(p, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".bag"), () -> {
 				Bag.openBag(p);
 			}));
@@ -218,11 +218,11 @@ public class Shop {
 		}
 		if (sel != 0) {
 			// TODO sounds - EDIT - commands & messages (list)
-			if (Loader.config.getBoolean("Options.SellFish.DisableMoney"))
+			if (Loader.config.getBoolean("Options.Sell.DisableMoney"))
 				totalMoney = 0;
-			if (Loader.config.getBoolean("Options.SellFish.DisableXP"))
+			if (Loader.config.getBoolean("Options.Sell.DisableXP"))
 				totalExp = 0;
-			if (Loader.config.getBoolean("Options.SellFish.DisablePoints"))
+			if (Loader.config.getBoolean("Options.Sell.DisablePoints"))
 				totalPoints = 0;
 			API.getPoints().add(p.getName(), totalPoints);
 			EconomyAPI.depositPlayer(p.getName(), totalMoney);
@@ -231,7 +231,9 @@ public class Shop {
 			Statistics.addSellingValues(p, totalMoney, totalPoints, totalExp);
 
 			for (String msg : Create.list("sold-fish"))
-				Loader.msg(msg.replace("%amount%", sel + "").replace("%exp%", Loader.ff.format(totalExp)).replace("%money%", Loader.ff.format(totalMoney))
+				Loader.msg(msg.replace("%amount%", sel + "")
+						.replace("%exp%", Loader.ff.format(totalExp))
+						.replace("%money%", Loader.ff.format(totalMoney))
 						.replace("%points%", Loader.ff.format(totalPoints)).replace("%prefix%", Loader.getPrefix()), p);
 		}
 	}

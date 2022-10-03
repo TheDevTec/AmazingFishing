@@ -45,7 +45,7 @@ public class Help {
 				}
 			});
 		
-		if(p.hasPermission("amazingfishing.command.bag"))
+		if(p.hasPermission("amazingfishing.command.bag") && Loader.config.getBoolean("Options.Bag.Enabled"))
 			a.setItem(27,new ItemGUI(Create.make("help.bag").build()){
 				@Override
 				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
