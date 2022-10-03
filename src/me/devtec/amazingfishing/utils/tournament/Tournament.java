@@ -106,9 +106,6 @@ public class Tournament {
 	}
 
 	public void stop(boolean giveRewards) {
-		if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Bossbar.Use"))
-			for (Player p : values.keySet())
-				BossBarManager.remove(p);
 		// Map<Player, Double> att = new SortingAPI().sortByValue(values, true);
 		Map<Integer, Entry<Player, Double>> top = new HashMap<>();
 		int i = 0;
@@ -178,6 +175,9 @@ public class Tournament {
 			}
 		TournamentManager.remove(this);
 		Scheduler.cancelTask(task);
+		if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Bossbar.Use"))
+			for (Player p : values.keySet())
+				BossBarManager.remove(p);
 	}
 
 	public void catchFish(Player p, Fish f, double weight, double length) {

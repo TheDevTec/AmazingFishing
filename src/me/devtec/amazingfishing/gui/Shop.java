@@ -36,6 +36,8 @@ public class Shop {
 	}
 
 	public static void openShop(Player p, ShopType t) {
+		if (!Loader.config.getBoolean("Options.Shop.Enabled"))
+			return;
 		GUI a = Create.setup(new GUI(Create.title("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".title"), 54) {
 			@Override
 			public void onClose(Player player) {
@@ -58,18 +60,14 @@ public class Shop {
 
 		if (t == ShopType.SELL)
 			a.setInsertable(true);
-		// new Tasker() {
-		// @Override
-		// public void run() {
-		if(!Loader.config.getBoolean("Options.Shop.HidePoints"))
+		if (!Loader.config.getBoolean("Options.Shop.HidePoints"))
 			a.setItem(4, replace(p, Create.make("shops.points"), () -> {
 			}));
 		if (p.hasPermission("amazingfishing.command.bag") && Loader.config.getBoolean("Options.Bag.Enabled"))
 			a.setItem(26, replace(p, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".bag"), () -> {
 				Bag.openBag(p);
 			}));
-		if (p.hasPermission("amazingfishing.command.convertor") && 
-				!Loader.config.getBoolean("Options.Shop.DisableConventor"))
+		if (p.hasPermission("amazingfishing.command.convertor") && !Loader.config.getBoolean("Options.Shop.DisableConventor"))
 			a.setItem(18, replace(p, Create.make("shops.convertor"), () -> {
 				Convertor.open(p);
 			}));
@@ -81,9 +79,10 @@ public class Shop {
 			addItems(a);
 		} else {
 			// TODO - Fish OF Day
-			a.setItem(35, replace(p, Create.make("shops.sell.buy-shop"), () -> {
-				openShop(p, ShopType.BUY);
-			}));
+			if (Loader.config.getBoolean("Options.Shop.BuyShop"))
+				a.setItem(35, replace(p, Create.make("shops.sell.buy-shop"), () -> {
+					openShop(p, ShopType.BUY);
+				}));
 			a.setItem(49, new ItemGUI(Create.make("shops.sell.sell").build()) {
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
@@ -92,8 +91,6 @@ public class Shop {
 			});
 		}
 		a.open(p);
-		// }
-		// }.runTask();
 	}
 
 	private static void addItems(GUI inv) {
@@ -233,9 +230,7 @@ public class Shop {
 			Statistics.addSellingValues(p, totalMoney, totalPoints, totalExp);
 
 			for (String msg : Create.list("sold-fish"))
-				Loader.msg(msg.replace("%amount%", sel + "")
-						.replace("%exp%", Loader.ff.format(totalExp))
-						.replace("%money%", Loader.ff.format(totalMoney))
+				Loader.msg(msg.replace("%amount%", sel + "").replace("%exp%", Loader.ff.format(totalExp)).replace("%money%", Loader.ff.format(totalMoney))
 						.replace("%points%", Loader.ff.format(totalPoints)).replace("%prefix%", Loader.getPrefix()), p);
 		}
 	}

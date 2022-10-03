@@ -22,11 +22,8 @@ public class BossBarManager {
 	}
 
 	public static void remove(Player player) {
-		SBossBar bar = BossBarManager.bar.get(player);
-		if (bar != null) {
-			bar.hide();
+		SBossBar bar = BossBarManager.bar.remove(player);
+		if (bar != null)
 			bar.remove();
-			BossBarManager.bar.remove(player);
-		}
 	}
 }

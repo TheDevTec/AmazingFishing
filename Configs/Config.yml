@@ -55,6 +55,7 @@ Options:
     
   Shop:
     Enabled: true
+    BuyShop: true
     SellFish: true
     SellDefaultFish: false
     Sounds:
