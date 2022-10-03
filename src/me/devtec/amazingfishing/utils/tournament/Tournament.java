@@ -65,6 +65,8 @@ public class Tournament {
 							SBossBar bar = BossBarManager.getOrCreate(p);
 							bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Counter"), p)));
 							bar.setTitle(StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Text"), p)));
+							bar.setColor(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Color"));
+							bar.setStyle(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Style"));
 							bar.show();
 						});
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Actionbar.Use"))

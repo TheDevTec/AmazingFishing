@@ -186,7 +186,13 @@ Tournament:
       Bossbar:
         Use: true
         Text: "&bYou participate in the amount tournament"
-        Counter: "%remaining%/%time%"
+        Counter: "%remaining%/%time%" # Math
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+        Style: SEGMENTED_20
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+        Color: YELLOW
       Actionbar:
         Use: true
         Text: "&bThe tournament ends in &9%formatted_time%"
