@@ -59,6 +59,8 @@ Options:
     SellDefaultFish: false
     Sounds:
       Shop-BuyItem: true
+    DisableConventor: false
+    HidePoints: false
 
   Sell:
     DisableMoney: false

@@ -61,13 +61,15 @@ public class Shop {
 		// new Tasker() {
 		// @Override
 		// public void run() {
-		a.setItem(4, replace(p, Create.make("shops.points"), () -> {
-		}));
+		if(!Loader.config.getBoolean("Options.Shop.HidePoints"))
+			a.setItem(4, replace(p, Create.make("shops.points"), () -> {
+			}));
 		if (p.hasPermission("amazingfishing.command.bag") && Loader.config.getBoolean("Options.Bag.Enabled"))
 			a.setItem(26, replace(p, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".bag"), () -> {
 				Bag.openBag(p);
 			}));
-		if (p.hasPermission("amazingfishing.command.convertor"))
+		if (p.hasPermission("amazingfishing.command.convertor") && 
+				!Loader.config.getBoolean("Options.Shop.DisableConventor"))
 			a.setItem(18, replace(p, Create.make("shops.convertor"), () -> {
 				Convertor.open(p);
 			}));
