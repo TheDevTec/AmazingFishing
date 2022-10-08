@@ -30,7 +30,7 @@ import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.utility.StringUtils;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
-public class AmazingFishingCommand implements CommandExecutor/* , TabCompleter */ {
+public class AmazingFishingCommand implements CommandExecutor {
 
 	private static DecimalFormat ff = new DecimalFormat("###,###.#");
 
@@ -283,7 +283,7 @@ public class AmazingFishingCommand implements CommandExecutor/* , TabCompleter *
 						Loader.msg(Create.text("command.tournaments.start.global").replace("%time%", StringUtils.timeToString(StringUtils.timeFromString(args[3]))).replace("%type%",
 								args[2].toLowerCase()), s);
 					} catch (Exception | NoSuchFieldError e) {
-						//e.printStackTrace();
+						// e.printStackTrace();
 						Loader.msg(Create.text("command.tournaments.start.invalid").replace("%type%", args[2].toLowerCase()), s);
 					}
 					return true;
@@ -465,9 +465,8 @@ public class AmazingFishingCommand implements CommandExecutor/* , TabCompleter *
 			Loader.msg("/Fish Points Set <player> <points>", s);
 			return true;
 		}
-		if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) && s.hasPermission("amazingfishing.command.reload")) {
+		if ((args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) && s.hasPermission("amazingfishing.command.reload"))
 			Loader.reload(s, true);
-		}
 		return true;
 	}
 

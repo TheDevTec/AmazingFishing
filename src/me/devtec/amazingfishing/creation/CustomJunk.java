@@ -18,13 +18,13 @@ import me.devtec.amazingfishing.construct.FishType;
 import me.devtec.amazingfishing.construct.FishWeather;
 import me.devtec.amazingfishing.construct.Junk;
 import me.devtec.amazingfishing.utils.Create;
-import me.devtec.amazingfishing.utils.EnchantmentAPI;
 import me.devtec.amazingfishing.utils.Utils;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.dataholder.DataType;
 import me.devtec.shared.json.Json;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.game.EnchantmentAPI;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
@@ -210,10 +210,7 @@ public class CustomJunk implements Junk {
 
 	@Override
 	public boolean isInstance(Config data) {
-		return data.exists("junk") && 
-				data.exists("type") && 
-				data.getString("junk").replace("\"", "").equals(name) && 
-				data.getString("type").replace("\"", "").equals("JUNK");
+		return data.exists("junk") && data.exists("type") && data.getString("junk").replace("\"", "").equals(name) && data.getString("type").replace("\"", "").equals("JUNK");
 	}
 
 	@Override

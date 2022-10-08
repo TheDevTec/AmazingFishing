@@ -77,24 +77,27 @@ public class CatchFish implements Listener {
 
 	Map<UUID, FishCatchList> cache = new HashMap<>();
 
+	private FishCatchList create(Player player) {
+		FishCatchList list = new FishCatchList();
+		NBTEdit edit = new NBTEdit(player.getItemInHand());
+		Config data = new Config();
+		if (edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
+		for (String s : data.getKeys("enchants")) {
+			Enchant ench = Enchant.enchants.get(s);
+			if (ench != null)
+				ench.onCatch(player, data.getInt("enchants." + s), list);
+		}
+		return list;
+	}
+
 	@EventHandler
 	public void onCatchRemake(PlayerFishEvent e) {
-		if (e.getState().equals(PlayerFishEvent.State.REEL_IN))
-			cache.remove(e.getPlayer().getUniqueId());
 		if (e.getState().equals(PlayerFishEvent.State.FISHING)) {
 			int sec = StringUtils.randomInt(20) + 5;
 			sec *= 20; // To ticks
 
-			FishCatchList list = new FishCatchList();
-			NBTEdit edit = new NBTEdit(e.getPlayer().getItemInHand());
-			Config data = new Config();
-			if (edit.hasKey("af_data"))
-				data.reload(edit.getString("af_data"));
-			for (String s : data.getKeys("enchants")) {
-				Enchant ench = Enchant.enchants.get(s);
-				if (ench != null)
-					ench.onCatch(e.getPlayer(), data.getInt("enchants." + s), list);
-			}
+			FishCatchList list = create(e.getPlayer());
 			cache.put(e.getPlayer().getUniqueId(), list);
 			if (list.bitespeed > 0) {
 				sec -= list.bitespeed * 20;
@@ -115,7 +118,9 @@ public class CatchFish implements Listener {
 					if (!ff.isEmpty()) {
 						item.remove();
 
-						FishCatchList list = cache.get(e.getPlayer().getUniqueId());
+						FishCatchList list = cache.remove(e.getPlayer().getUniqueId());
+						if (list == null)
+							list = create(e.getPlayer());
 						int am = list.chance * 10 > 1 ? (int) list.chance * 10 : 1;
 						if (am > list.max_amount)
 							am = (int) list.max_amount;

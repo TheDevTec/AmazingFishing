@@ -72,7 +72,7 @@ public class Loader extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "10.4") == VersionUtils.Version.NEWER_VERSION) {
+		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "10.5") == VersionUtils.Version.OLDER_VERSION) {
 			Loader.msg(prefix + " &8*********************************************", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cYou are running on outdated version of plugin TheAPI", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cPlease update plugin TheAPI to latest version.", Bukkit.getConsoleSender());
@@ -102,7 +102,6 @@ public class Loader extends JavaPlugin {
 		AmazingFishingCommand amf = new AmazingFishingCommand();
 		cmd.setExecutor(amf);
 		cmd.setAliases(config.getStringList("Command.Aliases"));
-		// cmd.setTabCompleter(amf);
 		BukkitCommandManager.registerCommand(cmd);
 
 		// PlaceholderAPI
@@ -124,7 +123,7 @@ public class Loader extends JavaPlugin {
 							}
 						}
 					}
-				}.runRepeating(100, StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
+				}.runRepeating(StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")), StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
 			else
 				new Tasker() {
 					@Override

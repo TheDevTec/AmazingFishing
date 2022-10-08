@@ -20,9 +20,13 @@ public class Utils {
 		if (model == 0)
 			return s;
 		try {
-			ItemMeta meta = s.getItemMeta();
-			meta.setCustomModelData(model);
-			s.setItemMeta(meta);
+			if (Ref.isNewerThan(13)) {
+				ItemMeta meta = s.getItemMeta();
+				meta.setCustomModelData(model);
+				s.setItemMeta(meta);
+				return s;
+			}
+			s.setDurability((short) model);
 			return s;
 		} catch (Exception | NoSuchMethodError | NoSuchFieldError e) {
 			s.setDurability((short) model);
