@@ -1,4 +1,4 @@
-package me.devtec.amazingfishing.utils;
+package me.devtec.amazingfishing.utils.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +16,9 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.construct.FishAction;
 import me.devtec.amazingfishing.construct.Junk;
+import me.devtec.amazingfishing.utils.Achievements;
+import me.devtec.amazingfishing.utils.Quests;
+import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 
 public class EatFish implements Listener {

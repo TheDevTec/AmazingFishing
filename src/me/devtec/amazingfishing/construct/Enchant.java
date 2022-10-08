@@ -18,7 +18,7 @@ import me.devtec.theapi.bukkit.nms.NBTEdit;
 public abstract class Enchant {
 
 	public static class FishCatchList {
-		public double max_amount = 1, chance, points, money, exp;
+		public double max_amount = 1, chance, points, money, exp, bitespeed;
 	}
 
 	public static Map<String, Enchant> enchants = new LinkedHashMap<>();
@@ -46,6 +46,8 @@ public abstract class Enchant {
 	public abstract double getExpBoost();
 
 	public abstract double getPointsBoost();
+
+	public abstract double getBiteSpeed();
 
 	public abstract FishCatchList onCatch(Player player, int level, FishCatchList catchList);
 

@@ -1,9 +1,9 @@
 package me.devtec.amazingfishing.creation;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
 
@@ -13,20 +13,22 @@ import me.devtec.shared.json.Json;
 
 public class CustomEnchantment extends Enchant {
 	final int level;
-	final double chance, amount,cost,money,points,exp;
+	final double chance, amount, cost, money, points, exp, bitespeed;
 	final String display;
 	final List<String> description;
-	public CustomEnchantment(String name, String displayName, int level, double c, double a, double mo, double po, double ex, List<String> description, double cost) {
+
+	public CustomEnchantment(String name, String displayName, int level, double c, double a, double mo, double po, double ex, List<String> description, double cost, double bitespeed) {
 		super(name);
-		this.level=level;
-		money=mo;
-		points=po;
-		exp=ex;
-		chance=c;
-		amount=a;
-		display=displayName;
-		this.description=description;
-		this.cost=cost;
+		this.level = level;
+		money = mo;
+		points = po;
+		exp = ex;
+		chance = c;
+		amount = a;
+		this.bitespeed = bitespeed;
+		display = displayName;
+		this.description = description;
+		this.cost = cost;
 	}
 
 	@Override
@@ -38,12 +40,14 @@ public class CustomEnchantment extends Enchant {
 	public int getMaxLevel() {
 		return level;
 	}
-	
+
+	@Override
 	public String toString() {
 		Map<String, Object> map = new ConcurrentHashMap<>();
 		map.put("type", "Enchantment");
 		map.put("name", getName());
 		map.put("cost", getCost());
+		map.put("bonus_bite_speed", getBiteSpeed());
 		map.put("bonus_chance", getChance());
 		map.put("bonus_amount", getAmount());
 		map.put("bonus_money", getMoneyBoost());
@@ -51,56 +55,51 @@ public class CustomEnchantment extends Enchant {
 		map.put("bonus_exp", getExpBoost());
 		return Json.writer().simpleWrite(map);
 	}
-	
+
+	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Enchant) {
-			if(o instanceof CustomEnchantment) {
-				return ((CustomEnchantment) o).getName().equals(getName()) && getChance()==((CustomEnchantment) o).getChance()
-						 && getAmount()==((CustomEnchantment) o).getAmount() && getCost()==((CustomEnchantment) o).getCost();
-			}else {
-				return ((Enchant) o).getName().equals(getName()) && getCost()==((Enchant) o).getCost()
-						 && getMaxLevel()==((Enchant) o).getMaxLevel();
-			}
-		}
+		if (o instanceof Enchant)
+			if (o instanceof CustomEnchantment)
+				return ((CustomEnchantment) o).getName().equals(getName()) && getChance() == ((CustomEnchantment) o).getChance() && getAmount() == ((CustomEnchantment) o).getAmount()
+						&& getCost() == ((CustomEnchantment) o).getCost();
+			else
+				return ((Enchant) o).getName().equals(getName()) && getCost() == ((Enchant) o).getCost() && getMaxLevel() == ((Enchant) o).getMaxLevel();
 		return false;
 	}
-	
+
 	public double getAmount() {
 		return amount;
 	}
-	
+
 	public double getChance() {
 		return chance;
 	}
 
 	@Override
 	public FishCatchList onCatch(Player player, int level, FishCatchList catchList) {
-		double l = level+1;
-		catchList.chance+=Math.sqrt(this.chance*l/1.75);
-		catchList.max_amount+=Math.sqrt(this.amount*l/1.8);
-		catchList.money+=Math.sqrt(this.money*l/1.8);
-		catchList.exp+=Math.sqrt(this.exp*l/1.8);
-		catchList.points+=Math.sqrt(this.points*l/1.8);
+		double l = level + 1;
+		catchList.chance += Math.sqrt(chance * l / 1.75);
+		catchList.max_amount += Math.sqrt(amount * l / 1.8);
+		catchList.money += Math.sqrt(money * l / 1.8);
+		catchList.exp += Math.sqrt(exp * l / 1.8);
+		catchList.points += Math.sqrt(points * l / 1.8);
+		catchList.bitespeed += Math.sqrt(bitespeed * l / 1.8);
 		return catchList;
 	}
 
 	@Override
 	public List<String> getDescription() {
-		List<String> list = new ArrayList<String>();
-		for(String line:description) 
-			list.add(line
-					.replace("%cost%", Loader.ff.format(getCost()))
-					.replace("%maxlevel%", getMaxLevel()+"")
-					.replace("%name%", getName())
-					.replace("%displayname%", getDisplayName())
-					.replace("%chance%", Loader.ff.format(chance))
-					.replace("%amount%", Loader.ff.format(amount)));
+		List<String> list = new ArrayList<>();
+		for (String line : description)
+			list.add(line.replace("%cost%", Loader.ff.format(getCost())).replace("%maxlevel%", getMaxLevel() + "").replace("%name%", getName()).replace("%displayname%", getDisplayName())
+					.replace("%chance%", Loader.ff.format(chance)).replace("%amount%", Loader.ff.format(amount)).replace("%bitespeed%", Loader.ff.format(bitespeed)));
 		return list;
 	}
 
 	@Override
 	public double getCost() {
-		if(cost<=0)return 1;
+		if (cost <= 0)
+			return 1;
 		return cost;
 	}
 
@@ -117,5 +116,10 @@ public class CustomEnchantment extends Enchant {
 	@Override
 	public double getPointsBoost() {
 		return points;
+	}
+
+	@Override
+	public double getBiteSpeed() {
+		return bitespeed;
 	}
 }

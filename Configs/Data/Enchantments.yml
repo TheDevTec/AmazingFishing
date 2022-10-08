@@ -20,12 +20,14 @@ enchantments:
       money: 0.2
       exp: 0.15
       points: 0.05
+      bitespeed: 0.05
       
     # Desctiption of enchantment in enchant table (/fish)
-    # Description placeholders: %cost%, %maxlevel%, %name%, %displayname% - custom name with colors, %chance%, %amount%
+    # Description placeholders: %cost%, %maxlevel%, %name%, %displayname% - custom name with colors, %chance%, %amount%, %bitespeed%
     description:
     - "&eGreat enchant is great!"
     - "&7Bonus chance: %chance%"
     - "&7Bonus amount: %amount%"
+    - "&7Bonus bite-speed: %bitespeed%"
     - "&7"
     - "&3Cost: &b%cost% points"

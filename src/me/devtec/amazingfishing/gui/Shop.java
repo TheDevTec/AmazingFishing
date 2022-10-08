@@ -223,9 +223,12 @@ public class Shop {
 				totalExp = 0;
 			if (Loader.config.getBoolean("Options.Sell.DisablePoints"))
 				totalPoints = 0;
-			API.getPoints().add(p.getName(), totalPoints);
-			EconomyAPI.depositPlayer(p.getName(), totalMoney);
-			p.giveExp((int) totalExp);
+			if (totalPoints > 0)
+				API.getPoints().add(p.getName(), totalPoints);
+			if (totalMoney > 0 && EconomyAPI.economy != null)
+				EconomyAPI.depositPlayer(p.getName(), totalMoney);
+			if ((int) totalExp > 0)
+				p.giveExp((int) totalExp);
 
 			Statistics.addSellingValues(p, totalMoney, totalPoints, totalExp);
 

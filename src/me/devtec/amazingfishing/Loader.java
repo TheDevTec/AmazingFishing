@@ -16,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.construct.Enchant;
@@ -31,15 +32,16 @@ import me.devtec.amazingfishing.utils.AFKSystem;
 import me.devtec.amazingfishing.utils.Achievements;
 import me.devtec.amazingfishing.utils.Achievements.Achievement;
 import me.devtec.amazingfishing.utils.AmazingFishingCommand;
-import me.devtec.amazingfishing.utils.CatchFish;
 import me.devtec.amazingfishing.utils.Categories.Category;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.Create;
-import me.devtec.amazingfishing.utils.EatFish;
 import me.devtec.amazingfishing.utils.Manager;
 import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
+import me.devtec.amazingfishing.utils.listeners.CatchFish;
+import me.devtec.amazingfishing.utils.listeners.EatFish;
 import me.devtec.amazingfishing.utils.placeholders.Placeholders;
+import me.devtec.amazingfishing.utils.points.EconomyAPI;
 import me.devtec.amazingfishing.utils.points.UserPoints;
 import me.devtec.amazingfishing.utils.points.VaultPoints;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
@@ -54,6 +56,7 @@ import me.devtec.shared.versioning.VersionUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.commands.hooker.BukkitCommandManager;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import net.milkbowl.vault.economy.Economy;
 
 public class Loader extends JavaPlugin {
 
@@ -64,14 +67,12 @@ public class Loader extends JavaPlugin {
 	protected static PlaceholderExpansion reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)),
 			intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-	
-	public static ItemStack next, prev;
 
-	// TODO Vault intergration
+	public static ItemStack next, prev;
 
 	@Override
 	public void onEnable() {
-		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "9") == VersionUtils.Version.NEWER_VERSION) {
+		if (VersionUtils.getVersion(Bukkit.getPluginManager().getPlugin("TheAPI").getDescription().getVersion(), "10.4") == VersionUtils.Version.NEWER_VERSION) {
 			Loader.msg(prefix + " &8*********************************************", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cYou are running on outdated version of plugin TheAPI", Bukkit.getConsoleSender());
 			Loader.msg(prefix + " &4SECURITY: &cPlease update plugin TheAPI to latest version.", Bukkit.getConsoleSender());
@@ -82,15 +83,18 @@ public class Loader extends JavaPlugin {
 		}
 		plugin = this;
 
+		if (Bukkit.getPluginManager().getPlugin("Vault") != null)
+			vaultEconomyHooking();
+
 		Configs.load();
-		API.points = config.getString("Options.PointsManager").equalsIgnoreCase("vault") ? new VaultPoints() : new UserPoints();
-		
+		API.points = EconomyAPI.economy != null && config.getString("Options.PointsManager").equalsIgnoreCase("vault") ? new VaultPoints() : new UserPoints();
+
 		prefix = tran.getString("prefix");
-		
+
 		new Metrics(this, 10630);
 		reload(Bukkit.getConsoleSender(), false);
-		
-		//COMMAND
+
+		// COMMAND
 		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
 		PluginCommand cmd = BukkitCommandManager.createCommand(config.getString("Command.Name"), this);
@@ -100,11 +104,11 @@ public class Loader extends JavaPlugin {
 		cmd.setAliases(config.getStringList("Command.Aliases"));
 		// cmd.setTabCompleter(amf);
 		BukkitCommandManager.registerCommand(cmd);
-		
-		//PlaceholderAPI
+
+		// PlaceholderAPI
 		PAPISupport.load();
 
-		//Automatic Tournaments
+		// Automatic Tournaments
 		if (config.getBoolean("Tournament.Automatic.Use"))
 			if (config.getBoolean("Tournament.Automatic.AllWorlds"))
 				new Tasker() {
@@ -147,6 +151,31 @@ public class Loader extends JavaPlugin {
 		Bukkit.getScheduler().cancelTask(Placeholders.task);
 	}
 
+	// VAULT HOOKING
+	private void vaultEconomyHooking() {
+		getLogger().info("[Economy] Looking for Vault economy service..");
+		new Tasker() {
+			@Override
+			public void run() {
+				if (getVaultEconomy()) {
+					getLogger().info("[Economy] Found Vault economy service. " + ((Economy) EconomyAPI.economy).getName());
+					cancel();
+				}
+			}
+		}.runTimer(0, 20, 15);
+	}
+
+	private boolean getVaultEconomy() {
+		try {
+			RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
+			if (economyProvider != null)
+				EconomyAPI.economy = economyProvider.getProvider();
+			return EconomyAPI.economy != null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	public static void reload(CommandSender ss, boolean reload) {
 		// RELOAD-CONFIG
 		if (reload) {
@@ -170,7 +199,7 @@ public class Loader extends JavaPlugin {
 		}
 		AFKSystem.load();
 		Placeholders.loadTops();
-		
+
 		// FISH
 
 		// PRE-LOAD
@@ -264,7 +293,8 @@ public class Loader extends JavaPlugin {
 		for (String s : toReg)
 			new CustomEnchantment(s, enchant.getString("enchantments." + s + ".name"), enchant.getInt("enchantments." + s + ".maxlevel"), enchant.getDouble("enchantments." + s + ".bonus.chance"),
 					enchant.getDouble("enchantments." + s + ".bonus.amount"), enchant.getDouble("enchantments." + s + ".bonus.money"), enchant.getDouble("enchantments." + s + ".bonus.points"),
-					enchant.getDouble("enchantments." + s + ".bonus.exp"), enchant.getStringList("enchantments." + s + ".description"), enchant.getDouble("enchantments." + s + ".cost"));
+					enchant.getDouble("enchantments." + s + ".bonus.exp"), enchant.getStringList("enchantments." + s + ".description"), enchant.getDouble("enchantments." + s + ".cost"),
+					enchant.getDouble("enchantments." + s + ".bonus.bitespeed"));
 		// CLEAR-CACHE
 		Loader.msg(prefix + " Enchantments registered (" + toReg.size() + ") & removed unregistered (" + removeE.size() + ").", ss);
 		toReg.clear();
