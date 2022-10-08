@@ -57,17 +57,20 @@ public abstract class Enchant {
 		if (edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
 		ItemMeta m = rod.getItemMeta();
-		List<String> l = m.getLore() != null ? m.getLore() : new ArrayList<>();
-		int pos = amount == 0 ? l.size() : data.getInt("enchant-pos." + name.toLowerCase());
+		List<String> l = m.hasLore() ? m.getLore() : new ArrayList<>();
+
+		int pos = data.existsKey("enchant-pos." + name.toLowerCase()) ? data.getInt("enchant-pos." + name.toLowerCase()) : l.size();
 		if (data.getString("enchant." + name.toLowerCase()) != null) {
 			l.remove(data.getString("enchant." + name.toLowerCase()));
 			data.remove("enchant." + name.toLowerCase());
-			pos = l.size();
 		}
 		data.set("enchant-pos." + name.toLowerCase(), pos);
 		data.set("enchants." + name.toLowerCase(), data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount);
+
 		edit.setString("af_data", data.toString(DataType.JSON));
 		rod = BukkitLoader.getNmsProvider().setNBT(rod, edit);
+
+		m = rod.getItemMeta();
 		if (pos == l.size())
 			l.add(StringUtils.colorize(
 					getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount)));

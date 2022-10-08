@@ -14,6 +14,7 @@ import me.devtec.shared.Ref;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.utility.StringUtils;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import me.devtec.theapi.bukkit.xseries.XMaterial;
 
 public class Utils {
 	public static ItemStack setModel(ItemStack s, int model) {
@@ -36,18 +37,9 @@ public class Utils {
 
 	static Map<String, ItemMaker> mat = new HashMap<>();
 	static {
-		mat.put("BLACK_STAINED_GLASS_PANE", find("BLACK_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 15));
-		mat.put("BLUE_STAINED_GLASS_PANE", find("BLUE_STAINED_GLASS_PANE", "STAINED_GLASS_PANE", 11));
-		mat.put("SUNFLOWER", find("SUNFLOWER", "DOUBLE_PLANT", 0));
-	}
-
-	static ItemMaker find(String newName, String old, int data) {
-		Material material = Material.getMaterial(newName.toUpperCase());
-		if (material == null)
-			material = Material.getMaterial(old.toUpperCase());
-		if (data != 0)
-			return ItemMaker.of(material).data(data);
-		return ItemMaker.of(material);
+		mat.put("BLACK_STAINED_GLASS_PANE", ItemMaker.of(XMaterial.matchXMaterial("BLACK_STAINED_GLASS_PANE").get()));
+		mat.put("BLUE_STAINED_GLASS_PANE", ItemMaker.of(XMaterial.matchXMaterial("BLUE_STAINED_GLASS_PANE").get()));
+		mat.put("SUNFLOWER", ItemMaker.of(XMaterial.matchXMaterial("SUNFLOWER").get()));
 	}
 
 	public static void fixDefaultConfig() {

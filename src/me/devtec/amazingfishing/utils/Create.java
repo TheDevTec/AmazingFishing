@@ -21,37 +21,11 @@ public class Create {
 		ItemStack item = ItemMaker.loadFromConfig(Loader.gui, path);
 		return ItemMaker.of(item);
 	}
-	/*
-	 * public static ItemMaker make(String path) { ItemMaker create =
-	 * find(Loader.gui.getString(path + ".icon"), "STONE", 0);
-	 * create.displayName(Loader.gui.getString(path + ".name"));
-	 * create.lore(Loader.gui.getStringList(path + ".lore")); for (String ench :
-	 * Loader.gui.getStringList(path + ".enchants")) { String[] split =
-	 * ench.split(":"); if (EnchantmentAPI.byName(split[0]) != null)
-	 * create.enchant(EnchantmentAPI.byName(split[0]).getEnchantment(), split.length
-	 * == 1 ? 1 : StringUtils.getInt(split[1])); }
-	 * create.itemFlags(Loader.gui.getStringList(path + ".flags"));
-	 * create.unbreakable(Loader.gui.getBoolean(path + ".unbreakable")); return
-	 * create; }
-	 */
 
 	public static ItemMaker makeShop(String path) {
 		ItemStack item = ItemMaker.loadFromConfig(Loader.shop, path);
 		return ItemMaker.of(item);
 	}
-	/*
-	 * public static ItemMaker makeShop(String path) { ItemMaker create =
-	 * find(Loader.shop.getString(path + ".icon"), "STONE", 0);
-	 * create.displayName(Loader.shop.getString(path + ".name"));
-	 * create.lore(Loader.shop.getStringList(path + ".lore")); for (String ench :
-	 * Loader.shop.getStringList(path + ".enchants")) { String[] split =
-	 * ench.split(":"); if (EnchantmentAPI.byName(split[0]) != null)
-	 * create.enchant(EnchantmentAPI.byName(split[0]).getEnchantment(), split.length
-	 * == 1 ? 1 : StringUtils.getInt(split[1])); }
-	 * create.itemFlags(Loader.shop.getStringList(path + ".flags"));
-	 * create.unbreakable(Loader.shop.getBoolean(path + ".unbreakable")); return
-	 * create; }
-	 */
 
 	public static String title(String path) {
 		return Loader.gui.getString(path);
