@@ -72,11 +72,9 @@ public abstract class Enchant {
 
 		m = rod.getItemMeta();
 		if (pos == l.size())
-			l.add(StringUtils.colorize(
-					getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount)));
+			l.add(StringUtils.colorize(getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()))));
 		else
-			l.set(pos, StringUtils.colorize(
-					getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount)));
+			l.set(pos, StringUtils.colorize(getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()))));
 		m.setLore(l);
 		rod.setItemMeta(m);
 		return rod;
