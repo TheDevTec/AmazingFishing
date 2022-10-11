@@ -12,6 +12,7 @@ import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.other.Rod;
 import me.devtec.amazingfishing.utils.Create;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
@@ -19,33 +20,16 @@ import me.devtec.theapi.bukkit.gui.ItemGUI;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class EnchantTable {
-	public static void openMain(Player p) {
-		GUI a = Create.setup(new GUI(Create.title("enchant.title"), 54), Create.make("enchant.close").build(), Help::open, me.devtec.amazingfishing.utils.Create.Settings.SIDES);
-		a.setItem(20, new ItemGUI(Create.make("enchant.add").build()) {
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				if (!Enchant.enchants.isEmpty())
-					openEnchanterPlace(p, 0);
-			}
-		});
-		a.setItem(24, new ItemGUI(Create.make("enchant.upgrade").build()) {
-			@Override
-			public void onClick(Player p, HolderGUI arg, ClickType type) {
-				if (!Enchant.enchants.isEmpty())
-					openEnchanterPlace(p, 1);
-			}
-		});
-		a.open(p);
-	}
-
-	private static boolean openEnchanterPlace(Player p, int type) {
+	public static boolean openMain(Player p) {
+		if (!Enchant.enchants.isEmpty())
+			return false;
 		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"), 54), Create.make("enchant.close").build(), EnchantTable::openMain, me.devtec.amazingfishing.utils.Create.Settings.SIDES);
 		int slot = -1;
 		boolean add = false;
 		if (p.getInventory().getContents() != null)
 			for (ItemStack item : p.getInventory().getContents()) {
 				++slot;
-				if ((item == null) || (item.getType() != Material.FISHING_ROD) || (type == 0 ? !canAdd(item) : !containsAny(item)))
+				if (item == null || item.getType() != Material.FISHING_ROD || !containsAny(item))
 					continue;
 				int ss = slot;
 				add = true;
@@ -53,11 +37,8 @@ public class EnchantTable {
 					@Override
 					public void onClick(Player p, HolderGUI arg, ClickType ctype) {
 						Rod.saveRod(p, item);
-						p.getInventory().setItem(ss, new ItemStack(Material.AIR));
-						if (type == 1)
-							openEnchantUpgrade(p);
-						else
-							openEnchantAdd(p);
+						BukkitLoader.getNmsProvider().postToMainThread(() -> p.getInventory().setItem(ss, new ItemStack(Material.AIR)));
+						openEnchantAdd(p);
 					}
 				});
 			}
@@ -68,16 +49,9 @@ public class EnchantTable {
 		return add;
 	}
 
-	private static boolean canAdd(ItemStack item) {
-		for (Enchant enchant : Enchant.enchants.values())
-			if (!enchant.containsEnchant(item))
-				return true;
-		return false;
-	}
-
 	private static boolean containsAny(ItemStack item) {
 		for (Enchant enchant : Enchant.enchants.values())
-			if (enchant.containsEnchant(item) && enchant.getMaxLevel() > getLevel(item, enchant.getName()))
+			if (enchant.containsEnchant(item) && enchant.getMaxLevel() <= getLevel(item, enchant.getName()))
 				return true;
 		return false;
 	}
@@ -112,45 +86,9 @@ public class EnchantTable {
 						if (API.getPoints().has(p.getName(), cost)) {
 							API.getPoints().remove(p.getName(), cost);
 							ItemStack erod = enchant.enchant(rod, 1);
-							p.getInventory().addItem(erod);
+							BukkitLoader.getNmsProvider().postToMainThread(() -> p.getInventory().addItem(erod));
 							Rod.deleteRod(p);
-							if (!openEnchanterPlace(p, 0))
-								openMain(p);
-						} else
-							Loader.msg(Create.text("command.points.lack").replace("%amount%", "" + cost), p);
-					}
-				});
-			}
-		}
-		a.open(p);
-	}
-
-	public static void openEnchantUpgrade(Player p) {
-		GUI a = Create.setup(new GUI(Create.title("enchant.title-upgrade"), 54) {
-			@Override
-			public void onClose(Player arg0) {
-				if (Rod.saved(p))
-					Rod.retriveRod(p);
-			}
-		}, Create.make("enchant.close").build(), EnchantTable::openMain);
-		a.setItem(4, Shop.replace(p, Create.make("enchant.points"), () -> {
-		}));
-		for (Enchant enchant : Enchant.enchants.values()) {
-			ItemStack rod = Rod.getRod(p);
-			if (enchant.containsEnchant(rod)) {
-				String name = enchant.getDisplayName();
-				List<String> lore = enchant.getDescription();
-				double cost = enchant.getCost();
-				a.addItem(new ItemGUI(Create.createItem(name, Material.PAPER, lore)) {
-					@Override
-					public void onClick(Player p, HolderGUI arg, ClickType type) {
-						if (API.getPoints().has(p.getName(), cost)) {
-							API.getPoints().remove(p.getName(), cost);
-							ItemStack erod = enchant.enchant(rod, 1);
-							p.getInventory().addItem(erod);
-							Rod.deleteRod(p);
-							if (!openEnchanterPlace(p, 1))
-								openMain(p);
+							openMain(p);
 						} else
 							Loader.msg(Create.text("command.points.lack").replace("%amount%", "" + cost), p);
 					}
