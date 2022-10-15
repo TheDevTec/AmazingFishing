@@ -11,6 +11,7 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.other.Rod;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.gui.GUI;
@@ -21,27 +22,27 @@ import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class EnchantTable {
 	public static boolean openMain(Player p) {
-		if (!Enchant.enchants.isEmpty())
+		if (Enchant.enchants.isEmpty())
 			return false;
-		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"), 54), Create.make("enchant.close").build(), EnchantTable::openMain, me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"), 54), Create.make("enchant.close").build(), EnchantTable::openMain, me.devtec.amazingfishing.utils.Create.Settings.SIDES,
+				Settings.CLOSE);
 		int slot = -1;
 		boolean add = false;
-		if (p.getInventory().getContents() != null)
-			for (ItemStack item : p.getInventory().getContents()) {
-				++slot;
-				if (item == null || item.getType() != Material.FISHING_ROD || !containsAny(item))
-					continue;
-				int ss = slot;
-				add = true;
-				a.addItem(new ItemGUI(item) {
-					@Override
-					public void onClick(Player p, HolderGUI arg, ClickType ctype) {
-						Rod.saveRod(p, item);
-						BukkitLoader.getNmsProvider().postToMainThread(() -> p.getInventory().setItem(ss, new ItemStack(Material.AIR)));
-						openEnchantAdd(p);
-					}
-				});
-			}
+		for (ItemStack item : p.getInventory().getContents()) {
+			++slot;
+			if (item == null || item.getType() != Material.FISHING_ROD || containsAny(item))
+				continue;
+			int ss = slot;
+			add = true;
+			a.addItem(new ItemGUI(item) {
+				@Override
+				public void onClick(Player p, HolderGUI arg, ClickType ctype) {
+					Rod.saveRod(p, item);
+					BukkitLoader.getNmsProvider().postToMainThread(() -> p.getInventory().setItem(ss, new ItemStack(Material.AIR)));
+					openEnchantAdd(p);
+				}
+			});
+		}
 		if (add)
 			a.open(p);
 		else
@@ -71,7 +72,7 @@ public class EnchantTable {
 				if (Rod.saved(p))
 					Rod.retriveRod(p);
 			}
-		}, Create.make("enchant.close").build(), EnchantTable::openMain);
+		}, Create.make("enchant.close").build(), EnchantTable::openMain, Settings.CLOSE);
 		a.setItem(4, Shop.replace(p, Create.make("enchant.points"), () -> {
 		}));
 		for (Enchant enchant : Enchant.enchants.values()) {
