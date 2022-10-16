@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.other;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
@@ -8,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import me.devtec.theapi.bukkit.BukkitLoader;
 
 public class Rod {
-	private static ConcurrentHashMap<Player, ItemStack> rod = new ConcurrentHashMap<>();
+	private static Map<Player, ItemStack> rod = new ConcurrentHashMap<>();
 
 	public static void saveRod(Player p, ItemStack i) {
 		rod.put(p, i);

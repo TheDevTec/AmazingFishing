@@ -113,8 +113,6 @@ public abstract class Enchant {
 		Config data = new Config();
 		if (edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
-		if (data.exists("enchant." + name.toLowerCase()))
-			return true;
-		return false;
+		return data.exists("enchant." + name.toLowerCase());
 	}
 }
