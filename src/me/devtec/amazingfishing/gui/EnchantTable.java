@@ -50,18 +50,14 @@ public class EnchantTable {
 		return add;
 	}
 
-	private static boolean maxLevel(ItemStack item, Enchant enchant) {
+	public static List<Enchant> getApplicableEnchantsOn(ItemStack item) {
+		List<Enchant> enchants = new ArrayList<>(Enchant.enchants.size());
 		NBTEdit edit = new NBTEdit(item);
 		Config data = new Config();
 		if (edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
-		return enchant.getMaxLevel() <= data.getInt("enchants." + enchant.getName().toLowerCase());
-	}
-
-	public static List<Enchant> getApplicableEnchantsOn(ItemStack rod) {
-		List<Enchant> enchants = new ArrayList<>(Enchant.enchants.size());
 		for (Enchant enchant : Enchant.enchants.values())
-			if (!maxLevel(rod, enchant))
+			if (enchant.getMaxLevel() > data.getInt("enchants." + enchant.getName().toLowerCase()))
 				enchants.add(enchant);
 		return enchants;
 	}
@@ -89,10 +85,13 @@ public class EnchantTable {
 				public void onClick(Player p, HolderGUI arg, ClickType type) {
 					if (API.getPoints().has(p.getName(), cost)) {
 						API.getPoints().remove(p.getName(), cost);
-						ItemStack erod = enchant.enchant(rod, 1);
-						BukkitLoader.getNmsProvider().postToMainThread(() -> p.getInventory().addItem(erod));
 						Rod.deleteRod(p);
-						openMain(p);
+						ItemStack erod = enchant.enchant(rod, 1);
+						BukkitLoader.getNmsProvider().postToMainThread(() -> {
+							p.getInventory().addItem(erod);
+							if (!openMain(p))
+								arg.close(p);
+						});
 					} else
 						Loader.msg(Create.text("command.points.lack").replace("%amount%", "" + cost), p);
 				}
