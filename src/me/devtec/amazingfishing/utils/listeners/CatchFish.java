@@ -67,10 +67,10 @@ public class CatchFish implements Listener {
 			biteTime = Ref.field(Ref.nms("", "EntityFishingHook"), "waitTime");
 			break;
 		case 17:
-			biteTime = Ref.field(Ref.nms("", "EntityFishingHook"), "ar");
+			biteTime = Ref.field(Ref.nms("world.entity.projectile", "EntityFishingHook"), "ar");
 			break;
 		default: // 1.18, 1.19
-			biteTime = Ref.field(Ref.nms("", "EntityFishingHook"), "as");
+			biteTime = Ref.field(Ref.nms("world.entity.projectile", "EntityFishingHook"), "as");
 			break;
 		}
 	}
@@ -93,7 +93,7 @@ public class CatchFish implements Listener {
 
 	@EventHandler
 	public void onCatchRemake(PlayerFishEvent e) {
-		if (e.getState().equals(PlayerFishEvent.State.FISHING)) {
+		if (e.getState() == PlayerFishEvent.State.FISHING) {
 			int sec = StringUtils.randomInt(20) + 5;
 			sec *= 20; // To ticks
 
@@ -101,7 +101,7 @@ public class CatchFish implements Listener {
 			cache.put(e.getPlayer().getUniqueId(), list);
 			if (list.bitespeed > 0) {
 				sec -= list.bitespeed * 20;
-				Ref.set(Ref.invoke(e, CatchFish.acc), biteTime, sec < 0 ? 1 : sec + 1);
+				Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.CraftFishHook"), Ref.invoke(e, CatchFish.acc)), "getHandle"), biteTime, sec < 0 ? 1 : sec + 1);
 			}
 		}
 		if (e.getState() == State.CAUGHT_FISH)
