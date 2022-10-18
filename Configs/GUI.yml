@@ -149,17 +149,8 @@ bag:
     type: RED_STAINED_GLASS_PANE
 
 enchant:
-  title: "&bEnchant Table"
   title-select: "&bEnchant Table &7&l- &9Select fishing rod"
-  title-add: "&bEnchant Table &7&l- &9Add Enchant"
-  title-upgrade: "&bEnchant Table &7&l- &9Upgrade Enchant"
-  add:
-    displayName: "&9Add enchantment"
-    # WORKBENCH
-    type: CRAFTING_TABLE
-  upgrade:
-    displayName: "&9Upgrade enchantment"
-    type: ANVIL
+  title-add: "&bEnchant Table &7&l- &9Add/upgrade Enchant"
   points:
     displayName: "&3%points% &bPoints"
     # DYE:4

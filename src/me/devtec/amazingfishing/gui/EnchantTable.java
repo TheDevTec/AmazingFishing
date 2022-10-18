@@ -12,6 +12,7 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.construct.Enchant;
 import me.devtec.amazingfishing.other.Rod;
 import me.devtec.amazingfishing.utils.Create;
+import me.devtec.amazingfishing.utils.Create.Settings;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.gui.GUI;
@@ -21,10 +22,14 @@ import me.devtec.theapi.bukkit.gui.ItemGUI;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class EnchantTable {
+
+	static Settings[] withClose = { Settings.SIDES, Settings.CLOSE }, withoutClose = { Settings.SIDES };
+
 	public static boolean openMain(Player p) {
 		if (Enchant.enchants.isEmpty())
 			return false;
-		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"), 54), Create.make("enchant.close").build(), Help::open, me.devtec.amazingfishing.utils.Create.Settings.SIDES);
+		boolean withCloseState = Loader.config.getString("Options.Enchants.BackButton-Action").equalsIgnoreCase("CLOSE");
+		GUI a = Create.setup(new GUI(Create.title("enchant.title-select"), 54), Create.make("enchant.close").build(), !withCloseState ? Help::open : null, withCloseState ? withClose : withoutClose);
 		int slot = -1;
 		boolean add = false;
 		for (ItemStack item : p.getInventory().getContents()) {

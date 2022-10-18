@@ -63,25 +63,23 @@ public class Configs {
 			}
 		}
 		data.reset();
-		Loader.cod = loadOrReload(data, Loader.cod, "Fish/Cod.yml");
-		Loader.salmon = loadOrReload(data, Loader.salmon, "Fish/Salmon.yml");
-		Loader.puffer = loadOrReload(data, Loader.puffer, "Fish/Pufferfish.yml");
-		Loader.tropic = loadOrReload(data, Loader.tropic, "Fish/TropicalFish.yml");
-		Loader.junk = loadOrReload(data, Loader.junk, "Fish/Junk.yml");
-		Loader.quest = loadOrReload(data, Loader.quest, "Data/Quests.yml");
-		Loader.achievements = loadOrReload(data, Loader.achievements, "Data/Achievements.yml");
-		Loader.treasur = loadOrReload(data, Loader.treasur, "Data/Treasures.yml");
-		Loader.enchant = loadOrReload(data, Loader.enchant, "Data/Enchantments.yml");
+		Loader.cod = load(data, Loader.cod, "Fish/Cod.yml");
+		Loader.salmon = load(data, Loader.salmon, "Fish/Salmon.yml");
+		Loader.puffer = load(data, Loader.puffer, "Fish/Pufferfish.yml");
+		Loader.tropic = load(data, Loader.tropic, "Fish/TropicalFish.yml");
+		Loader.junk = load(data, Loader.junk, "Fish/Junk.yml");
+		Loader.quest = load(data, Loader.quest, "Data/Quests.yml");
+		Loader.achievements = load(data, Loader.achievements, "Data/Achievements.yml");
+		Loader.treasur = load(data, Loader.treasur, "Data/Treasures.yml");
+		Loader.enchant = load(data, Loader.enchant, "Data/Enchantments.yml");
 		Utils.convertFiles();
 		Utils.fixDefaultConfig();
-		
+
 		Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.next");
-		Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.previous");
-		//Loader.next = Create.make("buttons.next").build();
-		//Loader.prev = Create.make("buttons.previous").build();
+		Loader.prev = ItemMaker.loadFromConfig(Loader.gui, "buttons.previous");
 	}
 
-	private static Config loadOrReload(Config data, Config d, String path) {
+	private static Config load(Config data, Config d, String path) {
 		if (d != null)
 			d.reload(d.getFile());
 		else {

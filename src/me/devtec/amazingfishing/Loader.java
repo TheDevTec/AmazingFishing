@@ -179,20 +179,21 @@ public class Loader extends JavaPlugin {
 		// RELOAD-CONFIG
 		if (reload) {
 			AFKSystem.unload();
-			cod.reload(cod.getFile());
-			salmon.reload(salmon.getFile());
-			puffer.reload(puffer.getFile());
-			tropic.reload(tropic.getFile());
-			quest.reload(quest.getFile());
-			achievements.reload(achievements.getFile());
-			treasur.reload(treasur.getFile());
-			junk.reload(junk.getFile());
-			enchant.reload(enchant.getFile());
-			config.reload(config.getFile());
-			tran.reload(tran.getFile());
+			gui.reload();
+			cod.reload();
+			salmon.reload();
+			puffer.reload();
+			tropic.reload();
+			quest.reload();
+			achievements.reload();
+			treasur.reload();
+			junk.reload();
+			enchant.reload();
+			config.reload();
+			tran.reload();
 			prefix = tran.getString("prefix");
 			Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.next");
-			Loader.next = ItemMaker.loadFromConfig(Loader.gui, "buttons.previous");
+			Loader.prev = ItemMaker.loadFromConfig(Loader.gui, "buttons.previous");
 			API.points = config.getString("Options.PointsManager").equalsIgnoreCase("vault") ? new VaultPoints() : new UserPoints();
 			Loader.msg(Create.text("reload").replace("%prefix%", getPrefix()), ss);
 		}

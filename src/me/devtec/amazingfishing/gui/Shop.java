@@ -35,9 +35,12 @@ public class Shop {
 		BUY, SELL, CONVERTOR
 	}
 
+	static Settings[] withClose = { Settings.SIDES, Settings.CLOSE }, withoutClose = { Settings.SIDES };
+
 	public static void openShop(Player p, ShopType t) {
 		if (!Loader.config.getBoolean("Options.Shop.Enabled"))
 			return;
+		boolean withCloseState = Loader.config.getString("Options." + (t == ShopType.BUY ? "Buy" : "Sell") + ".BackButton-Action").equalsIgnoreCase("CLOSE");
 		GUI a = Create.setup(new GUI(Create.title("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".title"), 54) {
 			@Override
 			public void onClose(Player player) {
@@ -56,7 +59,7 @@ public class Shop {
 							p.getInventory().addItem(getItem(count));
 				}
 			}
-		}, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".close").build(), Help::open, Settings.SIDES);
+		}, Create.make("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".close").build(), !withCloseState ? Help::open : null, withCloseState ? withClose : withoutClose);
 
 		if (t == ShopType.SELL)
 			a.setInsertable(true);
