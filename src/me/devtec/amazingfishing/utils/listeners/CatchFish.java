@@ -100,7 +100,6 @@ public class CatchFish implements Listener {
 			FishCatchList list = create(e.getPlayer());
 			cache.put(e.getPlayer().getUniqueId(), list);
 			if (list.bitespeed > 0) {
-				System.out.println(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(e, CatchFish.acc)), "getHandle"));
 				sec -= list.bitespeed * 20;
 				Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(e, CatchFish.acc)), "getHandle"), biteTime, sec < 0 ? 1 : sec + 1);
 			}
