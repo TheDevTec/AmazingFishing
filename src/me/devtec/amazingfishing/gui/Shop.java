@@ -40,7 +40,7 @@ public class Shop {
 	public static void openShop(Player p, ShopType t) {
 		if (!Loader.config.getBoolean("Options.Shop.Enabled"))
 			return;
-		boolean withCloseState = Loader.config.getString("Options." + (t == ShopType.BUY ? "Buy" : "Sell") + ".BackButton-Action").equalsIgnoreCase("CLOSE");
+		boolean withCloseState = Loader.config.getString("Options." + (t == ShopType.BUY ? "Shop" : "Sell") + ".BackButton-Action").equalsIgnoreCase("CLOSE");
 		GUI a = Create.setup(new GUI(Create.title("shops." + (t == ShopType.BUY ? "buy" : "sell") + ".title"), 54) {
 			@Override
 			public void onClose(Player player) {

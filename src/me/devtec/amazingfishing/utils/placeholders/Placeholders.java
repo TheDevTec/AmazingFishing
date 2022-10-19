@@ -43,7 +43,8 @@ public class Placeholders {
 
 	public static String getStatistics(Player player, String identifier) {
 		String[] pp;
-		pp = identifier.replace("amazingfishing", "").split("[_]");
+		identifier = identifier.replace("amazingfishing_", "");
+		pp = identifier.split("[_]");
 		String path;
 		path = Manager.getDataLocation() + ".Statistics.";
 		int i = -1;
