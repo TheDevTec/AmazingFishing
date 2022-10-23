@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.Loader;
@@ -76,7 +77,7 @@ public class EnchantTable {
 			}
 		}, Create.make("enchant.close").build(), target -> {
 			if (!openMain(target))
-				BukkitLoader.gui.get(target.getUniqueId()).close(target);
+				JavaPlugin.getPlugin(BukkitLoader.class).gui.get(target.getUniqueId()).close(target);
 		});
 		a.setItem(4, Shop.replace(p, Create.make("enchant.points"), () -> {
 		}));
