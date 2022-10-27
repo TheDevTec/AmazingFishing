@@ -40,6 +40,7 @@ import me.devtec.amazingfishing.utils.Quests;
 import me.devtec.amazingfishing.utils.Quests.Quest;
 import me.devtec.amazingfishing.utils.listeners.CatchFish;
 import me.devtec.amazingfishing.utils.listeners.EatFish;
+import me.devtec.amazingfishing.utils.placeholders.PAPILoader;
 import me.devtec.amazingfishing.utils.placeholders.Placeholders;
 import me.devtec.amazingfishing.utils.points.EconomyAPI;
 import me.devtec.amazingfishing.utils.points.UserPoints;
@@ -64,7 +65,6 @@ public class Loader extends JavaPlugin {
 	public static Config tran, config, gui, shop;
 	public static Config cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
 	protected static String prefix = Manager.getPluginName();
-	protected static PlaceholderExpansion reg;
 	public static DecimalFormat ff = new DecimalFormat("###,###.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)),
 			intt = new DecimalFormat("###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
@@ -105,7 +105,7 @@ public class Loader extends JavaPlugin {
 		BukkitCommandManager.registerCommand(cmd);
 
 		// PlaceholderAPI
-		PAPISupport.load();
+		PAPILoader.load();
 
 		// Automatic Tournaments
 		if (config.getBoolean("Tournament.Automatic.Use"))
@@ -144,9 +144,14 @@ public class Loader extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		if (reg != null)
-			reg.unregister();
+		//Unloading placeholders
+		if (PAPILoader.papi_theapi != null) //Theapi PlaceholderExpansion
+			PAPILoader.papi_theapi.unregister();
+		if(PAPILoader.papi_papi != null) //PAPI PlaceholderExpansion
+			((me.clip.placeholderapi.expansion.PlaceholderExpansion) PAPILoader.papi_papi).unregister();
+		
 		AFKSystem.unload();
+		
 		Bukkit.getScheduler().cancelTask(Placeholders.task);
 	}
 
