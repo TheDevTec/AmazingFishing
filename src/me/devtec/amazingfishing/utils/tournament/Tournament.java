@@ -16,6 +16,7 @@ import me.devtec.amazingfishing.construct.Fish;
 import me.devtec.amazingfishing.utils.Statistics;
 import me.devtec.amazingfishing.utils.tournament.bossbar.BossBarManager;
 import me.devtec.amazingfishing.utils.tournament.bossbar.SBossBar;
+import me.devtec.shared.components.ComponentAPI;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 import me.devtec.shared.scheduler.Scheduler;
 import me.devtec.shared.scheduler.Tasker;
@@ -74,7 +75,7 @@ public class Tournament {
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Actionbar.Use"))
 					for (Player p : values.keySet())
 						BukkitLoader.getPacketHandler().send(p, BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR,
-								StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Actionbar.Text"), p))));
+								ComponentAPI.fromString(StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Actionbar.Text"), p)))));
 			}
 		}.runRepeating(0, 20);
 	}
