@@ -50,11 +50,11 @@ import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.shared.Ref;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.placeholders.PlaceholderAPI;
-import me.devtec.shared.placeholders.PlaceholderExpansion;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.utility.StringUtils;
 import me.devtec.shared.versioning.VersionUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.Metrics;
 import me.devtec.theapi.bukkit.commands.hooker.BukkitCommandManager;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 import net.milkbowl.vault.economy.Economy;
@@ -144,14 +144,12 @@ public class Loader extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		//Unloading placeholders
-		if (PAPILoader.papi_theapi != null) //Theapi PlaceholderExpansion
+		// Unloading placeholders
+		if (PAPILoader.papi_theapi != null) // Theapi PlaceholderExpansion
 			PAPILoader.papi_theapi.unregister();
-		if(PAPILoader.papi_papi != null) //PAPI PlaceholderExpansion
-			((me.clip.placeholderapi.expansion.PlaceholderExpansion) PAPILoader.papi_papi).unregister();
-		
+
 		AFKSystem.unload();
-		
+
 		Bukkit.getScheduler().cancelTask(Placeholders.task);
 	}
 
