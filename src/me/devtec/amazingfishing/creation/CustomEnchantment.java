@@ -59,11 +59,7 @@ public class CustomEnchantment extends Enchant {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Enchant)
-			if (o instanceof CustomEnchantment)
-				return ((CustomEnchantment) o).getName().equals(getName()) && getChance() == ((CustomEnchantment) o).getChance() && getAmount() == ((CustomEnchantment) o).getAmount()
-						&& getCost() == ((CustomEnchantment) o).getCost();
-			else
-				return ((Enchant) o).getName().equals(getName()) && getCost() == ((Enchant) o).getCost() && getMaxLevel() == ((Enchant) o).getMaxLevel();
+			return ((Enchant) o).getName().equals(getName()) && getCost() == ((Enchant) o).getCost() && getMaxLevel() == ((Enchant) o).getMaxLevel();
 		return false;
 	}
 

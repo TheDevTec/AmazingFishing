@@ -377,7 +377,7 @@ public class AmazingFishingCommand implements CommandExecutor {
 				level = StringUtils.getInt(args[2]);
 			if (level <= 0)
 				level = 1;
-			((Player) s).setItemInHand(Enchant.enchants.get(args[1].toLowerCase()).enchant(((Player) s).getItemInHand(), level));
+			((Player) s).setItemInHand(Enchant.enchants.get(args[1].toLowerCase()).enchant(((Player) s).getItemInHand(), level, false));
 			NBTEdit edit = new NBTEdit(((Player) s).getItemInHand());
 			Config data = new Config();
 			if (edit.hasKey("af_data"))

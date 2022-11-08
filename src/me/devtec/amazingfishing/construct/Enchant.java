@@ -51,7 +51,7 @@ public abstract class Enchant {
 
 	public abstract FishCatchList onCatch(Player player, int level, FishCatchList catchList);
 
-	public ItemStack enchant(ItemStack rod, int amount) {
+	public ItemStack enchant(ItemStack rod, int amount, boolean addLevels) {
 		NBTEdit edit = new NBTEdit(rod);
 		Config data = new Config();
 		if (edit.hasKey("af_data"))
@@ -65,7 +65,8 @@ public abstract class Enchant {
 			data.remove("enchant." + name.toLowerCase());
 		}
 		data.set("enchant-pos." + name.toLowerCase(), pos);
-		data.set("enchants." + name.toLowerCase(), data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount);
+		data.set("enchants." + name.toLowerCase(),
+				addLevels ? data.getInt("enchants." + name.toLowerCase()) + amount > getMaxLevel() ? getMaxLevel() : data.getInt("enchants." + name.toLowerCase()) + amount : amount <= 0 ? 1 : amount);
 
 		edit.setString("af_data", data.toString(DataType.JSON));
 		rod = BukkitLoader.getNmsProvider().setNBT(rod, edit);

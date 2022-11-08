@@ -94,14 +94,13 @@ public class CatchFish implements Listener {
 	@EventHandler
 	public void onCatchRemake(PlayerFishEvent e) {
 		if (e.getState() == PlayerFishEvent.State.FISHING) {
-			int sec = StringUtils.randomInt(20) + 5;
-			sec *= 20; // To ticks
-
 			FishCatchList list = create(e.getPlayer());
 			cache.put(e.getPlayer().getUniqueId(), list);
 			if (list.bitespeed > 0) {
+				double sec = StringUtils.randomDouble(100, 600) + 1;
 				sec -= list.bitespeed * 20;
-				Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(e, CatchFish.acc)), "getHandle"), biteTime, sec < 0 ? 1 : sec + 1);
+
+				Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(e, CatchFish.acc)), "getHandle"), biteTime, sec <= 0 ? 1 : (int) sec);
 			}
 		}
 		if (e.getState() == State.CAUGHT_FISH)
@@ -121,44 +120,27 @@ public class CatchFish implements Listener {
 						FishCatchList list = cache.remove(e.getPlayer().getUniqueId());
 						if (list == null)
 							list = create(e.getPlayer());
-						int am = list.chance * 10 > 1 ? (int) list.chance * 10 : 1;
-						if (am > list.max_amount)
-							am = (int) list.max_amount;
+						int am = StringUtils.randomInt(1, (int) (list.chance * 10) > 1 ? (int) (list.chance * 10) > (int) list.max_amount ? (int) list.max_amount : (int) list.chance * 10 : 1);
 						double money = list.money, points = list.points, exp = list.exp;
 
-						try {
-							am = random.nextInt(am);
-						} catch (Exception er) {
-						}
-						if (am <= 0)
-							am = 1;
-						while (am != 0) {
-							--am;
+						while (am-- > 0)
 							try {
 								Fish f = ff.getRandom();
-								double weight = 0;
-								double length = 0;
-								try {
-									length = random.nextInt((int) f.getLength()) + random.nextDouble();
-								} catch (Exception er) {
-								}
+								double length = StringUtils.randomDouble(f.getMinLength(), f.getLength());
 
-								if (length > f.getLength())
-									length = f.getLength();
-								if (length < f.getMinLength())
-									length = f.getMinLength();
+								double weight = 0;
 
 								try {
 									weight = StringUtils.calculate(
 											f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight() + "").replace("%maxweight%", f.getWeight() + "").replace("%length%", length + "")
 													.replace("%maxlength%", f.getLength() + "").replace("%minlength%", f.getMinLength() + "").replace("%minweight%", f.getMinWeight() + ""));
+									if (weight > f.getWeight())
+										weight = f.getWeight();
+									if (weight < f.getMinWeight())
+										weight = f.getMinWeight();
 								} catch (Exception er) {
 									er.printStackTrace();
 								}
-								if (weight > f.getWeight())
-									weight = f.getWeight();
-								if (weight < f.getMinWeight())
-									weight = f.getMinWeight();
 
 								CatchFish.giveItem(item, f.createItem(weight, length, money, points, exp, e.getPlayer(), loc), e.getPlayer(), loc);
 
@@ -183,7 +165,6 @@ public class CatchFish implements Listener {
 								er.printStackTrace();
 								break;
 							}
-						}
 					} else
 						type = Fishing.JUNK;
 					break;

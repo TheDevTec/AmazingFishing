@@ -92,7 +92,7 @@ public class EnchantTable {
 					if (API.getPoints().has(p.getName(), cost)) {
 						API.getPoints().remove(p.getName(), cost);
 						Rod.deleteRod(p);
-						ItemStack erod = enchant.enchant(rod, 1);
+						ItemStack erod = enchant.enchant(rod, 1, true);
 						BukkitLoader.getNmsProvider().postToMainThread(() -> {
 							p.getInventory().addItem(erod);
 							if (!openMain(p))
