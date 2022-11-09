@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -46,7 +45,6 @@ import me.devtec.theapi.bukkit.nms.NBTEdit;
 public class CatchFish implements Listener {
 
 	private static Method acc = Ref.method(PlayerFishEvent.class, "getHook");
-	private Random random = new Random();
 	private Field biteTime;
 
 	public CatchFish() {
@@ -99,7 +97,6 @@ public class CatchFish implements Listener {
 			if (list.bitespeed > 0) {
 				double sec = StringUtils.randomDouble(100, 600) + 1;
 				sec -= list.bitespeed * 20;
-
 				Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(e, CatchFish.acc)), "getHandle"), biteTime, sec <= 0 ? 1 : (int) sec);
 			}
 		}
@@ -120,7 +117,7 @@ public class CatchFish implements Listener {
 						FishCatchList list = cache.remove(e.getPlayer().getUniqueId());
 						if (list == null)
 							list = create(e.getPlayer());
-						int am = StringUtils.randomInt(1, (int) (list.chance * 10) > 1 ? (int) (list.chance * 10) > (int) list.max_amount ? (int) list.max_amount : (int) list.chance * 10 : 1);
+						int am = StringUtils.randomInt(1, list.generateChance());
 						double money = list.money, points = list.points, exp = list.exp;
 
 						while (am-- > 0)
@@ -196,7 +193,7 @@ public class CatchFish implements Listener {
 						double length = -1;
 						if (junk.hasLength())
 							try {
-								length = random.nextInt((int) junk.getLength()) + random.nextDouble();
+								length = StringUtils.randomDouble(junk.getMinLength(), junk.getLength());
 							} catch (Exception er) {
 							}
 						if (junk.hasWeight() && length != -1)
@@ -204,17 +201,12 @@ public class CatchFish implements Listener {
 								weight = StringUtils.calculate(
 										junk.getCalculator(Calculator.WEIGHT).replace("%weight%", junk.getWeight() + "").replace("%maxweight%", junk.getWeight() + "").replace("%length%", length + "")
 												.replace("%maxlength%", junk.getLength() + "").replace("%minlength%", junk.getMinLength() + "").replace("%minweight%", junk.getMinWeight() + ""));
+								if (weight > junk.getWeight())
+									weight = junk.getWeight();
+								if (weight < junk.getMinWeight())
+									weight = junk.getMinWeight();
 							} catch (Exception er) {
 							}
-
-						if (junk.hasWeight() && weight > junk.getWeight())
-							weight = junk.getWeight();
-						if (junk.hasLength() && length > junk.getLength())
-							length = junk.getLength();
-						if (junk.hasWeight() && weight < junk.getMinWeight())
-							weight = junk.getMinWeight();
-						if (junk.hasLength() && length < junk.getMinLength())
-							length = junk.getMinLength();
 
 						ItemStack i = junk.create(weight, length, e.getPlayer(), loc);
 						if (i != null)

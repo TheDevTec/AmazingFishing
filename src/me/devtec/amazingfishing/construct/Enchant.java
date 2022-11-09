@@ -19,6 +19,10 @@ public abstract class Enchant {
 
 	public static class FishCatchList {
 		public double max_amount = 1, chance, points, money, exp, bitespeed;
+
+		public int generateChance() {
+			return (int) (chance * 10) > 1 ? (int) (chance * 10) > (int) max_amount ? (int) max_amount : (int) chance * 10 : 1;
+		}
 	}
 
 	public static Map<String, Enchant> enchants = new LinkedHashMap<>();
