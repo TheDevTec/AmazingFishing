@@ -6,6 +6,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
+import me.devtec.shared.utility.ColorUtils;
 import me.devtec.shared.utility.StringUtils;
 
 public class ModernBossBar implements SBossBar {
@@ -15,13 +16,13 @@ public class ModernBossBar implements SBossBar {
 
 	protected ModernBossBar(Player player, String title) {
 		this.player = player;
-		bar = Bukkit.createBossBar(StringUtils.colorize(title), BarColor.PURPLE, BarStyle.SEGMENTED_20);
+		bar = Bukkit.createBossBar(ColorUtils.colorize(title), BarColor.PURPLE, BarStyle.SEGMENTED_20);
 		bar.addPlayer(player);
 	}
 
 	@Override
 	public void setTitle(String title) {
-		bar.setTitle(StringUtils.colorize(title));
+		bar.setTitle(ColorUtils.colorize(title));
 	}
 
 	@Override

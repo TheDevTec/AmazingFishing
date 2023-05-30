@@ -12,7 +12,7 @@ import org.bukkit.material.MaterialData;
 import me.devtec.amazingfishing.Loader;
 import me.devtec.shared.Ref;
 import me.devtec.shared.dataholder.Config;
-import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.ParseUtils;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 import me.devtec.theapi.bukkit.xseries.XMaterial;
 
@@ -132,7 +132,7 @@ public class Utils {
 
 	public static MaterialData createType(String s) {
 		try {
-			return new MaterialData(Material.getMaterial(s.split(":")[0].toUpperCase()), s.contains(":") ? (byte) StringUtils.getInt(s.split(":")[1]) : (byte) 0);
+			return new MaterialData(Material.getMaterial(s.split(":")[0].toUpperCase()), s.contains(":") ? (byte) ParseUtils.getInt(s.split(":")[1]) : (byte) 0);
 		} catch (Exception | NoSuchFieldError er) {
 			return new MaterialData(Material.STONE);
 		}

@@ -27,7 +27,9 @@ import me.devtec.amazingfishing.gui.Shop.ShopType;
 import me.devtec.amazingfishing.utils.tournament.TournamentManager;
 import me.devtec.amazingfishing.utils.tournament.TournamentType;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.utility.ParseUtils;
 import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.TimeUtils;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class AmazingFishingCommand implements CommandExecutor {
@@ -279,9 +281,10 @@ public class AmazingFishingCommand implements CommandExecutor {
 				if (args.length == 4) {
 					try {
 						TournamentType g = TournamentType.valueOf(args[2].toUpperCase());
-						TournamentManager.start(null, g, StringUtils.timeFromString(args[3]));
-						Loader.msg(Create.text("command.tournaments.start.global").replace("%time%", StringUtils.timeToString(StringUtils.timeFromString(args[3]))).replace("%type%",
-								args[2].toLowerCase()), s);
+						TournamentManager.start(null, g, TimeUtils.timeFromString(args[3]));
+						Loader.msg(
+								Create.text("command.tournaments.start.global").replace("%time%", TimeUtils.timeToString(TimeUtils.timeFromString(args[3]))).replace("%type%", args[2].toLowerCase()),
+								s);
 					} catch (Exception | NoSuchFieldError e) {
 						// e.printStackTrace();
 						Loader.msg(Create.text("command.tournaments.start.invalid").replace("%type%", args[2].toLowerCase()), s);
@@ -294,8 +297,8 @@ public class AmazingFishingCommand implements CommandExecutor {
 					return true;
 				}
 				try {
-					TournamentManager.start(w, TournamentType.valueOf(args[3].toUpperCase()), StringUtils.timeFromString(args[4]));
-					Loader.msg(Create.text("command.tournaments.start.world").replace("%world%", w.getName()).replace("%time%", StringUtils.timeToString(StringUtils.timeFromString(args[4])))
+					TournamentManager.start(w, TournamentType.valueOf(args[3].toUpperCase()), TimeUtils.timeFromString(args[4]));
+					Loader.msg(Create.text("command.tournaments.start.world").replace("%world%", w.getName()).replace("%time%", TimeUtils.timeToString(TimeUtils.timeFromString(args[4])))
 							.replace("%type%", args[3].toLowerCase()), s);
 				} catch (Exception | NoSuchFieldError e) {
 					Loader.msg(Create.text("command.tournaments.start.invalid").replace("%type%", args[3].toLowerCase()), s);
@@ -374,7 +377,7 @@ public class AmazingFishingCommand implements CommandExecutor {
 			}
 			int level = 1;
 			if (args.length > 2)
-				level = StringUtils.getInt(args[2]);
+				level = ParseUtils.getInt(args[2]);
 			if (level <= 0)
 				level = 1;
 			((Player) s).setItemInHand(Enchant.enchants.get(args[1].toLowerCase()).enchant(((Player) s).getItemInHand(), level, false));

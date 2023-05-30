@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 
 import me.devtec.amazingfishing.utils.placeholders.Placeholders.TopType;
 import me.devtec.shared.placeholders.PlaceholderExpansion;
-import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.ParseUtils;
 
 public class PAPILoader {
 
@@ -52,11 +52,11 @@ public class PAPILoader {
 				 * %tournaments_wins_<1-4>% %fish_caught_<1-4>%
 				 */
 				if (identifier.startsWith("tournaments_wins_")) {
-					int pos = StringUtils.getInt(identifier.replace("tournaments_wins_", ""));
+					int pos = ParseUtils.getInt(identifier.replace("tournaments_wins_", ""));
 					return Placeholders.getTop(TopType.TOURNAMENTS_WINS, pos);
 				}
 				if (identifier.startsWith("fish_caught_")) {
-					int pos = StringUtils.getInt(identifier.replace("fish_caught_", ""));
+					int pos = ParseUtils.getInt(identifier.replace("fish_caught_", ""));
 					return Placeholders.getTop(TopType.FISH_CAUGHT, pos);
 				}
 				/*

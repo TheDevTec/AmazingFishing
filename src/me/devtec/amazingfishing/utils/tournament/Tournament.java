@@ -22,7 +22,9 @@ import me.devtec.shared.scheduler.Scheduler;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.sorting.SortingAPI;
 import me.devtec.shared.sorting.SortingAPI.ComparableObject;
+import me.devtec.shared.utility.ColorUtils;
 import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.TimeUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.nms.NmsProvider.TitleAction;
 
@@ -49,7 +51,7 @@ public class Tournament {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), replace(cmd, p));
 			});
 			for (String msg : Loader.config.getStringList("Tournament.Type." + t.configPath() + ".Start.Messages"))
-				Loader.msg(replace(msg.replace("%time%", StringUtils.timeToString(time)), p), p);
+				Loader.msg(replace(msg.replace("%time%", TimeUtils.timeToString(time)), p), p);
 		}
 
 		runOut = time;
@@ -67,7 +69,7 @@ public class Tournament {
 						BukkitLoader.getNmsProvider().postToMainThread(() -> {
 							SBossBar bar = BossBarManager.getOrCreate(p);
 							bar.setProgress(StringUtils.calculate(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Counter"), p)));
-							bar.setTitle(StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Text"), p)));
+							bar.setTitle(ColorUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Text"), p)));
 							bar.setColor(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Color"));
 							bar.setStyle(Loader.config.getString("Tournament.Type." + t.configPath() + ".Bossbar.Style"));
 							bar.show();
@@ -75,7 +77,7 @@ public class Tournament {
 				if (Loader.config.getBoolean("Tournament.Type." + t.configPath() + ".Actionbar.Use"))
 					for (Player p : values.keySet())
 						BukkitLoader.getPacketHandler().send(p, BukkitLoader.getNmsProvider().packetTitle(TitleAction.ACTIONBAR,
-								ComponentAPI.fromString(StringUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Actionbar.Text"), p)))));
+								ComponentAPI.fromString(ColorUtils.colorize(replace(Loader.config.getString("Tournament.Type." + t.configPath() + ".Actionbar.Text"), p)))));
 			}
 		}.runRepeating(0, 20);
 	}
@@ -85,7 +87,7 @@ public class Tournament {
 			s = s.replace("%value%", values.getOrDefault(p, 0.0) + "").replace("%player%", p.getName()).replace("%playername%", p.getDisplayName() + "")
 					.replace("%displayname%", p.getDisplayName() + "").replace("%customanem%", p.getCustomName() + "");
 		return PlaceholderAPI.apply(s.replace("%type%", t.formatted() + "").replace("%time%", total + "").replace("%participants%", values.size() + "")
-				.replace("%formatted_time%", StringUtils.timeToString(runOut)).replace("%remaining%", runOut + ""), p.getUniqueId());
+				.replace("%formatted_time%", TimeUtils.timeToString(runOut)).replace("%remaining%", runOut + ""), p.getUniqueId());
 	}
 
 	public long getTime() {

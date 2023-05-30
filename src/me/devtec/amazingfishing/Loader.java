@@ -51,7 +51,9 @@ import me.devtec.shared.Ref;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 import me.devtec.shared.scheduler.Tasker;
+import me.devtec.shared.utility.ColorUtils;
 import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.TimeUtils;
 import me.devtec.shared.versioning.VersionUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.Metrics;
@@ -113,7 +115,7 @@ public class Loader extends JavaPlugin {
 				new Tasker() {
 					@Override
 					public void run() {
-						if (TournamentManager.start(null, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
+						if (TournamentManager.start(null, TournamentType.RANDOM, TimeUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 							String format = TournamentManager.get(null).getType().formatted(), path = TournamentManager.get(null).getType().configPath();
 							for (Player p : BukkitLoader.getOnlinePlayers()) {
 								for (String f : config.getStringList("Tournament.Start." + path + ".Broadcast.Messages"))
@@ -123,13 +125,13 @@ public class Loader extends JavaPlugin {
 							}
 						}
 					}
-				}.runRepeating(StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")), StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
+				}.runRepeating(TimeUtils.timeFromString(config.getString("Tournament.Automatic.Period")), TimeUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
 			else
 				new Tasker() {
 					@Override
 					public void run() {
 						World w = Bukkit.getWorld(StringUtils.randomFromList(config.getStringList("Tournament.Automatic.Worlds")));
-						if (TournamentManager.start(w, TournamentType.RANDOM, StringUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
+						if (TournamentManager.start(w, TournamentType.RANDOM, TimeUtils.timeFromString(config.getString("Tournament.Automatic.Length")))) {
 							String format = TournamentManager.get(w).getType().formatted(), path = TournamentManager.get(w).getType().configPath();
 							for (Player p : w.getPlayers()) {
 								for (String f : config.getStringList("Tournament.Start." + path + ".Broadcast.Messages"))
@@ -139,7 +141,7 @@ public class Loader extends JavaPlugin {
 							}
 						}
 					}
-				}.runRepeating(StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")), StringUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
+				}.runRepeating(TimeUtils.timeFromString(config.getString("Tournament.Automatic.Period")), TimeUtils.timeFromString(config.getString("Tournament.Automatic.Period")));
 	}
 
 	@Override
@@ -419,7 +421,7 @@ public class Loader extends JavaPlugin {
 	}
 
 	public static String replace(String text, CommandSender s) {
-		return StringUtils.colorize(PlaceholderAPI.apply(text.replace("%prefix%", getPrefix()).replace("%player%", s.getName()), s instanceof Player ? ((Player) s).getUniqueId() : null));
+		return ColorUtils.colorize(PlaceholderAPI.apply(text.replace("%prefix%", getPrefix()).replace("%player%", s.getName()), s instanceof Player ? ((Player) s).getUniqueId() : null));
 	}
 
 	public static boolean has(CommandSender s, String permission) {

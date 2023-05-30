@@ -14,7 +14,7 @@ import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.sorting.SortingAPI;
 import me.devtec.shared.sorting.SortingAPI.ComparableObject;
-import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.TimeUtils;
 
 public class Placeholders {
 
@@ -163,7 +163,7 @@ public class Placeholders {
 					}
 				}
 			}
-		}.runRepeating(1, StringUtils.timeFromString(Loader.config.getString("Options.Placeholders.Settings.Reload_of_data_time")) * 20);
+		}.runRepeating(1, TimeUtils.timeFromString(Loader.config.getString("Options.Placeholders.Settings.Reload_of_data_time")) * 20);
 
 	}
 

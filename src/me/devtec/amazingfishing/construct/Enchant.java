@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.dataholder.DataType;
-import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.ColorUtils;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
@@ -77,9 +77,9 @@ public abstract class Enchant {
 
 		m = rod.getItemMeta();
 		if (pos == l.size())
-			l.add(StringUtils.colorize(getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()))));
+			l.add(ColorUtils.colorize(getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()))));
 		else
-			l.set(pos, StringUtils.colorize(getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()))));
+			l.set(pos, ColorUtils.colorize(getDisplayName() + style(data.getInt("enchants." + name.toLowerCase()))));
 		m.setLore(l);
 		rod.setItemMeta(m);
 		return rod;

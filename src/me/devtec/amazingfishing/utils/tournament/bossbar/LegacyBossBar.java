@@ -2,7 +2,7 @@ package me.devtec.amazingfishing.utils.tournament.bossbar;
 
 import org.bukkit.entity.Player;
 
-import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.ColorUtils;
 import me.devtec.theapi.bukkit.bossbar.BossBar;
 
 public class LegacyBossBar implements SBossBar {
@@ -15,7 +15,7 @@ public class LegacyBossBar implements SBossBar {
 
 	@Override
 	public void setTitle(String title) {
-		bar.setTitle(StringUtils.colorize(title));
+		bar.setTitle(ColorUtils.colorize(title));
 	}
 
 	@Override
