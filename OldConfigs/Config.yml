@@ -1,0 +1,380 @@
+# ░█████╗░██████╗░███████╗░█████╗░████████╗███████╗██████╗░  ██████╗░██╗░░░██╗  ██████╗░███████╗██╗░░░██╗████████╗███████╗░█████╗░
+# ██╔══██╗██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝██╔══██╗  ██╔══██╗╚██╗░██╔╝  ██╔══██╗██╔════╝██║░░░██║╚══██╔══╝██╔════╝██╔══██╗
+# ██║░░╚═╝██████╔╝█████╗░░███████║░░░██║░░░█████╗░░██║░░██║  ██████╦╝░╚████╔╝░  ██║░░██║█████╗░░╚██╗░██╔╝░░░██║░░░█████╗░░██║░░╚═╝
+# ██║░░██╗██╔══██╗██╔══╝░░██╔══██║░░░██║░░░██╔══╝░░██║░░██║  ██╔══██╗░░╚██╔╝░░  ██║░░██║██╔══╝░░░╚████╔╝░░░░██║░░░██╔══╝░░██║░░██╗
+# ╚█████╔╝██║░░██║███████╗██║░░██║░░░██║░░░███████╗██████╔╝  ██████╦╝░░░██║░░░  ██████╔╝███████╗░░╚██╔╝░░░░░██║░░░███████╗╚█████╔╝
+# ░╚════╝░╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═════╝░  ╚═════╝░░░░╚═╝░░░  ╚═════╝░╚══════╝░░░╚═╝░░░░░░╚═╝░░░╚══════╝░╚════╝░
+#
+# Links:
+#  Github: https://github.com/TheDevTec/AmazingFishing
+#  Discord: https://discord.io/spigotdevtec
+
+Options:
+  # Fishing section
+  Fishing:
+    Fish:
+      # Chance for Fish when you are fishing
+      Chance: 70
+      # If you don't want to catch fish from Cod.yml, Salmon.yml, Pufferfish.yml, Salmon.yml just set this value to false
+      Enabled: true
+    Treasure:
+      # Chance for Treasure when you are fishing
+      Chance: 10
+      # If you don't want to catch Treasures just set this value to false
+      Enabled: true
+    Junk:
+      # Chance for Junk when you are fishing (Such unnecessary items -> Junk.yml) 
+      Chance: 20
+      # If you don't want to catch Junk from Junky.yml just set this value to false
+      Enabled: true
+
+  # AFK System
+  AFK:
+    Enabled: true
+    Time: "5min"
+    DisallowFishing: true
+    Action:
+      # Send message?
+      Start: []
+      # Clear title?
+      Stop: []
+      # Send title?
+      Afking: []
+  
+  # PointsManager types: VAULT, USER
+  PointsManager: "User"
+  Calculator:
+      # Default money calculation: ((%length% / 4 +%weight% / 4 + %money%)+((%length% / 4 +%weight% / 4 + %money%)/100)*%money_boost%) * %bonus%
+      # Default points calculation: ((%length% / 5 +%weight% / 5 + %points%)+((%length% / 5 +%weight% / 5 + %points%)/100)*%points_boost%) * %bonus%
+      # Default xp calculation: ((%length% / 4 +%weight% / 4 + %experiences%)+((%length% / 4 +%weight% / 4 + %experiences%)/100)*%exp_boost%) * %bonus%
+      # Default weight calculation: (%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)
+    weight: "(%length%-(%minweight%/%minlength%))/(%weight%/%maxlength%)"
+    money: "((%length% / 4 +%weight% / 4 + %money%)+((%length% / 4 +%weight% / 4 + %money%)/100)*%money_boost%) * %bonus%"
+    exps: "((%length% / 4 +%weight% / 4 + %experiences%)+((%length% / 4 +%weight% / 4 + %experiences%)/100)*%exp_boost%) * %bonus%"
+    points: "((%length% / 5 +%weight% / 5 + %points%)+((%length% / 5 +%weight% / 5 + %points%)/100)*%points_boost%) * %bonus%"
+    
+  Shop:
+    Enabled: true
+    BuyShop: true
+    SellFish: true
+    SellDefaultFish: false
+    Sounds:
+      Shop-BuyItem: true
+    DisableConventor: false
+    HidePoints: false
+    # CLOSE, BACK
+    BackButton-Action: BACK
+
+  Sell:
+    DisableMoney: false
+    DisableXP: false
+    DisablePoints: false
+    # CLOSE, BACK
+    BackButton-Action: BACK
+    
+    DefaultFish:
+      # You can edit these for each fish type
+      # COD:
+        # Money: 1
+        # Exps: 1
+        # Points: 0.1
+      Money: 1
+      Exps: 1
+      Points: 0.1
+
+  Bag:
+    Enabled: true
+    # Locations: DATA, SQL
+    SaveLocation: "DATA"
+    MySQL:
+      Host: "localhost"
+      Database: "global"
+      Username: "admin"
+      Password: "admin"
+    OpenShop: true
+    # If you want to be able to sell fish from your bag you need to set 'SellFish' to true
+    SellFish: true
+    # CLOSE, BACK
+    BackButton-Action: BACK
+  Enchants:
+    Enabled: true
+    # CLOSE, BACK
+    BackButton-Action: BACK
+  Convertor:
+    # CLOSE, BACK
+    BackButton-Action: BACK
+  Placeholders:
+    Settings:
+      MessageOnReload: true
+      # Reload_of_data_time: seconds
+      Reload_of_data_time: "1800"
+    Format:
+      Fish:
+        Caught: "&7%position% &8&l- &e%player% &8&l| &6%amount% caught"
+      Tournaments:
+        Wins: "&7%position% &8&l- &e%player% &8&l| &6%amount% wins"
+    
+# Preview text on click on fish in index
+Preview:
+- "&7Your records:"
+- "&7 Highest weight: &b%weight%"
+- "&7 Longest length: &b%length%"
+- "&7 Total caught: &b%caught%"
+
+# Editable name & aliases of main command
+Command:
+  Name: "amazingfish"
+  Permission: "amazingfishing.command"
+  Aliases:
+  - "fish"
+  - "afish"
+  - "fishmenu"
+
+# Tournaments:
+Tournament:
+  Automatic:
+    Use: false
+    Period: "3h"
+    Length: "10min"
+    AllWorlds: true
+    Worlds: []
+  Type:
+    Amount:
+      Name: "&bAmount"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages:
+        - "&7You are participating in a fishing tournament"
+      Position:
+        1:
+          Commands: []
+          # Availible placeholders: %player%, %playername%, %displayname%, %customname%, %position%, %top<1-4>_name% --> %top1_name%; %top<1-4>_displayname% --> %top2_displayname%; %top<1-4>_value% --> %top4_value%
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f&l%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
+        2:
+          Commands: []
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f&l%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
+        3:
+          Commands: []
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f&l%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
+        Other:
+          Commands: []
+          Messages:
+          - "&7&l&m========================================="
+          - "&7  &3Tournament is over!"
+          - "&7  &7&l» &7You placed on &3%position% &7position!"
+          - "&7 "
+          - "&7 &31. &f%top1_name% &7&l- &7 %top1_value% total"
+          - "&7 &32. &f%top2_name% &7&l- &7 %top2_value% total"
+          - "&7 &33. &f%top3_name% &7&l- &7 %top3_value% total"
+          - "&7 &34. &f%top4_name% &7&l- &7 %top4_value% total"
+          - "&7&l&m========================================="
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%" # Math
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+        Style: SEGMENTED_20
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+        Color: YELLOW
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages:
+        - "&7&l&m============&7&l« !#1431d3&lAmazingFishing!#46b9ff &7&l»&7&l&m============="
+        - "&7 Someone forced fishing tournament to stop!"
+        - "&7 We are sorry"
+        - "&7&l&m=========================================="
+      Start:
+        Commands: []
+        Messages:
+        - "&7&l&m============&7&l« !#1431d3&lAmazingFishing!#46b9ff &7&l»&7&l&m============="
+        - "&7 Fishing tournament started!!!"
+        - "&7 Tournament type: &3&lAmount"
+        - "&7 Time to end: &3%time%"
+        - "&7&l&m=========================================="
+    Length:
+      Name: "&bLength"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%" # Math
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+        Style: SEGMENTED_20
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+        Color: YELLOW
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+      Start:
+        Commands: []
+        Messages: []
+    Weight:
+      Name: "&9Weight"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%" # Math
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+        Style: SEGMENTED_20
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+        Color: YELLOW
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+      Start:
+        Commands: []
+        Messages: []
+    TotalLength:
+      Name: "&3TotalLength"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%" # Math
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+        Style: SEGMENTED_20
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+        Color: YELLOW
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+      Start:
+        Commands: []
+        Messages: []
+    TotalWeight:
+      Name: "&3TotalWeight"
+      Positions: 3
+      Participated:
+        Commands: []
+        Messages: []
+      Position:
+        1:
+          Commands: []
+          Messages: []
+        2:
+          Commands: []
+          Messages: []
+        3:
+          Commands: []
+          Messages: []
+        Other:
+          Commands: []
+          Messages: []
+      Bossbar:
+        Use: true
+        Text: "&bYou participate in the amount tournament"
+        Counter: "%remaining%/%time%" # Math
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+        Style: SEGMENTED_20
+        # 1.9+ only
+        # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+        Color: YELLOW
+      Actionbar:
+        Use: true
+        Text: "&bThe tournament ends in &9%formatted_time%"
+      Stop:
+        Commands: []
+        Messages: []
+      Start:
+        Commands: []
+        Messages: []
+    Random:
+      Name: "&6Random"
