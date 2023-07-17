@@ -1,0 +1,98 @@
+# Type, you can use FISH or JUNK
+# What's the difference? When you catch FISH, it will have some weight and lenght, ...
+# When you catch JUNK it will probably be just some random item right? Yeah... you can play around with it...
+type: "FISH"
+
+# Oficial name of this fish
+name: "&eCarp"
+
+item:
+  displayName: "%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
+  type: "COD" # Type of item
+  lore:
+  - "&7Weight: &f%weight%"
+  - "&7Length: &f%length%"
+  - "&7Chance: &f%chance%"
+  - "&7Caught by: &f%displayname%"
+  - "&7Caught in biome: &f%biome%"
+  - "&7Caught on location: &f%x% %y% %z% %world%"
+
+# Chance to catch this fish
+chance: 50.0
+
+# Permission needed you need to be able to catch this fish
+#permission: "amazingfishing.fish.carp"
+
+
+# Preview item. This will show in /fish -> Index menu
+# the preview item type will be the same as captured item (when you are fishing)
+preview:
+  displayName: "%fish_name%"
+  lore:
+  - "&7Chance: &f%chance%"
+  - "&7Max weight: &f%weight%"
+  - "&7Max length: &f%length%"
+  - "&7Catch:"
+  - "&7 Time: &fEVERY"
+  - "&7 Weather: &fEVERY"
+  - "&7 Biomes: &fRIVER, FOREST"
+
+# List of BIOMES where fish is located.
+# Empty list == fish can be caught anywhere
+biomes: []
+
+# Weather and time conditions.
+conditions:
+  # Types: DAY | NIGHT | ANY
+  time: ANY
+  # Types: SUN | RAIN | THUNDER | ANY
+  weather: ANY
+  
+# List of messsages that will be send to player when you: catch, eat or sell this fish
+messages:
+  catch: []
+  eat: []
+  sell: []
+    
+# List of commands that will be executed when you: catch, eat or sell this fish
+commands:
+  catch: []
+  eat: []
+  sell: []
+  
+###########
+## STATS ##
+###########
+# Fish weight informations
+weight:
+  max: 45.5
+  min: 5.5
+
+# Fish length
+length:
+  max: 80.7
+  min: 8.7
+
+# Shop options
+shop:
+  sell: true # If this fish can be sold in plugin shop
+  money: 5.5 # Base money that will be used when calculating money from selling this fish
+  points: 5.5
+  xp: 10.5
+  
+# Custom calculator for shop, weight and length
+calculator:
+  money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
+  exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
+  points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+  weight: "(%length%-(%minweight%/%minlength%))/(%maxweight%/%maxlength%)"
+
+#####################
+## Special options ##
+#####################
+# You don't need to use these options
+
+#eat:
+#  edible: true
+#  # addhunger "value" adds hunger when you eat this item (just right click :D)
+#  addhunger: "2"

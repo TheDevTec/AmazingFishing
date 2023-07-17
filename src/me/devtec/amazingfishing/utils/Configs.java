@@ -11,12 +11,17 @@ import me.devtec.shared.utility.StreamUtils;
 
 public class Configs {
 
-	public static Config config, gui, shop;
+	//Main config
+	public static Config config;
+	
 	//Translations
 	public static Config engtrans, //English default translation
 						translation; //normal translation
 	
-	public static Config cod, puffer, tropic, salmon, quest, treasur, enchant, achievements, junk;
+	// TODO - GUIS
+	public static Config gui, shop;
+	
+	public static Config quest, treasur, enchant, achievements;
 	
 	private static Config temp_data = new Config();
 	static List<String> datas = Arrays.asList("Config.yml","GUI.yml","Tags.yml");
@@ -28,7 +33,6 @@ public class Configs {
 	public static void load() {
 		config = loadAndMerge("Config.yml", "Config.yml");
 		loadTranslations();
-		translation = loadAndMerge("Translations.yml", "Translations.yml");
 
 		shop = loadAndMerge("Shop.yml", "Shop.yml");
 		gui = loadAndMerge("GUI.yml", "GUI.yml");
@@ -60,7 +64,7 @@ public class Configs {
 	 * @return {@link Config}
 	 */
 	private static Config loadAndMerge(String sourcePath, String filePath) {
-		temp_data.reload(StreamUtils.fromStream(Loader.plugin.getResource("Configs/" + sourcePath)));
+		temp_data.reload(StreamUtils.fromStream(Loader.plugin.getResource("resources/" + sourcePath)));
 		Config result = new Config("plugins/AmazingFishing/" + filePath);
 		if (result.merge(temp_data))
 			result.save(DataType.YAML);

@@ -7,7 +7,7 @@ public class PlaceholderLoader {
 
 	public static PlaceholderExpansion holder;
 
-	public static void load() {
+	public static void load() { //TODO
 
 
 	}
