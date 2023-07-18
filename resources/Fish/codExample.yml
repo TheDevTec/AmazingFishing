@@ -56,7 +56,7 @@ conditions:
   #   MIDNIGHT: <17843; 18157> - Moon is at its peak in 18000 ticks (boundaries 18000 +- 157)
   # Source: https://minecraft.fandom.com/wiki/Daylight_cycle
   time: ANY
-  # Types: SUN | RAIN | THUNDER | ANY
+  # Types:  ANY | SUN | SNOW | RAIN | THUNDERSTORM
   weather: ANY
   
 # List of messsages that will be send to player when you: catch, eat or sell this fish
