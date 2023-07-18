@@ -46,7 +46,7 @@ blockedBiomes: []
 
 # Weather and time conditions.
 conditions:
-  # Types: ANY | DAY | SUNSET | NIGHT | SUNRISE | NOON | MIDNIGHT
+  # Time types: ANY | DAY | SUNSET | NIGHT | SUNRISE | NOON | MIDNIGHT
   # In ticks:
   #   DAY: <0; 12000>
   #   SUNSET: <12000; 13000>
