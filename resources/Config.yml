@@ -13,3 +13,17 @@
 # All translation files can be found in plugins/AmazingFishing/Translations folder
 # You can create new files. New file need to be .yml type!
 translation_file: "en"
+
+
+fishing:
+  # Default fishing permissions
+  permissions: 
+    fish: "amazingfishing.fishing"
+    # If you want different default permission to be able to catch junk items
+    junk: "amazingfishing.fishing"
+  
+  
+  
+  
+  
+  
