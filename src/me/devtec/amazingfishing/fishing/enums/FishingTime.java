@@ -5,12 +5,14 @@ import org.bukkit.entity.Player;
 public enum FishingTime {
 		// Using https://minecraft.fandom.com/wiki/Daylight_cycle as start & end ticks source
 		ANY(0, 24000),
+		
 		DAY(0, 12000), //Just day
-		NIGHT(13000, 23000), //Just night
-		NOON(5723, 6277), // Sun is at its peak in 6000 (boundaries 6000 +- 277)
 		SUNSET(12000, 13000), // Beginning of the Minecraft sunset in 12000 ticks
-		MIDNIGHT(17843, 18157), // Moon is at its peak in 18000 ticks (boundaries 18000 +- 157)
-		SUNRISE(23000, 24000); //KOLEM SVÍTÁNÍ
+		NIGHT(13000, 23000), //Just night
+		SUNRISE(23000, 24000), //
+		
+		NOON(5723, 6277), // Sun is at its peak in 6000 (boundaries 6000 +- 277)
+		MIDNIGHT(17843, 18157); // Moon is at its peak in 18000 ticks (boundaries 18000 +- 157)
 		
 		private final double startTime;
 		private final double endTime;
