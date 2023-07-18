@@ -54,6 +54,7 @@ conditions:
   #   SUNRISE: <23000; 24000>
   #   NOON: <5723; 6277> - Sun is at its peak in 6000 ticks (boundaries 6000 +- 277)
   #   MIDNIGHT: <17843; 18157> - Moon is at its peak in 18000 ticks (boundaries 18000 +- 157)
+  # Source: https://minecraft.fandom.com/wiki/Daylight_cycle
   time: ANY
   # Types: SUN | RAIN | THUNDER | ANY
   weather: ANY
