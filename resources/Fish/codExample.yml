@@ -46,7 +46,7 @@ blockedBiomes: []
 
 # Weather and time conditions.
 conditions:
-  # Types: DAY | NIGHT | ANY
+  # Types: ANYy | DAY | NIGHT | SUNRISE | NOON | SUNSET | MIDNIGHT
   time: ANY
   # Types: SUN | RAIN | THUNDER | ANY
   weather: ANY
