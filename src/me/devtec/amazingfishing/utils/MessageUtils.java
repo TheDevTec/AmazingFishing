@@ -308,7 +308,7 @@ public class MessageUtils {
 	 * SPECIAL METHODS
 	 */
 	
-	/** Sending the message directly. Usually from plugin, message is usually not in file. 
+	/** Sending the message directly. Usually from plugin, message is usually not in file.
 	 * 		If you want to send messages from file, maybe use 
 	 * 		<code>message(...)</code> or <code>msgConfig(...)</code>.
 	 * 
@@ -332,7 +332,7 @@ public class MessageUtils {
 
 		if (message.isEmpty())
 			return; // Do not send empty strings
-		msg(player, message, null, true, targets);
+		msg(player, message, placehholders, true, targets);
 	}
 	
 	

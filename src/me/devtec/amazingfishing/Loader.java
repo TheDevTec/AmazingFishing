@@ -3,7 +3,9 @@ package me.devtec.amazingfishing;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.fishing.enums.FishingTime;
+import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.UpdateChecker;
+import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
 
 public class Loader extends JavaPlugin {
@@ -25,13 +27,14 @@ public class Loader extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		
+		MessageUtils.msgConsole("%prefix% &fEnabling plugin...", Placeholders.c());
+		// Checking for updates
         new UpdateChecker(this, 71148).getVersion(version -> {
             if (this.getDescription().getVersion().equals(version)) {
-            	//TODO - předělat zprávy
-                getLogger().info("There is not a new update available.");
+            	// not sending a new message when this is newest version?
+        		//MessageUtils.msgConsole("%prefix% &fThere is not a new update available.", Placeholders.c());
             } else {
-                getLogger().info("There is a new update available.");
+        		MessageUtils.msgConsole("%prefix% &cNew update available... &fCurrent version %version%", Placeholders.c().add("version", this.getDescription().getVersion()));
             }
         });
 		
