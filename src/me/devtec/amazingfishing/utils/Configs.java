@@ -33,9 +33,11 @@ public class Configs {
 	public static void load() {
 		config = loadAndMerge("Config.yml", "Config.yml");
 		loadTranslations();
-
-		shop = loadAndMerge("Shop.yml", "Shop.yml");
-		gui = loadAndMerge("GUI.yml", "GUI.yml");
+		loadDefaultExamples();
+		
+		
+		//shop = loadAndMerge("Shop.yml", "Shop.yml");
+		//gui = loadAndMerge("GUI.yml", "GUI.yml");
 		
 		// Loadin translations
 		
