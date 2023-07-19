@@ -139,6 +139,8 @@ public class MessageUtils {
 	 * Gets prefix from translation file
 	 */
 	public static String getPrefix() {
+		if(Configs.translation == null || Configs.engtrans == null)
+			return null;
 		return Configs.translation.exists("prefix") ? Configs.translation.getString("prefix") : 
 			Configs.engtrans.getString("prefix");
 	}
