@@ -2,19 +2,20 @@ package me.devtec.amazingfishing;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.devtec.amazingfishing.fishing.enums.FishingTime;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
-import me.devtec.amazingfishing.utils.UpdateChecker;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
+import me.devtec.shared.versioning.SpigotUpdateChecker;
+import me.devtec.shared.versioning.VersionUtils.Version;
 
 public class Loader extends JavaPlugin {
 
 	public static void main(String[] args) {
-		FishingTime time = FishingTime.value("DAY");
+		Version ver = new SpigotUpdateChecker("5.4", 71148).checkForUpdates();
+        
 		
-		System.out.print(time.toString());
+		System.out.print(ver.toString());
 	}
 	
 	
@@ -29,15 +30,15 @@ public class Loader extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		MessageUtils.msgConsole("%prefix% &fEnabling plugin...", Placeholders.c());
+		
 		// Checking for updates
-        new UpdateChecker(this, 71148).getVersion(version -> {
-            if (this.getDescription().getVersion().equals(version)) {
-            	// not sending a new message when this is newest version?
-        		//MessageUtils.msgConsole("%prefix% &fThere is not a new update available.", Placeholders.c());
-            } else {
-        		MessageUtils.msgConsole("%prefix% &cNew update available... &fCurrent version %version%", Placeholders.c().add("version", this.getDescription().getVersion()));
-            }
-        });
+		MessageUtils.msgConsole("Checking for updates....", Placeholders.c());
+        Version ver = new SpigotUpdateChecker(this.getDescription().getVersion(), 71148).checkForUpdates();
+        if(ver == Version.OLDER_VERSION)
+        	MessageUtils.msgConsole("%prefix% &cNew update available... &fCurrent version %version%", Placeholders.c().add("version", this.getDescription().getVersion()));
+        //MessageUtils.msgConsole("%prefix% &fThere is not a new update available.", Placeholders.c());
+        
+        
 		// Loading configs
 		MessageUtils.msgConsole("%prefix% &fLoading configs...", Placeholders.c());
         Configs.load();
