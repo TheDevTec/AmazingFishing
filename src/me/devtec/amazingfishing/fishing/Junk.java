@@ -9,10 +9,7 @@ import me.devtec.shared.dataholder.Config;
 public class Junk extends FishingItem {
 
 	public Junk(Config file) {
-		
-		setConfig(file);
-		setType(FishType.JUNK);
-		
+		super(file, FishType.JUNK);
 	}
 
 	

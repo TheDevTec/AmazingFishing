@@ -3,6 +3,7 @@ package me.devtec.amazingfishing;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.fishing.enums.FishingTime;
+import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.UpdateChecker;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -37,10 +38,17 @@ public class Loader extends JavaPlugin {
         		MessageUtils.msgConsole("%prefix% &cNew update available... &fCurrent version %version%", Placeholders.c().add("version", this.getDescription().getVersion()));
             }
         });
-		
+		// Loading configs
+		MessageUtils.msgConsole("%prefix% &fLoading configs...", Placeholders.c());
+        Configs.load();
+        
+        
 		//Loading Placeholder expansion
 		PlaceholderLoader.load();
 		
+		// Loading fishing items
+		MessageUtils.msgConsole("%prefix% &fLoading fishing items (Fish & Junk files)...", Placeholders.c());
+		API.loadFishingItems();
 		
 		plugin = this;
 	}

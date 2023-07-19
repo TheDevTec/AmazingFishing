@@ -40,7 +40,7 @@ public class Configs {
 		// Loadin translations
 		
 	}
-	
+	// Loading translations files
 	private static void loadTranslations() {
 		//Loading included translations
 		engtrans = loadAndMerge("Translations/en.yml", "Translations/en.yml"); //default English translation
@@ -54,6 +54,14 @@ public class Configs {
 			type = "en";
 		translation = loadAndMerge("Translations/" + type + ".yml", "Translations/" + type + ".yml");
 
+	}
+	
+	private static void loadDefaultExamples() {
+		//Loading codExample.yml & junkExample if there is not plugins/AmazingFishing/Fish directory
+		if(!new File("plugins/AmazingFishing/Fish").exists()) {
+			loadAndMerge("Fish/codExample.yml", "Fish/codExample.yml");
+			loadAndMerge("Fish/junkExample.yml", "Fish/junkExample.yml");
+		}
 	}
 	
 	/**

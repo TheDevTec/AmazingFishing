@@ -19,6 +19,11 @@ import me.devtec.shared.dataholder.Config;
  */
 abstract class FishingItem {
 
+	public FishingItem(Config file, FishType type) {
+		setConfig(file);
+		setType(type);
+	}
+	
 	/*
 	 *  CONFIGURATION FILE
 	 */

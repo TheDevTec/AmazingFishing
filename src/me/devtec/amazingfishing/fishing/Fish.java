@@ -3,13 +3,15 @@ package me.devtec.amazingfishing.fishing;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.fishing.enums.FishType;
+import me.devtec.shared.dataholder.Config;
+
 public class Fish extends FishingItem {
 
-	public void testing() {
-		
-	}
-
 	
+	public Fish(Config file) {
+		super(file, FishType.FISH);
+	}
 	/*
 	 * PERMISSIONS
 	 */
