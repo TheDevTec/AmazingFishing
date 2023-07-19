@@ -125,9 +125,9 @@ abstract class FishingItem {
 	 *  ITEMS
 	 */
 	//Why abstract? You need to apply placeholders in lore, JUNK and FISH items won't have the same placeholders
-	abstract ItemStack getItem();
+	public abstract ItemStack generateItem();
 	
-	abstract ItemStack getPreviewItem();
+	public abstract ItemStack getPreviewItem();
 	
 	/*
 	 *  BIOMES
