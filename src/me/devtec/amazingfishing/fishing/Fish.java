@@ -8,7 +8,6 @@ import me.devtec.amazingfishing.fishing.enums.Limit;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
-import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 
 public class Fish extends FishingItem {
@@ -28,6 +27,7 @@ public class Fish extends FishingItem {
 			return player.hasPermission(getDefaultPermission());
 		return false;
 	}
+	
 	@Override
 	void setDefaultPermissionPath() { def_perm_path = "fishing.permissions.fish"; }
 
@@ -49,7 +49,7 @@ public class Fish extends FishingItem {
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger());
 		
-		return null;
+		return item.build();
 	}
 
 
@@ -98,6 +98,10 @@ public class Fish extends FishingItem {
 			return getConfig().getDouble("length."+limit.toString());
 		return 0;
 	}
-	
+	@Override
+	public boolean canCatch(Player player) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

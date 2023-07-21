@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.fishing.enums.FishType;
-import me.devtec.amazingfishing.fishing.enums.Limit;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
@@ -58,5 +57,12 @@ public class Junk extends FishingItem {
 			.add("fish_hunger", getHunger());
 		
 		return ItemUtils.applyPlaceholders(item, placeholers).build();
+	}
+
+
+	@Override
+	public boolean canCatch(Player player) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

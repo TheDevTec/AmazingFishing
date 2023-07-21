@@ -24,11 +24,11 @@ import me.devtec.amazingfishingOLD.API;
 import me.devtec.amazingfishingOLD.Loader;
 import me.devtec.amazingfishingOLD.construct.Calculator;
 import me.devtec.amazingfishingOLD.construct.Enchant;
+import me.devtec.amazingfishingOLD.construct.Enchant.FishCatchList;
 import me.devtec.amazingfishingOLD.construct.Fish;
 import me.devtec.amazingfishingOLD.construct.FishAction;
 import me.devtec.amazingfishingOLD.construct.Junk;
 import me.devtec.amazingfishingOLD.construct.Treasure;
-import me.devtec.amazingfishingOLD.construct.Enchant.FishCatchList;
 import me.devtec.amazingfishingOLD.utils.AFKSystem;
 import me.devtec.amazingfishingOLD.utils.Achievements;
 import me.devtec.amazingfishingOLD.utils.Quests;
@@ -136,6 +136,7 @@ public class CatchFish implements Listener {
 								double weight = 0;
 
 								try {
+									
 									weight = StringUtils.calculate(
 											f.getCalculator(Calculator.WEIGHT).replace("%weight%", f.getWeight() + "").replace("%maxweight%", f.getWeight() + "").replace("%length%", length + "")
 													.replace("%maxlength%", f.getLength() + "").replace("%minlength%", f.getMinLength() + "").replace("%minweight%", f.getMinWeight() + ""));

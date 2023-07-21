@@ -87,11 +87,17 @@ abstract class FishingItem {
 	 *   CHANCE
 	 *   What chance a player has of catching this item
 	 */
+	
+	private double chance = -1;
+	
 	/** Get chance from item configuration file
 	 * @return Returns -1 if there is no 'chance' configuration in file.
 	 */
 	public double getChance() {
-		return file.exists("chance") ? file.getDouble("chance") : -1;
+		if(this.chance == -1)
+			this.chance = file.exists("chance") ? file.getDouble("chance") : -1;
+		return this.chance;
+		//return file.exists("chance") ? file.getDouble("chance") : -1;
 	}
 	/** Set new chance. This is going to rewrite <code>chance</code> in file.
 	 * @param newChance New chance that will be saved.
@@ -99,9 +105,10 @@ abstract class FishingItem {
 	public void setChance(double newChance) {
 		if(newChance < -1)
 			newChance = -1; //-1 is not a chance, 0 is also not a chance but official :D
-		file.set("chance", newChance);
-		file.save();
-		}
+		/*file.set("chance", newChance); TODO
+		file.save();*/
+		this.chance = newChance;
+	}
 	
 	/*
 	 * NAME
@@ -321,6 +328,12 @@ abstract class FishingItem {
 		return file.exists("eat.addhunger") ? file.getInt("eat.addhunger") : 1;
 	}
 	
+	
+	/*
+	 *  CAN CATCH THIS ITEM?
+	 */
+	
+	abstract public boolean canCatch(Player player);
 	
 	
 }
