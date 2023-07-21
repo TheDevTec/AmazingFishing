@@ -1,11 +1,14 @@
 package me.devtec.amazingfishing;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
+import me.devtec.amazingfishingOLD.utils.listeners.EatFish;
 import me.devtec.shared.utility.ParseUtils;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
@@ -13,7 +16,7 @@ import me.devtec.shared.versioning.VersionUtils.Version;
 public class Loader extends JavaPlugin {
 
 	public static void main(String[] args) {
-		Version ver = new SpigotUpdateChecker("5.6.5", 71148).checkForUpdates();
+		/*Version ver = new SpigotUpdateChecker("5.6.5", 71148).checkForUpdates();
         
 		//System.out.println(ver.toString());
 		//System.out.println("");
@@ -29,8 +32,19 @@ public class Loader extends JavaPlugin {
 		ver = getVersion("1.0", "1.9.8");
 		System.out.println(ver.toString());
 		ver = getVersion("5.9", "5.9");
-		System.out.println(ver.toString());
+		System.out.println(ver.toString());*/
+		
+        double minLength = 25.0; // Minimum fish length
+        double maxLength = 75.0; // Maximum fish length
+        double minWeight = 0.5;  // Minimum fish weight
+        double maxWeight = 50.0; // Maximum fish weight
+
+        double fishLength = 75.0; // Fish length to compute weight for
+
+        double estimatedWeight = Calculator.calculateWeight(fishLength, minLength, maxLength, minWeight, maxWeight);
+        System.out.println("Estimated weight of the fish: " + estimatedWeight + " kg");
 	}
+
 	
 	public static Version getVersion(String version, String compareVersion) {
 		if (version == null || compareVersion == null)
@@ -91,7 +105,9 @@ public class Loader extends JavaPlugin {
         //MessageUtils.msgConsole("%prefix% &fThere is not a new update available.", Placeholders.c());
         
         
-        
+        // Loading events
+
+		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
         
 		//Loading Placeholder expansion
 		PlaceholderLoader.load();
