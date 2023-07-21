@@ -28,6 +28,17 @@ public enum FishingWeather {
 		return false;
 	}
 	
+	public static FishingWeather getWeather(Player player) {
+		World world = player.getWorld();
+		if(world.isThundering())
+			return THUNDERSTORM;
+		if(world.hasStorm())
+			return RAIN;
+		if(world.isClearWeather())
+			return SUN;
+		return ANY;
+	}
+	
 	/** Determines and returns the {@link FishingTime} value from the {@link String} 
 	 * @param value String representation of FishingTime values 
 	 * @return null if there is no match
