@@ -15,6 +15,9 @@ public class Fisher {
 		return player;
 	}
 	
+	/** If player is still online.
+	 * @return {@link Player}
+	 */
 	public boolean isOnline() {
 		if(player == null)
 			return false;
@@ -25,6 +28,9 @@ public class Fisher {
 	 * FisherSituation
 	 */
 	
+	/**
+	 * @return {@link FisherSituation}
+	 */
 	public FisherSituation getFisherSituation() {
 		if(situation == null)
 			situation = new FisherSituation(player);
