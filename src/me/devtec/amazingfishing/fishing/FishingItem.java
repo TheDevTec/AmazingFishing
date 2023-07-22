@@ -11,24 +11,39 @@ import org.bukkit.inventory.ItemStack;
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.fishing.enums.FishingTime;
 import me.devtec.amazingfishing.fishing.enums.FishingWeather;
+import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.shared.dataholder.Config;
 
 /**
  * This is PARENT class for {@link Fish} and {@link Junk} classes. {@link Fish} and {@link Junk} classes have a small differences!
  */
-abstract class FishingItem {
+public abstract class FishingItem {
 
+	// File with all the configuration
+	private Config file;
+	// Type of item
+	private FishType type;
+	protected String def_perm_path; //Default permission path for junk or fish items
+	
+	private double chance = -1;
+	// TIME
+	private FishingTime time;
+	// WEATHER
+	private FishingWeather weather;
+
+	
 	public FishingItem(Config file, FishType type) {
 		setConfig(file);
 		setType(type);
 	}
 	
+	
+	
+	
 	/*
 	 *  CONFIGURATION FILE
 	 */
-	// File with all the configuration
-	private Config file;
 	// Getting Configuration file
 	public Config getConfig() {return file;}
 	// Setting Configuration file
@@ -37,15 +52,12 @@ abstract class FishingItem {
 	/*
 	 *  FISH TYPE
 	 */
-	// Type of item
-	private FishType type;
 	public FishType getType()  { return type; }
 	public void setType(FishType newType)  { type = newType; }
 	
 	/*
 	 * PERMISSIONS
 	 */
-	protected String def_perm_path; //Default permission path for junk or fish items
 	abstract void setDefaultPermissionPath(); //In each file you need to set special permission path
 	/**
 	 * @return Gets default permission from Config.yml
@@ -88,8 +100,6 @@ abstract class FishingItem {
 	 *   What chance a player has of catching this item
 	 */
 	
-	private double chance = -1;
-	
 	/** Get chance from item configuration file
 	 * @return Returns -1 if there is no 'chance' configuration in file.
 	 */
@@ -97,7 +107,6 @@ abstract class FishingItem {
 		if(this.chance == -1)
 			this.chance = file.exists("chance") ? file.getDouble("chance") : -1;
 		return this.chance;
-		//return file.exists("chance") ? file.getDouble("chance") : -1;
 	}
 	/** Set new chance. This is going to rewrite <code>chance</code> in file.
 	 * @param newChance New chance that will be saved.
@@ -105,10 +114,11 @@ abstract class FishingItem {
 	public void setChance(double newChance) {
 		if(newChance < -1)
 			newChance = -1; //-1 is not a chance, 0 is also not a chance but official :D
-		/*file.set("chance", newChance); TODO
-		file.save();*/
+		file.set("chance", newChance);
+		file.save();
 		this.chance = newChance;
 	}
+	
 	
 	/*
 	 * NAME
@@ -167,20 +177,11 @@ abstract class FishingItem {
 	/*
 	 *  CONDITIONS
 	 */
-	// TIME
-	private FishingTime time;
 	
 	/** Gets {@link FishingTime} from configuration file.
 	 * @return {@link FishingTime}
 	 */
 	public FishingTime getTime() {
-		//If time is not null -> Check if there is any change
-		if(time != null)
-			if(!file.exists("conditions.time"))
-				time = FishingTime.ANY;
-			else
-				if(!time.toString().equalsIgnoreCase(file.getString("conditions.time"))) //If there is change in coniguration file
-					time = FishingTime.value(file.getString("conditions.time"));
 		//If time is null -> Load time from configuration file
 		if(time == null)
 			if(file.exists("conditions.time"))
@@ -207,20 +208,11 @@ abstract class FishingItem {
 		file.save();
 	}
 	
-	// WEATHER
-	private FishingWeather weather;
 
 	/** Gets {@link FishingWeather} from configuration file.
 	 * @return {@link FishingWeather}
 	 */
 	public FishingWeather getWeather() {
-		//If time is not null -> Check if there is any change
-		if(weather != null)
-			if(!file.exists("conditions.weather"))
-				weather = FishingWeather.ANY;
-			else
-				if(!weather.toString().equalsIgnoreCase(file.getString("conditions.weather"))) //If there is change in coniguration file
-					weather = FishingWeather.value(file.getString("conditions.weather"));
 		//If time is null -> Load time from configuration file
 		if(weather == null)
 			if(file.exists("conditions.weather"))
@@ -333,7 +325,7 @@ abstract class FishingItem {
 	 *  CAN CATCH THIS ITEM?
 	 */
 	
-	abstract public boolean canCatch(Player player);
+	abstract public boolean canCatch(Fisher player);
 	
 	
 }
