@@ -2,12 +2,10 @@ package me.devtec.amazingfishing;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.fishing.Fish;
-import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.MessageUtils;
