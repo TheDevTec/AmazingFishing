@@ -1,10 +1,17 @@
 package me.devtec.amazingfishing.utils;
 
+import java.util.HashMap;
+import java.util.List;
+
 import me.devtec.amazingfishing.fishing.Fish;
+import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.enums.Limit;
 
 public class Calculator {
 
+	/*
+	 * CALCULATING WEIGHT
+	 */
 	
     /** Calculates the weight according to a generated length
      * @param fish The {@link Fish} that the player catches
@@ -35,5 +42,33 @@ public class Calculator {
         return finalWeight;
     }
     
+    /*
+     * CHANCE
+     */
     
+	/** Method used to normalize fish list chances </br> 
+	 * This means that if total chance of all fishes player can now catch is more than 100% this method 
+	 * will make sure to fix this.
+	 * @param fishList List of fishes the player can catch
+	 * @return Returns the same list but fixed chances. (in HashMap)
+	 */
+	public static HashMap<FishingItem, Double> normalizeFishChances(List<FishingItem> fishList) {
+		
+		HashMap<FishingItem, Double> fixed_list = new HashMap<FishingItem, Double>();
+		
+		double totalChances = 0.0;
+		for (FishingItem fish : fishList) {
+	    totalChances += fish.getChance();
+		}
+	
+	    double scalingFactor = 100.0 / totalChances;
+	
+	    for (FishingItem fish : fishList) {
+	        fixed_list.put(fish, fish.getChance()*scalingFactor);
+	    }
+	
+	    return fixed_list;
+    }
+	
+	
 }

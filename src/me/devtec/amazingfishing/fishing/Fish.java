@@ -116,7 +116,6 @@ public class Fish extends FishingItem {
 			return false;
 		if(getBlockedBiomes().contains(situation.getBiome()))
 			return false;
-		
 		if(!getTime().equals(situation.getTime()))
 			return false;
 		if(!getWeather().equals(situation.getWeather()))
