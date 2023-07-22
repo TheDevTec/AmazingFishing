@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.fishing.enums.FishType;
+import me.devtec.amazingfishing.player.Fisher;
+import me.devtec.amazingfishing.player.FisherSituation;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
@@ -25,7 +27,7 @@ public class Junk extends FishingItem {
 			return player.hasPermission(getPermission());
 		if(!getDefaultPermission().isEmpty())
 			return player.hasPermission(getDefaultPermission());
-		return false;
+		return true;
 	}
 	@Override
 	void setDefaultPermissionPath() { def_perm_path = "fishing.permissions.junk"; }
@@ -61,8 +63,27 @@ public class Junk extends FishingItem {
 
 
 	@Override
-	public boolean canCatch(Player player) {
-		// TODO Auto-generated method stub
+	public boolean canCatch(Fisher fisher) {
+		if(!hasPermission(fisher.getPlayer()))
+			return false;
+		
+		FisherSituation situation = fisher.getFisherSituation();
+		//Checking if the situation is still the same. If not, updating...
+		if(situation.isTheSame())
+			return true;
+		else
+			situation.update();
+		
+		if(!getBiomes().contains(situation.getBiome()))
+			return false;
+		if(getBlockedBiomes().contains(situation.getBiome()))
+			return false;
+		
+		if(!getTime().equals(situation.getTime()))
+			return false;
+		if(!getWeather().equals(situation.getWeather()))
+			return false;
+		
 		return true;
 	}
 }
