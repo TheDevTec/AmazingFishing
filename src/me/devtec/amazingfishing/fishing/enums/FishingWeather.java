@@ -27,6 +27,14 @@ public enum FishingWeather {
 		}
 		return false;
 	}
+	public boolean isWeather(FishingWeather weather) {
+		if(this == weather)
+			return true;
+		
+		if(this == RAIN && weather == SNOW  || this == SNOW && weather == RAIN)
+			return true;
+		return true;
+	}
 	
 	public static FishingWeather getWeather(Player player) {
 		World world = player.getWorld();

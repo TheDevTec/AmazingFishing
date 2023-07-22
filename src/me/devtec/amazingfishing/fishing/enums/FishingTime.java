@@ -41,6 +41,17 @@ public enum FishingTime {
 			return startTime <= now && endTime >= now;
 		}
 		
+		public boolean isNow(FishingTime now) {
+			if(this == now)
+				return true;
+			if(this == DAY && now == NOON)
+				return true;
+			if(this == NIGHT && now == MIDNIGHT)
+				return true;
+			
+			return false;
+		}
+		
 		/** Gets what {@link FishingTime} type is now. <br>
 		 * If now is NOON or MIDNIGHT, the DAY or NIGHT will be ignored. This is bit shame,
 		 * but I have no idea if I should include that if now is NOON should DAY be also now...
