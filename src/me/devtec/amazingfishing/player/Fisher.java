@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.player;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -10,7 +9,6 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
-import me.devtec.amazingfishing.utils.Calculator;
 
 public class Fisher {
 
