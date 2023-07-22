@@ -93,11 +93,13 @@ shop:
   
 # Custom calculator for shop, weight and length
 calculator:
+  # For weight calculation I would suggest using 'Linear interpolation'
+  # (yes you can edit this but we are not checking if final weight is inside min and max bounds)
+  weight: "((%fish_weight_max% - %fish_weight_min%) / (%fish_length_max% - %fish_length_min%)) * %fish_length% + %fish_weight_min%"
   money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
   exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
   points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
-  weight: "(%length%-(%minweight%/%minlength%))/(%maxweight%/%maxlength%)"
-
+  
 #####################
 ## Special options ##
 #####################
