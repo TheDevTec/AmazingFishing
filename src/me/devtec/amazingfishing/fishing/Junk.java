@@ -68,11 +68,6 @@ public class Junk extends FishingItem {
 			return false;
 		
 		FisherSituation situation = fisher.getFisherSituation();
-		//Checking if the situation is still the same. If not, updating...
-		if(situation.isTheSame())
-			return true;
-		else
-			situation.update();
 		
 		if(!getBiomes().contains(situation.getBiome()))
 			return false;

@@ -2,10 +2,12 @@ package me.devtec.amazingfishing;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.fishing.Fish;
+import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.MessageUtils;
@@ -38,13 +40,17 @@ public class API {
 		MessageUtils.msgConsole("%prefix% &fLoaded %fish% fish files and %junk% junk files.", 
 				Placeholders.c().add("fish", fish_list.size()).add("junk", junk_list.size()));
 	}
-	
 	public static HashMap<String, Fish> getFishList() {
 		return fish_list;
 	}
 	public static HashMap<String, Junk> getJunkList() {
 		return junk_list;
 	}
+	
+	
+	/*
+	 * PLAYER
+	 */
 	
 	/** Removes player from list of active fishers. Should be run when player leaves the server on when you want... your choice :D
 	 * @param player The player that is leaving server.

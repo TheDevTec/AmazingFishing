@@ -2,6 +2,7 @@ package me.devtec.amazingfishing.utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
@@ -70,5 +71,27 @@ public class Calculator {
 	    return fixed_list;
     }
 	
+    public static FishingItem getRandomFish(HashMap<FishingItem, Double> fishList) {
+    	//if normalizeFishChances() algorithm used, total chance is always 100% --> if now, this will then work a bit shady :D
+        double randomValue = Math.random() * 100.0; 
+        
+        for (Entry<FishingItem, Double> set : fishList.entrySet()) {
+            if (randomValue <= set.getValue()) {
+            	//System.out.println("Returning...");
+                return set.getKey();
+            }
+            randomValue -= set.getValue();
+        }
+
+        // In case of any rounding errors, return the last fish in the list as a fallback.
+        int i = 0;
+        for(FishingItem item : fishList.keySet()) {
+        	if((fishList.size()-1) <= i)
+        		return item;
+        	i++;
+        }
+        //Well... everything went wrong ... enjoy NULL :P
+        return null;
+    }
 	
 }

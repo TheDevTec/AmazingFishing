@@ -22,9 +22,12 @@ public class FisherSituation {
 	private FishingTime time;
 	private FishingWeather weather;
 	
+	private boolean first_time;
+	
 	public FisherSituation(Player player) {
 		this.player = player;
 		update();
+		first_time = true;
 	}
 	/**
 	 * Updates biome, time and weather status.
@@ -45,9 +48,25 @@ public class FisherSituation {
 	 * @return If not, return false
 	 */
 	public boolean check() {
+		//Checking if this FisherSituation is freshly generated. If yes, the situation will probably be the same...
+		// In that case we want to check if player can catch item or something... :D
+		if(first_time) {
+			first_time = false;
+			return false;
+		}
 		return biome == player.getWorld().getBiome(player.getLocation()) &&
 				time == FishingTime.getNow(player.getWorld().getTime()) &&
 				weather == FishingWeather.getWeather(player);
+	}
+	
+	public Biome getBiome() {
+		return biome;
+	}
+	public FishingTime getTime() {
+		return time;
+	}
+	public FishingWeather getWeather() {
+		return weather;
 	}
 }
 
