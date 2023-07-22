@@ -61,6 +61,12 @@ public class Junk extends FishingItem {
 		return ItemUtils.applyPlaceholders(item, placeholers).build();
 	}
 
+	@Override
+	public void giveItem() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	@Override
 	public boolean canCatch(Fisher fisher) {

@@ -146,6 +146,8 @@ public abstract class FishingItem {
 	
 	public abstract ItemStack getPreviewItem();
 	
+	public abstract void giveItem();
+	
 	/*
 	 *  BIOMES
 	 */

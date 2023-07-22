@@ -7,9 +7,11 @@ import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.fishing.enums.Limit;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.player.FisherSituation;
+import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.utility.MathUtils;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 
 public class Fish extends FishingItem {
@@ -78,6 +80,24 @@ public class Fish extends FishingItem {
 			.add("fish_length_max", getLength(Limit.MAX));
 		
 		return ItemUtils.applyPlaceholders(item, placeholers).build();
+	}
+
+	@Override
+	public void giveItem() {
+		double length = Calculator.generateLength(getLength(Limit.MIN), getLength(Limit.MAX));
+		double weight = getWeight(Limit.MIN);
+		if(getConfig().exists("calculator.weight"))
+			weight = MathUtils.calculate(getConfig().getString("calculator.weight")
+					.replace("%fish_length%", length+"")
+					.replace("%fish_length_min%", getLength(Limit.MIN)+"")
+					.replace("%fish_length_max%", getLength(Limit.MAX)+"")
+					.replace("%fish_weight_min%", getWeight(Limit.MIN)+"")
+					.replace("%fish_weight_max%", getLength(Limit.MAX)+""));
+		else
+			weight = Calculator.calculateWeight(this, length); //default in-build calculator
+		
+		
+		
 	}
 	
 	/** Gets base weight of this fish from a file.

@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.listeners.CatchFish;
 import me.devtec.amazingfishing.listeners.PlayerQuit;
+import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -51,7 +52,7 @@ public class Loader extends JavaPlugin {
 		if(w.equals(FishingWeather.SNOW))
 			System.out.println("Pravda");*/
 		
-		List<String> fishList = new ArrayList<String>();
+		/*List<String> fishList = new ArrayList<String>();
 		fishList.add("First");
 		fishList.add("Second");
 		fishList.add("Third");
@@ -64,7 +65,7 @@ public class Loader extends JavaPlugin {
         		System.out.println(item);
         	i++;
     		System.out.println(i);
-        }
+        }*/
 	}
 
 	

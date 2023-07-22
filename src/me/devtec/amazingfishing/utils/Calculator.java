@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.enums.Limit;
+import me.devtec.shared.utility.MathUtils;
 
 public class Calculator {
 
@@ -41,6 +42,13 @@ public class Calculator {
         double finalWeight = Math.max(minWeight, Math.min(estimatedWeight, maxWeight));
 
         return finalWeight;
+    }
+    
+    /*
+     * GENERATING LENGTH
+     */
+    public static double generateLength(double minLength, double maxLength) {
+    	return MathUtils.randomDouble(minLength, maxLength);
     }
     
     /*
