@@ -3,6 +3,7 @@ package me.devtec.amazingfishing.player;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.API;
@@ -50,10 +51,10 @@ public class Fisher {
 	 * GENERATING RANDOM FISH
 	 */
 	
-	public FishingItem generateRandomFish() {
+	/*public FishingItem generateRandomItem() {
 		HashMap<FishingItem, Double> generatedList = Calculator.normalizeFishChances(generateAvailableItems());
 		return Calculator.getRandomFish(generatedList);
-	}
+	}*/
 	
 	// Previously generated fish list
 	private List<FishingItem> generated;
@@ -61,12 +62,12 @@ public class Fisher {
 	/** Generates available fishing items for player. Items that player can catch.
 	 * @return
 	 */
-	public List<FishingItem> generateAvailableItems() {
+	public List<FishingItem> generateAvailableItems(Location hookLocation) {
 		// Checking if the situation is still the same. If not, updating...
-		if(getFisherSituation().isTheSame())
+		if(getFisherSituation().isTheSame(hookLocation))
 			return generated;
 		else
-			getFisherSituation().update();
+			getFisherSituation().update(hookLocation);
 		// Generating new list
 		generated.clear();
 		for(Fish fish : API.getFishList().values())

@@ -1,14 +1,17 @@
 package me.devtec.amazingfishing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.devtec.amazingfishing.utils.Calculator;
+import me.devtec.amazingfishing.listeners.CatchFish;
+import me.devtec.amazingfishing.listeners.PlayerQuit;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
-import me.devtec.amazingfishingOLD.utils.listeners.EatFish;
 import me.devtec.shared.utility.ParseUtils;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
@@ -34,7 +37,7 @@ public class Loader extends JavaPlugin {
 		ver = getVersion("5.9", "5.9");
 		System.out.println(ver.toString());*/
 		
-        double minLength = 25.0; // Minimum fish length
+        /*double minLength = 25.0; // Minimum fish length
         double maxLength = 75.0; // Maximum fish length
         double minWeight = 0.5;  // Minimum fish weight
         double maxWeight = 50.0; // Maximum fish weight
@@ -42,7 +45,26 @@ public class Loader extends JavaPlugin {
         double fishLength = 75.0; // Fish length to compute weight for
 
         double estimatedWeight = Calculator.calculateWeight(fishLength, minLength, maxLength, minWeight, maxWeight);
-        System.out.println("Estimated weight of the fish: " + estimatedWeight + " kg");
+        System.out.println("Estimated weight of the fish: " + estimatedWeight + " kg");*/
+		
+		/*FishingWeather w = FishingWeather.RAIN;
+		if(w.equals(FishingWeather.SNOW))
+			System.out.println("Pravda");*/
+		
+		List<String> fishList = new ArrayList<String>();
+		fishList.add("First");
+		fishList.add("Second");
+		fishList.add("Third");
+		fishList.add("Last");
+		fishList.add("Aaaaa");
+		
+        int i = 0;
+        for(String item : fishList) {
+        	if((fishList.size()-1) <= i)
+        		System.out.println(item);
+        	i++;
+    		System.out.println(i);
+        }
 	}
 
 	
@@ -107,7 +129,8 @@ public class Loader extends JavaPlugin {
         
         // Loading events
 
-		Bukkit.getPluginManager().registerEvents(new EatFish(), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerQuit(), this);
+		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
         
 		//Loading Placeholder expansion
 		PlaceholderLoader.load();
