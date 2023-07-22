@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.devtec.amazingfishing.API;
 
-public class onLeave implements Listener {
+public class PlayerQuit implements Listener {
 	
 	@EventHandler
 	public void playerLeave(PlayerQuitEvent event) {

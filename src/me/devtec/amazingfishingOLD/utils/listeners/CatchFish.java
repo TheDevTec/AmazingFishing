@@ -67,6 +67,9 @@ public class CatchFish implements Listener {
 		case 17:
 			biteTime = Ref.field(Ref.nms("world.entity.projectile", "EntityFishingHook"), "ar");
 			break;
+		case 20:
+			biteTime = Ref.field(Ref.nms("world.entity.projectile", "EntityFishingHook"), "k");
+			break;
 		case 19:
 			if (Ref.serverVersionRelease() == 3) {
 				biteTime = Ref.field(Ref.nms("world.entity.projectile", "EntityFishingHook"), "k");
