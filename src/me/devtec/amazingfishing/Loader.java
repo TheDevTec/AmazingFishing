@@ -130,6 +130,7 @@ public class Loader extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
         
 		//Loading Placeholder expansion
+		MessageUtils.msgConsole("%prefix% &fLoading placeholders", Placeholders.c());
 		PlaceholderLoader.load();
 		
 		// Loading fishing items
@@ -146,6 +147,15 @@ public class Loader extends JavaPlugin {
 		// Unloading Placeholder expansion if loaded
 		if(PlaceholderLoader.holder != null)
 			PlaceholderLoader.holder.unregister();
+	}
+	
+	public static void reload() {
+		//Reloading configs
+        Configs.load();
+        //Reloading Fish & Junk items
+		API.loadFishingItems();
+		//Clearing Fisher cache list
+		API.getFisherList().clear();
 	}
 
 }

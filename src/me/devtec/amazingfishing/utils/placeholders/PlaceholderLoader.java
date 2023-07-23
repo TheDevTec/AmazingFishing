@@ -10,7 +10,6 @@ public class PlaceholderLoader {
 	public static PlaceholderExpansion holder;
 
 	public static void load() { //TODO
-		MessageUtils.msgConsole("%prefix% &fLoading placeholders", Placeholders.c());
 
 	}
 

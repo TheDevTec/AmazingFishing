@@ -26,17 +26,17 @@ public class API {
 	
 	public static void loadFishingItems() {
 		File directory = new File("plugins/AmazingFishing/Fish");
-		if(directory.exists() && directory.isDirectory()) {
+		if(directory.exists() && directory.isDirectory()) {		
 			for(File file : directory.listFiles()) { // loops all files in this directory
 				Config config = new Config(file);
 				if(config.getString("type").equalsIgnoreCase("FISH"))
-					fish_list.put(file.getName(), new Fish(config)); // adds or replaces FISH in Map
+					getFishList().put(file.getName(), new Fish(config)); // adds or replaces FISH in Map
 				if(config.getString("type").equalsIgnoreCase("JUNK"))
-					junk_list.put(file.getName(), new Junk(config)); // adds or replaces JUNK in Map
+					getJunkList().put(file.getName(), new Junk(config)); // adds or replaces JUNK in Map
 			}
 		}
 		MessageUtils.msgConsole("%prefix% &fLoaded %fish% fish files and %junk% junk files.", 
-				Placeholders.c().add("fish", fish_list.size()).add("junk", junk_list.size()));
+				Placeholders.c().add("fish", getFishList().size()).add("junk", getJunkList().size()));
 	}
 	public static HashMap<String, Fish> getFishList() {
 		return fish_list;
@@ -54,8 +54,8 @@ public class API {
 	 * @param player The player that is leaving server.
 	 */
 	public static void playerQuit(Player player) {
-		if(player_list.containsKey(player))
-			player_list.remove(player);
+		if(getFisherList().containsKey(player))
+			getFisherList().remove(player);
 	}
 	
 	/** Gets {@link Fisher}.}
@@ -64,11 +64,15 @@ public class API {
 	 */
 	public static Fisher getFisher(Player player) {
 		Fisher fisher;
-		if(player_list.containsKey(player))
-			fisher = player_list.get(player);
+		if(getFisherList().containsKey(player))
+			fisher = getFisherList().get(player);
 		else
 			fisher = new Fisher(player);
 		return fisher;
+	}
+	
+	public static HashMap<Player, Fisher> getFisherList() {
+		return player_list;
 	}
 	
 }
