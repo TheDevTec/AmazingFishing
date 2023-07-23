@@ -13,6 +13,7 @@ import me.devtec.amazingfishing.fishing.enums.FishingTime;
 import me.devtec.amazingfishing.fishing.enums.FishingWeather;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.Configs;
+import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
 
 /**
@@ -142,11 +143,11 @@ public abstract class FishingItem {
 	 *  ITEMS
 	 */
 	//Why abstract? You need to apply placeholders in lore, JUNK and FISH items won't have the same placeholders
-	public abstract ItemStack generateItem();
+	public abstract ItemStack getItem(Placeholders placeholders);
 	
 	public abstract ItemStack getPreviewItem();
 	
-	public abstract void giveItem();
+	public abstract ItemStack generate(Player player, Placeholders placeholders);
 	
 	/*
 	 *  BIOMES

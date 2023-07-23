@@ -37,10 +37,9 @@ public class Fish extends FishingItem {
 
 
 	@Override
-	public ItemStack generateItem() {
+	public ItemStack getItem(Placeholders placeholders) {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
-		Placeholders.c().addPlayer("player", null)
-			.add("fish_type", getType().toString())
+		placeholders.add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
 			.add("fish_chance", getChance())
 			.add("fish_name", getName())
@@ -61,8 +60,7 @@ public class Fish extends FishingItem {
 	public ItemStack getPreviewItem() {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "preview");
 		
-		Placeholders placeholers = Placeholders.c().addPlayer("player", null)
-			.add("fish_type", getType().toString())
+		Placeholders placeholers = Placeholders.c().add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
 			.add("fish_chance", getChance())
 			.add("fish_name", getName())
@@ -83,9 +81,10 @@ public class Fish extends FishingItem {
 	}
 
 	@Override
-	public void giveItem() {
+	public ItemStack generate(Player player, Placeholders placeholders) {
 		double length = Calculator.generateLength(getLength(Limit.MIN), getLength(Limit.MAX));
 		double weight = getWeight(Limit.MIN);
+		
 		if(getConfig().exists("calculator.weight"))
 			weight = MathUtils.calculate(getConfig().getString("calculator.weight")
 					.replace("%fish_length%", length+"")
@@ -96,8 +95,11 @@ public class Fish extends FishingItem {
 		else
 			weight = Calculator.calculateWeight(this, length); //default in-build calculator
 		
+		ItemStack item = getItem(placeholders.add("fish_length", length)
+				.add("fish_weight", weight)
+				.addPlayer("player", player));
 		
-		
+		return item;
 	}
 	
 	/** Gets base weight of this fish from a file.

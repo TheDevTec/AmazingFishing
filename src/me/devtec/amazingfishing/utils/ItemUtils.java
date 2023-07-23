@@ -3,6 +3,12 @@ package me.devtec.amazingfishing.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 
@@ -32,6 +38,16 @@ public class ItemUtils {
 		}
 		
 		return item;
+	}
+	
+	public static void giveItem(Entity item, ItemStack itemStack, Player p, Location itemloc) {
+		double d0 = p.getLocation().getX() - itemloc.getX();
+		double d1 = p.getLocation().getY() - itemloc.getY() + 1;
+		double d2 = p.getLocation().getZ() - itemloc.getZ();
+		Vector vec = new Vector(d0 * 0.1, d1 * 0.1 + Math.sqrt(Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2)) * 0.08, d2 * 0.1);
+
+		item = itemloc.getWorld().dropItem(itemloc, itemStack);
+		item.setVelocity(vec);
 	}
 	
 }

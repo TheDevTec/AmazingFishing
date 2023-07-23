@@ -34,7 +34,7 @@ public class Junk extends FishingItem {
 
 
 	@Override
-	public ItemStack generateItem() {
+	public ItemStack getItem() {
 		// TODO Auto-generated method stub
 		return null;
 	}
