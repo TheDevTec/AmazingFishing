@@ -1,14 +1,10 @@
 package me.devtec.amazingfishing;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.listeners.CatchFish;
 import me.devtec.amazingfishing.listeners.PlayerQuit;
-import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;

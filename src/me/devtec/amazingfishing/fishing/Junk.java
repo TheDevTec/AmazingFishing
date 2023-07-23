@@ -34,9 +34,22 @@ public class Junk extends FishingItem {
 
 
 	@Override
-	public ItemStack getItem() {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemStack getItem(Placeholders placeholders) {
+		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
+		placeholders.add("fish_type", getType().toString())
+			.add("fish_permission", getPermission())
+			.add("fish_chance", getChance())
+			.add("fish_name", getName())
+			.add("fish_time", getTime().toString())
+			.add("fish_weather", getWeather())
+			.add("fish_cansell", isSaleable())
+			.add("fish_money", getBaseMoney())
+			.add("fish_points", getBasePoints())
+			.add("fish_xp", getBaseXp())
+			.add("fish_isedible", isEdible())
+			.add("fish_hunger", getHunger());
+		
+		return item.build();
 	}
 
 
@@ -62,8 +75,8 @@ public class Junk extends FishingItem {
 	}
 
 	@Override
-	public void giveItem() {
-		// TODO Auto-generated method stub
+	public ItemStack generate(Player player, Placeholders placeholders) {	
+		return getItem(placeholders.addPlayer("player", player));
 		
 	}
 
