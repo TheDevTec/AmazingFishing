@@ -18,6 +18,8 @@ import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.json.Json;
 import me.devtec.shared.placeholders.PlaceholderAPI;
 import me.devtec.shared.utility.ColorUtils;
+import me.devtec.shared.utility.StringUtils;
+import me.devtec.shared.utility.StringUtils.FormatType;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.nms.NmsProvider.ChatType;
 
@@ -42,7 +44,10 @@ public class MessageUtils {
 		 * @return Method returns this instance
 		 */
 		public Placeholders add(String placeholder, Object replace) {
-			set.put(placeholder, replace + "");
+			if(replace instanceof Double)
+				set.put(placeholder, StringUtils.formatDouble(FormatType.NORMAL, ((Double)replace)) );
+			else
+				set.put(placeholder, replace + "");
 			return this;
 		}
 
