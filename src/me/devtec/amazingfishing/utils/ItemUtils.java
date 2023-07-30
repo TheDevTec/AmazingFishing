@@ -23,8 +23,10 @@ public class ItemUtils {
 	public static ItemMaker applyPlaceholders(ItemMaker item, Placeholders placeholders) {
 		
 		if(item==null || placeholders == null) return item;
+		
 		// replacing diplayName
-		item.displayName(placeholders.apply(item.getDisplayName()));
+		if(item.getDisplayName() != null && !item.getDisplayName().isEmpty())
+			item.displayName(placeholders.apply(item.getDisplayName()));
 
 		// replacing lore
 		List<String> lore = item.getLore();
