@@ -69,7 +69,7 @@ commands:
 ###########
 # Shop options
 shop:
-  sell: true # If this item can be sold in plugin shop
+  sell: false # If this item can be sold in plugin shop. In JUNK items it's disabled by default.
   money: 5.5 # Base money that will be used when calculating money from selling this item
   points: 5.5
   xp: 10.5

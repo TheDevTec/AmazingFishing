@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.fishing;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -82,9 +81,13 @@ public class Junk extends FishingItem {
 	@Override
 	public ItemStack generate(Player player, Placeholders placeholders) {
 		ItemStack item = getItem(placeholders.addPlayer("player", player));
-		NBTEdit edit = new NBTEdit(item);
-		edit.setString("af_data", createData().toString(DataType.JSON));
-		return BukkitLoader.getNmsProvider().setNBT(item, edit);
+		//If item is not Edible or Saleable -> Admin probably want this to be more default minecraft item
+		if(isSaleable() || isEdible()) {
+			NBTEdit edit = new NBTEdit(item);
+			edit.setString("af_data", createData().toString(DataType.JSON));
+			return BukkitLoader.getNmsProvider().setNBT(item, edit);
+		}
+		return item;
 	}
 
 	private Config createData() {

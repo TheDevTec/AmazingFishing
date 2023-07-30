@@ -62,7 +62,11 @@ public class Fish extends FishingItem {
 
 	@Override
 	public ItemStack getPreviewItem() {
-		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "preview");
+		ItemMaker item = null;
+		if(getConfig().exists("preview"))
+			item = ItemMaker.loadMakerFromConfig(getConfig(), "preview");
+		else
+			item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
 		
 		Placeholders placeholders = Placeholders.c().add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
@@ -104,12 +108,18 @@ public class Fish extends FishingItem {
 		
 		NBTEdit edit = new NBTEdit(item);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
+		
 		return BukkitLoader.getNmsProvider().setNBT(item, edit);
 	}
 	
 	private Config createData(double weight, double length) {
 		return new Config().set("file", getConfig().getFile().getName()).set("name", getName())
 					.set("type", getType().toString()).set("weigth", weight).set("length", length);
+	}
+
+	@Override
+	public boolean isSaleable() {
+		return getConfig().exists("shop.sell") ? getConfig().getBoolean("shop.sell") : true;
 	}
 	
 	/** Gets base weight of this fish from a file.

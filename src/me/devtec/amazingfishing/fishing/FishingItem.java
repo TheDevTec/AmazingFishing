@@ -290,10 +290,10 @@ public abstract class FishingItem {
 	
 	/** If item can be sold in shop.
 	 * @return Value from configuration file
-	 * @apiNote Enabled by default!
+	 * @apiNote If item is {@link Junk} this is  disabled by default. If item is {@link Fish} it is enabled by default.
 	 */
 	public boolean isSaleable() {
-		return file.exists("shop.sell") ? file.getBoolean("shop.sell") : true;
+		return file.exists("shop.sell") ? file.getBoolean("shop.sell") : false;
 	}
 	/** Gets base money that will player get for this item.
 	 * @return Value from configuration file. If there is none, returns 0.
