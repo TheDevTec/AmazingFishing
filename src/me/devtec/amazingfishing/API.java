@@ -35,8 +35,8 @@ public class API {
 					getJunkList().put(file.getName(), new Junk(config)); // adds or replaces JUNK in Map
 			}
 		}
-		MessageUtils.msgConsole("%prefix% &fLoaded %fish% fish files and %junk% junk files.", 
-				Placeholders.c().add("fish", getFishList().size()).add("junk", getJunkList().size()));
+		MessageUtils.msgConsole("%name% &fLoaded %fish% fish files and %junk% junk files.", 
+				Placeholders.c().add("fish", getFishList().size()).add("junk", getJunkList().size()).add("name", "[AmazingFishing]"));
 	}
 	public static HashMap<String, Fish> getFishList() {
 		return fish_list;

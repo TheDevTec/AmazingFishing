@@ -28,6 +28,9 @@ public enum FishingWeather {
 		return false;
 	}
 	public boolean equals(FishingWeather weather) {
+		if(this == ANY || weather == ANY)
+			return true;
+		
 		if(this == weather)
 			return true;
 		

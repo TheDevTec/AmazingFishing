@@ -33,7 +33,7 @@
 	<classpathentry kind="lib" path="C:/EclipseUtils/MC/mc_1_20/paper-api-1.20-R0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/MC/mc_1_20/slf4j-api-2.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/MC/mc_1_20/spigot-api-1.20-R0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/EclipseUtils/TheAPI.jar"/>
 	<classpathentry kind="lib" path="C:/EclipseUtils/PlaceholderAPI-2.11.3.jar"/>
+	<classpathentry kind="lib" path="C:/EclipseUtils/TheAPI(1).jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

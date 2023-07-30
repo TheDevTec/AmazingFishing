@@ -42,6 +42,8 @@ public enum FishingTime {
 		}
 		
 		public boolean equals(FishingTime now) {
+			if(this == ANY || now == ANY)
+				return true;
 			if(this == now)
 				return true;
 			if(this == DAY && now == NOON)
