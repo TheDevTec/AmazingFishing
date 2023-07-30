@@ -9,6 +9,8 @@ import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
+import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
 import me.devtec.shared.utility.ParseUtils;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
@@ -62,8 +64,27 @@ public class Loader extends JavaPlugin {
         	i++;
     		System.out.println(i);
         }*/
+		
+		String s = createData(50, 90).toString(DataType.YAML);
+		System.out.println(s);
+		Config data = new Config();
+		data.reload(s);
+		for(String string : data.getKeys())
+			System.out.println(string + " " + data.getString(string));
+		
+		System.out.println("\n\n JSON:");
+		s = createData(50, 90).toString(DataType.JSON);
+		System.out.println(s);
+		data.clear();
+		data.reload(s);
+		for(String string : data.getKeys())
+			System.out.println(string + " " + data.getString(string));
 	}
 
+	private static Config createData(double weight, double length) {
+		return new Config().set("file", "file_name").set("fish", "fish_name")
+					.set("type", "fish_type").set("weigth", weight).set("length", length);
+	}
 	
 	public static Version getVersion(String version, String compareVersion) {
 		if (version == null || compareVersion == null)
@@ -111,16 +132,14 @@ public class Loader extends JavaPlugin {
 	public void onEnable() {
 
 		// Loading configs
-		MessageUtils.msgConsole("&fLoading configs...", null);
+		MessageUtils.msgConsole("["+this.getDescription().getName()+"] &fLoading configs", null);
         Configs.load();
-        
-		MessageUtils.msgConsole("%prefix% &fEnabling plugin...", Placeholders.c());
 		
 		// Checking for updates
-		MessageUtils.msgConsole("Checking for updates....", Placeholders.c());
+		MessageUtils.msgConsole("%name% Checking for updates....", Placeholders.c().add("name", "[AmazingFishing]"));
         Version ver = new SpigotUpdateChecker(this.getDescription().getVersion(), 71148).checkForUpdates();
         if(ver == Version.OLDER_VERSION)
-        	MessageUtils.msgConsole("%prefix% &cNew update available... &fCurrent version %version%", Placeholders.c().add("version", this.getDescription().getVersion()));
+        	MessageUtils.msgConsole("%name% &cNew update available... &fCurrent version %version%", Placeholders.c().add("version", this.getDescription().getVersion()).add("name", "[AmazingFishing]"));
         //MessageUtils.msgConsole("%prefix% &fThere is not a new update available.", Placeholders.c());
         
         
@@ -130,11 +149,11 @@ public class Loader extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
         
 		//Loading Placeholder expansion
-		MessageUtils.msgConsole("%prefix% &fLoading placeholders", Placeholders.c());
+		MessageUtils.msgConsole("%name% &fLoading placeholders", Placeholders.c().add("name", "[AmazingFishing]"));
 		PlaceholderLoader.load();
 		
 		// Loading fishing items
-		MessageUtils.msgConsole("%prefix% &fLoading fishing items (Fish & Junk files)...", Placeholders.c());
+		MessageUtils.msgConsole("%name% &fLoading fishing items (Fish & Junk files)...", Placeholders.c().add("name", "[AmazingFishing]"));
 		API.loadFishingItems();
 		
 		plugin = this;
