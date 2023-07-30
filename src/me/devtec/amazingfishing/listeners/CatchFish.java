@@ -11,10 +11,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.API;
+import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
+import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
@@ -62,12 +65,26 @@ public class CatchFish implements Listener {
 			break;
 		}
 	}
-	
+
+	/**
+	 * 1) If {@link State} is FISHING (player is fishing) we are editing fishing time. 
+	 * 		This time is edited because of our Enchantments.  </br>
+	 * 2) If {@link State} is CAUGHT_FISH we are creating our custom {@link FishingItem}. 
+	 *  	This can be {@link Junk} or {@link Fish} item. </br>
+	 *   	• First we are generating available items that player can catch. 
+	 *   		Then we are fixing item chances (if total chance is more than 100%) </br>
+	 *   	• Then we are selecting one {@link FishingItem} from this list. (using our {@link Calculator} class)  </br>
+	 *   	• After generating one {@link FishingItem} we are generating {@link ItemStack} and 
+	 *   		giving the item to player (like normal fishing - throwing it :D)
+	 *   
+	 *   
+	 */
 	@EventHandler
 	public void onCatch(PlayerFishEvent event) {
 
 		if (event.getState() == PlayerFishEvent.State.FISHING) {
 			//TODO - enchanting editing bite time
+			
 		}
 		if(event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
 			Player player = event.getPlayer();
@@ -78,12 +95,12 @@ public class CatchFish implements Listener {
 			Location hookLocation = hook instanceof org.bukkit.entity.Fish ?
 					((org.bukkit.entity.Fish) hook).getLocation() : ((FishHook) hook).getLocation();
 
-			HashMap<FishingItem, Double> generatedList = Calculator.normalizeFishChances(fisher.generateAvailableItems(hookLocation));
+			HashMap<FishingItem, Double> generatedList = Calculator.normalizeFishingItemChances(fisher.generateAvailableItems(hookLocation));
 			if(!generatedList.isEmpty()) {
 				//removing default item
 				caughtItem.remove();
 				
-				FishingItem fishingItem =  Calculator.getRandomFish(generatedList);
+				FishingItem fishingItem =  Calculator.getRandomFishingItem(generatedList);
 				// %fish_chance_final% is final chance to catch this fish... always different
 				ItemStack item = fishingItem.generate(player, Placeholders.c()
 						.add("fish_chance_final", generatedList.get(fishingItem))
@@ -91,8 +108,7 @@ public class CatchFish implements Listener {
 						.add("loc_y", hookLocation.getY())
 						.add("loc_z", hookLocation.getZ())
 						.add("loc_biome", hookLocation.getBlock().getBiome().name())
-						.add("loc_world", hookLocation.getWorld().getName())
-						);
+						.add("loc_world", hookLocation.getWorld().getName()) );
 				//giving item to player
 				ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
 			}

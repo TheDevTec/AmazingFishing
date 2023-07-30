@@ -61,7 +61,7 @@ public class Calculator {
 	 * @param fishList List of fishes the player can catch
 	 * @return Returns the same list but fixed chances. (in HashMap)
 	 */
-	public static HashMap<FishingItem, Double> normalizeFishChances(List<FishingItem> fishList) {
+	public static HashMap<FishingItem, Double> normalizeFishingItemChances(List<FishingItem> fishList) {
 		if(fishList == null || fishList.isEmpty())
 			return new HashMap<FishingItem, Double>(); //returns empty list		
 		
@@ -81,7 +81,7 @@ public class Calculator {
 	    return fixed_list;
     }
 	
-    public static FishingItem getRandomFish(HashMap<FishingItem, Double> fishList) {
+    public static FishingItem getRandomFishingItem(HashMap<FishingItem, Double> fishList) {
     	//if normalizeFishChances() algorithm used, total chance is always 100% --> if now, this will then work a bit shady :D
         double randomValue = Math.random() * 100.0; 
         
