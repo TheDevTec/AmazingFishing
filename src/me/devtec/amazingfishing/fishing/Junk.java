@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.fishing;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,6 +19,7 @@ public class Junk extends FishingItem {
 
 	public Junk(Config file) {
 		super(file, FishType.JUNK);
+		this.setDefaultPermissionPath();
 	}
 
 	
@@ -52,7 +54,7 @@ public class Junk extends FishingItem {
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger());
 		
-		return item.build();
+		return ItemUtils.applyPlaceholders(item, placeholders).build();
 	}
 
 
@@ -60,7 +62,7 @@ public class Junk extends FishingItem {
 	public ItemStack getPreviewItem() {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "preview");
 			
-		Placeholders placeholers = Placeholders.c().addPlayer("player", null)
+		Placeholders placeholders = Placeholders.c().addPlayer("player", null)
 			.add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
 			.add("fish_chance", getChance())
@@ -74,7 +76,7 @@ public class Junk extends FishingItem {
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger());
 		
-		return ItemUtils.applyPlaceholders(item, placeholers).build();
+		return ItemUtils.applyPlaceholders(item, placeholders).build();
 	}
 
 	@Override
@@ -98,9 +100,9 @@ public class Junk extends FishingItem {
 		
 		FisherSituation situation = fisher.getFisherSituation();
 		
-		if(!getBiomes().contains(situation.getBiome()))
+		if(!getBiomes().isEmpty() && !getBiomes().contains(situation.getBiome()))
 			return false;
-		if(getBlockedBiomes().contains(situation.getBiome()))
+		if(!getBlockedBiomes().isEmpty() && getBlockedBiomes().contains(situation.getBiome()))
 			return false;
 		if(!getTime().equals(situation.getTime()))
 			return false;

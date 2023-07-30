@@ -8,12 +8,13 @@ name: "&7Stick"
 
 item:
   displayName: "%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
-  type: "COD" # Type of item
+  type: "STICK" # Type of item
   lore:
-  - "&7Chance: &f%chance%"
-  - "&7Caught by: &f%displayname%"
-  - "&7Caught in biome: &f%biome%"
-  - "&7Caught on location: &f%x% %y% %z% %world%"
+  - "&7Chance: &f%fish_chance%"
+  - "&7Final chance: &f%fish_chance_final%"
+  - "&7Caught by: &f%player_displayname%"
+  - "&7Caught in biome: &f%loc_biome%"
+  - "&7Caught on location: &f%loc_x% %loc_y% %loc_z% %loc_world%"
 
 # Chance to catch this fish
 chance: 50.0
@@ -26,7 +27,7 @@ chance: 50.0
 preview:
   displayName: "%fish_name%"
   lore:
-  - "&7Chance: &f%chance%"
+  - "&7Chance: &f%fish_chance%"
   - "&7Catch:"
   - "&7 Time: &fEVERY"
   - "&7 Weather: &fEVERY"

@@ -62,6 +62,8 @@ public class Calculator {
 	 * @return Returns the same list but fixed chances. (in HashMap)
 	 */
 	public static HashMap<FishingItem, Double> normalizeFishChances(List<FishingItem> fishList) {
+		if(fishList == null || fishList.isEmpty())
+			return new HashMap<FishingItem, Double>(); //returns empty list		
 		
 		HashMap<FishingItem, Double> fixed_list = new HashMap<FishingItem, Double>();
 		

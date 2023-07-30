@@ -85,7 +85,14 @@ public class CatchFish implements Listener {
 				
 				FishingItem fishingItem =  Calculator.getRandomFish(generatedList);
 				// %fish_chance_final% is final chance to catch this fish... always different
-				ItemStack item = fishingItem.generate(player, Placeholders.c().add("fish_chance_final", generatedList.get(fishingItem)));
+				ItemStack item = fishingItem.generate(player, Placeholders.c()
+						.add("fish_chance_final", generatedList.get(fishingItem))
+						.add("loc_x", hookLocation.getX())
+						.add("loc_y", hookLocation.getY())
+						.add("loc_z", hookLocation.getZ())
+						.add("loc_biome", hookLocation.getBlock().getBiome().name())
+						.add("loc_world", hookLocation.getWorld().getName())
+						);
 				//giving item to player
 				ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
 			}

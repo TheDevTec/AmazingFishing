@@ -8,6 +8,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.fishing.enums.FishingTime;
 import me.devtec.amazingfishing.fishing.enums.FishingWeather;
@@ -64,6 +65,10 @@ public abstract class FishingItem {
 	 * @return Gets default permission from Config.yml
 	 */
 	public String getDefaultPermission() {
+		if(def_perm_path == null) {
+			Loader.plugin.getLog4JLogger().warn("["+Loader.plugin.getDescription().getName()+"] There is no 'Default permission path'. This is plugin error, you can report this...");
+			return "";
+		}
 		return Configs.config.exists(def_perm_path) ? 
 				Configs.config.getString(def_perm_path) :
 					"";

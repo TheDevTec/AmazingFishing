@@ -22,6 +22,7 @@ public class Fish extends FishingItem {
 	
 	public Fish(Config file) {
 		super(file, FishType.FISH);
+		this.setDefaultPermissionPath();
 	}
 	/*
 	 * PERMISSIONS
@@ -55,7 +56,7 @@ public class Fish extends FishingItem {
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger());
 		
-		return item.build();
+		return ItemUtils.applyPlaceholders(item, placeholders).build();
 	}
 
 
@@ -63,7 +64,7 @@ public class Fish extends FishingItem {
 	public ItemStack getPreviewItem() {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "preview");
 		
-		Placeholders placeholers = Placeholders.c().add("fish_type", getType().toString())
+		Placeholders placeholders = Placeholders.c().add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
 			.add("fish_chance", getChance())
 			.add("fish_name", getName())
@@ -79,7 +80,7 @@ public class Fish extends FishingItem {
 			.add("fish_weight_max", getWeight(Limit.MAX))
 			.add("fish_length_min", getLength(Limit.MIN))
 			.add("fish_length_max", getLength(Limit.MAX));
-		return ItemUtils.applyPlaceholders(item, placeholers).build();
+		return ItemUtils.applyPlaceholders(item, placeholders).build();
 	}
 
 	@Override
@@ -138,9 +139,9 @@ public class Fish extends FishingItem {
 		
 		FisherSituation situation = fisher.getFisherSituation();
 		
-		if(!getBiomes().contains(situation.getBiome()))
+		if(!getBiomes().isEmpty() && !getBiomes().contains(situation.getBiome()))
 			return false;
-		if(getBlockedBiomes().contains(situation.getBiome()))
+		if(!getBlockedBiomes().isEmpty() && getBlockedBiomes().contains(situation.getBiome()))
 			return false;
 		if(!getTime().equals(situation.getTime()))
 			return false;
