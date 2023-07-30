@@ -11,8 +11,11 @@ import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
 import me.devtec.shared.utility.MathUtils;
+import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class Fish extends FishingItem {
 
@@ -76,7 +79,6 @@ public class Fish extends FishingItem {
 			.add("fish_weight_max", getWeight(Limit.MAX))
 			.add("fish_length_min", getLength(Limit.MIN))
 			.add("fish_length_max", getLength(Limit.MAX));
-		
 		return ItemUtils.applyPlaceholders(item, placeholers).build();
 	}
 
@@ -99,7 +101,14 @@ public class Fish extends FishingItem {
 				.add("fish_weight", weight)
 				.addPlayer("player", player));
 		
-		return item;
+		NBTEdit edit = new NBTEdit(item);
+		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
+		return BukkitLoader.getNmsProvider().setNBT(item, edit);
+	}
+	
+	private Config createData(double weight, double length) {
+		return new Config().set("file", getConfig().getFile().getName()).set("name", getName())
+					.set("type", getType().toString()).set("weigth", weight).set("length", length);
 	}
 	
 	/** Gets base weight of this fish from a file.

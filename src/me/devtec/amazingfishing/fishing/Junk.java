@@ -9,7 +9,10 @@ import me.devtec.amazingfishing.player.FisherSituation;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
+import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class Junk extends FishingItem {
 
@@ -75,9 +78,16 @@ public class Junk extends FishingItem {
 	}
 
 	@Override
-	public ItemStack generate(Player player, Placeholders placeholders) {	
-		return getItem(placeholders.addPlayer("player", player));
-		
+	public ItemStack generate(Player player, Placeholders placeholders) {
+		ItemStack item = getItem(placeholders.addPlayer("player", player));
+		NBTEdit edit = new NBTEdit(item);
+		edit.setString("af_data", createData().toString(DataType.JSON));
+		return BukkitLoader.getNmsProvider().setNBT(item, edit);
+	}
+
+	private Config createData() {
+		return new Config().set("file", getConfig().getFile().getName()).set("name", getName())
+				.set("type", getType().toString());
 	}
 
 

@@ -147,6 +147,11 @@ public abstract class FishingItem {
 	
 	public abstract ItemStack getPreviewItem();
 	
+	/** generating final item. If item is fish generating length and weight.
+	 * @param player The fisher
+	 * @param placeholders Placeholders that will be replaced in name, lore, etc...
+	 * @return {@link ItemStack} - final form, you can give this item
+	 */
 	public abstract ItemStack generate(Player player, Placeholders placeholders);
 	
 	/*
