@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FishHook;
@@ -18,6 +19,7 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
+import me.devtec.amazingfishing.player.AmazingFishingPlayerFishEvent;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
@@ -81,9 +83,18 @@ public class CatchFish implements Listener {
 	 */
 	@EventHandler
 	public void onCatch(PlayerFishEvent event) {
-
+		
 		if (event.getState() == PlayerFishEvent.State.FISHING) {
 			//TODO - enchanting editing bite time
+			
+			// Creating and calling custom event
+			AmazingFishingPlayerFishEvent custom_event = event(event.getPlayer(), event.getState(), event);
+
+			// Check if the event is not cancelled
+			if (!custom_event.isCancelled()) {
+			    Bukkit.getServer().broadcastMessage(custom_event.getMessage());
+			    //TODO
+			}
 			
 		}
 		if(event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
@@ -96,25 +107,50 @@ public class CatchFish implements Listener {
 					((org.bukkit.entity.Fish) hook).getLocation() : ((FishHook) hook).getLocation();
 
 			HashMap<FishingItem, Double> generatedList = Calculator.normalizeFishingItemChances(fisher.generateAvailableItems(hookLocation));
+			
 			if(!generatedList.isEmpty()) {
 				//removing default item
 				caughtItem.remove();
-				
+				//Getting one fish from list
 				FishingItem fishingItem =  Calculator.getRandomFishingItem(generatedList);
-				// %fish_chance_final% is final chance to catch this fish... always different
-				ItemStack item = fishingItem.generate(player, Placeholders.c()
-						.add("fish_chance_final", generatedList.get(fishingItem))
-						.add("loc_x", hookLocation.getX())
-						.add("loc_y", hookLocation.getY())
-						.add("loc_z", hookLocation.getZ())
-						.add("loc_biome", hookLocation.getBlock().getBiome().name())
-						.add("loc_world", hookLocation.getWorld().getName()) );
-				//giving item to player
-				ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
+
+				// Creating and calling custom event
+				AmazingFishingPlayerFishEvent custom_event = event(player, event.getState(), event, fishingItem);
+				
+				if (!custom_event.isCancelled()) {
+					// %fish_chance_final% is final chance to catch this fish... always different
+					ItemStack item = fishingItem.generate(player, Placeholders.c()
+							.add("fish_chance_final", generatedList.get(fishingItem))
+							.add("loc_x", hookLocation.getX())
+							.add("loc_y", hookLocation.getY())
+							.add("loc_z", hookLocation.getZ())
+							.add("loc_biome", hookLocation.getBlock().getBiome().name())
+							.add("loc_world", hookLocation.getWorld().getName()) );
+					//giving item to player (like normal fishing)
+					ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
+				}
+				else
+					event.setCancelled(custom_event.isCancelled());
 			}
-			
-			
 			
 		}
 	} //event ending
+
+	// Creating and calling custom event
+	private AmazingFishingPlayerFishEvent event(Player player, State state, PlayerFishEvent event) {
+		AmazingFishingPlayerFishEvent custom_event = new 
+				AmazingFishingPlayerFishEvent(player, state, event);
+		// Call the event
+		Bukkit.getServer().getPluginManager().callEvent(custom_event);
+		return custom_event;
+	}
+
+	// Creating and calling custom event
+	private AmazingFishingPlayerFishEvent event(Player player, State state, PlayerFishEvent event, FishingItem caught) {
+		AmazingFishingPlayerFishEvent custom_event = new 
+				AmazingFishingPlayerFishEvent(player, state, event, caught);
+		// Call the event
+		Bukkit.getServer().getPluginManager().callEvent(custom_event);
+		return custom_event;
+	}
 }

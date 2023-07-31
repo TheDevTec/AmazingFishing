@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
+
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.enums.Limit;
@@ -84,6 +86,10 @@ public class Calculator {
     public static FishingItem getRandomFishingItem(HashMap<FishingItem, Double> fishList) {
     	//if normalizeFishChances() algorithm used, total chance is always 100% --> if now, this will then work a bit shady :D
         double randomValue = Math.random() * 100.0; 
+
+    	Bukkit.broadcastMessage("FishList:");
+        for(Entry<FishingItem, Double> set : fishList.entrySet())
+        	MessageUtils.sendAnnouncement(" • "+set.getKey().getName()+ " New chance: "+set.getValue());
         
         for (Entry<FishingItem, Double> set : fishList.entrySet()) {
             if (randomValue <= set.getValue()) {
