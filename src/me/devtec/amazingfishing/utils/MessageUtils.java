@@ -380,6 +380,16 @@ public class MessageUtils {
 			return; // Do not send empty strings
 		msg(Bukkit.getConsoleSender(), message, null, split, targets);
 	}
+	public static void sendAnnouncement(String message) {
+		CommandSender[] plist = new CommandSender[Bukkit.getOnlinePlayers().size()+1];
+		int i = 0;
+		for(CommandSender p : Bukkit.getOnlinePlayers())
+			plist[i++] = p;
+		plist[i] = Bukkit.getConsoleSender();
+		
+		if(plist != null)
+			sendAnnouncement(message, plist);
+	}
 
 	/*
 	 * SENDING MESSAGE and related methods
