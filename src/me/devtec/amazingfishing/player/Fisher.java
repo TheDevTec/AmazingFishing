@@ -11,6 +11,7 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
+import me.devtec.shared.dataholder.Config;
 
 public class Fisher {
 
@@ -32,6 +33,17 @@ public class Fisher {
 		if(player == null)
 			return false;
 		return player.isOnline();
+	}
+	/*
+	 * USER FILE
+	 */
+	/** Gets players user file. Using me.devtec.shared.API.getUser() method. </br>
+	 * 	TheAPI user files are used to store your data about player in his file. 
+	 * 		Each player have one .yml file. You can find these files in plugins/TheAPI/Users directory.
+	 * @return {@link Config}
+	 */
+	public Config getUser() {
+		return me.devtec.shared.API.getUser(player.getName());
 	}
 	
 	/*
