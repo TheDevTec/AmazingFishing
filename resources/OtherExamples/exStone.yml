@@ -1,0 +1,16 @@
+# Type, you can use FISH or JUNK
+# What's the difference? When you catch FISH, it will have some weight and lenght, ...
+# When you catch JUNK it will probably be just some random item right? Yeah... you can play around with it...
+type: "JUNK"
+
+# Oficial name of this fish
+name: "&7Stone"
+
+item:
+  type: "STONE"
+  
+# Chance to catch this fish
+chance: 10.0
+
+biomes:
+- "RIVER"

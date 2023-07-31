@@ -4,10 +4,10 @@
 type: "JUNK"
 
 # Oficial name of this fish
-name: "&7Stick"
+name: "Stick"
 
 item:
-  displayName: "%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
+  displayName: "&7%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
   type: "STICK" # Type of item
   lore:
   - "&7Chance: &f%fish_chance%"
@@ -25,7 +25,7 @@ chance: 50.0
 # Preview item. This will show in /fish -> Index menu
 # the preview item type will be the same as captured item (when you are fishing)
 preview:
-  displayName: "%fish_name%"
+  displayName: "&7%fish_name%"
   lore:
   - "&7Chance: &f%fish_chance%"
   - "&7Catch:"
@@ -54,7 +54,8 @@ conditions:
   
 # List of messsages that will be send to player when you: catch, eat or sell this fish
 messages:
-  catch: []
+  catch:
+  - "%prefix% &7You caught &e%fish_name%"
   eat: []
   sell: []
     
