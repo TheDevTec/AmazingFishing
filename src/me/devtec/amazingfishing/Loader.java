@@ -10,8 +10,6 @@ import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
 import me.devtec.shared.dataholder.Config;
-import me.devtec.shared.dataholder.DataType;
-import me.devtec.shared.utility.ParseUtils;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
 
@@ -65,7 +63,7 @@ public class Loader extends JavaPlugin {
     		System.out.println(i);
         }*/
 		
-		String s = createData(50, 90).toString(DataType.YAML);
+		/*String s = createData(50, 90).toString(DataType.YAML);
 		System.out.println(s);
 		Config data = new Config();
 		data.reload(s);
@@ -73,52 +71,20 @@ public class Loader extends JavaPlugin {
 			System.out.println(string + " " + data.getString(string));
 		
 		System.out.println("\n\n JSON:");
-		s = createData(50, 90).toString(DataType.JSON);
+		s = new Config().set("file", "file_name").set("fish", "fish_name")
+				.set("type", "fish_type").set("weigth", 50).set("length", 90).toString(DataType.JSON);
 		System.out.println(s);
 		data.clear();
 		data.reload(s);
 		for(String string : data.getKeys())
-			System.out.println(string + " " + data.getString(string));
-	}
+			System.out.println(string + " " + data.get(string));*/
+			
+		}
 
 	private static Config createData(double weight, double length) {
 		return new Config().set("file", "file_name").set("fish", "fish_name")
 					.set("type", "fish_type").set("weigth", weight).set("length", length);
 	}
-	
-	public static Version getVersion(String version, String compareVersion) {
-		if (version == null || compareVersion == null)
-			return Version.UKNOWN;
-
-		version = version.replaceAll("[^0-9.]+", "").trim();
-		compareVersion = compareVersion.replaceAll("[^0-9.]+", "").trim();
-
-		if (version.isEmpty() || compareVersion.isEmpty())
-			return Version.UKNOWN;
-
-		String[] primaryVersion = version.split("\\.");
-		String[] compareToVersion = compareVersion.split("\\.");
-		
-		//System.out.println("MAX: "+Math.max(primaryVersion.length, compareToVersion.length));
-		int max = Math.max(primaryVersion.length, compareToVersion.length);
-		for (int i = 0; i <= max; ++i) {
-			String number = i >= primaryVersion.length ? "0" : "1" + primaryVersion[i];
-			//System.out.println("Compare length | i: "+compareToVersion.length+" | "+i);
-			if (compareToVersion.length <= i) {
-				//System.out.println("BREAK "+compareToVersion.length+" "+i);
-				if(compareToVersion.length == i && compareToVersion.length == max)
-					break;
-				return Version.NEWER_VERSION;
-			}
-			//System.out.println(ParseUtils.getInt(number)+ ";"+ParseUtils.getInt("1" + compareToVersion[i]));
-			if (ParseUtils.getInt(number) > ParseUtils.getInt("1" + compareToVersion[i]))
-				return Version.NEWER_VERSION;
-			if (ParseUtils.getInt(number) < ParseUtils.getInt("1" + compareToVersion[i]))
-				return Version.OLDER_VERSION;
-		}
-		return Version.SAME_VERSION;
-	}
-	
 	
 	public static Loader plugin;
 	
@@ -155,7 +121,7 @@ public class Loader extends JavaPlugin {
 		// Loading fishing items
 		MessageUtils.msgConsole("%name% &fLoading fishing items (Fish & Junk files)...", Placeholders.c().add("name", "[AmazingFishing]"));
 		API.loadFishingItems();
-		
+
 		plugin = this;
 	}
 	
@@ -176,5 +142,6 @@ public class Loader extends JavaPlugin {
 		//Clearing Fisher cache list
 		API.getFisherList().clear();
 	}
-
+	
+	
 }
