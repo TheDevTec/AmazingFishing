@@ -101,6 +101,8 @@ public class Fish extends FishingItem {
 		ItemStack item = getItem(placeholders.add("fish_length", length)
 				.add("fish_weight", weight)
 				.addPlayer("player", player));
+		if(item == null)
+			return null;
 		
 		NBTEdit edit = new NBTEdit(item);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));

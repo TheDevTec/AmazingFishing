@@ -81,6 +81,9 @@ public class Junk extends FishingItem {
 	@Override
 	public ItemStack generate(Player player, Placeholders placeholders) {
 		ItemStack item = getItem(placeholders.addPlayer("player", player));
+
+		if(item == null)
+			return null;
 		
 		//If item is not Edible or Saleable or empty lore -> Admin probably want this to be more default minecraft item
 		if(isSaleable() || isEdible() || !item.getLore().isEmpty()) {

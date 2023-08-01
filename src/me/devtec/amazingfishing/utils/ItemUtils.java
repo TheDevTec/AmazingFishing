@@ -44,6 +44,9 @@ public class ItemUtils {
 	}
 	
 	public static void giveItem(Entity item, ItemStack itemStack, Player p, Location itemloc) {
+		if(itemStack == null)
+			return;
+		
 		double d0 = p.getLocation().getX() - itemloc.getX();
 		double d1 = p.getLocation().getY() - itemloc.getY() + 1;
 		double d2 = p.getLocation().getZ() - itemloc.getZ();

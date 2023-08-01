@@ -135,8 +135,13 @@ public class MessageUtils {
 			for (Entry<String, String> placeholder : set.entrySet()) {
 					text = text.replace("%" + placeholder.getKey() + "%", placeholder.getValue());
 			}
-		
-			return text;
+			
+			// PlaceholderAPI expansion
+			if(!player_set.isEmpty() && player_set.containsKey("player"))
+				return PlaceholderAPI.apply(text, player_set.get("player").getUniqueId());
+			
+			return PlaceholderAPI.apply(text, null);
+		//	return text;
 		}
 	} //END OF CLASS PLACEHOLDERS
 
@@ -211,6 +216,7 @@ public class MessageUtils {
 				message = message.replace("%" + placeholder.getKey() + "%", placeholder.getValue() + "");
 			
 		}
+	
 		//Returning edited String
 		return message;
 	}

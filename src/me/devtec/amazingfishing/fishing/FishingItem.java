@@ -12,10 +12,13 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.fishing.enums.FishingTime;
 import me.devtec.amazingfishing.fishing.enums.FishingWeather;
+import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.Configs;
+import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.theapi.bukkit.BukkitLoader;
 
 /**
  * This is PARENT class for {@link Fish} and {@link Junk} classes. {@link Fish} and {@link Junk} classes have a small differences!
@@ -264,10 +267,23 @@ public abstract class FishingItem {
 	public List<String> getMessagesEatRaw() {
 		return file.getStringList("messages.eat");
 	}
-	public List<String> getMessagesSellhRaw() {
+	public List<String> getMessagesSellRaw() {
 		return file.getStringList("messages.sell");
 	}
-
+	public List<String> getMessagesRaw(ItemAction action) {
+		return file.getStringList("messages."+action.path());
+	}
+	public void runMessages(Player player, ItemAction action, Placeholders placeholders ) {
+		List<String> msgs = getMessagesRaw(action);
+		if(msgs.isEmpty())
+			return;
+		placeholders.addPlayer("player", player);
+		
+		for(String message: msgs) {
+			MessageUtils.sendPluginMessage(player, message, placeholders, player);
+		}
+		
+	}
 	
 	/*
 	 *  COMMANDS
@@ -279,10 +295,25 @@ public abstract class FishingItem {
 	public List<String> getCommandsEatRaw() {
 		return file.getStringList("commands.eat");
 	}
-	public List<String> getCommandsSellhRaw() {
+	public List<String> getCommandsSellRaw() {
 		return file.getStringList("commands.sell");
 	}
-	
+	public List<String> getCommandsRaw(ItemAction action) {
+		return file.getStringList("commands."+action.path());
+	}
+	public void runCommands(Player player, ItemAction action, Placeholders placeholders ) {
+		List<String> cmds = getCommandsRaw(action);
+		if(cmds.isEmpty())
+			return;
+		placeholders.addPlayer("player", player);
+		
+		for(String command: cmds) {
+			BukkitLoader.getNmsProvider().postToMainThread(() -> {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholders.apply(command));
+			});
+		}
+		
+	}
 	
 	/*
 	 *  SHOP OPTIONS
@@ -329,8 +360,8 @@ public abstract class FishingItem {
 	public boolean isEdible() {
 		return file.exists("eat.edible") ? file.getBoolean("eat.edible") : false;
 	}
-	public int getHunger() {
-		return file.exists("eat.addhunger") ? file.getInt("eat.addhunger") : 1;
+	public double getHunger() {
+		return file.exists("eat.addhunger") ? file.getDouble("eat.addhunger") : 1.5;
 	}
 	
 	

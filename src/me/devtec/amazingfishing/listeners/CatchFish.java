@@ -19,6 +19,7 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
+import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.player.AmazingFishingPlayerFishEvent;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.Calculator;
@@ -118,6 +119,17 @@ public class CatchFish implements Listener {
 				AmazingFishingPlayerFishEvent custom_event = event(player, event.getState(), event, fishingItem);
 				
 				if (!custom_event.isCancelled()) {
+					//Placeholders that will be used
+					Placeholders placeholders = Placeholders.c()
+							.add("fish_chance_final", generatedList.get(fishingItem))
+							.add("loc_x", hookLocation.getX())
+							.add("loc_y", hookLocation.getY())
+							.add("loc_z", hookLocation.getZ())
+							.add("loc_biome", hookLocation.getBlock().getBiome().name())
+							.add("loc_world", hookLocation.getWorld().getName());
+					
+					// running message
+					fishingItem.runMessages(player, ItemAction.CATCH, placeholders);
 					// %fish_chance_final% is final chance to catch this fish... always different
 					ItemStack item = fishingItem.generate(player, Placeholders.c()
 							.add("fish_chance_final", generatedList.get(fishingItem))
@@ -128,6 +140,8 @@ public class CatchFish implements Listener {
 							.add("loc_world", hookLocation.getWorld().getName()) );
 					//giving item to player (like normal fishing)
 					ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
+					// running commands
+					fishingItem.runCommands(player, ItemAction.CATCH, placeholders);
 				}
 				else
 					event.setCancelled(custom_event.isCancelled());
