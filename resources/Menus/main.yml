@@ -1,0 +1,33 @@
+# GUI size (53, 44, 35, 26, 17, 8)
+size: 53
+
+# GUI title
+title: "Fishing menu"
+
+items:
+
+  # If you edit these items in main.yml they will be applyed in all other menus.
+  #  Yes you can add each item to each menu if you want.
+  # IMPORTANT NOTE: If you change size of other guis you also need to edit these "universal" buttons
+  # Back button
+  back:
+    type: BARRIER
+    displayName: "&cBack"
+  # Close button
+  close:
+    type: BARRIER
+    displayName: "&4&lClose"
+  # Next page button
+  next:
+    displayName: "&aNext"
+    type: "PLAYER_HEAD"
+    head:
+      type: "VALUES"
+      owner: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmNTVmMWIzMmMzNDM1YWMxYWIzZTVlNTM1YzUwYjUyNzI4NWRhNzE2ZTU0ZmU3MDFjOWI1OTM1MmFmYzFjIn19fQ=="
+  # Previous page button
+  previous:
+    displayName: "&cPrevious"
+    type: "PLAYER_HEAD"
+    head:
+      type: "VALUES"
+      owner: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0="
