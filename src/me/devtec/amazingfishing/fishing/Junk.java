@@ -59,7 +59,7 @@ public class Junk extends FishingItem {
 
 	@Override
 	public ItemStack getPreviewItem() {
-		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "preview");
+		ItemMaker item = ItemUtils.loadPreviewItem(getConfig());
 			
 		Placeholders placeholders = Placeholders.c().addPlayer("player", null)
 			.add("fish_type", getType().toString())
@@ -81,18 +81,25 @@ public class Junk extends FishingItem {
 	@Override
 	public ItemStack generate(Player player, Placeholders placeholders) {
 		ItemStack item = getItem(placeholders.addPlayer("player", player));
-		//If item is not Edible or Saleable -> Admin probably want this to be more default minecraft item
-		if(isSaleable() || isEdible()) {
+		
+		//If item is not Edible or Saleable or empty lore -> Admin probably want this to be more default minecraft item
+		if(isSaleable() || isEdible() || !item.getLore().isEmpty()) {
 			NBTEdit edit = new NBTEdit(item);
 			edit.setString("af_data", createData().toString(DataType.JSON));
 			return BukkitLoader.getNmsProvider().setNBT(item, edit);
 		}
+		
 		return item;
 	}
 
 	private Config createData() {
-		return new Config().set("file", getConfig().getFile().getName()).set("name", getName())
+		Config data = new Config().set("file", getConfig().getFile().getName()).set("name", getName())
 				.set("type", getType().toString());
+		if(isEdible())
+			data.set("addhunger", getHunger());
+		
+		return data;
+	
 	}
 
 

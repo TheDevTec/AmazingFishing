@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
+import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 
 public class ItemUtils {
@@ -50,6 +51,21 @@ public class ItemUtils {
 
 		item = itemloc.getWorld().dropItem(itemloc, itemStack);
 		item.setVelocity(vec);
+	}
+	
+	public static ItemMaker loadPreviewItem(Config file) {
+		ItemMaker item = null;
+		
+		if(file.exists("preview"))
+			item = ItemMaker.loadMakerFromConfig(file, "preview");
+		if(item == null){
+			item = ItemMaker.loadMakerFromConfig(file, "item");
+			if(file.exists("preview.lore"))
+				item.lore(file.getStringList("preview.lore"));
+			if(file.exists("preview.displayName"))
+				item.displayName(file.getString("preview.displayName"));
+		}
+		return item;
 	}
 	
 }

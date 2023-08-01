@@ -62,11 +62,7 @@ public class Fish extends FishingItem {
 
 	@Override
 	public ItemStack getPreviewItem() {
-		ItemMaker item = null;
-		if(getConfig().exists("preview"))
-			item = ItemMaker.loadMakerFromConfig(getConfig(), "preview");
-		else
-			item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
+		ItemMaker item = ItemUtils.loadPreviewItem(getConfig());
 		
 		Placeholders placeholders = Placeholders.c().add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
@@ -113,8 +109,13 @@ public class Fish extends FishingItem {
 	}
 	
 	private Config createData(double weight, double length) {
-		return new Config().set("file", getConfig().getFile().getName()).set("name", getName())
-					.set("type", getType().toString()).set("weigth", weight).set("length", length);
+		Config data = new Config().set("file", getConfig().getFile().getName()).set("name", getName())
+					.set("type", getType().toString())
+					.set("weigth", weight).set("length", length);
+		if(isEdible())
+			data.set("addhunger", getHunger());
+		
+		return data;
 	}
 
 	@Override
