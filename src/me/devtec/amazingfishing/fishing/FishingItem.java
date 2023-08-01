@@ -275,7 +275,7 @@ public abstract class FishingItem {
 	}
 	public void runMessages(Player player, ItemAction action, Placeholders placeholders ) {
 		List<String> msgs = getMessagesRaw(action);
-		if(msgs.isEmpty())
+		if(msgs == null || msgs.isEmpty())
 			return;
 		placeholders.addPlayer("player", player);
 		
@@ -303,7 +303,7 @@ public abstract class FishingItem {
 	}
 	public void runCommands(Player player, ItemAction action, Placeholders placeholders ) {
 		List<String> cmds = getCommandsRaw(action);
-		if(cmds.isEmpty())
+		if(cmds==null || cmds.isEmpty())
 			return;
 		placeholders.addPlayer("player", player);
 		
