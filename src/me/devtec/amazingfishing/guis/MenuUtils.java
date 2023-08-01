@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 
 import me.devtec.theapi.bukkit.game.ItemMaker;
 import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
 import me.devtec.theapi.bukkit.gui.ItemGUI;
-import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 
 public class MenuUtils {
 
@@ -47,6 +47,11 @@ public class MenuUtils {
 			gui.setItem(i, glass_pane_black);
 		}
 		return gui;
+	}
+	
+	public static ItemMaker getUniversalButton(ButtonType type) {
+		ItemMaker maker = ItemMaker.loadMakerFromConfig(MenuLoader.mainMenuConfig, "items."+type.path());
+		return maker;
 	}
 	
 }

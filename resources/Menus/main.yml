@@ -1,3 +1,6 @@
+# If this GUI should be enabled. If not, this GUI won't be loaded and you won't be able to acces it event if you are admin :D
+enabled: true
+
 # GUI size (53, 44, 35, 26, 17, 8)
 size: 53
 
