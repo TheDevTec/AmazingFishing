@@ -3,6 +3,7 @@ package me.devtec.amazingfishing;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.devtec.amazingfishing.guis.MenuLoader;
 import me.devtec.amazingfishing.listeners.CatchFish;
 import me.devtec.amazingfishing.listeners.PlayerQuit;
 import me.devtec.amazingfishing.utils.Configs;
@@ -121,6 +122,10 @@ public class Loader extends JavaPlugin {
 		// Loading fishing items
 		MessageUtils.msgConsole("%name% &fLoading fishing items (Fish & Junk files)...", Placeholders.c().add("name", "[AmazingFishing]"));
 		API.loadFishingItems();
+		
+		// Loading fishing GUIs
+		MessageUtils.msgConsole("%name% &fLoading fishing GUIs", Placeholders.c().add("name", "[AmazingFishing]"));
+		MenuLoader.loadMenus();
 
 		plugin = this;
 	}

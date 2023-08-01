@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.devtec.amazingfishing.Loader;
+import me.devtec.amazingfishing.guis.MenuLoader;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.dataholder.DataType;
 import me.devtec.shared.utility.StreamUtils;
@@ -32,14 +33,18 @@ public class Configs {
 	 */
 	public static void load() {
 		config = loadAndMerge("Config.yml", "Config.yml");
+		
+		// Loading translations
 		loadTranslations();
+		// Loading default examples
 		loadDefaultExamples();
 		
+		// Loading GUIs
+		for(String file: MenuLoader.getMenuFiles())
+			loadAndMerge("Menus/" + file + ".yml", "Menus/" + file + ".yml");
 		
 		//shop = loadAndMerge("Shop.yml", "Shop.yml");
-		//gui = loadAndMerge("GUI.yml", "GUI.yml");
 		
-		// Loadin translations
 		
 	}
 	// Loading translations files
