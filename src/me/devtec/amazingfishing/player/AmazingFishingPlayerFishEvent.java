@@ -65,13 +65,16 @@ public class AmazingFishingPlayerFishEvent extends Event implements Cancellable 
         return handlers;
     }
 
+    /*
+     * CANCELLING
+     */
 	@Override
-	public boolean isCancelled() {
+	public boolean isCancelled() { //If Event is cancelled
         return cancelled;
 	}
 
 	@Override
-	public void setCancelled(boolean cancel) {
+	public void setCancelled(boolean cancel) { //Cancelling event (true)
         cancelled = cancel;
 		
 	}

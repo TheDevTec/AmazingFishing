@@ -131,6 +131,7 @@ public class CatchFish implements Listener {
 				}
 				else
 					event.setCancelled(custom_event.isCancelled());
+				
 			}
 			
 		}
