@@ -19,4 +19,8 @@ public enum ButtonType {
 	public String getConfigPath() {
 		return path();
 	}
+	
+	public String toString() {
+		return path();
+	}
 }

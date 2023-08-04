@@ -1,0 +1,20 @@
+# If this GUI should be enabled. If not, this GUI won't be loaded and you won't be able to acces it event if you are admin :D
+enabled: true
+
+# Permission that player needs to be able to open this menu
+permission: "amazingfishing.menu"
+
+# GUI size (53, 44, 35, 26, 17, 8)
+size: 53
+
+# GUI title
+title: "&3&lFish items"
+
+# If the menu is different for each player then enable this setting.
+# If there are placeholders that for each player looks different (different values) then enable this setting.
+# This is basically reloading items for each player again and again...
+#   If items don't contain any placeholders then you can disable this. Better gui loading time.
+perPlayer: false
+
+# Yes you can add your items...
+# All preview items are edited in Fish folder...

@@ -1,8 +1,6 @@
 package me.devtec.amazingfishing.utils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.guis.MenuLoader;
@@ -19,13 +17,10 @@ public class Configs {
 	public static Config engtrans, //English default translation
 						translation; //normal translation
 	
-	// TODO - GUIS
-	public static Config gui, shop;
-	
+	//TODO
 	public static Config quest, treasur, enchant, achievements;
 	
 	private static Config temp_data = new Config();
-	static List<String> datas = Arrays.asList("Config.yml","GUI.yml","Tags.yml");
 	
 	/**
 	 * Creates and loads all config files. </br>

@@ -1,8 +1,11 @@
 package me.devtec.amazingfishing.guis;
 
+import java.util.HashMap;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;
@@ -21,14 +24,14 @@ public class MenuUtils {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				//do nothing
-			}};
+			}}.setUnstealable(true);
 		// if this should fill all the GUI
 		if(fill) {
 			ItemGUI glass_pane_gray = new ItemGUI( ItemMaker.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE).amount(1).displayName("&7").build()) {
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					//do nothing
-					}};
+					}}.setUnstealable(true);
 			for (int i=0; i<=53; i++)
 				gui.setItem(i, glass_pane_gray);
 		}
@@ -43,15 +46,19 @@ public class MenuUtils {
 		for(int i = 17; i<=44; i=i+9)
 			gui.setItem(i, glass_pane_black);
 		//footer
-		for (int i=45; i<=53; i++) {
+		for (int i=gui.size()-8; i<=gui.size(); i++) {
 			gui.setItem(i, glass_pane_black);
 		}
 		return gui;
 	}
 	
-	public static ItemMaker getUniversalButton(ButtonType type) {
-		ItemMaker maker = ItemMaker.loadMakerFromConfig(MenuLoader.mainMenuConfig, "items."+type.path());
-		return maker;
+	// Loaded universal buttons
+	private static HashMap<ButtonType, MenuItem> loaded_buttons = new HashMap<ButtonType, MenuItem>();
+	
+	public static MenuItem getUniversalButton(ButtonType button) {
+		if(!loaded_buttons.containsKey(button))
+			loaded_buttons.put(button, new MenuItem(MenuLoader.mainMenuConfig, button));
+		return loaded_buttons.get(button);
 	}
 	
 }

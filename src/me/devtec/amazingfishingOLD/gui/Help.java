@@ -78,6 +78,7 @@ public class Help {
 					AchievementGUI.open(p);
 				}
 			});
+		
 		a.open(p);
 	
 	}

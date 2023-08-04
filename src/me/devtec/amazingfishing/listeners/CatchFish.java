@@ -93,7 +93,6 @@ public class CatchFish implements Listener {
 
 			// Check if the event is not cancelled
 			if (!custom_event.isCancelled()) {
-			    Bukkit.getServer().broadcastMessage(custom_event.getMessage());
 			    //TODO
 			}
 			

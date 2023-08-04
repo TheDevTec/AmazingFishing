@@ -5,10 +5,10 @@ enabled: true
 permission: "amazingfishing.menu"
 
 # GUI size (53, 44, 35, 26, 17, 8)
-size: 53
+size: 26
 
 # GUI title
-title: "Fishing menu"
+title: "Select type"
 
 # If the menu is different for each player then enable this setting.
 # If there are placeholders that for each player looks different (different values) then enable this setting.
@@ -18,18 +18,25 @@ perPlayer: false
 # And yes, plugin will check permission even though this function is turned off.
 
 items:
-  index:
+  junk:
     position: 11
-    displayName: "&bIndex of fish"
-    type: PAPER
+    displayName: "&aJunk items"
+    type: EMERALD
     lore:
-    - "&fOpens menu where you can find list of all fishes"
+    - "&fOpens menu where you can find all available &aJunk items"
+    - "&7Junk items -> Items that are not fishes :D"
     - ""
     - "&7Click to open"
-    # Put here name of the file you want to open (without .yml)
-    opens: "index"
-    # sound: "BLOCK_BARREL_OPEN"
-    # permission: "amazingfishing.menu.index"
+    opens: "index_junk"
+  fish:
+    position: 15
+    displayName: "&3Fish items"
+    type: COD
+    lore:
+    - "&fOpens menu where you can find all available &bFish items"
+    - ""
+    - "&7Click to open"
+    opens: "index_fish"
 
 # These special buttons are loaded and used differently...
 buttons:
@@ -38,30 +45,14 @@ buttons:
   # IMPORTANT NOTE: If you change size of other guis you also need to edit these "special" buttons
   # Back button
   back:
-    position: 45
+    position: 18
     type: BARRIER
     displayName: "&cBack"
   # Close button
   close:
     # yes 'back' and 'close' buttons are on the same possition -> plugin will do the rest :D
     # and yes you can change that if you want to
-    position: 45
+    position: 18
     type: BARRIER
     displayName: "&4&lClose"
     sound: "BLOCK_BARREL_CLOSE"
-  # Next page button
-  next:
-    position: 51
-    displayName: "&aNext"
-    type: "PLAYER_HEAD"
-    head:
-      type: "VALUES"
-      owner: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmNTVmMWIzMmMzNDM1YWMxYWIzZTVlNTM1YzUwYjUyNzI4NWRhNzE2ZTU0ZmU3MDFjOWI1OTM1MmFmYzFjIn19fQ=="
-  # Previous page button
-  previous:
-    position: 47
-    displayName: "&cPrevious"
-    type: "PLAYER_HEAD"
-    head:
-      type: "VALUES"
-      owner: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjc2OGVkYzI4ODUzYzQyNDRkYmM2ZWViNjNiZDQ5ZWQ1NjhjYTIyYTg1MmEwYTU3OGIyZjJmOWZhYmU3MCJ9fX0="

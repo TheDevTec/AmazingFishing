@@ -19,6 +19,7 @@ import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.BukkitLoader;
+import me.devtec.theapi.bukkit.game.ItemMaker;
 
 /**
  * This is PARENT class for {@link Fish} and {@link Junk} classes. {@link Fish} and {@link Junk} classes have a small differences!
@@ -153,7 +154,7 @@ public abstract class FishingItem {
 	//Why abstract? You need to apply placeholders in lore, JUNK and FISH items won't have the same placeholders
 	public abstract ItemStack getItem(Placeholders placeholders);
 	
-	public abstract ItemStack getPreviewItem();
+	public abstract ItemMaker getPreviewItem();
 	
 	/** generating final item. If item is fish generating length and weight.
 	 * @param player The fisher
