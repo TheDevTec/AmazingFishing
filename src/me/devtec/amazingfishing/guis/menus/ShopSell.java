@@ -41,11 +41,12 @@ public class ShopSell extends Menu {
 	
 	protected void putSpecialitems(GUI gui, Player player, int page) {
 
-		setCloseRunnable(p -> {
+		setCloseRunnable( (p, g)-> {
 			for(ItemStack item : getInsertedItems(gui)) {
 				returnItem(p, item);
 			}
-		});
+			close(p);
+			});
 		
 		// Adding sell button
 		MenuItem item = getItem("sell");

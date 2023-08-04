@@ -204,11 +204,11 @@ public class Menu {
 		GUI gui = MenuUtils.prepare(
 				new GUI(getTitle(), getSize()) {
 					@Override
-					public void onClose(Player p) {
-						onClose.run(player);
+					public void onClose(Player player) {
+						onClose.run(player, this);
 					}
 				}, fill());
-		setCloseRunnable(P -> close(P));
+		setCloseRunnable((p, g) -> g.close());
 		
 		gui.setInsertable(insertable());
 		// Normal items
@@ -283,11 +283,11 @@ public class Menu {
 	private PRunnable onClose;
 	
 	protected void setCloseRunnable(PRunnable onClosing) {
-		
+		onClose = onClosing;
 	}
 	
 	protected static interface PRunnable {
-		public void run(Player p);
+		public void run(Player p, GUI g);
 	}
 	
 }
