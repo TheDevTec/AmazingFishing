@@ -16,7 +16,7 @@ import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
-import me.devtec.amazingfishingOLD.utils.points.EconomyAPI;
+import me.devtec.amazingfishing.utils.points.EconomyAPI;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
 import me.devtec.theapi.bukkit.gui.GUI;

@@ -3,6 +3,7 @@ package me.devtec.amazingfishing;
 import java.io.File;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -85,6 +86,7 @@ public class API {
 	 */
 	public static CaughtItem identifyItem(ItemStack item) {
 		NBTEdit edit = new NBTEdit(item);
+		Bukkit.broadcastMessage(edit.getNBT()+"");
 		Config data = new Config();
 		
 		if (edit.hasKey("af_data"))

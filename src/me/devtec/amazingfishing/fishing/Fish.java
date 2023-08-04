@@ -114,7 +114,7 @@ public class Fish extends FishingItem {
 	
 	private Config createData(double weight, double length) {
 		Config data = new Config().set("file", getConfig().getFile().getName()).set("name", getName())
-					.set("type", getType().toString())
+					.set("type", getType().getName())
 					.set("weigth", weight).set("length", length);
 		if(isEdible())
 			data.set("addhunger", getHunger());
