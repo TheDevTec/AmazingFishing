@@ -41,7 +41,7 @@ public class Fish extends FishingItem {
 
 
 	@Override
-	public ItemStack getItem(Placeholders placeholders) {
+	public ItemMaker getItem(Placeholders placeholders) {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
 		placeholders.add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
@@ -56,7 +56,7 @@ public class Fish extends FishingItem {
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger());
 		
-		return ItemUtils.applyPlaceholders(item, placeholders).build();
+		return ItemUtils.applyPlaceholders(item, placeholders);
 	}
 
 
@@ -102,7 +102,7 @@ public class Fish extends FishingItem {
 		
 		ItemStack item = getItem(placeholders.add("fish_length", length)
 				.add("fish_weight", weight)
-				.addPlayer("player", player));
+				.addPlayer("player", player)).build();
 		if(item == null)
 			return null;
 		

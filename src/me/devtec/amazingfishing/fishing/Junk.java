@@ -38,7 +38,7 @@ public class Junk extends FishingItem {
 
 
 	@Override
-	public ItemStack getItem(Placeholders placeholders) {
+	public ItemMaker getItem(Placeholders placeholders) {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
 		placeholders.add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
@@ -53,7 +53,7 @@ public class Junk extends FishingItem {
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger());
 		
-		return ItemUtils.applyPlaceholders(item, placeholders).build();
+		return ItemUtils.applyPlaceholders(item, placeholders);
 	}
 
 
@@ -80,19 +80,19 @@ public class Junk extends FishingItem {
 
 	@Override
 	public ItemStack generate(Player player, Placeholders placeholders) {
-		ItemStack item = getItem(placeholders.addPlayer("player", player));
+		ItemMaker item = getItem(placeholders.addPlayer("player", player));
 
 		if(item == null)
 			return null;
 		
 		//If item is not Edible or Saleable or empty lore -> Admin probably want this to be more default minecraft item
-		if(isSaleable() || isEdible() || !item.getLore().isEmpty()) {
-			NBTEdit edit = new NBTEdit(item);
+		if(isSaleable() || isEdible() || (item.getLore()!= null && !item.getLore().isEmpty()) ) {
+			NBTEdit edit = new NBTEdit(item.build());
 			edit.setString("af_data", createData().toString(DataType.JSON));
-			return BukkitLoader.getNmsProvider().setNBT(item, edit);
+			return BukkitLoader.getNmsProvider().setNBT(item.build(), edit);
 		}
 		
-		return item;
+		return item.build();
 	}
 
 	private Config createData() {

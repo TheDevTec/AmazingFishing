@@ -152,7 +152,7 @@ public abstract class FishingItem {
 	 *  ITEMS
 	 */
 	//Why abstract? You need to apply placeholders in lore, JUNK and FISH items won't have the same placeholders
-	public abstract ItemStack getItem(Placeholders placeholders);
+	public abstract ItemMaker getItem(Placeholders placeholders);
 	
 	public abstract ItemMaker getPreviewItem();
 	
