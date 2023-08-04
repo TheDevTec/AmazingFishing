@@ -58,10 +58,10 @@ public class Junk extends FishingItem {
 
 
 	@Override
-	public ItemStack getPreviewItem() {
+	public ItemMaker getPreviewItem() {
 		ItemMaker item = ItemUtils.loadPreviewItem(getConfig());
 			
-		Placeholders placeholders = Placeholders.c().addPlayer("player", null)
+		Placeholders placeholders = Placeholders.c()
 			.add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
 			.add("fish_chance", getChance())
@@ -75,7 +75,7 @@ public class Junk extends FishingItem {
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger());
 		
-		return ItemUtils.applyPlaceholders(item, placeholders).build();
+		return ItemUtils.applyPlaceholders(item, placeholders);
 	}
 
 	@Override

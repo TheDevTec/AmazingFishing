@@ -61,10 +61,11 @@ public class Fish extends FishingItem {
 
 
 	@Override
-	public ItemStack getPreviewItem() {
+	public ItemMaker getPreviewItem() {
 		ItemMaker item = ItemUtils.loadPreviewItem(getConfig());
 		
-		Placeholders placeholders = Placeholders.c().add("fish_type", getType().toString())
+		Placeholders placeholders = Placeholders.c()
+			.add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
 			.add("fish_chance", getChance())
 			.add("fish_name", getName())
@@ -76,11 +77,12 @@ public class Fish extends FishingItem {
 			.add("fish_xp", getBaseXp())
 			.add("fish_isedible", isEdible())
 			.add("fish_hunger", getHunger())
+			// fish special:
 			.add("fish_weight_min", getWeight(Limit.MIN))
 			.add("fish_weight_max", getWeight(Limit.MAX))
 			.add("fish_length_min", getLength(Limit.MIN))
 			.add("fish_length_max", getLength(Limit.MAX));
-		return ItemUtils.applyPlaceholders(item, placeholders).build();
+		return ItemUtils.applyPlaceholders(item, placeholders);
 	}
 
 	@Override

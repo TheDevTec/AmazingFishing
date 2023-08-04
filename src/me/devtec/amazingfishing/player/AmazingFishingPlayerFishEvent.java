@@ -12,17 +12,12 @@ import me.devtec.amazingfishing.fishing.FishingItem;
 public class AmazingFishingPlayerFishEvent extends Event implements Cancellable {
 
 	private static final HandlerList handlers = new HandlerList();
-    private String message;
     
     private boolean cancelled;
     private State state;
     private Player player;
     private PlayerFishEvent event;
     private FishingItem caught;
-    
-    public AmazingFishingPlayerFishEvent(String example) {
-        message = example;
-    }
 
     public AmazingFishingPlayerFishEvent(Player player, State state, PlayerFishEvent event) {
         this.state = state;
@@ -35,10 +30,6 @@ public class AmazingFishingPlayerFishEvent extends Event implements Cancellable 
         this.player = player;
         this.event = event;
         this.caught = caught;
-    }
-    
-    public String getMessage() {
-        return message;
     }
     
     public State getState() {
