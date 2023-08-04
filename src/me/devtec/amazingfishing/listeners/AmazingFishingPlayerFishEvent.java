@@ -1,4 +1,4 @@
-package me.devtec.amazingfishing.player;
+package me.devtec.amazingfishing.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

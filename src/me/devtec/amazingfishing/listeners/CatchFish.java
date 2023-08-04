@@ -20,7 +20,6 @@ import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
-import me.devtec.amazingfishing.player.AmazingFishingPlayerFishEvent;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
