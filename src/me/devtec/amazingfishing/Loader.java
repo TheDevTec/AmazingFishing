@@ -1,11 +1,13 @@
 package me.devtec.amazingfishing;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.guis.MenuLoader;
 import me.devtec.amazingfishing.listeners.CatchFish;
 import me.devtec.amazingfishing.listeners.PlayerQuit;
+import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -13,6 +15,7 @@ import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
+import me.devtec.theapi.bukkit.commands.hooker.BukkitCommandManager;
 
 public class Loader extends JavaPlugin {
 
@@ -79,8 +82,8 @@ public class Loader extends JavaPlugin {
 		data.reload(s);
 		for(String string : data.getKeys())
 			System.out.println(string + " " + data.get(string));*/
-			
-		}
+		
+	}
 
 	private static Config createData(double weight, double length) {
 		return new Config().set("file", "file_name").set("fish", "fish_name")
@@ -114,6 +117,14 @@ public class Loader extends JavaPlugin {
 
 		Bukkit.getPluginManager().registerEvents(new PlayerQuit(), this);
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
+		
+		// Loading command
+		PluginCommand cmd = BukkitCommandManager.createCommand(Configs.config.getString("command.name"), this);
+		cmd.setPermission(Configs.config.getString("command.permission"));
+		AmazingFishingCommand amf = new AmazingFishingCommand();
+		cmd.setExecutor(amf);
+		cmd.setAliases(Configs.config.getStringList("command.aliases"));
+		BukkitCommandManager.registerCommand(cmd);
         
 		//Loading Placeholder expansion
 		MessageUtils.msgConsole("%name% &fLoading placeholders", Placeholders.c().add("name", "[AmazingFishing]"));
@@ -146,6 +157,8 @@ public class Loader extends JavaPlugin {
 		API.loadFishingItems();
 		//Clearing Fisher cache list
 		API.getFisherList().clear();
+		//Loading fishing GUIs
+		MenuLoader.loadMenus();
 	}
 	
 	

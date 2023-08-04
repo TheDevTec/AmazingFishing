@@ -21,9 +21,11 @@ fishing:
     fish: "amazingfishing.fishing"
     # If you want different default permission to be able to catch junk items
     junk: "amazingfishing.fishing"
-  
-  
-  
-  
-  
-  
+
+# Command settings  
+command:
+  name: "amazingfishing"
+  permission: "amazingfishing.command"
+  aliases:
+  - "fish"
+  - "af"
