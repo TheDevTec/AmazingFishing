@@ -6,9 +6,12 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 
+import me.devtec.amazingfishing.fishing.CaughtItem;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
+import me.devtec.amazingfishing.fishing.enums.CalculatorType;
 import me.devtec.amazingfishing.fishing.enums.Limit;
+import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.utility.MathUtils;
 
 public class Calculator {
@@ -110,4 +113,22 @@ public class Calculator {
         return null;
     }
 	
+    
+    /*
+     * CALCULATING MONEY, POINTS & XP
+     */
+    
+    public static double calculate(CalculatorType calculator, CaughtItem item) {
+    	String equation = item.getItem().getEquation(calculator);
+    	
+    	Placeholders placeholders = Placeholders.c()
+    			.add("weight", item.getWeight())
+    			.add("length", item.getLength())
+    			.add("money", item.getItem().getBaseMoney())
+    			.add("experiences", item.getItem().getBaseXp())
+    			.add("points", item.getItem().getBasePoints())
+    			.replace("bonus", item.getItem().getBonus());
+    	
+    	return MathUtils.calculate(placeholders.apply(equation));
+    }
 }

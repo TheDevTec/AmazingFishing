@@ -3,3 +3,13 @@
 prefix: "!#23abde&lAmazingFishing!#1fd9e2 &8»&7"
 
 noPerms: "%prefix% &cNa tohle nemáš permise!! &c(4%permission%&c)"
+
+
+shop:
+  sold:
+  - "&8&m&l---&8&l« %prefix% &8&m&l---"
+  - "&9• &7Prodal jsi: &3%amount% &7věcí"
+  - "&9• &7Obdrženo peněz &3%money%€"
+  - "&9• &7Obdrženo XP: &3%exp%"
+  - "&9• &7Obdrženo pointů: &3%points%"
+  - "&8&m&l------------------------------"

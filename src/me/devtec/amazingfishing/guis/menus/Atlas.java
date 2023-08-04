@@ -11,9 +11,9 @@ import me.devtec.amazingfishing.guis.MenuItem;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.gui.GUI;
+import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
 import me.devtec.theapi.bukkit.gui.ItemGUI;
-import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 
 public class Atlas extends Menu {
 

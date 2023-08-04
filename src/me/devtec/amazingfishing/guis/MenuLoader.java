@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.guis.menus.Atlas;
+import me.devtec.amazingfishing.guis.menus.ShopSell;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.shared.dataholder.Config;
 
@@ -15,7 +16,7 @@ public class MenuLoader {
 
 	public static Config mainMenuConfig;
 	
-	protected static List<String> fileList = Arrays.asList("main", "index", "index_fish", "index_junk");
+	protected static List<String> fileList = Arrays.asList("main", "index", "index_fish", "index_junk", "shop_sell");
 	private static HashMap<String, Menu> menuList = new HashMap<String, Menu>();
 	
 	public static List<String> getMenuFiles() {
@@ -44,6 +45,8 @@ public class MenuLoader {
 					menuList.put(file, new Atlas(config, FishType.FISH));
 				else if(file.equalsIgnoreCase("index_junk"))
 					menuList.put(file, new Atlas(config, FishType.JUNK));
+				else if(file.equalsIgnoreCase("shop_sell"))
+					menuList.put(file, new ShopSell(config));
 				else
 					menuList.put(file, new Menu(config));
 				

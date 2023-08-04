@@ -77,9 +77,9 @@ shop:
   
 # Custom calculator for shop, weight and length
 calculator:
-  money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
-  exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
-  points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+  money: "%money% * %bonus%"
+  exps: "%experiences% * %bonus%"
+  points: "%points% * %bonus%"
 
 
 #####################

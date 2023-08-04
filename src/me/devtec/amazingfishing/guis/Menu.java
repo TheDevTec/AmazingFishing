@@ -90,6 +90,12 @@ public class Menu {
 		else
 			return true;
 	}
+	public boolean insertable() {
+		if(getConfig().exists("insertable"))
+			return getConfig().getBoolean("insertable");
+		else
+			return false;
+	}
 	
 	/*
 	 * OPENING
@@ -199,35 +205,14 @@ public class Menu {
 				new GUI(getTitle(), getSize()) {
 					@Override
 					public void onClose(Player p) {
-						close();
+						onClose.run(player);
 					}
 				}, fill());
+		setCloseRunnable(P -> close(P));
 		
+		gui.setInsertable(insertable());
 		// Normal items
 		putNormalItems(gui, player);
-		/*for(MenuItem item: getItems().values()) {
-			if(item.hasPermission(player)) {
-				gui.setItem(item.getPosition(), 
-						new ItemGUI(isPerPlayer() ? item.getItem(player).build() : item.getItem().build() ) {
-					
-					@Override
-					public void onClick(Player player, HolderGUI gui, ClickType click) {
-						//If this item is opening another menu
-						if(item.isOpening()) {
-							//trying to open menu
-							try {
-								player.playSound(player.getLocation(), item.getSound() , 5, 10);
-								MenuLoader.openMenu(player, getConfig().getString(item.getOpening()), getBackMenu(player));
-							} catch (ArrayStoreException e) {
-								player.playSound(player.getLocation(), item.getErrorSound() , 5, 10);
-								e.printStackTrace();
-							}
-						}
-						
-					}
-				});
-			}	
-		} //END OF NORMAL ITEMS*/
 		
 		// SPECIAL ITEMS
 		putSpecialitems(gui, player, page);
@@ -295,5 +280,14 @@ public class Menu {
 		
 	}
 	
+	private PRunnable onClose;
+	
+	protected void setCloseRunnable(PRunnable onClosing) {
+		
+	}
+	
+	protected static interface PRunnable {
+		public void run(Player p);
+	}
 	
 }

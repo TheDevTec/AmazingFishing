@@ -28,8 +28,20 @@ items:
     - "&7Click to open"
     # Put here name of the file you want to open (without .yml)
     opens: "index"
-    # sound: "BLOCK_BARREL_OPEN"
+    # sound: "BLOCK_BARREL_OPEN" # this is default sound :D
     # permission: "amazingfishing.menu.index"
+  sell_shop:
+    position: 13
+    displayName: "&bShop"
+    type: GOLD_INGOT
+    lore:
+    - "&fOpens menu where you can sell all your items"
+    - ""
+    - "&7Click to open"
+    # Put here name of the file you want to open (without .yml)
+    opens: "shop_sell"
+    # sound: "BLOCK_BARREL_OPEN"
+    # permission: "amazingfishing.menu.shop"
 
 # These special buttons are loaded and used differently...
 buttons:

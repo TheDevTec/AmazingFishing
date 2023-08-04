@@ -91,6 +91,9 @@ shop:
   money: 5.5 # Base money that will be used when calculating money from selling this fish
   points: 5.5
   xp: 10.5
+  # This bonus will be applied when selling fish
+  # Bonus will be active only when this fis is 'FishOfTheDay'
+  bonus: 1.1
   
 # Custom calculator for shop, weight and length
 calculator:
@@ -98,9 +101,9 @@ calculator:
   # (yes you can edit this but we are not checking if final weight is inside min and max bounds)
   # %fish_length% is generated length
   weight: "((%fish_weight_max% - %fish_weight_min%) / (%fish_length_max% - %fish_length_min%)) * %fish_length% + %fish_weight_min%"
-  money: "(%length% / 4 +%weight% / 4 + %money%) * %bonus%"
-  exps: "(%length% / 4 +%weight% / 4 + %experiences%) * %bonus%"
-  points: "(%length% / 5 +%weight% / 5 + %points%) * %bonus%"
+  money: "(%weight% * %money%) * %bonus%"
+  exps: "(%weight% * %experiences%) * %bonus%"
+  points: "(%weight% * %points%) * %bonus%"
   
 #####################
 ## Special options ##

@@ -4,13 +4,17 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.fishing.CaughtItem;
 import me.devtec.amazingfishing.fishing.Fish;
+import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class API {
 	
@@ -45,6 +49,52 @@ public class API {
 		return junk_list;
 	}
 	
+	/** Gets {@link Fish} from loaded Fishes
+	 * @param fileName
+	 * @return null if there is no match
+	 */
+	public static Fish getFish(String fileName) {
+		if(getFishList().containsKey(fileName))
+			return getFishList().get(fileName);
+		return null;
+	}
+	/** Gets {@link Junk} from loaded Junk items
+	 * @param fileName
+	 * @return null if there is no match
+	 */
+	public static Junk getJunk(String fileName) {
+		if(getJunkList().containsKey(fileName))
+			return getJunkList().get(fileName);
+		return null;
+	}
+	/** Gets {@link FishingItem} from loaded Fish & Junk items.
+	 * @param fileName
+	 * @return {@link FishingItem} - It is parent class for {@link Fish} and {@link Junk} classes
+	 */
+	public static FishingItem getItem(String fileName){
+		if(getFish(fileName) != null)
+			return getFish(fileName);
+		if(getJunk(fileName) != null)
+			return getJunk(fileName);
+		return null;
+	}
+	
+	/** Checks if item is from this plugin
+	 * @param item {@link CaughtItem}
+	 * @return null if item is not from this plugin
+	 */
+	public static CaughtItem identifyItem(ItemStack item) {
+		NBTEdit edit = new NBTEdit(item);
+		Config data = new Config();
+		
+		if (edit.hasKey("af_data"))
+			data.reload(edit.getString("af_data"));
+
+		if (data.getKeys().isEmpty())
+			return null;
+		
+		return new CaughtItem(item);
+	}
 	
 	/*
 	 * PLAYER

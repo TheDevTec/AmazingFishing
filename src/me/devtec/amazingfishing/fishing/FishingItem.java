@@ -9,11 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.Loader;
+import me.devtec.amazingfishing.fishing.enums.CalculatorType;
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.fishing.enums.FishingTime;
 import me.devtec.amazingfishing.fishing.enums.FishingWeather;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.player.Fisher;
+import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -346,7 +348,22 @@ public abstract class FishingItem {
 		return file.exists("shop.xp") ? file.getDouble("shop.xp") : 0;
 	}
 	
-	//CALCULATOR? Hmm... probably different class
+	/** Gets BONUS that will be applied when selling FishOfTheDay item
+	 * @return 1 if there is no bonus
+	 */
+	public double getBonus() {
+		return file.exists("shop.bonus") ? file.getDouble("shop.bonus") : 1;
+	}
+	
+	/** Getting calculator equation from configuration file
+	 * @param calculator {@link Calculator}
+	 * @return
+	 */
+	public String getEquation(CalculatorType calculator) {
+		if(getConfig().exists("calculator."+calculator.getPath()))
+			return getConfig().getString("calculator."+calculator.getPath());
+		return null;
+	}
 	
 	
 	/*

@@ -2,6 +2,7 @@ package me.devtec.amazingfishing;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.devtec.amazingfishing.guis.MenuLoader;
@@ -12,10 +13,13 @@ import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
+import me.devtec.amazingfishing.utils.points.EconomyAPI;
 import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
 import me.devtec.theapi.bukkit.commands.hooker.BukkitCommandManager;
+import net.milkbowl.vault.economy.Economy;
 
 public class Loader extends JavaPlugin {
 
@@ -105,6 +109,10 @@ public class Loader extends JavaPlugin {
 		MessageUtils.msgConsole("["+this.getDescription().getName()+"] &fLoading configs", null);
         Configs.load();
 		
+        //Loading VAULT economy
+		if (Bukkit.getPluginManager().getPlugin("Vault") != null)
+			vaultEconomyHooking();
+		
 		// Checking for updates
 		MessageUtils.msgConsole("%name% Checking for updates....", Placeholders.c().add("name", "[AmazingFishing]"));
         Version ver = new SpigotUpdateChecker(this.getDescription().getVersion(), 71148).checkForUpdates();
@@ -161,5 +169,28 @@ public class Loader extends JavaPlugin {
 		MenuLoader.loadMenus();
 	}
 	
-	
+	// VAULT HOOKING
+	private void vaultEconomyHooking() {
+		getLogger().info("[AmazingFishing] Looking for Vault economy service..");
+		new Tasker() {
+			@Override
+			public void run() {
+				if (getVaultEconomy()) {
+					getLogger().info("[AmazingFishing] Found Vault economy service. " + ((Economy) EconomyAPI.economy).getName());
+					cancel();
+				}
+			}
+		}.runTimer(0, 20, 15);
+	}
+
+	private boolean getVaultEconomy() {
+		try {
+			RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
+			if (economyProvider != null)
+				EconomyAPI.economy = economyProvider.getProvider();
+			return EconomyAPI.economy != null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

@@ -29,3 +29,10 @@ command:
   aliases:
   - "fish"
   - "af"
+
+# Shop settings
+shop:
+  # If player should get any money, points or XP from selling fishing items
+  disableMoney: false
+  disablePoints: true
+  disableXp: false
