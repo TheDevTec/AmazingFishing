@@ -3,7 +3,6 @@ package me.devtec.amazingfishing;
 import java.io.File;
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -29,6 +28,15 @@ public class API {
 	 *  FISH & JUNK LISTS
 	 */
 	
+	/**
+	 * Loads all enabled items. </br>
+	 * Sorted into two hashMaps. One with {@link Fish} and other with {@link Junk} items. 
+	 * You can get these HashMaps with getFishList() and getJunkList methods. </br>
+	 * If HashMap is empty that means that there is none Fish or Junk item enabled/created. 
+	 * All files are in plugins/AmazingFIshing/Fish directory (or resources/Fish directory if you are on github) </br>
+	 * 
+	 * @apiNote Its only used on plugin's enable or when reloading all files.
+	 */
 	public static void loadFishingItems() {
 		File directory = new File("plugins/AmazingFishing/Fish");
 		if(directory.exists() && directory.isDirectory()) {		
@@ -71,8 +79,11 @@ public class API {
 	/** Gets {@link FishingItem} from loaded Fish & Junk items.
 	 * @param fileName
 	 * @return {@link FishingItem} - It is parent class for {@link Fish} and {@link Junk} classes
+	 * 
+	 * @implNote {@link FishingItem} is parent class for {@link Fish} and {@link Junk} classes. 
+	 * So this will return you {@link Junk} and also {@link Fish} item depending on fileName...
 	 */
-	public static FishingItem getItem(String fileName){
+	public static FishingItem getFishingItem(String fileName){
 		if(getFish(fileName) != null)
 			return getFish(fileName);
 		if(getJunk(fileName) != null)
@@ -86,7 +97,6 @@ public class API {
 	 */
 	public static CaughtItem identifyItem(ItemStack item) {
 		NBTEdit edit = new NBTEdit(item);
-		Bukkit.broadcastMessage(edit.getNBT()+"");
 		Config data = new Config();
 		
 		if (edit.hasKey("af_data"))
@@ -101,14 +111,7 @@ public class API {
 	/*
 	 * PLAYER
 	 */
-	
-	/** Removes player from list of active fishers. Should be run when player leaves the server on when you want... your choice :D
-	 * @param player The player that is leaving server.
-	 */
-	public static void playerQuit(Player player) {
-		if(getFisherList().containsKey(player))
-			getFisherList().remove(player);
-	}
+
 	
 	/** Gets {@link Fisher}.}
 	 * @param player Online player you wan't to use.
@@ -125,6 +128,14 @@ public class API {
 	
 	public static HashMap<Player, Fisher> getFisherList() {
 		return player_list;
+	}
+	
+	/** Removes player from list of active fishers. Should be run when player leaves the server on when you want... your choice :D
+	 * @param player The player that is leaving server.
+	 */
+	public static void playerQuit(Player player) {
+		if(getFisherList().containsKey(player))
+			getFisherList().remove(player);
 	}
 	
 }

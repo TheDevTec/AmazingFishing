@@ -14,7 +14,6 @@ import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
 import me.devtec.amazingfishing.utils.points.EconomyAPI;
-import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
@@ -89,10 +88,10 @@ public class Loader extends JavaPlugin {
 		
 	}
 
-	private static Config createData(double weight, double length) {
+	/*private static Config createData(double weight, double length) {
 		return new Config().set("file", "file_name").set("fish", "fish_name")
 					.set("type", "fish_type").set("weigth", weight).set("length", length);
-	}
+	}*/
 	
 	public static Loader plugin;
 	

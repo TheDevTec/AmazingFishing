@@ -276,9 +276,7 @@ public class Menu {
 		}
 	}
 	
-	protected void putSpecialitems(GUI gui, Player player, int page) {
-		
-	}
+	protected void putSpecialitems(GUI gui, Player player, int page) {}
 	
 	private PRunnable onClose;
 	

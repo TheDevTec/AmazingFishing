@@ -276,6 +276,10 @@ public abstract class FishingItem {
 	public List<String> getMessagesRaw(ItemAction action) {
 		return file.getStringList("messages."+action.path());
 	}
+	/*
+	 * Possible placeholders:
+	 * %amount%, %weigth%, %length%
+	 */
 	public void runMessages(Player player, ItemAction action, Placeholders placeholders ) {
 		List<String> msgs = getMessagesRaw(action);
 		if(msgs == null || msgs.isEmpty())
@@ -285,7 +289,6 @@ public abstract class FishingItem {
 		for(String message: msgs) {
 			MessageUtils.sendPluginMessage(player, message, placeholders, player);
 		}
-		
 	}
 	
 	/*

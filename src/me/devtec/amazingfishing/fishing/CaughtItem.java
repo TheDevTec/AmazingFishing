@@ -1,13 +1,10 @@
 package me.devtec.amazingfishing.fishing;
 
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.fishing.enums.FishType;
-import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.shared.dataholder.Config;
-import me.devtec.shared.dataholder.loaders.DataLoader;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
 public class CaughtItem{
@@ -31,17 +28,24 @@ public class CaughtItem{
 		data = new Config();
 		if (edit.hasKey("af_data"))
 			data.reload(edit.getString("af_data"));
-
-		Bukkit.broadcastMessage(edit.getString("af_data"));
-		Bukkit.broadcastMessage("Loader: "+DataLoader.findLoaderFor(edit.getString("af_data")).toString());
 		
 		if(data.getKeys().isEmpty())
 			return;
-		MessageUtils.sendAnnouncement("Type: "+data.getString("type"));
-		type = FishType.value(data.getString("type"));
-		MessageUtils.sendAnnouncement("The item type is: "+type.toString());
 		
-		fishItem = API.getItem(data.getString("file"));
+		type = FishType.value(data.getString("type"));
+		
+		fishItem = API.getFishingItem(data.getString("file"));
+	}
+	
+	/** Checks if this even is item from this plugin. </br>
+	 * There an be a case when your item is from this plugin, but because it is just basic MC item this plugin is just ignoring it....
+	 * Plugin needs some reason to edit item's NBT.
+	 * @return
+	 */
+	public boolean isFishingItem() {
+		if(type == null || fishItem == null)
+			return false;
+		return true;
 	}
 	
 	public FishingItem getItem() {

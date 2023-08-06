@@ -140,6 +140,7 @@ public class CatchFish implements Listener {
 					ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
 					// running commands
 					fishingItem.runCommands(player, ItemAction.CATCH, placeholders);
+					
 					//TODO - statistics
 				}
 				else

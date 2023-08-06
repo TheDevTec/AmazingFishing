@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.fishing.CaughtItem;
 import me.devtec.amazingfishing.fishing.enums.CalculatorType;
+import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.guis.Menu;
 import me.devtec.amazingfishing.guis.MenuItem;
 import me.devtec.amazingfishing.utils.Calculator;
@@ -93,13 +94,19 @@ public class ShopSell extends Menu {
 				returnItem(player, itemStack);
 				continue;
 			}
-			
+			item.getItem().runMessages(player, ItemAction.SELL, Placeholders.c()
+					.add("amount", itemStack.getAmount())
+					.add("weigth", item.getWeight()).add("length", item.getLength()));
 			// Calculating money, points and xp
 			totalMoney += Calculator.calculate(CalculatorType.MONEY, item) * itemStack.getAmount();
 			totalPoints += Calculator.calculate(CalculatorType.POINTS, item) * itemStack.getAmount();
 			totalExp += Calculator.calculate(CalculatorType.EXPS, item) * itemStack.getAmount();
 		
 			soldItems += itemStack.getAmount();
+			
+			item.getItem().runCommands(player, ItemAction.SELL, Placeholders.c()
+					.add("amount", itemStack.getAmount())
+					.add("weigth", item.getWeight()).add("length", item.getLength()));
 		//TODO - statistics
 		
 		}
