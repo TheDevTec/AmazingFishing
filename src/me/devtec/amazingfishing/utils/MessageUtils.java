@@ -102,6 +102,18 @@ public class MessageUtils {
 			return add(placeholder, replace);
 		}
 		
+		/** Will copy all placeholders into new {@link Placeholders}.
+		 * @param placeholders Your already existing placeholders.
+		 * @return {@link Placeholders}
+		 */
+		public Placeholders add(Placeholders placeholders) {
+			if(!placeholders.set.isEmpty())
+				set.putAll(placeholders.set);
+			if(!placeholders.player_set.isEmpty())
+				player_set.putAll(placeholders.player_set);
+			return this;
+		}
+		
 		/** Method used to apply placeholders in message
 		 * @param sender The player to whom you are sending the message
 		 * @param text Message where you want to replace placeholders
