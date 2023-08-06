@@ -12,6 +12,7 @@ import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
+import me.devtec.amazingfishing.utils.MetricksFishing;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
 import me.devtec.amazingfishing.utils.points.EconomyAPI;
 import me.devtec.shared.scheduler.Tasker;
@@ -119,6 +120,8 @@ public class Loader extends JavaPlugin {
         	MessageUtils.msgConsole("%name% &cNew update available... &fCurrent version %version%", Placeholders.c().add("version", this.getDescription().getVersion()).add("name", "[AmazingFishing]"));
         //MessageUtils.msgConsole("%prefix% &fThere is not a new update available.", Placeholders.c());
         
+        //Loading bStats
+        new MetricksFishing(this, 10630);
         
         // Loading events
 

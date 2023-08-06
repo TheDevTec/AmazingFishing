@@ -284,7 +284,7 @@ public abstract class FishingItem {
 		List<String> msgs = getMessagesRaw(action);
 		if(msgs == null || msgs.isEmpty())
 			return;
-		placeholders.addPlayer("player", player);
+		placeholders.addPlayer("player", player);  //TODO - more placeholders
 		
 		for(String message: msgs) {
 			MessageUtils.sendPluginMessage(player, message, placeholders, player);
@@ -311,7 +311,7 @@ public abstract class FishingItem {
 		List<String> cmds = getCommandsRaw(action);
 		if(cmds==null || cmds.isEmpty())
 			return;
-		placeholders.addPlayer("player", player);
+		placeholders.addPlayer("player", player); //TODO - more placeholders
 		
 		for(String command: cmds) {
 			BukkitLoader.getNmsProvider().postToMainThread(() -> {
