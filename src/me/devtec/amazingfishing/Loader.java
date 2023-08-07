@@ -8,16 +8,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.devtec.amazingfishing.guis.MenuLoader;
 import me.devtec.amazingfishing.listeners.CatchFish;
 import me.devtec.amazingfishing.listeners.PlayerQuit;
+import me.devtec.amazingfishing.player.points_economy.EconomyAPI;
+import me.devtec.amazingfishing.player.points_economy.PointsManager;
+import me.devtec.amazingfishing.player.points_economy.UserPoints;
+import me.devtec.amazingfishing.player.points_economy.VaultPoints;
 import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.MetricksFishing;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
-import me.devtec.amazingfishing.utils.points_economy.EconomyAPI;
-import me.devtec.amazingfishing.utils.points_economy.FisherPoints;
-import me.devtec.amazingfishing.utils.points_economy.PointsManager;
-import me.devtec.amazingfishing.utils.points_economy.VaultPoints;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
@@ -211,7 +211,7 @@ public class Loader extends JavaPlugin {
 	public static void loadPointsManager(PointsManager newPointsmanager) {
 		if(newPointsmanager == null) {
 			newPointsmanager = EconomyAPI.economy != null && Configs.config.getString("options.fishingPoints").equalsIgnoreCase("vault") 
-					? new VaultPoints() : new FisherPoints();
+					? new VaultPoints() : new UserPoints();
 		}
 		API.points = newPointsmanager;
 	}

@@ -10,12 +10,15 @@ import me.devtec.amazingfishing.API;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
+import me.devtec.amazingfishing.player.points_economy.FisherPoints;
 import me.devtec.shared.dataholder.Config;
 
 public class Fisher {
 
 	private Player player;
 	private FisherSituation situation;
+	
+	private FisherPoints fisher_points;
 	
 	public Fisher(Player player) {
 		this.player = player;
@@ -43,6 +46,15 @@ public class Fisher {
 	 */
 	public Config getUser() {
 		return me.devtec.shared.API.getUser(player.getName());
+	}
+	
+	/** Gets easier PointsManager only for this Fisher.
+	 * @return
+	 */
+	public FisherPoints getPoints() {
+		if(fisher_points == null)
+			fisher_points = new FisherPoints(this);
+		return fisher_points;
 	}
 	
 	/*

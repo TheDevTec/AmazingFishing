@@ -1,4 +1,4 @@
-package me.devtec.amazingfishing.utils.points_economy;
+package me.devtec.amazingfishing.player.points_economy;
 
 import net.milkbowl.vault.economy.Economy;
 

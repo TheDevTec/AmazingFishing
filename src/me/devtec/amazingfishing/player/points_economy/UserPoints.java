@@ -1,9 +1,9 @@
-package me.devtec.amazingfishing.utils.points_economy;
+package me.devtec.amazingfishing.player.points_economy;
 
 import me.devtec.shared.API;
 import me.devtec.shared.dataholder.DataType;
 
-public class FisherPoints implements PointsManager {
+public class UserPoints implements PointsManager {
 
 	@Override
 	public double get(String player) {

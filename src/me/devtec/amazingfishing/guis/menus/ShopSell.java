@@ -13,11 +13,11 @@ import me.devtec.amazingfishing.fishing.enums.CalculatorType;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.guis.Menu;
 import me.devtec.amazingfishing.guis.MenuItem;
+import me.devtec.amazingfishing.player.points_economy.EconomyAPI;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
-import me.devtec.amazingfishing.utils.points_economy.EconomyAPI;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
 import me.devtec.theapi.bukkit.gui.GUI;
@@ -112,19 +112,23 @@ public class ShopSell extends Menu {
 		}
 		// If player sold any items
 		if(soldItems > 0) {
+			//Checking if money, xp or points are disabled
 			if (Configs.config.getBoolean("shop.disableMoney"))
 				totalMoney = 0;
 			if (Configs.config.getBoolean("shop.disableXp"))
 				totalExp = 0;
-			if (Configs.config.getBoolean("shop.disablePoints"))
+					//if plugin is using economy money instead of points
+			if (Configs.config.getBoolean("shop.disablePoints") || 
+					Configs.config.getString("options.fishingPoints").equalsIgnoreCase("VAULT")) 
 				totalPoints = 0;
 			
-			if (totalPoints > 0) {
-				//TODO - POINTS
-				//API.getPoints().add(p.getName(), totalPoints);
-			}
+			//Adding points, money and XP
+			if (totalPoints > 0)
+				API.getPoints().add(getPermission(), totalPoints);
+			
 			if (totalMoney > 0 && EconomyAPI.economy != null)
 				EconomyAPI.depositPlayer(player.getName(), totalMoney);
+			
 			if ((int) totalExp > 0)
 				player.giveExp((int) totalExp);
 		
