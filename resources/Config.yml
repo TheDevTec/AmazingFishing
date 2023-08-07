@@ -14,6 +14,11 @@
 # You can create new files. New file need to be .yml type!
 translation_file: "en"
 
+options:
+  # If Fishing points should be enabled. Player can use Points in shop.
+  # PointsManager types: VAULT, POINTS
+  # VAULT - If some Economy is active plugin will use money instead of points...
+  fishingPoints: "POINTS"
 
 fishing:
   # Default fishing permissions

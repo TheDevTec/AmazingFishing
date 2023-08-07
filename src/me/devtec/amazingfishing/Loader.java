@@ -14,7 +14,10 @@ import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.MetricksFishing;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
-import me.devtec.amazingfishing.utils.points.EconomyAPI;
+import me.devtec.amazingfishing.utils.points_economy.EconomyAPI;
+import me.devtec.amazingfishing.utils.points_economy.FisherPoints;
+import me.devtec.amazingfishing.utils.points_economy.PointsManager;
+import me.devtec.amazingfishing.utils.points_economy.VaultPoints;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
@@ -147,6 +150,9 @@ public class Loader extends JavaPlugin {
 		// Loading fishing GUIs
 		MessageUtils.msgConsole("%name% &fLoading fishing GUIs", Placeholders.c().add("name", "[AmazingFishing]"));
 		MenuLoader.loadMenus();
+		
+		// Loading Fishing Points
+		loadPointsManager(null);
 
 		plugin = this;
 	}
@@ -171,6 +177,9 @@ public class Loader extends JavaPlugin {
 		MenuLoader.loadMenus();
 	}
 	
+	/*
+	 * VAULT & FISHING POINTS
+	 */
 	// VAULT HOOKING
 	private void vaultEconomyHooking() {
 		getLogger().info("[AmazingFishing] Looking for Vault economy service..");
@@ -194,5 +203,16 @@ public class Loader extends JavaPlugin {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	/** Loads new {@link PointsManager}
+	 * @param newPointsmanager New {@link PointsManager} (or null - plugin will decide)
+	 */
+	public static void loadPointsManager(PointsManager newPointsmanager) {
+		if(newPointsmanager == null) {
+			newPointsmanager = EconomyAPI.economy != null && Configs.config.getString("options.fishingPoints").equalsIgnoreCase("vault") 
+					? new VaultPoints() : new FisherPoints();
+		}
+		API.points = newPointsmanager;
 	}
 }

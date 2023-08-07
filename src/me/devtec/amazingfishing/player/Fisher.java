@@ -3,7 +3,6 @@ package me.devtec.amazingfishing.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -77,7 +76,7 @@ public class Fisher {
 	public List<FishingItem> generateAvailableItems(Location hookLocation) {
 		// Checking if the situation is still the same. If not, updating...
 		if(getFisherSituation().isTheSame(hookLocation)) {
-			Bukkit.broadcastMessage("SAME");
+			//Situation is the same
 			return generated;
 		}
 		else {

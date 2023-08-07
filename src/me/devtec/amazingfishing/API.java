@@ -13,6 +13,7 @@ import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
+import me.devtec.amazingfishing.utils.points_economy.PointsManager;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
@@ -23,6 +24,7 @@ public class API {
 	private static HashMap<String, Fish> fish_list = new HashMap<String, Fish>(); //file_name | Fish
 	private static HashMap<String, Junk> junk_list = new HashMap<String, Junk>(); //file_name | Junk
 	
+	protected static PointsManager points;
 	
 	/*
 	 *  FISH & JUNK LISTS
@@ -136,6 +138,17 @@ public class API {
 	public static void playerQuit(Player player) {
 		if(getFisherList().containsKey(player))
 			getFisherList().remove(player);
+	}
+	
+	/** Gets {@link PointsManager} class where you can manage Players points. </r>
+	 * Depending on Config.yml settings plugin is not always using Fishing points. Plugin can use Vault's economy money instead of Fishing points.
+	 * @return {@link PointsManager}
+	 */
+	public static PointsManager getPoints() {
+		return points;
+	}
+	public static PointsManager getPointsmanager() {
+		return getPoints();
 	}
 	
 }
