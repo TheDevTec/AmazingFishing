@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.guis.MenuLoader;
+import me.devtec.shared.commands.structures.CommandStructure;
 
 public class AmazingFishingCommand implements CommandExecutor {
 
@@ -20,6 +21,14 @@ public class AmazingFishingCommand implements CommandExecutor {
 		
 		
 		return true;
+	}
+	
+	public void test() {
+		
+		CommandStructure.create(CommandSender.class, null, (arg0, arg1, arg2) -> {
+			
+		});
+		
 	}
 
 }

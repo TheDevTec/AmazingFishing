@@ -1,7 +1,6 @@
 package me.devtec.amazingfishing;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,16 +11,15 @@ import me.devtec.amazingfishing.player.points_economy.EconomyAPI;
 import me.devtec.amazingfishing.player.points_economy.PointsManager;
 import me.devtec.amazingfishing.player.points_economy.UserPoints;
 import me.devtec.amazingfishing.player.points_economy.VaultPoints;
-import me.devtec.amazingfishing.utils.AmazingFishingCommand;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.MetricksFishing;
+import me.devtec.amazingfishing.utils.command.CommandsManager;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
 import me.devtec.shared.scheduler.Tasker;
 import me.devtec.shared.versioning.SpigotUpdateChecker;
 import me.devtec.shared.versioning.VersionUtils.Version;
-import me.devtec.theapi.bukkit.commands.hooker.BukkitCommandManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class Loader extends JavaPlugin {
@@ -132,12 +130,14 @@ public class Loader extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new CatchFish(), this);
 		
 		// Loading command
-		PluginCommand cmd = BukkitCommandManager.createCommand(Configs.config.getString("command.name"), this);
+		CommandsManager.register();
+		
+		/*PluginCommand cmd = BukkitCommandManager.createCommand(Configs.config.getString("command.name"), this);
 		cmd.setPermission(Configs.config.getString("command.permission"));
 		AmazingFishingCommand amf = new AmazingFishingCommand();
 		cmd.setExecutor(amf);
 		cmd.setAliases(Configs.config.getStringList("command.aliases"));
-		BukkitCommandManager.registerCommand(cmd);
+		BukkitCommandManager.registerCommand(cmd);*/
         
 		//Loading Placeholder expansion
 		MessageUtils.msgConsole("%name% &fLoading placeholders", Placeholders.c().add("name", "[AmazingFishing]"));

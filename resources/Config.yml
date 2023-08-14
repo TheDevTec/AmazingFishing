@@ -29,9 +29,13 @@ fishing:
 
 # Command settings  
 command:
-  name: "amazingfishing"
-  permission: "amazingfishing.command"
-  aliases:
+  permissions:
+    # cmd is default command permission ( /fish)
+    cmd: "amazingfishing.command"
+    open: "amazingfishing.command" # /fish open <menu>
+    openOthers: "amazingfishing.command.openOthers" # /fish open <menu> <player>
+  cmds:
+  - "amazingfishing"
   - "fish"
   - "af"
 
