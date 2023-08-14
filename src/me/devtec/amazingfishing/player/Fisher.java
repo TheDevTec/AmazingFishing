@@ -11,6 +11,7 @@ import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.player.points_economy.FisherPoints;
+import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.shared.dataholder.Config;
 
 public class Fisher {
@@ -110,4 +111,32 @@ public class Fisher {
 		
 		return generated;
 	}
+	
+	/*
+	 * PERMISSIONS
+	 */
+
+	/** Checks if player have some permission. </br>
+	 * This method will also send noPerms message. If you do not want to send that message 
+	 * 		use hasPermission(permission, false) method
+	 * @param permission
+	 * @return
+	 */
+	public boolean hasPermission(String permission) {
+		return hasPermission(permission, true);
+	}
+	
+	/** Checks if player have some permission.
+	 * @param permission
+	 * @param noPermsMessage if true plugin will send noPerms message
+	 * @return
+	 */
+	public boolean hasPermission(String permission, boolean noPermsMessage) {
+		if (permission == null || permission.isEmpty() || getPlayer().hasPermission(permission))
+			return true;
+		if (noPermsMessage)
+			MessageUtils.noPerm(getPlayer(), permission);
+		return false;
+	}
+	
 }
