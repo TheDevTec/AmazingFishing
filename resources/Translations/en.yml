@@ -17,3 +17,12 @@ shop:
   
 guis:
   notLoaded: "%prefix% &cYou can't open menu %menu%. This menu is not loaded!"
+  
+points:
+  get: "%prefix% &7Player &3%target% &7have &3%points% &7points"
+  remove:
+    sender: "%prefix% &7You removed &3%amount% &7of points from player &3%target%"
+    target: "%prefix% &3%amount% &7points have been taken away from you."
+  add:
+    sender: "%prefix% &7You added &3%amount% &7of points to player &3%target%"
+    target: "%prefix% &3%amount% &7points have been added to you."

@@ -124,7 +124,7 @@ public class ShopSell extends Menu {
 			
 			//Adding points, money and XP
 			if (totalPoints > 0)
-				API.getPoints().add(getPermission(), totalPoints);
+				API.getPoints().add(player.getName(), totalPoints);
 			
 			if (totalMoney > 0 && EconomyAPI.economy != null)
 				EconomyAPI.depositPlayer(player.getName(), totalMoney);

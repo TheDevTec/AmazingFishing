@@ -112,6 +112,7 @@ public class API {
 	
 	/*
 	 * PLAYER
+	 * Fisher, Pointsmanager
 	 */
 
 	
@@ -152,6 +153,9 @@ public class API {
 	}
 	public static PointsManager getPointsmanager() {
 		return getPoints();
+	}
+	public static Config getUser(String playerName) {
+		return me.devtec.shared.API.getUser(playerName);
 	}
 	
 }
