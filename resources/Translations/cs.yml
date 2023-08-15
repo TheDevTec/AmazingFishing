@@ -17,3 +17,12 @@ shop:
   
 guis:
   notLoaded: "%prefix% &cNemůžeš otevřít menu %menu%, protože neexistuje..."
+
+points:
+  get: "%prefix% &7Hráč &3%target% &7má &3%points% &7pointů"
+  remove:
+    sender: "%prefix% &7Odebral jsi &3%amount% &7pointů hráčovi &3%target%"
+    target: "%prefix% &3%amount% &7pointů ti bylo odebráno."
+  add:
+    sender: "%prefix% &7Přidal jsi &3%amount% &7pointů hráčovi &3%target%"
+    target: "%prefix% &3%amount% &7pointů ti bylo přidáno."
