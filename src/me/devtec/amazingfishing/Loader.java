@@ -131,13 +131,6 @@ public class Loader extends JavaPlugin {
 		
 		// Loading command
 		CommandsManager.register();
-		
-		/*PluginCommand cmd = BukkitCommandManager.createCommand(Configs.config.getString("command.name"), this);
-		cmd.setPermission(Configs.config.getString("command.permission"));
-		AmazingFishingCommand amf = new AmazingFishingCommand();
-		cmd.setExecutor(amf);
-		cmd.setAliases(Configs.config.getStringList("command.aliases"));
-		BukkitCommandManager.registerCommand(cmd);*/
         
 		//Loading Placeholder expansion
 		MessageUtils.msgConsole("%name% &fLoading placeholders", Placeholders.c().add("name", "[AmazingFishing]"));

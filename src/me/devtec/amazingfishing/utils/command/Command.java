@@ -56,18 +56,23 @@ public class Command implements PluginCommand<CommandSender> {
 				helpAll(s);
 		}).permission(getPermission("cmd"));
 		
-		// cmd help
+		// cmd HELP
 		cmd.argument("help", (s, structure, args) -> {
 				helpAll(s);
 		}).permission(getPermission("cmd"));
 		
-		// cmd sell
+		// cmd SELL
 		cmd.argument("sell", (s, structure, args) -> {
 			if(s instanceof Player) //if player opening the menu
 				tryOpen(s, "shop_sell");
 			else
 				helpAll(s);
 		}).permission(getPermission("open"));
+		
+		// cmd RELOAD
+		cmd.argument("reload", (s, structure, args) -> {
+			
+		});
 		
 		// cmd OPEN
 		cmd.argument("open", (s, structure, args) -> {
