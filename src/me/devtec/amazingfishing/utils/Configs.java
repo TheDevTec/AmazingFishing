@@ -36,9 +36,8 @@ public class Configs {
 		
 		// Loading GUIs
 		for(String file: MenuLoader.getMenuFiles())
-			loadAndMerge("Menus/" + file + ".yml", "Menus/" + file + ".yml");
-		
-		//shop = loadAndMerge("Shop.yml", "Shop.yml");
+			if(!new File("plugins/AmazingFishing/Menus/"+file+".yml").exists())
+				loadAndMerge("Menus/" + file + ".yml", "Menus/" + file + ".yml");
 		
 		
 	}
@@ -49,9 +48,7 @@ public class Configs {
 		loadAndMerge("Translations/cs.yml", "Translations/cs.yml"); //Czech translation included in default
 		
 		//loading new translations
-		String type = "en";
-		if (config.exists("translation_file"))
-			type = config.getString("translation_file");
+		String type = getTranslation();
 		if (!new File("plugins/AmazingFishing/Translations/" + type + ".yml").exists())
 			type = "en";
 		translation = loadAndMerge("Translations/" + type + ".yml", "Translations/" + type + ".yml");
@@ -80,5 +77,15 @@ public class Configs {
 			result.save(DataType.YAML);
 		temp_data.clear();
 		return result;
+	}
+	
+	/** Get what translation is currently used.
+	 * @return Returning 'translation_file' String from Config.yml. (en, cs, ...)
+	 */
+	public static String getTranslation() {
+		String type = "en";
+		if (config.exists("translation_file"))
+			type = config.getString("translation_file");
+		return type;
 	}
 }

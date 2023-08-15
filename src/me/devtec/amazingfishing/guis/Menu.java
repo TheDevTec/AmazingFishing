@@ -250,7 +250,7 @@ public class Menu {
 		gui.open(player);
 	}
 	
-	protected void putNormalItems(GUI gui, Player player) {
+	private final void putNormalItems(GUI gui, Player player) {
 		for(MenuItem item: getItems().values()) {
 			if(item.hasPermission(player)) {
 				gui.setItem(item.getPosition(), 

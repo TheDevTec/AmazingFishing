@@ -10,8 +10,8 @@ item:
   displayName: "%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
   type: "COD" # Type of item
   lore:
-  - "&7Weight: &f%fish_weight%"
-  - "&7Length: &f%fish_length%"
+  - "&7Weight: &f%fish_weight% &7kg"
+  - "&7Length: &f%fish_length% &7cm"
   - "&7Chance: &f%fish_chance%"
   - "&7Final chance: &f%fish_chance_final%"
   - "&7Caught by: &f%player_displayname%"
@@ -31,8 +31,8 @@ preview:
   displayName: "%fish_name%"
   lore:
   - "&7Chance: &f%fish_chance%"
-  - "&7Max weight: &f%fish_weight_max%"
-  - "&7Max length: &f%fish_length_max%"
+  - "&7Max weight: &f%fish_weight_max% &7kg"
+  - "&7Max length: &f%fish_length_max% &7cm"
   - "&7Catch:"
   - "&7 Time: &fEVERY"
   - "&7 Weather: &fEVERY"

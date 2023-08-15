@@ -4,6 +4,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
@@ -16,7 +17,7 @@ public class MenuItem {
 	private String path;
 	
 	private int pos = -1;
-	private ItemMaker maker;
+	private ItemMaker maker = null;
 	
 	private Sound sound = Sound.BLOCK_BARREL_OPEN;
 	private Sound error_sound = Sound.ENTITY_VILLAGER_NO;
@@ -169,7 +170,18 @@ public class MenuItem {
 	}
 	
 	private void loadItem() {
-		this.maker = ItemMaker.loadMakerFromConfig(getConfig(), getPath());
+		
+		// if there is item
+		if(getConfig().exists(getPath()+"."+Configs.getTranslation()))
+			this.maker = ItemMaker.loadMakerFromConfig(getConfig(), getPath()+"."+Configs.getTranslation());
+		else //else loading default EN item
+			this.maker = ItemMaker.loadMakerFromConfig(getConfig(), getPath()+".en");
+		
+		// last possibility is item without translation
+		// items.<item>.HERE
+		if(this.maker == null)
+			this.maker = ItemMaker.loadMakerFromConfig(getConfig(), getPath());
+		
 	}
 
 	/** Gets {@link ItemMaker}. This will not replace player specific placeholders.
@@ -190,6 +202,7 @@ public class MenuItem {
 		
 		return getItem(player, placeholders);
 	}
+	
 	public ItemMaker getItem(Player player, Placeholders placeholders) {
 		ItemMaker item = this.maker.clone();
 		// Adding player into placeholders
