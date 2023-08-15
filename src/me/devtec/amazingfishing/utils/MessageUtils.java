@@ -346,6 +346,7 @@ public class MessageUtils {
 		//If there is no one to send this to or message is null
 		if (targets == null || message == null)
 			return;
+		
 		//JSON message check
 		if (message.startsWith("[") && message.endsWith("]") || message.startsWith("{") && message.endsWith("}")) {
 			String trimmed = message.trim();

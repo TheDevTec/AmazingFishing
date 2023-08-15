@@ -46,7 +46,7 @@ public class Configs {
 	private static void loadTranslations() {
 		//Loading included translations
 		engtrans = loadAndMerge("Translations/en.yml", "Translations/en.yml"); //default English translation
-		loadAndMerge("Translations/cz.yml", "Translations/cz.yml"); //Czech translation included in default
+		loadAndMerge("Translations/cs.yml", "Translations/cs.yml"); //Czech translation included in default
 		
 		//loading new translations
 		String type = "en";

@@ -1,6 +1,7 @@
 package me.devtec.amazingfishing;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -159,14 +160,19 @@ public class Loader extends JavaPlugin {
 			PlaceholderLoader.holder.unregister();
 	}
 	
-	public static void reload() {
-		//Reloading configs
-        Configs.load();
-        //Reloading Fish & Junk items
-		API.loadFishingItems();
+	public static void reload(CommandSender sender) {
 		//Clearing Fisher cache list
 		API.getFisherList().clear();
+		MessageUtils.sendPluginMessage(sender, "&3%name% &7Loading &3configs", Placeholders.c().add("name", "[AmazingFishing]"), sender);
+		//Reloading configs
+        Configs.load();
+		
+        //Reloading Fish & Junk items
+		MessageUtils.sendPluginMessage(sender, "&3%name% &7Loading &3fishing items &7(Fish & Junk files)...", Placeholders.c().add("name", "[AmazingFishing]"), sender);
+		API.loadFishingItems();
+		
 		//Loading fishing GUIs
+		MessageUtils.sendPluginMessage(sender, "&3%name% &7Loading fishing &3GUIs", Placeholders.c().add("name", "[AmazingFishing]"), sender);
 		MenuLoader.loadMenus();
 	}
 	

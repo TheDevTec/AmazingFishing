@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.API;
+import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.guis.MenuLoader;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -71,8 +72,8 @@ public class Command implements PluginCommand<CommandSender> {
 		
 		// cmd RELOAD
 		cmd.argument("reload", (s, structure, args) -> {
-			
-		});
+			Loader.reload(s);
+		}).permission(getPermission("reload"));
 		
 		// cmd OPEN
 		cmd.argument("open", (s, structure, args) -> {

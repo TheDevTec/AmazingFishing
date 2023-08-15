@@ -36,6 +36,7 @@ command:
   permissions:
     # cmd is default command permission ( /fish)
     cmd: "amazingfishing.command"
+    reload: "amazingfishing.reload"
     open: "amazingfishing.command" # /fish open <menu>
     openOthers: "amazingfishing.command.openOthers" # /fish open <menu> <player>
     points_get: "amazingfishing.points.get" # /fish points get (player)
@@ -43,7 +44,8 @@ command:
     points_remove: "amazingfishing.points.points_remove"
   # Here you can edit all help messages for each subcommand
   help:
-    cmd: "&3/fish &f&l- &bOpens main menu" 
+    cmd: "&3/fish &f&l- &bOpens main menu"
+    reload: "&3/fish reload &f&l- &bReload configs, menus and fishing items"
     open: "&3/fish open <menu> &f&l - &bOpens specific menu"
     openOthers: "&3/fish open <menu> <player> &f&l- &bOpens specific menu for specific player"
     points_get: "&3/fish points get (player) &f&l- &bGets players points"
