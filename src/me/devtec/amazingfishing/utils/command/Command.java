@@ -13,7 +13,7 @@ import me.devtec.shared.commands.holder.CommandHolder;
 import me.devtec.shared.commands.selectors.Selector;
 import me.devtec.shared.commands.structures.CommandStructure;
 
-public class Command implements PluginCommand<CommandSender>{
+public class Command implements PluginCommand<CommandSender> {
 
 	private Sound opening = Sound.BLOCK_CHEST_OPEN;
 	private CommandHolder<CommandSender> cmd;
@@ -48,31 +48,41 @@ public class Command implements PluginCommand<CommandSender>{
 			//Opening menu to player
 			if(s instanceof Player)  //if player opening the menu
 				tryOpen(s, "main");
+			else
+				helpAll(s);
 		}).permission(getPermission("cmd"));
+		
+		
 		
 		// cmd sell
 		cmd.argument("sell", (s, structure, args) -> {
 			if(s instanceof Player) //if player opening the menu
 				tryOpen(s, "shop_sell");
-			
+			else
+				helpAll(s);
 		});
 		
-		// cmd open
-		cmd.parent().argument("open", (s, structure, args) -> {
+		// cmd OPEN
+		cmd.argument("open", (s, structure, args) -> {
 			if(s instanceof Player)  //if player opening the menu
 				tryOpen(s, "main");
+			else //help message for console
+				help(s, "openOthers");
 		}).permission(getPermission("open"))
-			// cmd open <menu>
+			// cmd open <MENU>
 			.callableArgument((s, structure, args) -> new ArrayList<>(MenuLoader.getMenus().keySet()), 
 					(s, structure, args) -> {
 						if(s instanceof Player)  //if player opening the menu
 							tryOpen(s, args[1]); //opening specific menu
+						else
+							help(s, "openOthers");
 					}).permission(getPermission("open"))
+			
+				// cmd open <menu> <PLAYER>
 				//message if player is not online
 				.fallback((s, structure, args) -> {
 					offlinePlayer(s, args[1]);
 				})
-				// cmd open <menu> <player>
 				.selector(Selector.ENTITY_SELECTOR, (s, structure, args) -> {
 					for(Player player : playerSelectors(s, args[2])) {
 							tryOpen(player, args[1]);

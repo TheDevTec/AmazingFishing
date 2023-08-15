@@ -123,8 +123,11 @@ public class API {
 		Fisher fisher;
 		if(getFisherList().containsKey(player))
 			fisher = getFisherList().get(player);
-		else
+		else {
 			fisher = new Fisher(player);
+			getFisherList().put(player, fisher);
+		}
+		
 		return fisher;
 	}
 	

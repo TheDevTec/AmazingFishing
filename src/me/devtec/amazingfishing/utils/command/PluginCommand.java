@@ -64,6 +64,23 @@ public interface PluginCommand<T> {
 		MessageUtils.message(sender, "offlinePlayer", Placeholders.c().add("target", player));
 	}
 	
+	/** Sends HELP message from file. Also will check if player have a permission (or if sender is CONSOLE)
+	 * @param sender {@link CommandSender}
+	 * @param path
+	 */
+	default void help(CommandSender sender, String path) {
+		boolean hasPerm = (sender instanceof Player) ? API.getFisher((Player)sender).hasPermission(getPermission(path), false) : true;
+		if(hasPerm)
+			MessageUtils.msgConfig(sender, getSection()+".help."+path, file, Placeholders.c());
+	}
+	/** Sends ALL HELP messages from file (for specific command). Also will check if player have a permission (or if sender is CONSOLE)
+	 * @param sender {@link CommandSender}
+	 */
+	default void helpAll(CommandSender sender) {
+		for(String path : file.getKeys(getSection()+".help"))
+			help(sender, path);
+	}
+	
 	/*
 	 * GETTING PERMISSION
 	 */

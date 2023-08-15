@@ -29,15 +29,20 @@ fishing:
 
 # Command settings  
 command:
+  cmds:
+  - "amazingfishing"
+  - "fish"
+  - "af"
   permissions:
     # cmd is default command permission ( /fish)
     cmd: "amazingfishing.command"
     open: "amazingfishing.command" # /fish open <menu>
     openOthers: "amazingfishing.command.openOthers" # /fish open <menu> <player>
-  cmds:
-  - "amazingfishing"
-  - "fish"
-  - "af"
+  # Here you can edit all help messages for each subcommand
+  help:
+    cmd: "&3/fish &f&l- &bOpens main menu" 
+    open: "&3/fish open <menu> &f&l - &bOpens specific menu"
+    openOthers: "&3/fish open <menu> <player> &f&l- &bOpens specific menu for specific player"
 
 # Shop settings
 shop:

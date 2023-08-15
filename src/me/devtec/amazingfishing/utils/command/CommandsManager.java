@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class CommandsManager {
 	
 	@SuppressWarnings("rawtypes")
-	private static HashMap<String, PluginCommand> registered;
+	private static HashMap<String, PluginCommand> registered = new HashMap<String, PluginCommand>();
 	
 	@SuppressWarnings("rawtypes")
 	public static void register() {
