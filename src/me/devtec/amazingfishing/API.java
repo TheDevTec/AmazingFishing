@@ -10,6 +10,7 @@ import me.devtec.amazingfishing.fishing.CaughtItem;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
+import me.devtec.amazingfishing.fishing.TidesTreasure;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.player.points_economy.PointsManager;
 import me.devtec.amazingfishing.utils.MessageUtils;
@@ -50,6 +51,9 @@ public class API {
 					getJunkList().put(file.getName(), new Junk(config)); // adds or replaces JUNK in Map
 			}
 		}
+		// Generating today's bonus fish
+		TidesTreasure.generateFish();
+		
 		MessageUtils.msgConsole("%name% &fLoaded %fish% fish files and %junk% junk files.", 
 				Placeholders.c().add("fish", getFishList().size()).add("junk", getJunkList().size()).add("name", "[AmazingFishing]"));
 	}

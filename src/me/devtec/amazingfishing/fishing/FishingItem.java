@@ -351,20 +351,28 @@ public abstract class FishingItem {
 		return file.exists("shop.xp") ? file.getDouble("shop.xp") : 0;
 	}
 	
-	/** Gets BONUS that will be applied when selling FishOfTheDay item
-	 * @return 1 if there is no bonus
+	/** Gets BONUS that will be applied when selling Tide's Treasure item. </br>
+	 * 		<strong>This method is not checking if the item is today's bonus fish!!</strong>
+	 * 		if you want to check that use {@link TidesTreasure} class...
+	 * @param type Bonus that you wan't to get. {@link CalculatorType}
+	 * @return {@link Double}
 	 */
-	public double getBonus() {
-		return file.exists("shop.bonus") ? file.getDouble("shop.bonus") : 1;
+	public double getBonus(CalculatorType type) {
+		if(file.exists(TidesTreasure.getConfigPath()+"."+type.getPath()))
+			return file.getDouble(TidesTreasure.getConfigPath()+"."+type.getPath());
+		else
+			return Configs.config.getDouble(TidesTreasure.getConfigPath()+".bonus."+type.getPath());
 	}
 	
-	/** Getting calculator equation from configuration file
+	/** Getting calculator equation from configuration file. If calculator is not in FishingItem file it will get calculator from Config.yml
 	 * @param calculator {@link Calculator}
 	 * @return
 	 */
 	public String getEquation(CalculatorType calculator) {
 		if(getConfig().exists("calculator."+calculator.getPath()))
 			return getConfig().getString("calculator."+calculator.getPath());
+		if(Configs.config.exists("calculator."+calculator.getPath()))
+			return Configs.config.getString("calculator."+calculator.getPath());
 		return null;
 	}
 	

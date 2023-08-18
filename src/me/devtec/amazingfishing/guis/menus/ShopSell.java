@@ -73,6 +73,10 @@ public class ShopSell extends Menu {
 		
 	}
 	
+	/** Selling all fishes from Menu
+	 * @param player Player selling fishes
+	 * @param gui Opened Sell shop menu.
+	 */
 	private void sellAll(Player player, HolderGUI gui) {
 		List<ItemStack> items = getInsertedItems(gui);
 		

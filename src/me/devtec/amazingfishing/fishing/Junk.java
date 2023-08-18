@@ -1,5 +1,7 @@
 package me.devtec.amazingfishing.fishing;
 
+import java.time.LocalDate;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -97,7 +99,8 @@ public class Junk extends FishingItem {
 
 	private Config createData() {
 		Config data = new Config().set("file", getConfig().getFile().getName()).set("name", getName())
-				.set("type", getType().getName());
+				.set("type", getType().getName())
+				.set("date", LocalDate.now().toString());
 		if(isEdible())
 			data.set("addhunger", getHunger());
 		

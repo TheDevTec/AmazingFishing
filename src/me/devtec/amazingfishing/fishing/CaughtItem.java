@@ -1,5 +1,7 @@
 package me.devtec.amazingfishing.fishing;
 
+import java.time.LocalDate;
+
 import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.API;
@@ -7,7 +9,7 @@ import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.nms.NBTEdit;
 
-public class CaughtItem{
+public class CaughtItem {
 
 	private ItemStack item;
 	
@@ -35,6 +37,19 @@ public class CaughtItem{
 		type = FishType.value(data.getString("type"));
 		
 		fishItem = API.getFishingItem(data.getString("file"));
+	}
+	
+	/** This method will get fishing data from Items NBT
+	 * @return {@link Config}
+	 */
+	public Config getData() {
+		return data;
+	}
+	/** This method will get {@link ItemStack} of this caught item
+	 * @return {@link ItemStack}
+	 */
+	public ItemStack getItemStack() {
+		return item;
 	}
 	
 	/** Checks if this even is item from this plugin. </br>
@@ -67,6 +82,26 @@ public class CaughtItem{
 			return data.getDouble("length");
 		return 0;
 	}
+	/*
+	 * DATE
+	 */
+
+	/** Gets the date the item was caught.
+	 * @return {@link LocalDate} representation of this date
+	 */
+	public LocalDate getCaughtDate() {
+		return LocalDate.parse(getCaughtDateString());
+	}
+	
+	/** Gets the date the item was caught.
+	 * @return a {@link String} representation of this date, not null
+	 */
+	public String getCaughtDateString() {
+		if(data.exists("date"))
+			return data.getString("date");
+		return LocalDate.now().toString();
+	}
+	
 	
 	/*
 	 * af_data:

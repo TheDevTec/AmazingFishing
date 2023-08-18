@@ -1,5 +1,7 @@
 package me.devtec.amazingfishing;
 
+import java.time.LocalDate;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -15,7 +17,7 @@ import me.devtec.amazingfishing.player.points_economy.VaultPoints;
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
-import me.devtec.amazingfishing.utils.MetricksFishing;
+import me.devtec.amazingfishing.utils.MetricsFishing;
 import me.devtec.amazingfishing.utils.command.CommandsManager;
 import me.devtec.amazingfishing.utils.placeholders.PlaceholderLoader;
 import me.devtec.shared.scheduler.Tasker;
@@ -89,7 +91,54 @@ public class Loader extends JavaPlugin {
 		for(String string : data.getKeys())
 			System.out.println(string + " " + data.get(string));*/
 		
+		
+		/*Scanner scanner = new Scanner(System.in);
+		String input = "";
+		
+		boolean up = true;
+		for (int pos = 0; ( pos<= 15 && pos >= 0);) {
+			
+			if(pos == 15 && up)
+				up = false;
+			if(pos == 0 && !up)
+				up = true;
+			
+			for(int i = 0; i < pos; i++)
+				System.out.print(" ");
+			
+			System.out.print("V");
+			
+			input = scanner.nextLine(); // clicking enter
+			
+			if(input != null && !input.isEmpty() && input.equalsIgnoreCase("a")) {
+				
+			}
+			
+			clearCconsole();
+			if(up)
+				pos++;
+			else
+				pos--;
+			
+		}
+		
+		
+		scanner.close();*/
+
+		LocalDate today = LocalDate.now();
+
+		LocalDate yesterday = LocalDate.parse(today.minusDays(1).toString());
+		
+		System.out.println(yesterday.toString() + " ; "+today.toString());
 	}
+	
+	 public static void clearCconsole() {
+	        // Print multiple blank lines to simulate clearing the console
+	        for (int i = 0; i < 50; i++) {
+	            System.out.println();
+	        }
+	        
+	    }
 
 	/*private static Config createData(double weight, double length) {
 		return new Config().set("file", "file_name").set("fish", "fish_name")
@@ -123,7 +172,7 @@ public class Loader extends JavaPlugin {
         //MessageUtils.msgConsole("%prefix% &fThere is not a new update available.", Placeholders.c());
         
         //Loading bStats
-        new MetricksFishing(this, 10630);
+        new MetricsFishing(this, 10630);
         
         // Loading events
 

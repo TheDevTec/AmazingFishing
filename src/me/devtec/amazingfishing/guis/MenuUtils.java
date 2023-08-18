@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;

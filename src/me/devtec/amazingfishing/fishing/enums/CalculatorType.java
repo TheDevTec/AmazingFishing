@@ -4,6 +4,7 @@ public enum CalculatorType {
 		MONEY("money"),
 		POINTS("points"),
 		EXPS("exps"),
+		EXPS_CATCH("exps_catch"),
 		WEIGHT("weight");
 	
 	private String path;

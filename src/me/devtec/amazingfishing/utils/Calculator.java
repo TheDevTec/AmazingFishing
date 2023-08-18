@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import me.devtec.amazingfishing.fishing.CaughtItem;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
+import me.devtec.amazingfishing.fishing.TidesTreasure;
 import me.devtec.amazingfishing.fishing.enums.CalculatorType;
 import me.devtec.amazingfishing.fishing.enums.Limit;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -121,13 +122,21 @@ public class Calculator {
     public static double calculate(CalculatorType calculator, CaughtItem item) {
     	String equation = item.getItem().getEquation(calculator);
     	
+    	if(equation == null || equation.isEmpty())
+    		return 0;
+    	
     	Placeholders placeholders = Placeholders.c()
     			.add("weight", item.getWeight())
     			.add("length", item.getLength())
     			.add("money", item.getItem().getBaseMoney())
     			.add("experiences", item.getItem().getBaseXp())
-    			.add("points", item.getItem().getBasePoints())
-    			.replace("bonus", item.getItem().getBonus());
+    			.add("points", item.getItem().getBasePoints());
+    	
+    	// If this is a bonus fish
+    	if(TidesTreasure.isBonusFish(item))
+    		placeholders.replace("bonus", item.getItem().getBonus(calculator));
+    	else
+    		placeholders.replace("bonus", 1);
     	
     	return MathUtils.calculate(placeholders.apply(equation));
     }
