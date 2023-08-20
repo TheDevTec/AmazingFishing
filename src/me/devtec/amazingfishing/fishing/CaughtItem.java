@@ -94,7 +94,7 @@ public class CaughtItem {
 	}
 	
 	/** Gets the date the item was caught.
-	 * @return a {@link String} representation of this date, not null
+	 * @return A {@link String} representation of this date, not null
 	 */
 	public String getCaughtDateString() {
 		if(data.exists("date"))

@@ -26,6 +26,8 @@ public class TidesTreasure {
 		// If this mechanic is not enabled
 		if(!Configs.config.getBoolean(path+".enabled")) {
 			bonusFish = null;
+			Configs.config.set(path+".data.fish", "none");
+			Configs.config.save();
 			return null;
 		}
 		
@@ -126,41 +128,4 @@ public class TidesTreasure {
 	public static String getConfigPath() {
 		return path;
 	}
-	
-	
-	
-	
-	
-	
-	
-   /* public static void main(String[] args) {
-    	Scanner scanner = new Scanner(System.in);
-	    while(true) {
-	        // Create a HashMap
-	        Map<String, Integer> hashMap = new HashMap<>();
-	        hashMap.put("Apple", 10);
-	        hashMap.put("Banana", 5);
-	        hashMap.put("Orange", 8);
-	        hashMap.put("Grapes", 12);
-	
-	        // Convert keys to a List
-	        List<String> keyList = new ArrayList<>(hashMap.keySet());
-	
-	        // Generate a random index
-	        Random random = new Random();
-	        int randomIndex = random.nextInt(keyList.size());
-	        System.out.println("randomIndex: "+randomIndex);
-	
-	        // Get a random key from the list
-	        String randomKey = keyList.get(randomIndex);
-	
-	        // Use the random key to get the corresponding value from the HashMap
-	        int randomValue = hashMap.get(randomKey);
-	
-	        System.out.println("Random key: " + randomKey);
-	        System.out.println("Corresponding value: " + randomValue);
-	        
-	        scanner.nextLine();
-    	}
-    }*/
 }

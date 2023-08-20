@@ -12,6 +12,7 @@ import org.bukkit.util.Vector;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import me.devtec.theapi.bukkit.game.ItemMaker.HeadItemMaker;
 
 public class ItemUtils {
 
@@ -69,6 +70,27 @@ public class ItemUtils {
 				item.displayName(file.getString("preview.displayName"));
 		}
 		return item;
+	}
+	
+	public static ItemMaker fixIcon(ItemMaker to, ItemMaker from) {
+		
+		if(from instanceof HeadItemMaker) {
+			to = ((HeadItemMaker) to);
+			to.type(from.getMaterial());
+			to.customModel(from.getCustomModel());
+			int type = ((HeadItemMaker) to).getHeadOwnerType();
+			if(type == 0)
+				((HeadItemMaker) to).skinName( ((HeadItemMaker) from).getHeadOwner() );
+			if(type == 1)
+				((HeadItemMaker) to).skinValues( ((HeadItemMaker) from).getHeadOwner() );
+			if(type == 2)
+				((HeadItemMaker) to).skinUrl( ((HeadItemMaker) from).getHeadOwner() );
+			
+			return to;
+		}
+		to.type(from.getMaterial());
+		to.customModel(from.getCustomModel());
+		return to;
 	}
 	
 }

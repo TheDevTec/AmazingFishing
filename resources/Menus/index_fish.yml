@@ -18,3 +18,17 @@ perPlayer: false
 
 # Yes you can add your items...
 # All preview items are edited in Fish folder...
+items:
+  # Do not change this path name
+  tidesTreasure:
+    # If the item should look like the exact fish icon (type and model)
+    usePreviewFish: true
+    position: 26
+    displayName: "&3&lTides Treasure"
+    type: HEART_OF_THE_SEA
+    lore:
+    - "&7&lCurrent bonus fish: &f%fish_name%"
+    - ""
+    - "&3&l• &7Money bonus: &b%fish_bonus_money%"
+    - "&3&l• &7Points bonus: &b%fish_bonus_points%"
+    - "&3&l• &7Experience bonus: &b%fish_bonus_exps%"

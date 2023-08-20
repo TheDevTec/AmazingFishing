@@ -114,3 +114,13 @@ calculator:
 #  edible: true
 #  # addhunger "value" adds hunger when you eat this item (just right click :D)
 #  addhunger: 2
+
+# Tide's Treasure
+# Tide's Treasure: Daily-changing catch mechanic with unique rewards, acknowledging player skill and uncovering ocean secrets.
+# Basically player will get bonus points/money/xp for certain fish. And bonus fish is changing every day (real day)
+# YOU DO NEED TO APPLY THESE, UNIVERSAL VALUES ARE IN Config.yml
+#tidesTreasure:
+#  money: 1.2
+#  points: 1.2
+#  exps: 1.2
+#  exps_catch: 1.2
