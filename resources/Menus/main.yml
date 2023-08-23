@@ -45,9 +45,9 @@ items:
 
 # These special buttons are loaded and used differently...
 buttons:
-  # If you edit these items in main.yml they will be applyed in all other menus (in-game).
+  # If you edit these items in main.yml they will be applied in all other menus (in-game).
   #  Yes you can add each item to each menu if you want.
-  # IMPORTANT NOTE: If you change size of other guis you also need to edit these "special" buttons
+  # IMPORTANT NOTE: If you change the size of other guis you also need to edit these "special" buttons
   # Back button
   back:
     position: 45
@@ -55,7 +55,7 @@ buttons:
     displayName: "&cBack"
   # Close button
   close:
-    # yes 'back' and 'close' buttons are on the same possition -> plugin will do the rest :D
+    # Yes 'back' and 'close' buttons are in the same position. The plugin will do the rest :D
     # and yes you can change that if you want to
     position: 45
     type: BARRIER
