@@ -1,0 +1,28 @@
+# Czech translation file
+
+prefix: "!#23abde&lAmazingFishing!#1fd9e2 &8&l»&7"
+
+noPerms: "%prefix% &cYou are not able to do this!! &c(4%permission%&c)"
+
+offlinePlayer: "%prefix% &cPlayer %target% is offline..."
+
+shop:
+  sold:
+  - "&8&m&l---&8&l« %prefix% &8&m&l---"
+  - "&9• &7You sold: &3%amount% &7items"
+  - "&9• &7Earned money &3%money%€"
+  - "&9• &7Earned XP: &3%exp%"
+  - "&9• &7Earned Points: &3%points%"
+  - "&8&m&l------------------------------"
+  
+guis:
+  notLoaded: "%prefix% &cYou can't open menu %menu%. This menu is not loaded!"
+  
+points:
+  get: "%prefix% &7Player &3%target% &7have &3%points% &7points"
+  remove:
+    sender: "%prefix% &7You removed &3%amount% &7of points from player &3%target%"
+    target: "%prefix% &3%amount% &7points have been taken away from you."
+  add:
+    sender: "%prefix% &7You added &3%amount% &7of points to player &3%target%"
+    target: "%prefix% &3%amount% &7points have been added to you."
