@@ -3,7 +3,7 @@
 # When you catch JUNK it will probably be just some random item right? Yeah... you can play around with it...
 type: "JUNK"
 
-# Oficial name of this fish
+# Oficial name of this item
 name: "Stick"
 
 item:
@@ -23,7 +23,7 @@ chance: 50.0
 #permission: "amazingfishing.fish.carp"
 
 # Preview item. This will show in /fish -> Index menu
-# the preview item type will be the same as captured item (when you are fishing)
+# The preview item type will be the same as captured item (when you are fishing)
 preview:
   displayName: "&7%fish_name%"
   lore:
@@ -52,7 +52,7 @@ conditions:
   # Types:  ANY | SUN | SNOW | RAIN | THUNDERSTORM
   weather: ANY
   
-# List of messsages that will be send to player when you: catch, eat or sell this fish
+# List of messsages that will be sent to player when you: catch, eat or sell this fish
 messages:
   catch:
   - "%prefix% &7You caught &e%fish_name%"
@@ -70,7 +70,7 @@ commands:
 ###########
 # Shop options
 shop:
-  sell: false # If this item can be sold in plugin shop. In JUNK items it's disabled by default.
+  sell: false # If this item can be sold in plugin shop. JUNK items are disabled by default.
   money: 5.5 # Base money that will be used when calculating money from selling this item
   points: 5.5
   xp: 10.5

@@ -35,7 +35,7 @@ public class MenuLoader {
 		// Loading...
 		for(String file : fileList) {
 			Config config = new Config("plugins/AmazingFishing/Menus/"+file+".yml");
-			if(!config.exists("enabled") || config.getBoolean("enabled")) { //if menu is disabled
+			if(!config.exists("enabled") || config.getBoolean("enabled")) { //if menu is not disabled
 				//Loading mainMenuConfig file
 				if(file.equalsIgnoreCase("main"))
 					mainMenuConfig = config;
@@ -52,6 +52,17 @@ public class MenuLoader {
 				
 				MessageUtils.sendAnnouncement("AF: Loaded menu: "+file);
 			}
+		}
+	}
+	
+	/** Loads new {@link Menu}.
+	 * @param file String representation of File's name. File needs to be in plugins/AmazingFishing/Menus folder and '.yml'.
+	 * @param newMenu Class that extends or is {@link Menu} class. You can see examples in {@link Atlas} or {@link ShopSell} classes.
+	 */
+	public static void loadMenu(String file, Menu newMenu) {
+		Config config = new Config("plugins/AmazingFishing/Menus/"+file+".yml");
+		if(!config.exists("enabled") || config.getBoolean("enabled")) { // if menu is not disabled
+			menuList.put(file, newMenu);
 		}
 	}
 	

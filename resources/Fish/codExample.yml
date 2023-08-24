@@ -1,5 +1,5 @@
 # Type, you can use FISH or JUNK
-# What's the difference? When you catch FISH, it will have some weight and lenght, ...
+# What's the difference? When you catch FISH, it will have some weight and length, ...
 # When you catch JUNK it will probably be just some random item right? Yeah... you can play around with it...
 type: "FISH"
 
@@ -8,7 +8,7 @@ name: "&eCarp"
 
 item:
   displayName: "%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
-  type: "COD" # Type of item
+  type: "COD" # Type of an item
   lore:
   - "&7Weight: &f%fish_weight% &7kg"
   - "&7Length: &f%fish_length% &7cm"
@@ -26,7 +26,7 @@ chance: 50.0
 
 
 # Preview item. This will show in /fish -> Index menu
-# the preview item type will be the same as captured item (when you are fishing)
+# The preview item type will be the same as captured item (when you are fishing)
 preview:
   displayName: "%fish_name%"
   lore:
@@ -60,7 +60,7 @@ conditions:
   # Types:  ANY | SUN | SNOW | RAIN | THUNDERSTORM
   weather: ANY
   
-# List of messsages that will be send to player when you: catch, eat or sell this fish
+# List of messages that will be sent to player when you: catch, eat or sell this fish
 messages:
   catch: []
   eat: []
@@ -75,7 +75,7 @@ commands:
 ###########
 ## STATS ##
 ###########
-# Fish weight informations
+# Fish weight information
 weight:
   max: 45.5
   min: 5.5
@@ -87,18 +87,15 @@ length:
 
 # Shop options
 shop:
-  sell: true # If this fish can be sold in plugin shop. In JUNK items it's disabled by default.
+  sell: true # If this fish can be sold in plugin shop. JUNK items are disabled by default.
   money: 5.5 # Base money that will be used when calculating money from selling this fish
   points: 5.5
   xp: 10.5
-  # This bonus will be applied when selling fish
-  # Bonus will be active only when this fis is 'FishOfTheDay'
-  bonus: 1.1
   
 # Custom calculator for shop, weight and length
 calculator:
   # For weight calculation I would suggest using 'Linear interpolation'
-  # (yes you can edit this but we are not checking if final weight is inside min and max bounds)
+  # (yes you can edit this but we are not checking if the final weight is inside min and max bounds)
   # %fish_length% is generated length
   weight: "((%fish_weight_max% - %fish_weight_min%) / (%fish_length_max% - %fish_length_min%)) * %fish_length% + %fish_weight_min%"
   money: "(%weight% * %money%) * %bonus%"

@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
+import me.devtec.amazingfishing.guis.menus.ShopSell;
+import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.gui.GUI;
@@ -22,7 +24,7 @@ public class Menu {
 		prepareItems();
 	}
 	
-	/**
+	/** Menu's configuration file.
 	 * @return {@link Config}
 	 */
 	public Config getConfig() {
@@ -43,21 +45,35 @@ public class Menu {
 			return true;
 	}
 	
+	/**
+	 * @return Title from configuration file.
+	 */
 	public String getTitle() {
+		if(getConfig().exists("title."+Configs.getTranslation()))
+			return getConfig().getString("title"+Configs.getTranslation());
+		if(getConfig().exists("title.en"))
+			return getConfig().getString("title.en");
+		
 		return getConfig().getString("title");
 	}
 	
+	/** Gets size from configuration file
+	 * @return Size should be always {@link Integer}
+	 */
 	public int getSize() {
 		return getConfig().getInt("size");
 	}
 	
+	/** Gets permission from configuration file
+	 * @return String representation of this permission or <code>null</code> if there is not a permission needed
+	 */
 	public String getPermission() {
 		return getConfig().exists("permission") ? getConfig().getString("permission") : null;
 	}
 	
 	/** Checking for permission and also sending noPerm message
 	 * @param player The player that is opening the menu
-	 * @return
+	 * @return True if player does have a permission to open this menu
 	 */
 	public boolean hasPermission(Player player) {
 		if(getPermission() != null)
@@ -65,7 +81,7 @@ public class Menu {
 				MessageUtils.noPerm(player, getConfig().getString("permission"));
 				return false;
 			}
-		return true; // if there is none permission
+		return true; // if there is no permission or player does have a permission
 	}
 	
 	/** If the menu is different for each player then enable this setting. </br>
@@ -82,7 +98,7 @@ public class Menu {
 	}
 	
 	/** If the rest of GUI should be filled.
-	 * @return
+	 * @return Default value is <code>true</code>
 	 */
 	public boolean fill() {
 		if(getConfig().exists("fill"))
@@ -90,6 +106,11 @@ public class Menu {
 		else
 			return true;
 	}
+	
+	/** If players should be able to insert items into the menu. </br>
+	 * 	Example can be in {@link ShopSell} where players are selling fishing items.
+	 * @return Default value is <code>false</code>
+	 */
 	public boolean insertable() {
 		if(getConfig().exists("insertable"))
 			return getConfig().getBoolean("insertable");
@@ -276,7 +297,7 @@ public class Menu {
 		}
 	}
 	
-	protected void putSpecialitems(GUI gui, Player player, int page) {}
+	public void putSpecialitems(GUI gui, Player player, int page) {}
 	
 	private PRunnable onClose;
 	

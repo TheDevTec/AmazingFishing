@@ -40,7 +40,7 @@ public class ShopSell extends Menu {
 			return true;
 	}
 	
-	protected void putSpecialitems(GUI gui, Player player, int page) {
+	public void putSpecialitems(GUI gui, Player player, int page) {
 
 		setCloseRunnable( (p, g)-> {
 			for(ItemStack item : getInsertedItems(gui)) {
