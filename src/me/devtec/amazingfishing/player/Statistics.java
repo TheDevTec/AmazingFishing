@@ -7,7 +7,6 @@ import me.devtec.amazingfishing.fishing.enums.FishRecord;
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.utils.MessageUtils;
-import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.API;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.utility.StringUtils;
@@ -216,7 +215,7 @@ public class Statistics {
 					setNewRecord(user, FishingItem, FishRecord.LENGTH, length);
 					//if plugin should send message
 					if(cansend && old!=0)
-						MessageUtils.message(player, "records.length", Placeholders.c()
+						MessageUtils.message(player, "records.length", FishingItem.getPlaceholders()
 								.addPlayer("player", player)
 								.add("old", StringUtils.formatDouble(FormatType.BASIC, old))
 								.add("new",  StringUtils.formatDouble(FormatType.BASIC, length)));
@@ -229,8 +228,8 @@ public class Statistics {
 				if(weight > old) {
 					setNewRecord(user, FishingItem, FishRecord.WEIGHT, weight);
 					//if plugin should send message
-					if(cansend && old!=0) //TODO - better placeholders
-						MessageUtils.message(player, "records.weight", Placeholders.c()
+					if(cansend && old!=0)
+						MessageUtils.message(player, "records.weight", FishingItem.getPlaceholders()
 								.addPlayer("player", player)
 								.add("old", StringUtils.formatDouble(FormatType.BASIC, old))
 								.add("new",  StringUtils.formatDouble(FormatType.BASIC, weight)));
