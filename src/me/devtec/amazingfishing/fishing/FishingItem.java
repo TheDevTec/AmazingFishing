@@ -53,9 +53,11 @@ public abstract class FishingItem {
 	 *  CONFIGURATION FILE
 	 */
 	// Getting Configuration file
-	public Config getConfig() {return file;}
+	public Config getConfig() { return file; }
 	// Setting Configuration file
-	public void setConfig(Config newFile) {file = newFile;}
+	public void setConfig(Config newFile) { file = newFile; }
+	// Getting file's name
+	public String getConfigName() { return file.getFile().getName(); }
 	
 	/*
 	 *  FISH TYPE

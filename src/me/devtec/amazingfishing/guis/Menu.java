@@ -285,6 +285,7 @@ public class Menu {
 							try {
 								player.playSound(player.getLocation(), item.getSound() , 5, 10);
 								MenuLoader.openMenu(player, item.getOpening(), getThisBack());
+								
 							} catch (ArrayStoreException e) {
 								player.playSound(player.getLocation(), item.getErrorSound() , 5, 10);
 								e.printStackTrace();

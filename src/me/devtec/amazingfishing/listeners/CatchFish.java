@@ -21,6 +21,7 @@ import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.player.Fisher;
+import me.devtec.amazingfishing.player.Statistics;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -107,6 +108,7 @@ public class CatchFish implements Listener {
 
 			HashMap<FishingItem, Double> generatedList = Calculator.normalizeFishingItemChances(fisher.generateAvailableItems(hookLocation));
 			
+			// if there is generated fish list that the player is able to catch
 			if(!generatedList.isEmpty()) {
 				//removing default item
 				caughtItem.remove();
@@ -134,8 +136,6 @@ public class CatchFish implements Listener {
 					ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
 					// running commands
 					fishingItem.runCommands(player, ItemAction.CATCH, placeholders);
-					
-					//TODO - statistics
 				}
 				else
 					event.setCancelled(custom_event.isCancelled());

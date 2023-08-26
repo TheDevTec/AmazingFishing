@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.player.FisherSituation;
+import me.devtec.amazingfishing.player.Statistics;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
@@ -86,6 +87,8 @@ public class Junk extends FishingItem {
 
 		if(item == null)
 			return null;
+
+		Statistics.newCatch(player, this, 0, 0);
 		
 		//If item is not Edible or Saleable or empty lore -> Admin probably want this to be more default minecraft item
 		if(isSaleable() || isEdible() || (item.getLore()!= null && !item.getLore().isEmpty()) ) {

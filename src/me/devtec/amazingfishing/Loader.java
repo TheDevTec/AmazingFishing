@@ -207,6 +207,7 @@ public class Loader extends JavaPlugin {
 		// Unloading Placeholder expansion if loaded
 		if(PlaceholderLoader.holder != null)
 			PlaceholderLoader.holder.unregister();
+		
 	}
 	
 	public static void reload(CommandSender sender) {

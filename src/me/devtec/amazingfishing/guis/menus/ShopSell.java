@@ -13,6 +13,7 @@ import me.devtec.amazingfishing.fishing.enums.CalculatorType;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.guis.Menu;
 import me.devtec.amazingfishing.guis.MenuItem;
+import me.devtec.amazingfishing.player.Statistics;
 import me.devtec.amazingfishing.player.points_economy.EconomyAPI;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.Configs;
@@ -111,7 +112,9 @@ public class ShopSell extends Menu {
 			item.getItem().runCommands(player, ItemAction.SELL, Placeholders.c()
 					.add("amount", itemStack.getAmount())
 					.add("weigth", item.getWeight()).add("length", item.getLength()));
-		//TODO - statistics
+			
+			//Writing statistics record
+			Statistics.writeFishingItem(player, item.getItem(), ItemAction.SELL, itemStack.getAmount());
 		
 		}
 		// If player sold any items
@@ -136,6 +139,7 @@ public class ShopSell extends Menu {
 			if ((int) totalExp > 0)
 				player.giveExp((int) totalExp);
 		
+			Statistics.writeGainedEarnings(player, totalMoney, totalPoints, totalExp);
 		
 			MessageUtils.message(player, "shop.sold", Placeholders.c()
 					.addPlayer("player", player)

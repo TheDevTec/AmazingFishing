@@ -9,6 +9,7 @@ import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.fishing.enums.Limit;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.player.FisherSituation;
+import me.devtec.amazingfishing.player.Statistics;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -45,7 +46,8 @@ public class Fish extends FishingItem {
 	@Override
 	public ItemMaker getItem(Placeholders placeholders) {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
-		placeholders.add("fish_type", getType().toString())
+		placeholders
+			.add("fish_type", getType().toString())
 			.add("fish_permission", getPermission())
 			.add("fish_chance", getChance())
 			.add("fish_name", getName())
@@ -105,11 +107,15 @@ public class Fish extends FishingItem {
 		ItemStack item = getItem(placeholders.add("fish_length", length)
 				.add("fish_weight", weight)
 				.addPlayer("player", player)).build();
+		
 		if(item == null)
 			return null;
 		
 		NBTEdit edit = new NBTEdit(item);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
+		
+
+		Statistics.newCatch(player, this, length, weight);
 		
 		return BukkitLoader.getNmsProvider().setNBT(item, edit);
 	}

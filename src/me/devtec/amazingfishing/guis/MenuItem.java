@@ -19,7 +19,7 @@ public class MenuItem {
 	private int pos = -1;
 	private ItemMaker maker = null;
 	
-	private Sound sound = Sound.BLOCK_BARREL_OPEN;
+	private Sound sound = Sound.BLOCK_CHEST_OPEN;
 	private Sound error_sound = Sound.ENTITY_VILLAGER_NO;
 	
 	public MenuItem(Config file, String path_name) {

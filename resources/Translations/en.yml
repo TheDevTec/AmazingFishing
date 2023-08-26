@@ -8,7 +8,7 @@ offlinePlayer: "%prefix% &cPlayer %target% is offline..."
 
 shop:
   sold:
-  - "&8&m&l---&8&l« %prefix% &8&m&l---"
+  - "&8&m&l---&8&l« %prefix% &8&l»&8&m&l---"
   - "&9• &7You sold: &3%amount% &7items"
   - "&9• &7Earned money &3%money%€"
   - "&9• &7Earned XP: &3%exp%"
@@ -26,3 +26,17 @@ points:
   add:
     sender: "%prefix% &7You added &3%amount% &7of points to player &3%target%"
     target: "%prefix% &3%amount% &7points have been added to you."
+    
+records:
+  length:
+  - "&8&m&l-----&8&l« %prefix% &8&l»&8&m&l-----"
+  - "&7You've broken your previous &3length &7record!"
+  - "&9• &7New record: &3%new%"
+  - "&9• &7Previous record: &3%old%"
+  - "&8&m&l----------------------------------"
+  weight:
+  - "&8&m&l-----&8&l« %prefix% &8&l»&8&m&l-----"
+  - "&7You've broken your previous &3weight &7record!"
+  - "&9• &7New record: &3%new%&7kg"
+  - "&9• &7Previous record: &3%old%&7kg"
+  - "&8&m&l----------------------------------"

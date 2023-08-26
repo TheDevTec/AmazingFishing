@@ -8,7 +8,7 @@ offlinePlayer: "%prefix% &cHráč %target% je offline..."
 
 shop:
   sold:
-  - "&8&m&l---&8&l« %prefix% &8&m&l---"
+  - "&8&m&l---&8&l« %prefix%  &8&l»&8&m&l---"
   - "&9• &7Prodal jsi: &3%amount% &7věcí"
   - "&9• &7Obdrženo peněz &3%money%€"
   - "&9• &7Obdrženo XP: &3%exp%"
@@ -26,3 +26,17 @@ points:
   add:
     sender: "%prefix% &7Přidal jsi &3%amount% &7pointů hráčovi &3%target%"
     target: "%prefix% &3%amount% &7pointů ti bylo přidáno."
+    
+records:
+  length:
+  - "&8&m&l-----&8&l« %prefix% &8&l»&8&m&l-----"
+  - "&7Překolan jsi svůj předchozí &3délkový &7rekord!"
+  - "&9• &7Nový rekord: &3%new%"
+  - "&9• &7Starý rekord: &3%old%"
+  - "&8&m&l----------------------------------"
+  weight:
+  - "&8&m&l-----&8&l« %prefix% &8&l»&8&m&l-----"
+  - "&7Překolan jsi svůj předchozí &3váhový &7rekord!"
+  - "&9• &7Nový rekord: &3%new%&7kg"
+  - "&9• &7Starý rekord: &3%old%&7kg"
+  - "&8&m&l----------------------------------"
