@@ -39,22 +39,15 @@ public class Junk extends FishingItem {
 	@Override
 	void setDefaultPermissionPath() { def_perm_path = "fishing.permissions.junk"; }
 
+	@Override
+	public Placeholders getPlaceholders() {
+		return placeholders_universal;
+	}
 
 	@Override
 	public ItemMaker getItem(Placeholders placeholders) {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
-		placeholders.add("fish_type", getType().toString())
-			.add("fish_permission", getPermission())
-			.add("fish_chance", getChance())
-			.add("fish_name", getName())
-			.add("fish_time", getTime().toString())
-			.add("fish_weather", getWeather())
-			.add("fish_cansell", isSaleable())
-			.add("fish_money", getBaseMoney())
-			.add("fish_points", getBasePoints())
-			.add("fish_xp", getBaseXp())
-			.add("fish_isedible", isEdible())
-			.add("fish_hunger", getHunger());
+		placeholders.add(getPlaceholders());
 		
 		return ItemUtils.applyPlaceholders(item, placeholders);
 	}
@@ -62,23 +55,10 @@ public class Junk extends FishingItem {
 
 	@Override
 	public ItemMaker getPreviewItem() {
+		// Loading preview ItemMaker from file
 		ItemMaker item = ItemUtils.loadPreviewItem(getConfig());
-			
-		Placeholders placeholders = Placeholders.c()
-			.add("fish_type", getType().toString())
-			.add("fish_permission", getPermission())
-			.add("fish_chance", getChance())
-			.add("fish_name", getName())
-			.add("fish_time", getTime().toString())
-			.add("fish_weather", getWeather())
-			.add("fish_cansell", isSaleable())
-			.add("fish_money", getBaseMoney())
-			.add("fish_points", getBasePoints())
-			.add("fish_xp", getBaseXp())
-			.add("fish_isedible", isEdible())
-			.add("fish_hunger", getHunger());
-		
-		return ItemUtils.applyPlaceholders(item, placeholders);
+		// Applying placeholders
+		return ItemUtils.applyPlaceholders(item, getPlaceholders());
 	}
 
 	@Override
@@ -130,4 +110,5 @@ public class Junk extends FishingItem {
 		
 		return true;
 	}
+
 }

@@ -42,23 +42,23 @@ public class Fish extends FishingItem {
 	@Override
 	void setDefaultPermissionPath() { def_perm_path = "fishing.permissions.fish"; }
 
-
+	@Override
+	public Placeholders getPlaceholders() {
+		Placeholders place = placeholders_universal;
+		
+		return place
+		// fish special:
+		.add("fish_weight_min", getWeight(Limit.MIN))
+		.add("fish_weight_max", getWeight(Limit.MAX))
+		.add("fish_length_min", getLength(Limit.MIN))
+		.add("fish_length_max", getLength(Limit.MAX));
+	}
+	
 	@Override
 	public ItemMaker getItem(Placeholders placeholders) {
 		ItemMaker item = ItemMaker.loadMakerFromConfig(getConfig(), "item");
-		placeholders
-			.add("fish_type", getType().toString())
-			.add("fish_permission", getPermission())
-			.add("fish_chance", getChance())
-			.add("fish_name", getName())
-			.add("fish_time", getTime().toString())
-			.add("fish_weather", getWeather())
-			.add("fish_cansell", isSaleable())
-			.add("fish_money", getBaseMoney())
-			.add("fish_points", getBasePoints())
-			.add("fish_xp", getBaseXp())
-			.add("fish_isedible", isEdible())
-			.add("fish_hunger", getHunger());
+		
+		placeholders.add(getPlaceholders());
 		
 		return ItemUtils.applyPlaceholders(item, placeholders);
 	}
@@ -66,27 +66,10 @@ public class Fish extends FishingItem {
 
 	@Override
 	public ItemMaker getPreviewItem() {
+		// Loading preview ItemMaker from file
 		ItemMaker item = ItemUtils.loadPreviewItem(getConfig());
-		
-		Placeholders placeholders = Placeholders.c()
-			.add("fish_type", getType().toString())
-			.add("fish_permission", getPermission())
-			.add("fish_chance", getChance())
-			.add("fish_name", getName())
-			.add("fish_time", getTime().toString())
-			.add("fish_weather", getWeather())
-			.add("fish_cansell", isSaleable())
-			.add("fish_money", getBaseMoney())
-			.add("fish_points", getBasePoints())
-			.add("fish_xp", getBaseXp())
-			.add("fish_isedible", isEdible())
-			.add("fish_hunger", getHunger())
-			// fish special:
-			.add("fish_weight_min", getWeight(Limit.MIN))
-			.add("fish_weight_max", getWeight(Limit.MAX))
-			.add("fish_length_min", getLength(Limit.MIN))
-			.add("fish_length_max", getLength(Limit.MAX));
-		return ItemUtils.applyPlaceholders(item, placeholders);
+		// Applying placeholders
+		return ItemUtils.applyPlaceholders(item, getPlaceholders());
 	}
 
 	@Override

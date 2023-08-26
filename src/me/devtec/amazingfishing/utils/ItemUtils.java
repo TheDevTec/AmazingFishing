@@ -57,6 +57,13 @@ public class ItemUtils {
 		item.setVelocity(vec);
 	}
 	
+	/**
+	 * Loads preview item from {@link Config}. </br>
+	 * If preview item does not contain type, the type will be used from 'item' section.
+	 * 
+	 * @param file The file from which plugin is loading preview item
+	 * @return Loaded {@link ItemMaker}
+	 */
 	public static ItemMaker loadPreviewItem(Config file) {
 		ItemMaker item = null;
 		

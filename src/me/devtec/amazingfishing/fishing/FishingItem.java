@@ -286,7 +286,7 @@ public abstract class FishingItem {
 		List<String> msgs = getMessagesRaw(action);
 		if(msgs == null || msgs.isEmpty())
 			return;
-		placeholders.addPlayer("player", player);  //TODO - more placeholders
+		placeholders.addPlayer("player", player).add(getPlaceholders());
 		
 		for(String message: msgs) {
 			MessageUtils.sendPluginMessage(player, message, placeholders, player);
@@ -313,7 +313,7 @@ public abstract class FishingItem {
 		List<String> cmds = getCommandsRaw(action);
 		if(cmds==null || cmds.isEmpty())
 			return;
-		placeholders.addPlayer("player", player); //TODO - more placeholders
+		placeholders.addPlayer("player", player).add(getPlaceholders());
 		
 		for(String command: cmds) {
 			BukkitLoader.getNmsProvider().postToMainThread(() -> {
@@ -402,5 +402,29 @@ public abstract class FishingItem {
 	
 	abstract public boolean canCatch(Fisher player);
 	
+	
+	/*
+	 * UNIVERSAL PALCEHOLDERS
+	 */
+	
+	//universal palceholder for all types
+	protected final Placeholders placeholders_universal = Placeholders.c()
+			.add("fish_type", getType().toString())
+			.add("fish_permission", getPermission())
+			.add("fish_chance", getChance())
+			.add("fish_name", getName())
+			.add("fish_time", getTime().toString())
+			.add("fish_weather", getWeather())
+			.add("fish_cansell", isSaleable())
+			.add("fish_money", getBaseMoney())
+			.add("fish_points", getBasePoints())
+			.add("fish_xp", getBaseXp())
+			.add("fish_isedible", isEdible())
+			.add("fish_hunger", getHunger());;
+			
+	/** Gets placeholders suited for each {@link FishType}
+	 * @return {@link Placeholders}
+	 */
+	public abstract Placeholders getPlaceholders();
 	
 }
