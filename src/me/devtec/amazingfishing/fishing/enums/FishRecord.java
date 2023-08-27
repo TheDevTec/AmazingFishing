@@ -19,5 +19,12 @@ public enum FishRecord {
 		return getPath();
 	}
 	
+	public static FishRecord value(String valueOf) {
+		if(valueOf.equalsIgnoreCase("length"))
+			return LENGTH;
+		if(valueOf.equalsIgnoreCase("weight"))
+			return WEIGHT;
+		return null;
+	}
 	
 }

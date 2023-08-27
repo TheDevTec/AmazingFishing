@@ -57,7 +57,7 @@ public abstract class FishingItem {
 	// Setting Configuration file
 	public void setConfig(Config newFile) { file = newFile; }
 	// Getting file's name
-	public String getConfigName() { return file.getFile().getName(); }
+	public String getConfigName() { return file.getFile().getName().replace(".yml", ""); }
 	
 	/*
 	 *  FISH TYPE
@@ -414,6 +414,7 @@ public abstract class FishingItem {
 				.add("fish_permission", getPermission())
 				.add("fish_chance", getChance())
 				.add("fish_name", getName())
+				.add("fish_file", getConfigName())
 				.add("fish_time", getTime().toString())
 				.add("fish_weather", getWeather())
 				.add("fish_cansell", isSaleable())

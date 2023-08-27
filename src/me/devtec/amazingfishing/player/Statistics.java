@@ -140,16 +140,15 @@ public class Statistics {
 	 */
 	public static int getFishingStat(Player player, String fishFileName, FishType fishType, ItemAction ItemAction, LoadDataType laodDataType) {
 		Config user = API.getUser(player.getUniqueId());
-		
 		if(laodDataType==null) return -1;
 		
 		switch(laodDataType) {
 		case GLOBAL:
-			return user.getInt(dataLoc+".statistics.fish."+ItemAction.getStatPath()); //All FishingItems
+			return user.getInt(dataLoc+".statistics.fish."+ItemAction.getStatPath(), 0); //All FishingItems
 		case PER_TYPE: // Specific FishingItem type
-			return user.getInt(dataLoc+".statistics.fish."+fishType.getName()+"."+ItemAction.getStatPath());
+			return user.getInt(dataLoc+".statistics.fish."+fishType.getName()+"."+ItemAction.getStatPath(), 0);
 		case PER_FISH: //Specific FishingItem
-			return user.getInt(dataLoc+".statistics.fish."+fishType.getName()+"."+fishFileName+"."+ItemAction.getStatPath());
+			return user.getInt(dataLoc+".statistics.fish."+fishType.getName()+"."+fishFileName+"."+ItemAction.getStatPath(), 0);
 		}
 		return 0;
 	}
@@ -290,6 +289,17 @@ public class Statistics {
 		public String getPath() {
 			return config_path;
 		}
+		
+		public static GainedType value(String valueOf) {
+			if(valueOf.equalsIgnoreCase("money"))
+				return MONEY;
+			if(valueOf.equalsIgnoreCase("points"))
+				return POINTS;
+			if(valueOf.equalsIgnoreCase("exps"))
+				return EXP;
+			return null;
+		}
+
 	}
 	
     /**

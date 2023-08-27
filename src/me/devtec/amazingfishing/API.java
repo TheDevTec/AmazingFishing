@@ -46,9 +46,9 @@ public class API {
 			for(File file : directory.listFiles()) { // loops all files in this directory
 				Config config = new Config(file);
 				if(config.getString("type").equalsIgnoreCase("FISH"))
-					getFishList().put(file.getName(), new Fish(config)); // adds or replaces FISH in Map
+					getFishList().put(file.getName().replace(".yml", ""), new Fish(config)); // adds or replaces FISH in Map
 				if(config.getString("type").equalsIgnoreCase("JUNK"))
-					getJunkList().put(file.getName(), new Junk(config)); // adds or replaces JUNK in Map
+					getJunkList().put(file.getName().replace(".yml", ""), new Junk(config)); // adds or replaces JUNK in Map
 			}
 		}
 		// Generating today's bonus fish

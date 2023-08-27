@@ -20,4 +20,18 @@ public enum ItemAction {
 	public String getStatPath() {
 		return stat_config_path;
 	}
+	
+	/** Determines and returns the {@link ItemAction} value from the {@link String} 
+	 * @param ofValue The string representation of ItemAction value
+	 * @return null if there is no match
+	 */
+	public static ItemAction value(String ofValue) {
+		if(ofValue.equalsIgnoreCase("eat") || ofValue.equalsIgnoreCase("ate"))
+			return EAT;
+		if(ofValue.equalsIgnoreCase("sell") || ofValue.equalsIgnoreCase("sold"))
+			return SELL;
+		if(ofValue.equalsIgnoreCase("catch") || ofValue.equalsIgnoreCase("caught"))
+			return CATCH;
+		return null;
+	}
 }
