@@ -41,7 +41,7 @@ public class Junk extends FishingItem {
 
 	@Override
 	public Placeholders getPlaceholders() {
-		return placeholders_universal;
+		return getPlaceholdersUniversal();
 	}
 
 	@Override

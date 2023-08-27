@@ -408,19 +408,21 @@ public abstract class FishingItem {
 	 */
 	
 	//universal palceholder for all types
-	protected final Placeholders placeholders_universal = Placeholders.c()
-			.add("fish_type", getType().toString())
-			.add("fish_permission", getPermission())
-			.add("fish_chance", getChance())
-			.add("fish_name", getName())
-			.add("fish_time", getTime().toString())
-			.add("fish_weather", getWeather())
-			.add("fish_cansell", isSaleable())
-			.add("fish_money", getBaseMoney())
-			.add("fish_points", getBasePoints())
-			.add("fish_xp", getBaseXp())
-			.add("fish_isedible", isEdible())
-			.add("fish_hunger", getHunger());;
+	public final Placeholders getPlaceholdersUniversal() {
+		return Placeholders.c()
+				.add("fish_type", getType().toString())
+				.add("fish_permission", getPermission())
+				.add("fish_chance", getChance())
+				.add("fish_name", getName())
+				.add("fish_time", getTime().toString())
+				.add("fish_weather", getWeather())
+				.add("fish_cansell", isSaleable())
+				.add("fish_money", getBaseMoney())
+				.add("fish_points", getBasePoints())
+				.add("fish_xp", getBaseXp())
+				.add("fish_isedible", isEdible())
+				.add("fish_hunger", getHunger());
+	}
 			
 	/** Gets placeholders suited for each {@link FishType}
 	 * @return {@link Placeholders}

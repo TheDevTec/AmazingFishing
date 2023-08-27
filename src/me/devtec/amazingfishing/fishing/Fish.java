@@ -44,7 +44,7 @@ public class Fish extends FishingItem {
 
 	@Override
 	public Placeholders getPlaceholders() {
-		Placeholders place = placeholders_universal;
+		Placeholders place = getPlaceholdersUniversal();
 		
 		return place
 		// fish special:

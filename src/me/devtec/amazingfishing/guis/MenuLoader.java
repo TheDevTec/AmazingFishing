@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import me.devtec.amazingfishing.fishing.enums.FishType;
 import me.devtec.amazingfishing.guis.menus.Atlas;
 import me.devtec.amazingfishing.guis.menus.ShopSell;
-import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.shared.dataholder.Config;
 
 public class MenuLoader {
@@ -49,8 +48,6 @@ public class MenuLoader {
 					menuList.put(file, new ShopSell(config));
 				else
 					menuList.put(file, new Menu(config));
-				
-				MessageUtils.sendAnnouncement("AF: Loaded menu: "+file);
 			}
 		}
 	}

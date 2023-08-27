@@ -91,6 +91,7 @@ public class Calculator {
     	//if normalizeFishChances() algorithm used, total chance is always 100% --> if now, this will then work a bit shady :D
         double randomValue = Math.random() * 100.0; 
 
+        //TODO - remove broadcast
     	Bukkit.broadcastMessage("FishList:");
         for(Entry<FishingItem, Double> set : fishList.entrySet())
         	MessageUtils.sendAnnouncement(" • "+set.getKey().getName()+ " New chance: "+set.getValue());
