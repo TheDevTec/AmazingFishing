@@ -71,9 +71,9 @@ public class PlaceholderLoader {
 	 * _stats_<FISH TYPE>_<caught | ate | sold>
 	 * _stats_<FISH TYPE>_<fish file>_<caught | ate | sold>
 	 * 
-	 * _gained_<exps | money | points>_[f | formated]
+	 * _gained_<exps | money | points>_[f | format]
 	 * 
-	 * _records_<fish file>_<WEIGHT | LENGTH>_[f | formated]
+	 * _records_<fish file>_<WEIGHT | LENGTH>_[f | format]
 	 * 
 	 * 
 	 * [] - not needed
