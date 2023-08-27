@@ -51,6 +51,7 @@ public class API {
 					getJunkList().put(file.getName().replace(".yml", ""), new Junk(config)); // adds or replaces JUNK in Map
 			}
 		}
+		
 		// Generating today's bonus fish
 		TidesTreasure.generateFish();
 		
