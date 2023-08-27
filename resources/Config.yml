@@ -10,12 +10,12 @@
 #  Discord: https://discord.io/spigotdevtec
 
 
-# All translation files can be found in plugins/AmazingFishing/Translations folder
-# You can create new files. New file need to be .yml type!
+# All translation files can be found in the plugins/AmazingFishing/Translations folder
+# You can create new files. The new file needs to be .yml type!
 translation_file: "en"
 
 options:
-  # If Fishing points should be enabled. Player can use Points in shop.
+  # If Fishing points should be enabled. Players can use Points in a shop.
   # PointsManager types: VAULT, POINTS
   # VAULT - If some Economy is active plugin will use money instead of points...
   fishingPoints: "POINTS"
@@ -34,7 +34,7 @@ command:
   - "fish"
   - "af"
   permissions:
-    # cmd is default command permission ( /fish)
+    # cmd is the default command permission ( /fish)
     cmd: "amazingfishing.command"
     reload: "amazingfishing.reload"
     open: "amazingfishing.command" # /fish open <menu>
@@ -54,7 +54,7 @@ command:
   
 # Shop settings
 shop:
-  # If player should get any money, points or XP from selling fishing items
+  # If the player should get any money, points or XP from selling fishing items
   disableMoney: false
   disablePoints: true
   disableXp: false
@@ -67,19 +67,19 @@ tidesTreasure:
   # If the bonus fish can be the same two days in a row (or more)
   repetition: true
   apply:
-    # Bonus will be applyed when player is seling bonus fish
+    # Bonus will be applied when the player is selling bonus fish
     whenSelling: true
-    # Bonus will be applyed when player catch bonus fish
+    # Bonus will be applied when the player catches bonus fish
     whenCatching: false
-    # If this setting is true, player will get bonus when selling fish which was not caught on the same day (real day)
+    # If this setting is true, the player will get a bonus when selling fish that was not caught on the same day (real day)
     oldFish: true
-  # These are globally applied values. You can edit bonus for each fish.
+  # These are globally applied values. You can edit the bonus for each fish.
   bonus:
     money: 1.2
     points: 1.2
     exps: 1.2
     exps_catch: 1.2
-  # Do not change these please. Just if you really want to change current bonus fish... :D
+  # Do not change these, please. Just if you really want to change the current bonus fish... :D
   data:
     fish: ""
     date: "2023-08-01"
