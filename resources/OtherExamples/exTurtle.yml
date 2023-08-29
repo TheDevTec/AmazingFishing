@@ -1,0 +1,49 @@
+# Type, you can use FISH or JUNK
+# What's the difference? When you catch FISH, it will have some weight and lenght, ...
+# When you catch JUNK it will probably be just some random item right? Yeah... you can play around with it...
+type: "JUNK"
+
+# Oficial name of this fish
+name: "&3Whoa! Big ol' blue's shell"
+
+item:
+  type: "TURTLE_HELMET"
+
+preview:
+  displayName: "%fish_name%"
+  lore:
+  - ""
+  - "&7And where's the rest?"
+  
+# Chance to catch this fish
+chance: 5.0
+
+biomes:
+- "BEACH"
+
+conditions:
+  time: DAY
+  weather: ANY
+  
+messages:
+  catch:
+  - "&3How do you know if they're ready?"
+  - "&bWell, you never really know, but when they know, you know, y'know?"
+  - "&b   -Crush"
+  sell:
+  - "&3 That's it, dude!"
+  - "&3   -Crush"
+
+shop:
+  sell: true # this item can be sold in shop
+  money: 12
+  points: 12
+
+# Custom calculator for shop, weight and length
+calculator:
+  money: "%money% * %bonus%"
+  exps: "%experiences% * %bonus%"
+  points: "%points% * %bonus%"
+  
+  
+  

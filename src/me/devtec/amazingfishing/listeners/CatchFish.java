@@ -21,7 +21,6 @@ import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.player.Fisher;
-import me.devtec.amazingfishing.player.Statistics;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -93,7 +92,10 @@ public class CatchFish implements Listener {
 
 			// Check if the event is not cancelled
 			if (!custom_event.isCancelled()) {
-			    //TODO
+				if(event.getPlayer().getName().equalsIgnoreCase("Houska02")) {
+					int sec = 1;
+					Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(event, CatchFish.acc)), "getHandle"), biteTime, sec <= 0 ? 1 : (int) sec);
+				}
 			}
 			
 		}
