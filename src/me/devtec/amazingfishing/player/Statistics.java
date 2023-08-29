@@ -202,7 +202,7 @@ public class Statistics {
 	public static void recordCheck(Player player, FishingItem FishingItem, double length, double weight) {
 		Config user = API.getUser(player.getUniqueId());
 		//getting boolean that represents if player can get new record message
-		boolean cansend=!user.exists(dataLoc+".settings.sendRecords")?true:user.getBoolean(dataLoc+".settings.sendRecords");
+		boolean cansend = me.devtec.amazingfishing.API.getFisher(player).canSendRecordMessages();
 		//old record value
 		double old;
 		
@@ -221,7 +221,6 @@ public class Statistics {
 				}
 			}
 			//checking weight record
-			
 			if(weight!=0) {
 				old = getRecord(player, FishingItem, FishRecord.WEIGHT);
 				if(weight > old) {

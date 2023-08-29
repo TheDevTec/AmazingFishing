@@ -113,7 +113,7 @@ public class Fisher {
 	}
 	
 	/*
-	 * PERMISSIONS
+	 * PERMISSIONS and stuff...
 	 */
 
 	/** Checks if player have some permission. </br>
@@ -138,5 +138,20 @@ public class Fisher {
 			MessageUtils.noPerm(getPlayer(), permission);
 		return false;
 	}
+
+	/*
+	 * SETTINGS
+	 */
+	
+	public boolean canSendRecordMessages() {
+		return !getUser().exists(API.getDataLoc()+".settings.sendRecords")?true:getUser().getBoolean(API.getDataLoc()+".settings.sendRecords");
+	}
+	
+	public void setSendRecordMessages(boolean newStatus) {
+		getUser().set(API.getDataLoc()+".settings.sendRecords", newStatus);
+		getUser().save();
+	}
+	
+	
 	
 }

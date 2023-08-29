@@ -41,7 +41,8 @@ public class ShopSell extends Menu {
 			return true;
 	}
 	
-	public void putSpecialitems(GUI gui, Player player, int page) {
+
+	public void putSpecialItems(GUI gui, Player player, int page) {
 
 		setCloseRunnable( (p, g)-> {
 			for(ItemStack item : getInsertedItems(gui)) {

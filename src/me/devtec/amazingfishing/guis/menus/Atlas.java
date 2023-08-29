@@ -58,7 +58,7 @@ public class Atlas extends Menu {
 		
 	}
 	
-	public void putSpecialitems(GUI gui, Player player, int page) {
+	public void putSpecialItems(GUI gui, Player player, int page) {
 		// If pagination is empty for some reason
 		if(pagination==null || pagination.isEmpty())
 			return;

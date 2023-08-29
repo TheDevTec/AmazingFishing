@@ -83,6 +83,7 @@ public class CatchFish implements Listener {
 	 */
 	@EventHandler
 	public void onCatch(PlayerFishEvent event) {
+		//long start = System.currentTimeMillis();
 		
 		if (event.getState() == PlayerFishEvent.State.FISHING) {
 			//TODO - enchanting editing bite time
@@ -92,10 +93,14 @@ public class CatchFish implements Listener {
 
 			// Check if the event is not cancelled
 			if (!custom_event.isCancelled()) {
+				/* FOR TESTING ONLY:
 				if(event.getPlayer().getName().equalsIgnoreCase("Houska02")) {
 					int sec = 1;
 					Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(event, CatchFish.acc)), "getHandle"), biteTime, sec <= 0 ? 1 : (int) sec);
-				}
+
+					long end = System.currentTimeMillis();
+					//Bukkit.broadcastMessage("[2] Time in milli seconds: "+(end-start));
+				}*/
 			}
 			
 		}
@@ -138,6 +143,9 @@ public class CatchFish implements Listener {
 					ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
 					// running commands
 					fishingItem.runCommands(player, ItemAction.CATCH, placeholders);
+					
+					//long end = System.currentTimeMillis();
+					//Bukkit.broadcastMessage("[1] Time in milli seconds: "+(end-start));
 				}
 				else
 					event.setCancelled(custom_event.isCancelled());

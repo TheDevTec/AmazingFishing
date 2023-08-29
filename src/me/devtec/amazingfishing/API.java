@@ -27,6 +27,10 @@ public class API {
 	
 	protected static PointsManager points;
 	
+	/**  Represents the location for storing statistical data.  */
+	protected static String dataLoc = "amazingFishing";
+	
+	public static String getDataLoc() { return dataLoc; }
 	/*
 	 *  FISH & JUNK LISTS
 	 */

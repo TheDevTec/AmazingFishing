@@ -236,7 +236,7 @@ public class Menu {
 		putNormalItems(gui, player);
 		
 		// SPECIAL ITEMS
-		putSpecialitems(gui, player, page);
+		putSpecialItems(gui, player, page);
 		
 		/*
 		 * BACK & CLOSE buttons
@@ -298,7 +298,7 @@ public class Menu {
 		}
 	}
 	
-	public void putSpecialitems(GUI gui, Player player, int page) {}
+	public void putSpecialItems(GUI gui, Player player, int page) {}
 	
 	private PRunnable onClose;
 	
