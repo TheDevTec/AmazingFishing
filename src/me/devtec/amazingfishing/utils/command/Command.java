@@ -3,7 +3,6 @@ package me.devtec.amazingfishing.utils.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,6 +11,8 @@ import me.devtec.amazingfishing.Loader;
 import me.devtec.amazingfishing.guis.MenuLoader;
 import me.devtec.amazingfishing.player.Fisher;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
+import me.devtec.amazingfishing.utils.XSound;
+import me.devtec.shared.Ref;
 import me.devtec.shared.commands.holder.CommandHolder;
 import me.devtec.shared.commands.selectors.Selector;
 import me.devtec.shared.commands.structures.CommandStructure;
@@ -19,7 +20,7 @@ import me.devtec.shared.utility.StringUtils;
 
 public class Command implements PluginCommand<CommandSender> {
 
-	private Sound opening = Sound.BLOCK_CHEST_OPEN;
+	private XSound opening = (Ref.serverVersionInt()<14 ? XSound.BLOCK_CHEST_OPEN : XSound.BLOCK_BARREL_OPEN );
 	private CommandHolder<CommandSender> cmd;
 	
 	@Override
@@ -33,6 +34,7 @@ public class Command implements PluginCommand<CommandSender> {
 		List<String> aliases = getCommands();
 		if(!aliases.isEmpty())
 			this.cmd = newCommand.build().register(aliases.remove(0), aliases.toArray(new String[0]));
+		
 	}
 	
 	@Override
@@ -337,7 +339,7 @@ public class Command implements PluginCommand<CommandSender> {
 
 	
 	private void playOpeningSong(CommandSender player) {
-		((Player)player).playSound( ((Player)player).getLocation(), opening, 5, 10);
+		((Player)player).playSound( ((Player)player).getLocation(), opening.parseSound(), 5, 10);
 	}
 	
 	private void tryOpen(CommandSender s, String menu) {

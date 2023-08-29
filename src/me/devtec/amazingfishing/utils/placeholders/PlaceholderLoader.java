@@ -136,14 +136,4 @@ public class PlaceholderLoader {
 		
 		return "0";
 	}
-	
-	public static void main(String[] args) {
-		String a = "amazingfishing_stats_ate";
-		String b = "amazingfishing_stats_FISH_caught";
-		String c = "amazingfishing_stats_JUNK_stick_sold";
-		getStatistics(null, a);
-		getStatistics(null, b);
-		getStatistics(null, c);
-		
-	}
 }

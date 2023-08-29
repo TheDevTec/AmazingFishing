@@ -2,7 +2,6 @@ package me.devtec.amazingfishing.guis;
 
 import java.util.HashMap;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.devtec.theapi.bukkit.game.ItemMaker;
@@ -10,6 +9,7 @@ import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
 import me.devtec.theapi.bukkit.gui.ItemGUI;
+import me.devtec.theapi.bukkit.xseries.XMaterial;
 
 public class MenuUtils {
 
@@ -19,14 +19,14 @@ public class MenuUtils {
 	 * @return {@link GUI}
 	 */
 	public static GUI prepare(GUI gui, boolean fill) {
-		ItemGUI glass_pane_black = new ItemGUI( ItemMaker.of(Material.BLACK_STAINED_GLASS_PANE).amount(1).displayName("&7").build()) {
+		ItemGUI glass_pane_black = new ItemGUI( ItemMaker.of(XMaterial.BLACK_STAINED_GLASS_PANE).amount(1).displayName("&7").build()) {
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				//do nothing
 			}}.setUnstealable(true);
 		// if this should fill all the GUI
 		if(fill) {
-			ItemGUI glass_pane_gray = new ItemGUI( ItemMaker.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE).amount(1).displayName("&7").build()) {
+			ItemGUI glass_pane_gray = new ItemGUI( ItemMaker.of(XMaterial.LIGHT_GRAY_STAINED_GLASS_PANE).amount(1).displayName("&7").build()) {
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					//do nothing

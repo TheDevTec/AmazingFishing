@@ -93,12 +93,12 @@ public class CatchFish implements Listener {
 
 			// Check if the event is not cancelled
 			if (!custom_event.isCancelled()) {
-				/* FOR TESTING ONLY:
-				if(event.getPlayer().getName().equalsIgnoreCase("Houska02")) {
+				// FOR TESTING ONLY:
+				/*if(event.getPlayer().getName().equalsIgnoreCase("Houska02")) {
 					int sec = 1;
 					Ref.set(Ref.invoke(Ref.cast(Ref.craft("entity.AbstractProjectile"), Ref.invoke(event, CatchFish.acc)), "getHandle"), biteTime, sec <= 0 ? 1 : (int) sec);
 
-					long end = System.currentTimeMillis();
+					//long end = System.currentTimeMillis();
 					//Bukkit.broadcastMessage("[2] Time in milli seconds: "+(end-start));
 				}*/
 			}

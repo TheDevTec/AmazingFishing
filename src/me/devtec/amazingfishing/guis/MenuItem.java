@@ -6,7 +6,9 @@ import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.ItemUtils;
+import me.devtec.amazingfishing.utils.XSound;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
+import me.devtec.shared.Ref;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.game.ItemMaker;
 
@@ -19,8 +21,10 @@ public class MenuItem {
 	private int pos = -1;
 	private ItemMaker maker = null;
 	
-	private Sound sound = Sound.BLOCK_CHEST_OPEN;
-	private Sound error_sound = Sound.ENTITY_VILLAGER_NO;
+	//private Sound sound_ = Sound.BLOCK_CHEST_OPEN;
+	private XSound sound = (Ref.serverVersionInt()<14 ? XSound.BLOCK_CHEST_OPEN : XSound.BLOCK_BARREL_OPEN );
+	//private Sound error_sound_ = Sound.ENTITY_VILLAGER_NO;
+	private XSound error_sound = XSound.ENTITY_VILLAGER_NO;
 	
 	public MenuItem(Config file, String path_name) {
 		this.file = file;
@@ -34,7 +38,6 @@ public class MenuItem {
 		this.file = file;
 		this.name = button.toString();
 		this.path = "buttons."+button.toString();
-		
 		load();
 	}
 	
@@ -95,22 +98,22 @@ public class MenuItem {
 	 * SOUNDS
 	 */
 	public Sound getSound() {
-		return this.sound;
+		return this.sound.parseSound();
 	}
 	
 	public Sound getErrorSound() {
-		return this.error_sound;
+		return this.error_sound.parseSound();
 	}
 	
 	public void loadSounds() {
 		// Loading clicking sound
 		try {
-			this.sound = Sound.valueOf(getConfig().getString(getPath()+".sound"));
-		} catch (Exception e) { this.sound = Sound.BLOCK_BARREL_OPEN; }
+			this.sound = XSound.valueOf(getConfig().getString(getPath()+".sound"));
+		} catch (Exception e) { this.sound = (Ref.serverVersionInt()<14 ? XSound.BLOCK_CHEST_OPEN : XSound.BLOCK_BARREL_OPEN ); }
 		// Loading error sound
 		try {
-			this.error_sound = Sound.valueOf(getConfig().getString(getPath()+".soundError"));
-		} catch (Exception e) { this.error_sound = Sound.ENTITY_VILLAGER_NO; }
+			this.error_sound = XSound.valueOf(getConfig().getString(getPath()+".soundError"));
+		} catch (Exception e) { this.error_sound = XSound.ENTITY_VILLAGER_NO; }
 	
 	}
 	

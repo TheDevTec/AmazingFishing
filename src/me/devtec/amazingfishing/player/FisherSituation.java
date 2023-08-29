@@ -1,6 +1,5 @@
 package me.devtec.amazingfishing.player;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
@@ -34,7 +33,8 @@ public class FisherSituation {
 	 * Updates biome, time and weather status.
 	 */
 	public void update(Location hook_location) {
-		biome = player.getWorld().getBiome(hook_location);
+		//biome = player.getWorld().getBiome(hook_location); <--- newer minecraft version
+		biome = player.getWorld().getBiome(hook_location.getBlockX(), hook_location.getBlockZ());
 		time = FishingTime.getNow(hook_location.getWorld().getTime());
 		weather = FishingWeather.getWeather(player);
 	}
@@ -55,10 +55,11 @@ public class FisherSituation {
 			first_time = false;
 			return false;
 		}
-		Bukkit.broadcastMessage("Situation check: B "+(biome == player.getWorld().getBiome(hook_location))+
+		/*Bukkit.broadcastMessage("Situation check: B "+(biome == player.getWorld().getBiome(hook_location.getBlockX(), hook_location.getBlockZ()))+
 				" T "+(time == FishingTime.getNow(hook_location.getWorld().getTime()))+
-				" W "+(weather == FishingWeather.getWeather(player)));
-		return biome == player.getWorld().getBiome(hook_location) &&
+				" W "+(weather == FishingWeather.getWeather(player)));*/
+		return //biome == player.getWorld().getBiome(hook_location) && <--- newer minecraft version
+				biome == player.getWorld().getBiome(hook_location.getBlockX(), hook_location.getBlockZ()) &&
 				time == FishingTime.getNow(hook_location.getWorld().getTime()) &&
 				weather == FishingWeather.getWeather(player);
 	}

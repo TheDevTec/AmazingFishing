@@ -23,10 +23,11 @@ public enum FishingWeather {
 		case THUNDERSTORM:
 			return world.isThundering();
 		case SUN:
-			return world.isClearWeather();
+			return (!world.isThundering() && !world.hasStorm());
 		}
 		return false;
 	}
+	
 	public boolean equals(FishingWeather weather) {
 		if(this == ANY || weather == ANY)
 			return true;
@@ -45,7 +46,7 @@ public enum FishingWeather {
 			return THUNDERSTORM;
 		if(world.hasStorm())
 			return RAIN;
-		if(world.isClearWeather())
+		if(!world.isThundering() && !world.hasStorm())
 			return SUN;
 		return ANY;
 	}

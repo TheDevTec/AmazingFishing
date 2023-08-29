@@ -62,6 +62,7 @@ public class API {
 		MessageUtils.msgConsole("%name% &fLoaded %fish% fish files and %junk% junk files.", 
 				Placeholders.c().add("fish", getFishList().size()).add("junk", getJunkList().size()).add("name", "[AmazingFishing]"));
 	}
+	
 	public static HashMap<String, Fish> getFishList() {
 		return fish_list;
 	}
@@ -94,7 +95,7 @@ public class API {
 	 * @implNote {@link FishingItem} is parent class for {@link Fish} and {@link Junk} classes. 
 	 * So this will return you {@link Junk} and also {@link Fish} item depending on fileName...
 	 */
-	public static FishingItem getFishingItem(String fileName){
+	public static FishingItem getFishingItem(String fileName) {
 		if(getFish(fileName) != null)
 			return getFish(fileName);
 		if(getJunk(fileName) != null)

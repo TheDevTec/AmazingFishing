@@ -74,7 +74,8 @@ public abstract class FishingItem {
 	 */
 	public String getDefaultPermission() {
 		if(def_perm_path == null) {
-			Loader.plugin.getLog4JLogger().warn("["+Loader.plugin.getDescription().getName()+"] There is no 'Default permission path'. This is plugin error, you can report this...");
+			// .warn(...) on newer version
+			Loader.plugin.getLogger().warning("["+Loader.plugin.getDescription().getName()+"] There is no 'Default permission path'. This is plugin error, you can report this...");
 			return "";
 		}
 		return Configs.config.exists(def_perm_path) ? 
