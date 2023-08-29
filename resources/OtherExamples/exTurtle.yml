@@ -16,7 +16,7 @@ preview:
   - "&7And where's the rest?"
   
 # Chance to catch this fish
-chance: 5.0
+chance: 10.0
 
 biomes:
 - "BEACH"
