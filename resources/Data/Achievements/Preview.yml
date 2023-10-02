@@ -1,0 +1,33 @@
+enabled: true
+
+# Achievement's official name
+name: "Test"
+# Achievement's stages
+# Starts from 0 !!
+stages:
+  0:
+    messages:
+    - ""
+    commands:
+    - ""
+    
+    action: "item_catch" # StageAction
+    # Depends on action
+    # • The FishingItem file name (without '.yml')
+    # • The specific FishType (FISH or JUNK)
+    # • The name of a Achievement
+    # • OR Nothing
+    name: "codExample" # btw case sensitive
+    # • Number of items needed to be caught
+    # • Number of achievements (when the action is 'COMPLETE_ACHIEVEMENTS')
+    # • Number of gained money/points/xp
+    amount: 2
+    
+rewards:
+  points: 5
+  commands:
+  - "say Yay you completed achievement %achievement%"
+
+# item věci sem nebo do guička? co když budem chtít jiný lore? to by asi šlo i sem ne?
+item:
+  
