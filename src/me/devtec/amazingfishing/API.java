@@ -90,7 +90,8 @@ public class API {
 	}
 	/** Gets {@link FishingItem} from loaded Fish & Junk items.
 	 * @param fileName
-	 * @return {@link FishingItem} - It is parent class for {@link Fish} and {@link Junk} classes
+	 * @return {@link FishingItem} - It is parent class for {@link Fish} and {@link Junk} classes. 
+	 * 		Null if not loaded or does not exist.
 	 * 
 	 * @implNote {@link FishingItem} is parent class for {@link Fish} and {@link Junk} classes. 
 	 * So this will return you {@link Junk} and also {@link Fish} item depending on fileName...

@@ -102,6 +102,20 @@ public class Statistics {
 	}
 	
 	/**
+     * Retrieves fishing statistics based on {@link FishType}, {@link ItemAction}, and loading type.
+     * 
+     *
+     * @param player The player for whom to retrieve statistics.
+     * @param fishType The type of fish. See {@link FishType}
+     * @param ItemAction The type of fishing statistic (e.g., caught, sold).
+	 * @param laodDataType {@link LoadDataType}
+     * @return The fishing statistic for the specified parameters.
+     */
+	public static int getFishingStat(Player player, FishType fishType, ItemAction ItemAction, LoadDataType LoadDataType) {
+		return getFishingStat(player, null, fishType, ItemAction, LoadDataType);
+	}
+	
+	/**
      * Retrieves fishing statistics based on specific {@link FishingItem} and {@link ItemAction}.
      * 
 	 * @param player The player for whom to retrieve statistics.
@@ -124,6 +138,8 @@ public class Statistics {
 	 * @see {@link FishingItem}, {@link ItemAction}, and {@link LoadDataType}
 	 */
 	public static int getFishingStat(Player player, FishingItem fishingItem, ItemAction ItemAction, LoadDataType laodDataType) {
+		if(fishingItem == null || player == null)
+			return -1;
 		return getFishingStat(player, fishingItem.getConfigName(), fishingItem.getType(), ItemAction, laodDataType);
 	}
 	
