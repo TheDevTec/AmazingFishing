@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.API;
+import me.devtec.amazingfishing.fishing.enums.ItemAction;
+import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.BukkitLoader;
@@ -147,10 +149,8 @@ public class Achievement {
 	public void check(Player player) {
 		
 		if(isFinished(player)) { // if player finished this achievement
-			//TODO - rewards
+			giveRewards(player);
 		}
-		
-		
 	}
 	
 	/*
@@ -158,18 +158,30 @@ public class Achievement {
 	 */
 	
 	public double getRewardPoints() {
-		return this.config.getDouble("rewards.points");
+		return this.config.getDouble("finish.points");
 	}
 	public List<String> getRewardCommands(){
-		return this.config.getStringList("rewards.commands");
+		return this.config.getStringList("finish.commands");
+	}
+	public List<String> getRewardMessages(){
+		return this.config.getStringList("finish.messages");
 	}
 	
 	public void giveRewards(Player player) {
+		// Giving points as reward
 		if(getRewardPoints() > 0)
 			API.getPointsmanager().add(player.getName(), getRewardPoints());
-		if(getRewardCommands()!= null && !getRewardCommands().isEmpty()) {
-			Placeholders placeholders = Placeholders.c().addPlayer("player", player);
+
+		Placeholders placeholders = Placeholders.c().addPlayer("player", player);
+		// Running messages
+		if(getRewardMessages()!= null && !getRewardMessages().isEmpty()) {
+			for(String message: getRewardMessages()) {
+				MessageUtils.sendPluginMessage(player, message, placeholders, player);
+			}
+		}
 		
+		// Running commands
+		if(getRewardCommands()!= null && !getRewardCommands().isEmpty()) {
 			for(String command: getRewardCommands()) {
 				BukkitLoader.getNmsProvider().postToMainThread(() -> {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholders.apply(command));
@@ -177,6 +189,4 @@ public class Achievement {
 			}
 		}
 	}
-
-	
 }

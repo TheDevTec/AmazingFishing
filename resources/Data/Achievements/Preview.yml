@@ -23,7 +23,11 @@ stages:
     # • Number of gained money/points/xp
     amount: 2
     
-rewards:
+finish:
+  # Finish message
+  messages:
+  - ""
+  # Rewards
   points: 5
   commands:
   - "say Yay you completed achievement %achievement%"

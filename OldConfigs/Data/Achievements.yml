@@ -47,6 +47,7 @@ achievements:
         #   treasures: catch_treasure
         #   shop: gained_money, gained_points, gained_xp
         #   other: catch_all (fish or treasure)
+        # ++++ complete_achievement, complete_achievements
         action: "catch_fish"
         
         # Value: type_of_fish.name_of_fish -> cod.<name> -> cod.1
