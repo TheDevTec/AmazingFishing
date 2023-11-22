@@ -31,6 +31,8 @@ public class API {
 	protected static String dataLoc = "amazingFishing";
 	
 	public static String getDataLoc() { return dataLoc; }
+	
+	
 	/*
 	 *  FISH & JUNK LISTS
 	 */

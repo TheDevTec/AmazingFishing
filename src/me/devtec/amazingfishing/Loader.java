@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.devtec.amazingfishing.guis.MenuLoader;
 import me.devtec.amazingfishing.listeners.CatchFish;
 import me.devtec.amazingfishing.listeners.PlayerQuit;
+import me.devtec.amazingfishing.player.achievements.Achievements;
 import me.devtec.amazingfishing.player.points_economy.EconomyAPI;
 import me.devtec.amazingfishing.player.points_economy.PointsManager;
 import me.devtec.amazingfishing.player.points_economy.UserPoints;
@@ -115,6 +116,9 @@ public class Loader extends JavaPlugin {
 				Placeholders.c().add("name", "[AmazingFishing]"));
 		API.loadFishingItems();
 
+		// Loading Achievements
+		Achievements.loadAchievements();
+		
 		// Loading fishing GUIs
 		MessageUtils.msgConsole("%name% &fLoading fishing GUIs", Placeholders.c().add("name", "[AmazingFishing]"));
 		MenuLoader.loadMenus();

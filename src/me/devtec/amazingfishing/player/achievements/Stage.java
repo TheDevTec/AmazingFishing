@@ -16,19 +16,19 @@ import me.devtec.shared.dataholder.Config;
 
 public class Stage {
 
-	private int stage;
+	private int stageID;
 	private Config config;
 	private String path;
 	
-	public Stage(Config config, int stage) {
+	public Stage(Config config, int stageID) {
 		this.config=config;
-		this.stage = stage;
+		this.stageID = stageID;
 		
-		this.path = "stages."+stage;
+		this.path = "stages."+stageID;
 	}
 	
 	public int getID() {
-		return stage;
+		return stageID;
 	}
 	
 	/*
@@ -55,9 +55,14 @@ public class Stage {
 		return config.getString(path+".name");
 	}
 	
+	/**
+	 * 
+	 * @return null if the item does not exist (or is not loaded)
+	 */
 	public FishingItem getItem() {
 		return API.getFishingItem(getItemName());
 	}
+	
 	
 	public double getAmount() {
 		return config.getInt(path+".amount", 0);
@@ -65,16 +70,21 @@ public class Stage {
 	
 	
 	
-	/** Checking if the Stage is setup correctly
+	/** Checking if the Stage is correctly configured
 	 * @return True - if everything is fine
 	 */
 	public boolean prepCheck() {
 		StageAction action = getAction();
 		//specific FishingItem
 		if(action == StageAction.CATCH || action == StageAction.EAT || action == StageAction.SELL)
-			if(getItem()== null) {
+			if(getItem() == null) {
 				logWarn();
 				Bukkit.getLogger().warning("The item '"+getItemName()+"' does not exist!!");
+				return false;
+			}
+			if(getAmount() <= 0) {
+				logWarn();
+				Bukkit.getLogger().warning("The required number is not correct!! Must be greater than 0...");
 				return false;
 			}
 		//specific FishType
@@ -84,14 +94,19 @@ public class Stage {
 				Bukkit.getLogger().warning("The required FishingItem's type is not correct. Possible types: 'FISH' or 'JUNK'");
 				return false;
 			}
+			if(getAmount() <= 0) {
+				logWarn();
+				Bukkit.getLogger().warning("The required number is not correct!! Must be greater than 0...");
+				return false;
+			}
 		if(action == StageAction.COMPLETE_ACHIEVEMENT) { //TODO
 			logWarn();
 			Bukkit.getLogger().warning("The required Achievement name is not correct.");
 			Bukkit.getLogger().info("Because this feature is not done yet!!");
 			return false;
 		}
-		if(action == StageAction.CATCH_ALL || action == StageAction.COMPLETE_ACHIEVEMENTS || action == StageAction.GAINED_EXP ||
-				action == StageAction.GAINED_MONEY || action == StageAction.GAINED_POINTS ) {
+		if(action == StageAction.CATCH_ALL || action == StageAction.EAT_ALL || action == StageAction.SELL_ALL || action == StageAction.COMPLETE_ACHIEVEMENTS || 
+				action == StageAction.GAINED_EXP ||	action == StageAction.GAINED_MONEY || action == StageAction.GAINED_POINTS ) {
 			if(getAmount() > 0)
 					return true;
 			logWarn();
@@ -104,9 +119,8 @@ public class Stage {
 	
 	private void logWarn() {
 		Bukkit.getLogger().warning("[AmazingFishing] There was an error when setting up Achievement's stages!! See more details:"); 
-		Bukkit.getLogger().warning("Stage '"+stage+"' is not setup correctly!! Achievement: '"+config.getFile().getName()+"'");
+		Bukkit.getLogger().warning("Stage '"+stageID+"' is not setup correctly!! Achievement: '"+config.getFile().getName()+"'");
 	}
-	
 	
 	public boolean isFinished(Player player) {
 		StageAction action = getAction();

@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.devtec.amazingfishing.API;
-import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
@@ -52,7 +51,7 @@ public class Achievement {
 	
 	public Achievement(Config config) {
 		this.config=config;
-		
+		// loading stages
 		loadStages();
 	}
 	
@@ -83,15 +82,16 @@ public class Achievement {
 	
 	
 	public void loadStages() {
-		// First clearing the stages HashMap
+		// First clearing already loaded stages
 		if(!stages.isEmpty())
 			stages.clear();
 		
 		// Adding Stage into stages HashMap
-		for(int stage = 0; stage <= getConfig().getKeys("stages").size(); stage++) {
-			Stage stg = new Stage(config, stage);
-			if(stg.prepCheck()) {
-				stages.put(stage, stg);
+		//starting from 0
+		for(int stageID = 0; stageID <= getConfig().getKeys("stages").size(); stageID++) {
+			Stage stage = new Stage(config, stageID);
+			if(stage.prepCheck()) {
+				stages.put(stageID, stage);
 				continue;
 			} else { // because the stage is not configured correctly, plugin will not enable this achievement
 				stages.clear();
