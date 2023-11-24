@@ -25,8 +25,9 @@ stages:
     
 finish:
   # Finish message
-  messages:
-  - ""
+  # • You can use %points% as placeholder, that will represent the ammount of poins player gained.
+  # • Or %achievement_name% (if you want to copy and paste more mesages through achievements...)
+  messages: []
   # Rewards
   points: 5
   commands:

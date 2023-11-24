@@ -114,6 +114,20 @@ public class MessageUtils {
 			return this;
 		}
 		
+		/** This will return mapped placeholder.
+		 * @param placeholder the placeholder whose associated value is to be returned
+		 * @return the value to which the specified placeholder is mapped, or null if this {@link Placeholders} contains no mapping for the placeholder
+		 */
+		public Object get(String placeholder) {
+			if(!set.isEmpty())
+				if(set.containsKey(placeholder))
+					return set.get(placeholder);
+			if(!player_set.isEmpty())
+				if(set.containsKey(placeholder))
+					return set.get(placeholder);
+			return null;
+		}
+		
 		/** Method used to apply placeholders in message
 		 * @param sender The player to whom you are sending the message
 		 * @param text Message where you want to replace placeholders

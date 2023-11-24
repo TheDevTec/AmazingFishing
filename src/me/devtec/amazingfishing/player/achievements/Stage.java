@@ -30,18 +30,25 @@ public class Stage {
 	public int getID() {
 		return stageID;
 	}
+
+	public Config getConfig() {
+		return this.config;
+	}
+	
+	public String getConfigName() {
+		return this.config.getFile().getName().replace(".yml", "");
+	}
 	
 	/*
 	 * COMMANDS & MESSAGES
 	 */
 	
-	public List<String> getFisnishMessages() {
+	public List<String> getFinishMessages() {
 		return config.getStringList(path+".messages");
 	}
-	public List<String> getFishishCommands() {
+	public List<String> getFinishCommands() {
 		return config.getStringList(path+".commands");
 	}
-
 	
 	/*
 	 * ACTION related stuff
@@ -122,27 +129,57 @@ public class Stage {
 		Bukkit.getLogger().warning("Stage '"+stageID+"' is not setup correctly!! Achievement: '"+config.getFile().getName()+"'");
 	}
 	
-	public boolean isFinished(Player player) {
+	
+	/** Whether the player has already completed this stage in the past
+	 * @param player Online {@link Player}
+	 * @return <strong>True</strong> if player finished this stage in the past. Default value is <strong>false</strong>
+	 */
+	public boolean finished(Player player) {
+		return API.getFisher(player).getUser().getBoolean(
+				API.getDataLoc()+".achievements."+
+				this.getConfigName()+"."+this.getID(), false);
+	}
+	
+	/** Whether the player has met the conditions to finish this stage now (freshly). </br>
+	 * 	After this check there should probably be something like finish message/commands or rewards? </br>
+	 * @param player Online {@link Player}
+	 * @return <strong>True</strong> if the player has met the conditions to complete this stage.
+	 * 			 Default value is <strong>false</strong>
+	 * @implNote
+	 * <strong>If the player has met the conditions, this method will also save it to the user config. 
+	 * 		In that case, the</strong> <i>finished({@link Player})</i> <strong>method will start working and it should not 
+	 * 		be allowed to give out rewards for the initial completion of this stage.</strong>
+	 */
+	public boolean canFinish(Player player) {
 		StageAction action = getAction();
+		boolean returing = false;
 		
 		//CATCHING
 		if(action == StageAction.CATCH || action == StageAction.CATCH_ALL || action == StageAction.CATCH_TYPE)
-			return checkCatch(player);
+			returing = checkCatch(player);
 		// EATING
 		if(action == StageAction.EAT || action == StageAction.EAT_TYPE || action == StageAction.EAT_ALL)
-			return checkEat(player);
+			returing = checkEat(player);
 		// SELLING
 		if(action == StageAction.SELL || action == StageAction.SELL_TYPE || action == StageAction.SELL_ALL)
-			return checkSell(player);
+			returing = checkSell(player);
 		// POINTS / MONEY / XP
 		if(action == StageAction.GAINED_EXP || action == StageAction.GAINED_MONEY || action == StageAction.GAINED_POINTS)
-			return checkGained(player);
+			returing = checkGained(player);
 		if(action == StageAction.COMPLETE_ACHIEVEMENTS) //TODO
-			return false;
+			returing = false;
 		if(action == StageAction.COMPLETE_ACHIEVEMENT) //TODO
-			return false;
+			returing = false;
 		
-		return false;
+		//If player met all conditions ==> save it into the user file
+		if(returing) {
+			Config user = API.getUser(player);
+			user.set(API.getDataLoc()+".achievements."+
+				this.getConfigName()+"."+this.getID(), returing);
+			user.save();
+		}
+		
+		return returing;
 	}
 	
 	private boolean checkCatch(Player player) {

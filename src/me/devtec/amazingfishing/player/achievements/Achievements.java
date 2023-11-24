@@ -3,6 +3,8 @@ package me.devtec.amazingfishing.player.achievements;
 import java.io.File;
 import java.util.HashMap;
 
+import org.bukkit.entity.Player;
+
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
@@ -28,5 +30,23 @@ public class Achievements {
 		return achievements;
 	}
 	
+	public static void check(Player player) {
+		for(Achievement achievement : getAchievements().values()) {
+			if(!achievement.finished(player))
+				if(achievement.canFinish(player))
+					achievement.giveRewards(player);
+					
+		}
+	}
+
+	/* USER.yml
+	 * 
+	 * <path>:
+	 *   achievements:
+	 *     <achievement>:
+	 *       finished: [true/false]
+	 *       <stage>: [tru/false]
+	 * 
+	 */
 	
 }

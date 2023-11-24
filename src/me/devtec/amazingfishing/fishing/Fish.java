@@ -97,7 +97,6 @@ public class Fish extends FishingItem {
 		NBTEdit edit = new NBTEdit(item);
 		edit.setString("af_data", createData(weight, length).toString(DataType.JSON));
 		
-
 		Statistics.newCatch(player, this, length, weight);
 		
 		return BukkitLoader.getNmsProvider().setNBT(item, edit);

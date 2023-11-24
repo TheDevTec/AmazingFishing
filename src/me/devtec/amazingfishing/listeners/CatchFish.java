@@ -21,6 +21,7 @@ import me.devtec.amazingfishing.fishing.FishingItem;
 import me.devtec.amazingfishing.fishing.Junk;
 import me.devtec.amazingfishing.fishing.enums.ItemAction;
 import me.devtec.amazingfishing.player.Fisher;
+import me.devtec.amazingfishing.player.achievements.Achievements;
 import me.devtec.amazingfishing.utils.Calculator;
 import me.devtec.amazingfishing.utils.ItemUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
@@ -143,6 +144,8 @@ public class CatchFish implements Listener {
 					ItemUtils.giveItem(event.getCaught(), item, player, hookLocation);
 					// running commands
 					fishingItem.runCommands(player, ItemAction.CATCH, placeholders);
+					//Checking achievements
+					Achievements.check(player);
 					
 					//long end = System.currentTimeMillis();
 					//Bukkit.broadcastMessage("[1] Time in milli seconds: "+(end-start));
