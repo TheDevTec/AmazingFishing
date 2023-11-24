@@ -167,8 +167,15 @@ public class API {
 	public static PointsManager getPointsmanager() {
 		return getPoints();
 	}
+	
+	/*
+	 * THEAPI USER GETTING
+	 */
 	public static Config getUser(String playerName) {
 		return me.devtec.shared.API.getUser(playerName);
+	}
+	public static Config getUser(Player player) {
+		return getUser(player.getName());
 	}
 	
 }
