@@ -79,7 +79,7 @@ public class Loader extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		// Loading configs
+		// Loading CONFIGS
 		MessageUtils.msgConsole("[" + this.getDescription().getName() + "] &fLoading configs", null);
 		Configs.load();
 

@@ -14,7 +14,7 @@ public class Achievements {
 	private static HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
 	
 	public static void loadAchievements() {
-		File directory = new File("plugins/AmazingFishing/Data/Achievements");
+		File directory = new File("plugins/AmazingFishing/Extra/Achievements");
 		if(directory.exists() && directory.isDirectory()) {		
 			for(File file : directory.listFiles()) { // loops all files in this directory
 				Config config = new Config(file);
