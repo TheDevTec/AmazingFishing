@@ -19,7 +19,7 @@ public class Menu {
 	
 	public Menu(Config file) {
 		this.file = file;
-		
+		//loading items
 		prepareItems();
 	}
 	
@@ -55,7 +55,7 @@ public class Menu {
 	 * @return Size should be always {@link Integer}
 	 */
 	public int getSize() {
-		return getConfig().getInt("size");
+		return getConfig().getInt("size", 53);
 	}
 	
 	/** Gets permission from configuration file

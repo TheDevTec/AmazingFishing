@@ -1,5 +1,6 @@
 package me.devtec.amazingfishing.guis;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ public class MenuLoader {
 	
 	protected static List<String> fileList = Arrays.asList("main", "index", "index_fish", "index_junk", 
 			"shop_sell", "player_settings");
+	
 	private static HashMap<String, Menu> menuList = new HashMap<String, Menu>();
 	
 	public static List<String> getMenuFiles() {
@@ -30,11 +32,36 @@ public class MenuLoader {
 	
 	// Loading files and adding Menu into HashMap menuList
 	public static void loadMenus() {
-		// First clearing HashMap
+		// First clearing existing HashMap
 		if(!menuList.isEmpty())
 			menuList.clear();
+		
 		// Loading...
-		for(String file : fileList) {
+		File directory = new File("plugins/AmazingFishing/Menus");
+		if(directory.exists() && directory.isDirectory()) {		
+			for(File file : directory.listFiles()) { // loops all files in this directory
+				Config config = new Config(file);
+				if(!config.exists("enabled") || config.getBoolean("enabled")) { //if menu is not disabled
+					//Loading mainMenuConfig file
+					String fileName = file.getName().replace(".yml", ""); //no sure if the getname() also returns type of the file (.yml)
+					if(fileName.equalsIgnoreCase("main"))
+						mainMenuConfig = config;
+						
+					// A few special menu loaders...
+					if(fileName.equalsIgnoreCase("index_fish"))
+						menuList.put(fileName, new Atlas(config, FishType.FISH));
+					else if(fileName.equalsIgnoreCase("index_junk"))
+						menuList.put(fileName, new Atlas(config, FishType.JUNK));
+					else if(fileName.equalsIgnoreCase("shop_sell"))
+						menuList.put(fileName, new ShopSell(config));
+					else if(fileName.equalsIgnoreCase("player_settings"))
+						menuList.put(fileName, new Settings(config));
+					else
+						menuList.put(fileName, new Menu(config));
+				}//end of enabled check
+			}
+		}
+		/*for(String file : fileList) {
 			Config config = new Config("plugins/AmazingFishing/Menus/"+file+".yml");
 			if(!config.exists("enabled") || config.getBoolean("enabled")) { //if menu is not disabled
 				//Loading mainMenuConfig file
@@ -53,7 +80,7 @@ public class MenuLoader {
 				else
 					menuList.put(file, new Menu(config));
 			}
-		}
+		}*/
 	}
 	
 	/** Loads new {@link Menu}.

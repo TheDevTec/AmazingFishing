@@ -41,7 +41,6 @@ public class ShopSell extends Menu {
 			return true;
 	}
 	
-
 	public void putSpecialItems(GUI gui, Player player, int page) {
 
 		setCloseRunnable( (p, g)-> {
@@ -62,16 +61,15 @@ public class ShopSell extends Menu {
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					//trying to open menu
 					try {
-						player.playSound(player.getLocation(), item.getSound() , 5, 10);
+						item.playSound(player);
 						sellAll(player, gui);
 					} catch (Exception e) {
-						player.playSound(player.getLocation(), item.getErrorSound() , 5, 10);
+						item.playErrorSound(player);
 						e.printStackTrace();
 					}
-					
 				}
 			});
-		}
+		}//end of sell item
 		
 	}
 	

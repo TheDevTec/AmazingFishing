@@ -17,6 +17,7 @@ import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.amazingfishing.utils.Pagination;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
 import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
@@ -47,7 +48,7 @@ public class Atlas extends Menu {
 			pagination = new Pagination<FishingItem>(21);
 		else if(getSize() == 35)
 			pagination = new Pagination<FishingItem>(14);
-		else if(getSize() == 35)
+		else if(getSize() == 26)
 			pagination = new Pagination<FishingItem>(7);
 		
 		//adding items into Pagination
@@ -65,13 +66,7 @@ public class Atlas extends Menu {
 		
 		//Adding items from pagination
 		for(FishingItem item : pagination.getPage(page)) {
-			gui.addItem(new ItemGUI(item.getPreviewItem().build()) {
-				
-				@Override
-				public void onClick(Player player, HolderGUI gui, ClickType click) {
-					
-				}
-			});
+			gui.addItem(new EmptyItemGUI(item.getPreviewItem().build()));
 		}
 		
 		// Adding BONUS fish icon
@@ -98,19 +93,21 @@ public class Atlas extends Menu {
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
 					//If this item is opening another menu
-					if(item.isOpening()) {
+					if(item.isOpening()) { //TODO dalo by se nahradit jedním univerzálním voidem
 						//trying to open menu
 						try {
-							player.playSound(player.getLocation(), item.getSound() , 5, 10);
+							item.playSound(player);
+							//player.playSound(player.getLocation(), item.getSound() , 5, 10);
 							MenuLoader.openMenu(player, item.getOpening(), getThisBack());
 						} catch (ArrayStoreException e) {
-							player.playSound(player.getLocation(), item.getErrorSound() , 5, 10);
+							item.playErrorSound(player);
+							//player.playSound(player.getLocation(), item.getErrorSound() , 5, 10);
 							e.printStackTrace();
 						}
 					}
 				}
 			});
-		}
+		}//end of bonus fish
 		
 		
 		//NEXT AND PREVIOUS PAGE BUTTONS
@@ -119,6 +116,7 @@ public class Atlas extends Menu {
 			gui.setItem(next.getPosition(), new ItemGUI(next.getItem().build()) {
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					next.playSound(player);
 					openGUI(player, page+1); //page+1 -> next page
 				}
 			});
@@ -128,6 +126,7 @@ public class Atlas extends Menu {
 			gui.setItem(prev.getPosition(), new ItemGUI(prev.getItem().build()) {
 				@Override
 				public void onClick(Player player, HolderGUI gui, ClickType click) {
+					prev.playSound(player);
 					openGUI(player, page-1); //page-1 -> previous page
 				}
 			});

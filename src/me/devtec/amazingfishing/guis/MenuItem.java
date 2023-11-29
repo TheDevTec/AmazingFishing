@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack;
 
 import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.ItemUtils;
-import me.devtec.amazingfishing.utils.XSound;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
+import me.devtec.amazingfishing.utils.XSound;
 import me.devtec.shared.Ref;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.game.ItemMaker;
@@ -30,6 +30,9 @@ public class MenuItem {
 		this.file = file;
 		this.name = path_name;
 		this.path = "items."+path_name;
+		//setting new default sound... we do not want all items to have CHEST_OPEN sound right? :D
+		if(!isOpening()) //only for non opening items
+			this.sound = (Ref.serverVersionInt()<14 ? XSound.BLOCK_STONE_BUTTON_CLICK_ON : XSound.BLOCK_STONE_BUTTON_CLICK_ON );
 		
 		load();
 	}
@@ -112,6 +115,13 @@ public class MenuItem {
 			this.error_sound = XSound.valueOf(getConfig().getString(getPath()+".soundError"));
 		} catch (Exception e) { this.error_sound = XSound.ENTITY_VILLAGER_NO; }
 	
+	}
+	
+	public void playSound(Player player) {
+		player.playSound(player.getLocation(), getSound() , 5, 10);
+	}
+	public void playErrorSound(Player player) {
+		player.playSound(player.getLocation(), getErrorSound() , 5, 10);
 	}
 	
 	
