@@ -1,6 +1,7 @@
 package me.devtec.amazingfishing.guis;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.entity.Player;
 
@@ -107,7 +108,7 @@ public class Menu {
 	 * OPENING
 	 */
 	
-	private HashMap<Player, Menu> backHolder = new HashMap<Player, Menu>();
+	private Map<Player, Menu> backHolder = new HashMap<Player, Menu>();
 	
 	/** Opening new menu. Probably updating or opening menu as back menu or first open
 	 * @param player {@link Player}
@@ -115,7 +116,7 @@ public class Menu {
 	public void open(Player player) {
 		open(player, null);
 	}
-	/** Opening new menu for player. Also saving previous menu (adding menu into "linked list")
+	/** Opening new menu for player. Also saving previous menu (adding menu into "back list")
 	 * @param player {@link Player}
 	 * @param backMenu The previous {@link Menu}
 	 */
@@ -134,28 +135,21 @@ public class Menu {
 	 * @param player {@link Player}
 	 */
 	public void back(Player player) {
-		if(backHolder.containsKey(player))
-			backHolder.get(player).open(player);
-		backHolder.remove(player);
-		
+		Menu back = backHolder.remove(player);
+		if(back != null)
+			back.open(player);
 	}
 	/** Removing player from all backHolder HashMaps. (deleting "linked list")
 	 * @param player {@link Player}
 	 */
 	public void close(Player player) {
-		if(backHolder.containsKey(player))
-			backHolder.get(player).close(player);
-		backHolder.remove(player);
+		Menu back = backHolder.remove(player);
+		if(back != null)
+			back.close(player);
 	}
 	
 	protected Menu getBackMenu(Player player) {
-		if(backHolder.containsKey(player))
-			return backHolder.get(player);
-		return null;
-	}
-	
-	protected Menu getThisBack() {
-		return this;
+		return backHolder.get(player);
 	}
 	
 	/*
@@ -215,7 +209,7 @@ public class Menu {
 					}
 				}, fill());
 		
-		//setCloseRunnable((p, g) -> g.close());
+		setCloseRunnable((p, g) -> close(player));
 		
 		gui.setInsertable(insertable());
 		// Normal items
@@ -230,12 +224,10 @@ public class Menu {
 		// Loading close item
 		MenuItem item = getButton(ButtonType.CLOSE);
 		ItemGUI guiItem = new ItemGUI(item.getItem().build()) {
-			
 			@Override
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				player.playSound(player.getLocation(), getButton(ButtonType.CLOSE).getSound(), 5, 10);
 				close(player);
-				gui.close();
 			}
 		};
 		// If there should be BACK item
@@ -270,14 +262,13 @@ public class Menu {
 							//trying to open menu
 							try {
 								player.playSound(player.getLocation(), item.getSound() , 5, 10);
-								MenuLoader.openMenu(player, item.getOpening(), getThisBack());
+								MenuLoader.openMenu(player, item.getOpening(), Menu.this);
 								
 							} catch (ArrayStoreException e) {
 								player.playSound(player.getLocation(), item.getErrorSound() , 5, 10);
 								e.printStackTrace();
 							}
 						}
-						
 					}
 				});
 			}	

@@ -98,7 +98,7 @@ public class Atlas extends Menu {
 						try {
 							item.playSound(player);
 							//player.playSound(player.getLocation(), item.getSound() , 5, 10);
-							MenuLoader.openMenu(player, item.getOpening(), getThisBack());
+							MenuLoader.openMenu(player, item.getOpening(), Atlas.this);
 						} catch (ArrayStoreException e) {
 							item.playErrorSound(player);
 							//player.playSound(player.getLocation(), item.getErrorSound() , 5, 10);
