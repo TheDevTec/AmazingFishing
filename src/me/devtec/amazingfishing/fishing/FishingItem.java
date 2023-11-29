@@ -46,9 +46,6 @@ public abstract class FishingItem {
 		setType(type);
 	}
 	
-	
-	
-	
 	/*
 	 *  CONFIGURATION FILE
 	 */
@@ -62,7 +59,7 @@ public abstract class FishingItem {
 	/*
 	 *  FISH TYPE
 	 */
-	public FishType getType()  { return type; }
+	public FishType getType() { return type; }
 	public void setType(FishType newType)  { type = newType; }
 	
 	/*
@@ -78,16 +75,13 @@ public abstract class FishingItem {
 			Loader.plugin.getLogger().warning("["+Loader.plugin.getDescription().getName()+"] There is no 'Default permission path'. This is plugin error, you can report this...");
 			return "";
 		}
-		return Configs.config.exists(def_perm_path) ? 
-				Configs.config.getString(def_perm_path) :
-					"";
+		return Configs.config.getString(def_perm_path, "");
 	}
 	/** Get permission from item configuration file
 	 * @return 
 	 */
 	public String getPermission() {
-		return file.exists("permission") ? 
-				file.getString("permission") : "";
+		return file.getString("permission", "");
 	}
 	/** Set new permission for this item. This is going to rewrite <code>permission</code> in file.
 	 * @param newPermission
@@ -206,13 +200,14 @@ public abstract class FishingItem {
 	public FishingTime getTime() {
 		//If time is null -> Load time from configuration file
 		if(time == null)
-			if(file.exists("conditions.time"))
+			if(file.existsKey("conditions.time"))
 				time = FishingTime.value(file.getString("conditions.time"));
 			else
 				time = FishingTime.ANY;
 		
 		return time;
 	}
+	
 	/** Set new {@link FishingTime}. This is going to rewrite <code>conditions.time</code> in file.
 	 * @param newTime New time that will be saved.
 	 */
@@ -230,7 +225,6 @@ public abstract class FishingItem {
 		file.save();
 	}
 	
-
 	/** Gets {@link FishingWeather} from configuration file.
 	 * @return {@link FishingWeather}
 	 */
@@ -321,7 +315,6 @@ public abstract class FishingItem {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholders.apply(command));
 			});
 		}
-		
 	}
 	
 	/*
@@ -333,25 +326,25 @@ public abstract class FishingItem {
 	 * @apiNote If item is {@link Junk} this is  disabled by default. If item is {@link Fish} it is enabled by default.
 	 */
 	public boolean isSaleable() {
-		return file.exists("shop.sell") ? file.getBoolean("shop.sell") : false;
+		return file.getBoolean("shop.sell", false);
 	}
 	/** Gets base money that will player get for this item.
 	 * @return Value from configuration file. If there is none, returns 0.
 	 */
 	public double getBaseMoney() {
-		return file.exists("shop.money") ? file.getDouble("shop.money") : 0;
+		return file.getDouble("shop.money", 0);
 	}
 	/** Gets base points that will player get for this item.
 	 * @return Value from configuration file. If there is none, returns 0.
 	 */
 	public double getBasePoints() {
-		return file.exists("shop.points") ? file.getDouble("shop.points") : 0;
+		return file.getDouble("shop.points", 0);
 	}
 	/** Gets base XP that will player get for this item.
 	 * @return Value from configuration file. If there is none, returns 0.
 	 */
 	public double getBaseXp() {
-		return file.exists("shop.xp") ? file.getDouble("shop.xp") : 0;
+		return file.getDouble("shop.xp", 0);
 	}
 	
 	/** Gets BONUS that will be applied when selling Tide's Treasure item. </br>
@@ -361,7 +354,7 @@ public abstract class FishingItem {
 	 * @return {@link Double}
 	 */
 	public double getBonus(CalculatorType type) {
-		if(file.exists(TidesTreasure.getConfigPath()+"."+type.getPath()))
+		if(file.existsKey(TidesTreasure.getConfigPath()+"."+type.getPath()))
 			return file.getDouble(TidesTreasure.getConfigPath()+"."+type.getPath());
 		else
 			return Configs.config.getDouble(TidesTreasure.getConfigPath()+".bonus."+type.getPath());
@@ -390,10 +383,10 @@ public abstract class FishingItem {
 	 * @apiNote Disabled by default!
 	 */
 	public boolean isEdible() {
-		return file.exists("eat.edible") ? file.getBoolean("eat.edible") : false;
+		return file.getBoolean("eat.edible", false);
 	}
 	public double getHunger() {
-		return file.exists("eat.addhunger") ? file.getDouble("eat.addhunger") : 1.5;
+		return file.getDouble("eat.addhunger", 1.5); //1.5 is value from default raw fish
 	}
 	
 	

@@ -41,7 +41,7 @@ public class MenuLoader {
 		if(directory.exists() && directory.isDirectory()) {		
 			for(File file : directory.listFiles()) { // loops all files in this directory
 				Config config = new Config(file);
-				if(!config.exists("enabled") || config.getBoolean("enabled")) { //if menu is not disabled
+				if(config.getBoolean("enabled", true)) { //if menu is not disabled
 					//Loading mainMenuConfig file
 					String fileName = file.getName().replace(".yml", ""); //no sure if the getname() also returns type of the file (.yml)
 					if(fileName.equalsIgnoreCase("main"))
@@ -89,7 +89,7 @@ public class MenuLoader {
 	 */
 	public static void loadMenu(String file, Menu newMenu) {
 		Config config = new Config("plugins/AmazingFishing/Menus/"+file+".yml");
-		if(!config.exists("enabled") || config.getBoolean("enabled")) { // if menu is not disabled
+		if(config.getBoolean("enabled", true)) { // if menu is not disabled
 			menuList.put(file, newMenu);
 		}
 	}
@@ -109,7 +109,7 @@ public class MenuLoader {
 		if(isLoaded(menu))
 			getMenu(menu).open(player);
 		else
-			throw new ArrayStoreException("[AmazingFishing] You are trying to open non existing menu!! ("+menu+")");
+			throw new ArrayStoreException("[AmazingFishing] You are trying to open a non existing menu!! ("+menu+")");
 		
 	}
 	
@@ -118,6 +118,6 @@ public class MenuLoader {
 		if(isLoaded(menu))
 			getMenu(menu).open(player, backMenu);
 		else
-			throw new ArrayStoreException("[AmazingFishing] You are trying to open non existing menu!! ("+menu+")");
+			throw new ArrayStoreException("[AmazingFishing] You are trying to open a non existing menu!! ("+menu+")");
 	}
 }
