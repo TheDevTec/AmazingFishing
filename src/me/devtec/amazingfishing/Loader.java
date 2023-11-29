@@ -28,31 +28,8 @@ import net.milkbowl.vault.economy.Economy;
 
 public class Loader extends JavaPlugin {
 
+	// testing only
 	public static void main(String[] args) {
-		/*
-		 * Scanner scanner = new Scanner(System.in); String input = "";
-		 * 
-		 * boolean up = true; for (int pos = 0; ( pos<= 15 && pos >= 0);) {
-		 * 
-		 * if(pos == 15 && up) up = false; if(pos == 0 && !up) up = true;
-		 * 
-		 * for(int i = 0; i < pos; i++) System.out.print(" ");
-		 * 
-		 * System.out.print("V");
-		 * 
-		 * input = scanner.nextLine(); // clicking enter
-		 * 
-		 * if(input != null && !input.isEmpty() && input.equalsIgnoreCase("a")) {
-		 * 
-		 * }
-		 * 
-		 * clearCconsole(); if(up) pos++; else pos--;
-		 * 
-		 * }
-		 * 
-		 * scanner.close();
-		 */
-
 		LocalDate today = LocalDate.now();
 
 		LocalDate yesterday = LocalDate.parse(today.minusDays(1).toString());

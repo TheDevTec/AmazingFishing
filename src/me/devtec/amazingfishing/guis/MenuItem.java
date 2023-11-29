@@ -75,7 +75,7 @@ public class MenuItem {
 	 * @param newPosition From 0 to 53
 	 */
 	public void setposition(int newPosition) {
-		if(newPosition<0)
+		if(newPosition < 0)
 			newPosition = -1;
 		this.pos = newPosition;
 	}
@@ -88,10 +88,7 @@ public class MenuItem {
 	
 	// Loading position
 	private void loadPosition() {
-		if(getConfig().exists(getPath()+".position"))
-			this.pos = getConfig().getInt(getPath()+".position");
-		else
-			this.pos = -1;
+		this.pos = getConfig().getInt(getPath()+".position", -1);
 	}
 	
 	/*
@@ -123,7 +120,7 @@ public class MenuItem {
 	 */
 	
 	public String getPermission() {
-		return getConfig().exists(getPath()+".permission") ? getConfig().getString(getPath()+".permission") : null;
+		return getConfig().getString(getPath()+".permission");
 	}
 	
 	/** Checking for permission
@@ -132,9 +129,7 @@ public class MenuItem {
 	 */
 	public boolean hasPermission(Player player) {
 		if(getPermission() != null)
-			if(!player.hasPermission(getPermission())) {
-				return false;
-			}
+			return player.hasPermission(getPermission());
 		return true; // if there is none permission
 	}
 	
@@ -143,7 +138,7 @@ public class MenuItem {
 	 */
 	
 	public boolean isOpening() {
-		return getConfig().exists(getPath()+".opens");
+		return getConfig().existsKey(getPath()+".opens");
 	}
 	
 	public String getOpening() {
@@ -184,7 +179,6 @@ public class MenuItem {
 		// items.<item>.HERE
 		if(this.maker == null)
 			this.maker = ItemMaker.loadMakerFromConfig(getConfig(), getPath());
-		
 	}
 
 	/** Gets {@link ItemMaker}. This will not replace player specific placeholders.

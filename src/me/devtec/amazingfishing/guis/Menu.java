@@ -14,7 +14,6 @@ import me.devtec.theapi.bukkit.gui.HolderGUI;
 import me.devtec.theapi.bukkit.gui.ItemGUI;
 
 public class Menu {
-
 	
 	private Config file;
 	
@@ -39,22 +38,17 @@ public class Menu {
 	 * @return Enabled in default.
 	 */
 	public boolean isEnabled() {
-		if(getConfig().exists("enabled"))
-			return getConfig().getBoolean("enabled");
-		else
-			return true;
+		return getConfig().getBoolean("enabled", true);
 	}
 	
 	/**
 	 * @return Title from configuration file.
 	 */
 	public String getTitle() {
-		if(getConfig().exists("title."+Configs.getTranslation()))
-			return getConfig().getString("title"+Configs.getTranslation());
-		if(getConfig().exists("title.en"))
-			return getConfig().getString("title.en");
-		
-		return getConfig().getString("title");
+	    //First lookup for translation title, if not found, try to get default english title, 
+		// if this fail too, return default global title.
+	    return getConfig().getString("title."+Configs.getTranslation(), 
+	    		getConfig().getString("title.en", getConfig().getString("title")));
 	}
 	
 	/** Gets size from configuration file
@@ -68,7 +62,7 @@ public class Menu {
 	 * @return String representation of this permission or <code>null</code> if there is not a permission needed
 	 */
 	public String getPermission() {
-		return getConfig().exists("permission") ? getConfig().getString("permission") : null;
+		return getConfig().getString("permission");
 	}
 	
 	/** Checking for permission and also sending noPerm message
@@ -91,20 +85,14 @@ public class Menu {
 	 * @return Enabled in default.
 	 */
 	public boolean isPerPlayer() {
-		if(getConfig().exists("perPlayer"))
-			return getConfig().getBoolean("perPlayer");
-		else
-			return true;
+		return getConfig().getBoolean("perPlayer", false);
 	}
 	
 	/** If the rest of GUI should be filled.
 	 * @return Default value is <code>true</code>
 	 */
 	public boolean fill() {
-		if(getConfig().exists("fill"))
-			return getConfig().getBoolean("fill");
-		else
-			return true;
+		return getConfig().getBoolean("fill", true);
 	}
 	
 	/** If players should be able to insert items into the menu. </br>
@@ -112,10 +100,7 @@ public class Menu {
 	 * @return Default value is <code>false</code>
 	 */
 	public boolean insertable() {
-		if(getConfig().exists("insertable"))
-			return getConfig().getBoolean("insertable");
-		else
-			return false;
+		return getConfig().getBoolean("insertable", false);
 	}
 	
 	/*
@@ -229,7 +214,8 @@ public class Menu {
 						onClose.run(player, this);
 					}
 				}, fill());
-		setCloseRunnable((p, g) -> g.close());
+		
+		//setCloseRunnable((p, g) -> g.close());
 		
 		gui.setInsertable(insertable());
 		// Normal items
