@@ -51,7 +51,7 @@ public class MenuLoader {
 					if(fileName.equalsIgnoreCase("index_fish")) {
 						if(config.getBoolean("perFishType")) //if there should be special GUI for each fish material (COD, SALMON, ...)
 							for(FishType.Special special : FishType.Special.values())
-							menuList.put("index_cod", new Atlas(config, special)); // creating new special GUIs
+							menuList.put(special.getIndexName(), new Atlas(config, special)); // creating new special GUIs
 						menuList.put(fileName, new Atlas(config, FishType.FISH));
 					}
 					else if(fileName.equalsIgnoreCase("index_junk"))
@@ -65,26 +65,6 @@ public class MenuLoader {
 				}//end of enabled check
 			}
 		}
-		/*for(String file : fileList) {
-			Config config = new Config("plugins/AmazingFishing/Menus/"+file+".yml");
-			if(!config.exists("enabled") || config.getBoolean("enabled")) { //if menu is not disabled
-				//Loading mainMenuConfig file
-				if(file.equalsIgnoreCase("main"))
-					mainMenuConfig = config;
-					
-				// A few special menu loaders...
-				if(file.equalsIgnoreCase("index_fish"))
-					menuList.put(file, new Atlas(config, FishType.FISH));
-				else if(file.equalsIgnoreCase("index_junk"))
-					menuList.put(file, new Atlas(config, FishType.JUNK));
-				else if(file.equalsIgnoreCase("shop_sell"))
-					menuList.put(file, new ShopSell(config));
-				else if(file.equalsIgnoreCase("player_settings"))
-					menuList.put(file, new Settings(config));
-				else
-					menuList.put(file, new Menu(config));
-			}
-		}*/
 	}
 	
 	/** Loads new {@link Menu}.
