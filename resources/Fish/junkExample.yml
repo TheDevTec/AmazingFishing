@@ -7,8 +7,10 @@ type: "JUNK"
 name: "Stick"
 
 item:
-  displayName: "&7%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
-  type: "STICK" # Type of item
+  # You can edit this or use %fish_name% to get name that is on line 7
+  displayName: "&7%fish_name%"
+  # Type of item
+  type: "STICK"
   lore:
   - "&7Chance: &f%fish_chance%"
   - "&7Final chance: &f%fish_chance_final%"
@@ -35,7 +37,7 @@ preview:
 
 # List of BIOMES where fish is located.
 # Empty list == fish can be caught anywhere
-biomes: []
+biomes: [] 
 
 # Weather and time conditions.
 conditions:
@@ -48,23 +50,23 @@ conditions:
   #   NOON: <5723; 6277> - Sun is at its peak in 6000 ticks (boundaries 6000 +- 277)
   #   MIDNIGHT: <17843; 18157> - Moon is at its peak in 18000 ticks (boundaries 18000 +- 157)
   # Source: https://minecraft.fandom.com/wiki/Daylight_cycle
-  time: ANY
+  time: "ANY"
   # Types:  ANY | SUN | SNOW | RAIN | THUNDERSTORM
-  weather: ANY
-  
+  weather: "ANY"
+
 # List of messsages that will be sent to player when you: catch, eat or sell this fish
 messages:
   catch:
   - "%prefix% &7You caught &e%fish_name%"
-  eat: []
-  sell: []
-    
+  eat: [] 
+  sell: [] 
+
 # List of commands that will be executed when you: catch, eat or sell this fish
 commands:
-  catch: []
-  eat: []
-  sell: []
-  
+  catch: [] 
+  eat: [] 
+  sell: [] 
+
 ###########
 ## STATS ##
 ###########
@@ -74,7 +76,7 @@ shop:
   money: 5.5 # Base money that will be used when calculating money from selling this item
   points: 5.5
   xp: 10.5
-  
+
 # Custom calculator for shop, weight and length
 calculator:
   money: "%money% * %bonus%"

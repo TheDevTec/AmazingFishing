@@ -47,6 +47,10 @@ public class API {
 	 * @apiNote Its only used on plugin's enable or when reloading all files.
 	 */
 	public static void loadFishingItems() {
+		//Clearing all maps
+		getFishList().clear();
+		getJunkList().clear();
+		// Fish files directory
 		File directory = new File("plugins/AmazingFishing/Fish");
 		if(directory.exists() && directory.isDirectory()) {		
 			for(File file : directory.listFiles()) { // loops all files in this directory

@@ -10,17 +10,18 @@ stages:
     - ""
     commands:
     - ""
-    
-    action: "item_catch" # StageAction
+    # StageAction
     # Depends on action
     # • The FishingItem file name (without '.yml')
     # • The specific FishType (FISH or JUNK)
     # • The name of a Achievement
     # • OR Nothing
-    name: "codExample" # btw case sensitive
+    action: "item_catch"
     # • Number of items needed to be caught
     # • Number of achievements (when the action is 'COMPLETE_ACHIEVEMENTS')
     # • Number of gained money/points/xp
+    # btw case sensitive
+    name: "codExample"
     amount: 2
     
 finish:
@@ -32,7 +33,4 @@ finish:
   points: 5
   commands:
   - "say Yay you completed achievement %achievement%"
-
-# item věci sem nebo do guička? co když budem chtít jiný lore? to by asi šlo i sem ne?
-item:
   

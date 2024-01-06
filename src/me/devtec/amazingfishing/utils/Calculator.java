@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
-
 import me.devtec.amazingfishing.fishing.CaughtItem;
 import me.devtec.amazingfishing.fishing.Fish;
 import me.devtec.amazingfishing.fishing.FishingItem;
@@ -131,13 +129,12 @@ public class Calculator {
     			.add("length", item.getLength())
     			.add("money", item.getItem().getBaseMoney())
     			.add("experiences", item.getItem().getBaseXp())
-    			.add("points", item.getItem().getBasePoints());
+    			.add("points", item.getItem().getBasePoints())
+    			.add("bonus", 1);
     	
     	// If this is a bonus fish
     	if(TidesTreasure.isBonusFish(item))
     		placeholders.replace("bonus", item.getItem().getBonus(calculator));
-    	else
-    		placeholders.replace("bonus", 1);
     	
     	return MathUtils.calculate(placeholders.apply(equation));
     }

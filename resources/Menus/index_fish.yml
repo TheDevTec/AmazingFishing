@@ -16,6 +16,12 @@ title: "&3&lFish items"
 #   If items don't contain any placeholders then you can disable this. Better gui loading time.
 perPlayer: false
 
+# You can enable perFishType, this means that each Fish type (COD, SALMON, PUFFERFISH, TROPICAL_FISH) will have
+#separate index GUI.
+#    YOU NEED TO ADD ITEMS IN index.yml THAT WILL OPEN EACH GUI!!!!!
+#    New GUIS that can be opened: index_cod, index_salmon, index_pufferfish, index_tropical
+perFishType: false
+
 # Yes you can add your items...
 # All preview items are edited in Fish folder...
 items:

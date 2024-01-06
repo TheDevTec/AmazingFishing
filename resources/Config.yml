@@ -56,7 +56,7 @@ command:
 shop:
   # If the player should get any money, points or XP from selling fishing items
   disableMoney: false
-  disablePoints: true
+  disablePoints: false
   disableXp: false
 
 # Tide's Treasure

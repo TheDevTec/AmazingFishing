@@ -22,6 +22,7 @@ import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.theapi.bukkit.BukkitLoader;
 import me.devtec.theapi.bukkit.game.ItemMaker;
+import me.devtec.theapi.bukkit.xseries.XMaterial;
 
 /**
  * This is PARENT class for {@link Fish} and {@link Junk} classes. {@link Fish} and {@link Junk} classes have a small differences!
@@ -162,6 +163,9 @@ public abstract class FishingItem {
 	 */
 	public abstract ItemStack generate(Player player, Placeholders placeholders);
 	
+	public XMaterial getItemMaterial() {
+		return XMaterial.valueOf(getConfig().getString("item.type"));
+	}
 	/*
 	 *  BIOMES
 	 */
@@ -367,6 +371,7 @@ public abstract class FishingItem {
 	public String getEquation(CalculatorType calculator) {
 		if(getConfig().exists("calculator."+calculator.getPath()))
 			return getConfig().getString("calculator."+calculator.getPath());
+		//Global calculators
 		if(Configs.config.exists("calculator."+calculator.getPath()))
 			return Configs.config.getString("calculator."+calculator.getPath());
 		return null;

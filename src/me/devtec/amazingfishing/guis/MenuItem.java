@@ -22,7 +22,7 @@ public class MenuItem {
 	private ItemMaker maker = null;
 	
 	//private Sound sound_ = Sound.BLOCK_CHEST_OPEN;
-	private XSound sound = (Ref.serverVersionInt()<14 ? XSound.BLOCK_CHEST_OPEN : XSound.BLOCK_BARREL_OPEN );
+	private XSound sound = (Ref.isOlderThan(14) ? XSound.BLOCK_CHEST_OPEN : XSound.BLOCK_BARREL_OPEN );
 	//private Sound error_sound_ = Sound.ENTITY_VILLAGER_NO;
 	private XSound error_sound = XSound.ENTITY_VILLAGER_NO;
 	
@@ -30,10 +30,6 @@ public class MenuItem {
 		this.file = file;
 		this.name = path_name;
 		this.path = "items."+path_name;
-		//setting new default sound... we do not want all items to have CHEST_OPEN sound right? :D
-		if(!isOpening()) //only for non opening items
-			this.sound = (Ref.serverVersionInt()<14 ? XSound.BLOCK_STONE_BUTTON_CLICK_ON : XSound.BLOCK_STONE_BUTTON_CLICK_ON );
-		
 		load();
 	}
 	
@@ -49,6 +45,8 @@ public class MenuItem {
 		loadPosition();
 		// Loading ItemMaker
 		loadItem();
+		// Loding clicking sound
+		loadSounds();
 	}
 	
 	/**
@@ -109,7 +107,13 @@ public class MenuItem {
 		// Loading clicking sound
 		try {
 			this.sound = XSound.valueOf(getConfig().getString(getPath()+".sound"));
-		} catch (Exception e) { this.sound = (Ref.serverVersionInt()<14 ? XSound.BLOCK_CHEST_OPEN : XSound.BLOCK_BARREL_OPEN ); }
+		} catch (Exception e) {
+			//setting new default sound... we do not want all items to have CHEST_OPEN sound right? :D
+			if(isOpening())
+				this.sound = (Ref.isOlderThan(14) ? XSound.BLOCK_CHEST_OPEN : XSound.BLOCK_BARREL_OPEN );
+			else //only for non opening items
+				this.sound = (Ref.isOlderThan(14) ? XSound.BLOCK_STONE_BUTTON_CLICK_ON : XSound.BLOCK_STONE_BUTTON_CLICK_ON );
+			}
 		// Loading error sound
 		try {
 			this.error_sound = XSound.valueOf(getConfig().getString(getPath()+".soundError"));

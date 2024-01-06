@@ -48,8 +48,12 @@ public class MenuLoader {
 						mainMenuConfig = config;
 						
 					// A few special menu loaders...
-					if(fileName.equalsIgnoreCase("index_fish"))
+					if(fileName.equalsIgnoreCase("index_fish")) {
+						if(config.getBoolean("perFishType")) //if there should be special GUI for each fish material (COD, SALMON, ...)
+							for(FishType.Special special : FishType.Special.values())
+							menuList.put("index_cod", new Atlas(config, special)); // creating new special GUIs
 						menuList.put(fileName, new Atlas(config, FishType.FISH));
+					}
 					else if(fileName.equalsIgnoreCase("index_junk"))
 						menuList.put(fileName, new Atlas(config, FishType.JUNK));
 					else if(fileName.equalsIgnoreCase("shop_sell"))

@@ -49,7 +49,6 @@ public class Loader extends JavaPlugin {
 
 	@Override
 	public void onLoad() {
-
 		plugin = this;
 	}
 

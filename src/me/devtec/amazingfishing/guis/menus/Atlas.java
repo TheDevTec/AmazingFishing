@@ -26,12 +26,21 @@ import me.devtec.theapi.bukkit.gui.ItemGUI;
 public class Atlas extends Menu {
 
 	private FishType type;
+	private FishType.Special special;
 	
 	private Pagination<FishingItem> pagination = new Pagination<FishingItem>(28);
 	
 	public Atlas(Config file, FishType type) {
 		super(file);
 		this.type = type;
+		this.special = null;
+		loadPagination();
+	}
+	
+	public Atlas(Config file, FishType.Special special) {
+		super(file);
+		this.special = special;
+		this.type = null;
 		loadPagination();
 	}
 	
@@ -52,10 +61,18 @@ public class Atlas extends Menu {
 			pagination = new Pagination<FishingItem>(7);
 		
 		//adding items into Pagination
-		if(type == FishType.FISH)
-			pagination.addAll( API.getFishList().values());
-		else
-			pagination.addAll( API.getJunkList().values());
+		if(type != null)
+			if(type == FishType.FISH)
+				pagination.addAll( API.getFishList().values());
+			else
+				pagination.addAll( API.getJunkList().values());
+		
+		if(special != null) {
+			for(Fish f : API.getFishList().values()) {
+				if(special.isType(f.getItemMaterial()))
+					pagination.add(f);
+			}
+		}
 		
 	}
 	

@@ -115,7 +115,7 @@ public class Fish extends FishingItem {
 
 	@Override
 	public boolean isSaleable() {
-		return getConfig().exists("shop.sell") ? getConfig().getBoolean("shop.sell") : true;
+		return getConfig().getBoolean("shop.sell", true);
 	}
 	
 	/** Gets base weight of this fish from a file.

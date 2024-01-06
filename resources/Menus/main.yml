@@ -35,7 +35,7 @@ items:
     displayName: "&bShop"
     type: GOLD_INGOT
     lore:
-    - "&fOpens menu where you can sell all your items"
+    - "&f"
     - ""
     - "&7Click to open"
     # Put here name of the file you want to open (without .yml)

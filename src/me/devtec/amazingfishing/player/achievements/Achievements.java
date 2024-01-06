@@ -2,6 +2,7 @@ package me.devtec.amazingfishing.player.achievements;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.entity.Player;
 
@@ -11,7 +12,7 @@ import me.devtec.shared.dataholder.Config;
 
 public class Achievements {
 
-	private static HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
+	private static Map<String, Achievement> achievements = new HashMap<String, Achievement>();
 	
 	public static void loadAchievements() {
 		File directory = new File("plugins/AmazingFishing/Extra/Achievements");
@@ -26,7 +27,7 @@ public class Achievements {
 				Placeholders.c().add("achievements", getAchievements().size()).add("name", "[AmazingFishing]"));
 	}
 	
-	public static HashMap<String, Achievement> getAchievements(){
+	public static Map<String, Achievement> getAchievements(){
 		return achievements;
 	}
 	

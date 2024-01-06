@@ -20,7 +20,6 @@ import me.devtec.amazingfishing.utils.Configs;
 import me.devtec.amazingfishing.utils.MessageUtils;
 import me.devtec.amazingfishing.utils.MessageUtils.Placeholders;
 import me.devtec.shared.dataholder.Config;
-import me.devtec.theapi.bukkit.gui.EmptyItemGUI;
 import me.devtec.theapi.bukkit.gui.GUI;
 import me.devtec.theapi.bukkit.gui.GUI.ClickType;
 import me.devtec.theapi.bukkit.gui.HolderGUI;
@@ -86,7 +85,7 @@ public class ShopSell extends Menu {
 		for(ItemStack itemStack : items) {
 			if(itemStack == null || itemStack.getType() == Material.AIR)
 				continue;
-			
+
 			CaughtItem item = API.identifyItem(itemStack);
 			// If this item is not from this plugin
 			if(item == null) {
@@ -152,7 +151,11 @@ public class ShopSell extends Menu {
 	
 	private List<ItemStack> getInsertedItems(HolderGUI gui){
 		List<ItemStack> items = new ArrayList<ItemStack>();
-		ItemGUI item = new EmptyItemGUI(new ItemStack(Material.AIR));
+		ItemGUI item = new ItemGUI(new ItemStack(Material.AIR)) {
+			@Override
+			public void onClick(Player player, HolderGUI gui, ClickType click) {
+			}
+		};
 		item.setUnstealable(false);
 		if(getSize() >= 26)
 			for(int i = 10; i<=16; i++) {

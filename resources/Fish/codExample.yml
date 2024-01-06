@@ -7,8 +7,10 @@ type: "FISH"
 name: "&eCarp"
 
 item:
-  displayName: "%fish_name%" # You can edit this or use %fish_name% to get name that is on line 7
-  type: "COD" # Type of an item
+  # You can edit this or use %fish_name% to get name that is on line 7
+  displayName: "%fish_name%"
+  # Type of an item
+  type: "COD"
   lore:
   - "&7Weight: &f%fish_weight% &7kg"
   - "&7Length: &f%fish_length% &7cm"
@@ -40,10 +42,10 @@ preview:
 
 # List of BIOMES where fish is located.
 # Empty list == fish can be caught anywhere
-biomes: []
+biomes: [] 
 
 # List of BIOMES where fish cannot be located.
-blockedBiomes: []
+blockedBiomes: [] 
 
 # Weather and time conditions.
 conditions:
@@ -56,22 +58,22 @@ conditions:
   #   NOON: <5723; 6277> - Sun is at its peak in 6000 ticks (boundaries 6000 +- 277)
   #   MIDNIGHT: <17843; 18157> - Moon is at its peak in 18000 ticks (boundaries 18000 +- 157)
   # Source: https://minecraft.fandom.com/wiki/Daylight_cycle
-  time: ANY
+  time: "ANY"
   # Types:  ANY | SUN | SNOW | RAIN | THUNDERSTORM
-  weather: ANY
-  
+  weather: "ANY"
+
 # List of messages that will be sent to player when you: catch, eat or sell this fish
 messages:
-  catch: []
-  eat: []
-  sell: []
-    
+  catch: [] 
+  eat: [] 
+  sell: [] 
+
 # List of commands that will be executed when you: catch, eat or sell this fish
 commands:
-  catch: []
-  eat: []
-  sell: []
-  
+  catch: [] 
+  eat: [] 
+  sell: [] 
+
 ###########
 ## STATS ##
 ###########
@@ -91,7 +93,7 @@ shop:
   money: 5.5 # Base money that will be used when calculating money from selling this fish
   points: 5.5
   xp: 10.5
-  
+
 # Custom calculator for shop, weight and length
 calculator:
   # For weight calculation I would suggest using 'Linear interpolation'
@@ -101,7 +103,7 @@ calculator:
   money: "(%weight% * %money%) * %bonus%"
   exps: "(%weight% * %experiences%) * %bonus%"
   points: "(%weight% * %points%) * %bonus%"
-  
+
 #####################
 ## Special options ##
 #####################

@@ -61,7 +61,6 @@ public class Configs {
 			loadAndMerge("Fish/codExample.yml", "Fish/codExample.yml");
 			loadAndMerge("Fish/junkExample.yml", "Fish/junkExample.yml");
 		}
-
 		if(!new File("plugins/AmazingFishing/Extra/Achievements").exists()) {
 			loadAndMerge("Data/Achievements/Preview.yml", "Extra/Achievements/Preview.yml");
 		}

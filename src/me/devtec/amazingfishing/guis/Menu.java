@@ -73,7 +73,7 @@ public class Menu {
 	public boolean hasPermission(Player player) {
 		if(getPermission() != null)
 			if(!player.hasPermission(getPermission())) {
-				MessageUtils.noPerm(player, getConfig().getString("permission"));
+				MessageUtils.noPerm(player, getPermission());
 				return false;
 			}
 		return true; // if there is no permission or player does have a permission
@@ -108,7 +108,7 @@ public class Menu {
 	 * OPENING
 	 */
 	
-	private Map<Player, Menu> backHolder = new HashMap<Player, Menu>();
+	private Map<Player, Menu> backHolder = new HashMap<>();
 	
 	/** Opening new menu. Probably updating or opening menu as back menu or first open
 	 * @param player {@link Player}
@@ -156,8 +156,8 @@ public class Menu {
 	 * ITEM PREPARATION
 	 */
 	
-	private HashMap<String, MenuItem> loaded_items = new HashMap<String, MenuItem>();
-	private HashMap<ButtonType, MenuItem> loaded_buttons = new HashMap<ButtonType, MenuItem>();
+	private HashMap<String, MenuItem> loaded_items = new HashMap<>();
+	private HashMap<ButtonType, MenuItem> loaded_buttons = new HashMap<>();
 	
 	private void prepareItems() {
 		//Loading items from
@@ -185,12 +185,9 @@ public class Menu {
 	}
 	
 	public MenuItem getButton(ButtonType button) {
-		// If loaded in this menu
-		if(getButtons().containsKey(button))
-			return getButtons().get(button);
-		
-		// Else button from main.yml menu
-		return MenuUtils.getUniversalButton(button);
+		MenuItem result = getButtons().get(button);
+		// If result is loaded in this menu Else button from main.yml menu
+		return result != null ? result : MenuUtils.getUniversalButton(button);
 	}
 	/*
 	 *  GUI OPENING
@@ -205,11 +202,12 @@ public class Menu {
 				new GUI(getTitle(), getSize()) {
 					@Override
 					public void onClose(Player player) {
-						onClose.run(player, this);
+						if(onClose != null)
+							onClose.run(player, this);
 					}
 				}, fill());
 		
-		setCloseRunnable((p, g) -> close(player));
+		//setCloseRunnable((p, g) -> close(player));
 		
 		gui.setInsertable(insertable());
 		// Normal items
@@ -228,6 +226,7 @@ public class Menu {
 			public void onClick(Player player, HolderGUI gui, ClickType click) {
 				player.playSound(player.getLocation(), getButton(ButtonType.CLOSE).getSound(), 5, 10);
 				close(player);
+				gui.close(player); //this is a close button
 			}
 		};
 		// If there should be BACK item
