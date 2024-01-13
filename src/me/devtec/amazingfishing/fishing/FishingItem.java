@@ -37,9 +37,9 @@ public abstract class FishingItem {
 	
 	private double chance = -1;
 	// TIME
-	private FishingTime time;
+	private List<FishingTime> time;
 	// WEATHER
-	private FishingWeather weather;
+	private List<FishingWeather> weather;
 
 	
 	public FishingItem(Config file, FishType type) {
@@ -201,18 +201,21 @@ public abstract class FishingItem {
 	/** Gets {@link FishingTime} from configuration file.
 	 * @return {@link FishingTime}
 	 */
-	public FishingTime getTime() {
+	public List<FishingTime> getTime() {
 		//If time is null -> Load time from configuration file
 		if(time == null)
-			if(file.existsKey("conditions.time"))
-				time = FishingTime.value(file.getString("conditions.time"));
-			else
-				time = FishingTime.ANY;
+			if(file.existsKey("conditions.time")) {
+				time = FishingTime.values(file.getStringList("conditions.time"));
+			}
+			else {
+				time = new ArrayList<FishingTime>();
+				time.add(FishingTime.ANY);
+			}
 		
 		return time;
 	}
 	
-	/** Set new {@link FishingTime}. This is going to rewrite <code>conditions.time</code> in file.
+	/** Set new {@link FishingTime}. This is going to rewrite <code>conditions.time</code> in the configuration file.
 	 * @param newTime New time that will be saved.
 	 */
 	public void setTime(FishingTime newTime) {
@@ -221,25 +224,38 @@ public abstract class FishingItem {
 			Bukkit.getLogger().warning("[AmazingFishing] There was an error when setting new item's TIME. newTime parammeter is NULL. Item's file is: "+file.getFile().getName());
 			return;
 		}
-		//If time and newTime are the same...
-		if(time == newTime)
+		time.clear();
+		time.add(newTime);
+		file.set("conditions.time", time);
+		file.save();
+	}
+	
+	/** Add new {@link FishingTime}. This is going to rewrite <code>conditions.time</code> in the configuration file. (adding new line and time)
+	 * @param newTime New time that will be saved.
+	 */
+	public void addTime(FishingTime newTime) {
+		//if newTime is somehow null... how? who knows...
+		if(newTime == null) {
+			Bukkit.getLogger().warning("[AmazingFishing] There was an error when setting new item's TIME. newTime parammeter is NULL. Item's file is: "+file.getFile().getName());
 			return;
-		time = newTime;
-		file.set("conditions.time", newTime.toString());
+		}
+		time.add(newTime);
+		file.set("conditions.time", time);
 		file.save();
 	}
 	
 	/** Gets {@link FishingWeather} from configuration file.
 	 * @return {@link FishingWeather}
 	 */
-	public FishingWeather getWeather() {
+	public List<FishingWeather> getWeather() {
 		//If time is null -> Load time from configuration file
 		if(weather == null)
 			if(file.exists("conditions.weather"))
-				weather = FishingWeather.value(file.getString("conditions.weather"));
-			else
-				weather = FishingWeather.ANY;
-		
+				weather = FishingWeather.values(file.getStringList("conditions.weather"));
+			else {
+				weather = new ArrayList<FishingWeather>();
+				weather.add(FishingWeather.ANY);
+			}
 		return weather;
 	}
 
@@ -252,11 +268,22 @@ public abstract class FishingItem {
 			Bukkit.getLogger().warning("[AmazingFishing] There was an error when setting new item's TIME. newTime parammeter is NULL. Item's file is: "+file.getFile().getName());
 			return;
 		}
-		//If time and newTime are the same...
-		if(weather == newWeather)
+		
+		weather.clear();
+		weather.add(newWeather);
+		file.set("conditions.time", newWeather);
+		file.save();
+	}
+	
+	public void addWeather(FishingWeather newWeather) {
+		//if newTime is somehow null... how? who knows...
+		if(newWeather == null) {
+			Bukkit.getLogger().warning("[AmazingFishing] There was an error when setting new item's TIME. newTime parammeter is NULL. Item's file is: "+file.getFile().getName());
 			return;
-		weather = newWeather;
-		file.set("conditions.time", newWeather.toString());
+		}
+		
+		weather.add(newWeather);
+		file.set("conditions.time", newWeather);
 		file.save();
 	}
 	

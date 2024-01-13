@@ -1,5 +1,8 @@
 package me.devtec.amazingfishing.fishing.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -40,6 +43,19 @@ public enum FishingWeather {
 		return true;
 	}
 	
+	/** If your instance of {@link FishingWeather} is in a List of {@link FishingWeather}s
+	 * @param weatherList List of {@link FishingWeather}s that you want to check if your {@link FishingWeather} is part of...
+	 * @return true if it is, otherwise false
+	 */
+	public boolean equals(List<FishingWeather> weatherList) {
+		for(FishingWeather weather : weatherList) {
+			if(weather.equals(this))
+				return true;
+			continue;
+		}
+		return false;
+	}
+	
 	public static FishingWeather getWeather(Player player) {
 		World world = player.getWorld();
 		if(world.isThundering())
@@ -53,7 +69,7 @@ public enum FishingWeather {
 	
 	/** Determines and returns the {@link FishingTime} value from the {@link String} 
 	 * @param value String representation of FishingTime values 
-	 * @return null if there is no match
+	 * @return FishingWeather.ANY if there is no match or values are null
 	 */
 	public static FishingWeather value(String value) {
 		if(value.equalsIgnoreCase("ANY")) return FishingWeather.ANY;
@@ -62,6 +78,22 @@ public enum FishingWeather {
 		if(value.equalsIgnoreCase("RAIN")) return FishingWeather.RAIN;
 		if(value.equalsIgnoreCase("THUNDERSTORM")) return FishingWeather.THUNDERSTORM;
 		return FishingWeather.ANY;
+	}
+
+	
+	/** Determines and returns the list of {@link FishingWeather}s values from list of {@link String}s
+	 * @param values List of {@link String}s representation of FishingWeather values
+	 * @return FishingWeather.ANY if there is no match or values are null
+	 */
+	public static List<FishingWeather> values(List<String> values) {
+		List<FishingWeather> weatherList = new ArrayList<FishingWeather>();
+		if(values != null)
+			values.forEach(value -> {
+				weatherList.add(value(value));
+			});
+		if(weatherList.isEmpty())
+			weatherList.add(ANY);
+		return weatherList;
 	}
 	
 	public String toString() {

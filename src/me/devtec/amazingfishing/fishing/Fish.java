@@ -149,9 +149,9 @@ public class Fish extends FishingItem {
 			return false;
 		if(!getBlockedBiomes().isEmpty() && getBlockedBiomes().contains(situation.getBiome()))
 			return false;
-		if(!getTime().equals(situation.getTime()))
+		if( !situation.getTime().equals(getTime()) ) // we use custom method from FishingTime because we need to check NIGHT and MIDNIGHT, ...
 			return false;
-		if(!getWeather().equals(situation.getWeather()))
+		if(!situation.getWeather().equals(getWeather())) // we use custom method from FishingTime because we need to check RAIN and SNOW, ...
 			return false;
 		
 		return true;

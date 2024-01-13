@@ -1,5 +1,8 @@
 package me.devtec.amazingfishing.fishing.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.entity.Player;
 
 public enum FishingTime {
@@ -54,6 +57,19 @@ public enum FishingTime {
 			return false;
 		}
 		
+		/** If your instance of {@link FishingTime} is in a List of {@link FishingTime}s
+		 * @param timeList List of {@link FishingTime}s that you want to check if your {@link FishingTime} is part of...
+		 * @return true if it is, otherwise false
+		 */
+		public boolean equals(List<FishingTime> timeList) {
+			for(FishingTime time : timeList) {
+				if(time.equals(this))
+					return true;
+				continue;
+			}
+			return false;
+		}
+		
 		/** Gets what {@link FishingTime} type is now. <br>
 		 * If now is NOON or MIDNIGHT, the DAY or NIGHT will be ignored. This is bit shame,
 		 * but I have no idea if I should include that if now is NOON should DAY be also now...
@@ -80,7 +96,7 @@ public enum FishingTime {
 		
 		/** Determines and returns the {@link FishingTime} value from the {@link String} 
 		 * @param value String representation of FishingTime values 
-		 * @return null if there is no match
+		 * @return FishingTime.ANY if there is no match
 		 */
 		public static FishingTime value(String value) {
 			if(value.equalsIgnoreCase("ANY")) return FishingTime.ANY;
@@ -91,6 +107,21 @@ public enum FishingTime {
 			if(value.equalsIgnoreCase("MIDNIGHT")) return FishingTime.MIDNIGHT;
 			if(value.equalsIgnoreCase("SUNRISE")) return FishingTime.SUNRISE;
 			return FishingTime.ANY;
+		}
+		
+		/** Determines and returns the list of {@link FishingTime}s values from list of {@link String}s
+		 * @param values List of {@link String}s representation of FishingTime values
+		 * @return FishingTime.ANY if there is no match or values are null
+		 */
+		public static List<FishingTime> values(List<String> values) {
+			List<FishingTime> timeList = new ArrayList<FishingTime>();
+			if(values != null)
+				values.forEach(value -> {
+					timeList.add(value(value));
+				});
+			if(timeList.isEmpty())
+				timeList.add(ANY);
+			return timeList;
 		}
 		
 		public String toString() {
